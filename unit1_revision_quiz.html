@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 1: Biological Bases of Behavior | AP Psychology Revision</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Outfit',sans-serif;background:#f0f4fb;color:#1a2744;min-height:100vh;}
+
+/* HEADER */
+header{background:#1a2744;color:#fff;padding:26px 20px 22px;text-align:center;}
+header .eyebrow{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#7fa8d4;margin-bottom:8px;}
+header h1{font-family:'Playfair Display',serif;font-size:26px;color:#fff;line-height:1.3;}
+header .subtitle{margin-top:7px;font-size:13px;color:#a8c4e0;}
+
+/* CONTROLS */
+.controls-bar{background:#fff;border-bottom:2px solid #dde6f4;padding:14px 20px;display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:center;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(26,39,68,.09);}
+.controls-bar select{padding:9px 13px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:500;border:2px solid #c8d8ee;border-radius:8px;background:#f4f6fb;color:#1a2744;cursor:pointer;outline:none;min-width:175px;}
+.controls-bar select:focus{border-color:#2E75B6;}
+.btn-start{padding:9px 26px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;background:#1a2744;color:#fff;border:none;border-radius:8px;cursor:pointer;letter-spacing:.4px;transition:background .2s;}
+.btn-start:hover{background:#2E75B6;}
+
+/* MAIN */
+.main{max-width:860px;margin:28px auto;padding:0 14px 60px;}
+#quizArea{background:#fff;border-radius:12px;padding:28px;box-shadow:0 2px 16px rgba(26,39,68,.07);min-height:280px;}
+.placeholder-text{text-align:center;padding:56px 20px;color:#7a90b5;font-size:16px;line-height:1.8;}
+
+/* PROGRESS */
+.progress-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;font-size:13px;font-weight:500;color:#4a6080;}
+.progress-bar-track{height:5px;background:#e0e8f4;border-radius:3px;margin-bottom:22px;overflow:hidden;}
+.progress-bar-fill{height:100%;background:#2E75B6;border-radius:3px;transition:width .4s ease;}
+
+/* QUESTION */
+.question-text{font-size:16px;line-height:1.7;margin-bottom:20px;color:#1a2744;}
+.stem-label{display:block;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#7fa8d4;margin-bottom:8px;}
+
+.skill-badge{display:inline-block;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:3px 10px;border-radius:20px;margin-bottom:13px;}
+.skill-1{background:#e8eef8;color:#3a5a8a;}
+.skill-2{background:#e3f2fd;color:#1565c0;}
+.skill-3{background:#fff3e0;color:#e65100;}
+.skill-4{background:#e8f5e9;color:#2e7d32;}
+
+/* OPTIONS */
+.options-list{display:flex;flex-direction:column;gap:9px;}
+.option-btn{display:flex;align-items:flex-start;gap:11px;padding:13px 15px;border:2px solid #d0ddef;border-radius:8px;background:#f8fafd;cursor:pointer;font-family:'Outfit',sans-serif;font-size:14px;line-height:1.5;color:#1a2744;text-align:left;transition:border-color .15s,background .15s;width:100%;}
+.option-btn:hover:not(:disabled){border-color:#2E75B6;background:#eaf3fc;}
+.option-btn .letter{font-weight:700;min-width:20px;color:#2E75B6;flex-shrink:0;}
+.option-btn.correct{border-color:#28a745;background:#d4edda;color:#155724;}
+.option-btn.incorrect{border-color:#dc3545;background:#f8d7da;color:#721c24;}
+.option-btn.revealed{border-color:#28a745;background:#d4edda;color:#155724;}
+.option-btn:disabled{cursor:default;}
+
+/* FEEDBACK */
+.feedback-box{margin-top:16px;padding:13px 16px;border-radius:8px;font-size:14px;font-weight:600;}
+.feedback-box.correct{background:#d4edda;color:#155724;}
+.feedback-box.incorrect{background:#f8d7da;color:#721c24;}
+.feedback-box.neutral{background:#e8f1fa;color:#1a4a7a;}
+.btn-next{display:inline-block;margin-top:16px;padding:11px 28px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;background:#1a2744;color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s;}
+.btn-next:hover{background:#2E75B6;}
+
+/* FLASHCARD */
+.flashcard-wrapper{perspective:1200px;max-width:660px;margin:16px auto;height:240px;cursor:pointer;}
+.flashcard-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .55s ease;}
+.flashcard-wrapper.flipped .flashcard-inner{transform:rotateY(180deg);}
+.flashcard-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:26px 30px;text-align:center;}
+.flashcard-front{background:#1a2744;color:#fff;}
+.flashcard-front .face-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#7fa8d4;margin-bottom:12px;}
+.flashcard-front .face-term{font-size:22px;font-weight:700;line-height:1.35;}
+.flashcard-back{background:#eef4fc;border:2px solid #c8d8ee;transform:rotateY(180deg);}
+.flashcard-back .face-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#4a6080;margin-bottom:12px;}
+.flashcard-back .face-def{font-size:15px;line-height:1.65;color:#1a2744;}
+.flashcard-hint{text-align:center;margin-top:10px;font-size:12px;color:#7a90b5;}
+.flashcard-nav{display:flex;gap:10px;justify-content:center;margin-top:18px;}
+.flashcard-nav button{padding:9px 22px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;border:2px solid #1a2744;border-radius:8px;background:#fff;color:#1a2744;cursor:pointer;transition:all .15s;}
+.flashcard-nav button:hover{background:#1a2744;color:#fff;}
+.flashcard-nav button.self-rate-good{border-color:#28a745;color:#1e7b34;}
+.flashcard-nav button.self-rate-good:hover{background:#28a745;color:#fff;}
+.flashcard-nav button.self-rate-review{border-color:#dc3545;color:#a72638;}
+.flashcard-nav button.self-rate-review:hover{background:#dc3545;color:#fff;}
+
+/* MATCH */
+.match-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+@media(max-width:580px){.match-grid{grid-template-columns:1fr;}}
+.match-col-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#7a90b5;margin-bottom:8px;}
+.match-terms,.match-defs{display:flex;flex-direction:column;gap:8px;}
+.match-term{padding:11px 13px;background:#1a2744;color:#fff;border-radius:7px;font-size:13px;font-weight:600;cursor:grab;user-select:none;transition:opacity .2s;}
+.match-term.dragging{opacity:.35;}
+.match-def{padding:11px 13px;background:#f4f6fb;border:2px dashed #b0c4de;border-radius:7px;font-size:12px;min-height:56px;position:relative;transition:border-color .15s,background .15s;}
+.match-def.drag-over{border-color:#2E75B6;background:#e3f2fd;border-style:solid;}
+.match-def.correct{border-color:#28a745;background:#d4edda;border-style:solid;}
+.match-def.incorrect{border-color:#dc3545;background:#f8d7da;border-style:solid;}
+.match-dropped{display:block;font-weight:700;font-size:12px;color:#1a2744;background:#c8d8ee;border-radius:4px;padding:2px 7px;margin-bottom:4px;}
+.match-check-btn{display:block;margin:18px auto 0;padding:11px 30px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;background:#2E75B6;color:#fff;border:none;border-radius:8px;cursor:pointer;}
+.match-check-btn:hover{background:#1a5a9a;}
+
+/* HANGMAN */
+.hangman-container{display:flex;flex-direction:column;align-items:center;}
+.hangman-svg{width:180px;height:200px;}
+.hangman-hint{background:#e8f1fa;border-left:4px solid #2E75B6;padding:11px 15px;border-radius:0 8px 8px 0;font-size:13px;font-style:italic;color:#2a4a70;margin-bottom:18px;max-width:480px;width:100%;}
+.word-display{font-size:1.9rem;letter-spacing:7px;font-family:'Courier New',monospace;font-weight:700;margin:14px 0;word-break:break-all;text-align:center;}
+.keyboard{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;max-width:440px;margin-top:14px;}
+.key{width:35px;height:35px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;font-family:'Outfit',sans-serif;background:#1a2744;color:#fff;border:none;border-radius:5px;cursor:pointer;transition:background .15s;}
+.key:hover:not(:disabled){background:#2E75B6;}
+.key:disabled{opacity:.45;cursor:default;}
+.key.correct-guess{background:#28a745;}
+.key.wrong-guess{background:#dc3545;}
+
+/* SCORE SCREEN */
+.score-screen{text-align:center;padding:36px 20px;}
+.score-screen .big-score{font-family:'Playfair Display',serif;font-size:60px;font-weight:700;color:#1a2744;line-height:1;margin-bottom:8px;}
+.score-screen .score-label{font-size:17px;color:#4a6080;margin-bottom:22px;}
+.score-screen .score-message{font-size:20px;font-weight:700;margin-bottom:6px;color:#1a2744;}
+.btn-restart{display:inline-block;margin-top:20px;padding:11px 32px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;background:#1a2744;color:#fff;border:none;border-radius:8px;cursor:pointer;}
+.btn-restart:hover{background:#2E75B6;}
+.btn-print{background:#2E75B6;margin-left:10px;}
+.btn-print:hover{background:#1a5a9a;}
+
+/* Common Mistakes mode */
+.mistake-topic-header{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#7a90b5;margin:22px 0 10px;}
+.mistake-topic-header:first-child{margin-top:0;}
+.mistake-item{background:#fff3e0;border-left:4px solid #e65100;padding:12px 15px;border-radius:0 8px 8px 0;font-size:14px;line-height:1.65;margin-bottom:12px;color:#5a3a00;}
+
+/* Session review block */
+.review-block{text-align:left;background:#f8fafd;border:2px solid #d0ddef;border-radius:10px;padding:16px 18px;margin:22px 0;max-height:320px;overflow-y:auto;}
+.review-header{font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#4a6080;margin-bottom:10px;}
+.review-item{font-size:13px;line-height:1.6;padding:8px 0;border-bottom:1px solid #e0e8f4;}
+.review-item:last-child{border-bottom:none;}
+.review-item strong{color:#1a2744;}
+.review-correct{color:#155724;display:block;margin-top:2px;}
+
+@media(max-width:480px){
+  header h1{font-size:20px;}
+  #quizArea{padding:16px;}
+  .word-display{font-size:1.3rem;letter-spacing:3px;}
+  .key{width:28px;height:28px;font-size:11px;}
+  .controls-bar select{min-width:140px;font-size:13px;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">AP Psychology &nbsp;|&nbsp; Unit 1</div>
+  <h1>Biological Bases of Behavior</h1>
+  <p class="subtitle">Interactive Revision &nbsp;|&nbsp; 6 Topics &nbsp;|&nbsp; 7 Activity Types</p>
+</header>
+
+<div class="controls-bar">
+  <select id="topicSelect">
+    <option value="all">All Topics</option>
+    <option value="1.1">1.1 - Heredity and Environment</option>
+    <option value="1.2">1.2 - The Nervous System</option>
+    <option value="1.3">1.3 - The Neuron and Neural Firing</option>
+    <option value="1.4">1.4 - The Brain</option>
+    <option value="1.5">1.5 - Sleep and Consciousness</option>
+    <option value="1.6">1.6 - Sensation</option>
+  </select>
+  <select id="modeSelect">
+    <option value="flash">Flashcards</option>
+    <option value="mcq">Vocabulary MCQ</option>
+    <option value="tf">True / False</option>
+    <option value="match">Match'em Up</option>
+    <option value="hangman">Hangman</option>
+    <option value="practice">Practice Set MCQs</option>
+    <option value="mistakes">Common Mistakes</option>
+  </select>
+  <button class="btn-start" id="startBtn">Start</button>
+</div>
+
+<div class="main">
+  <div id="quizArea">
+    <div class="placeholder-text">
+      Select a topic and activity type, then click <strong>Start</strong>.<br><br>
+      <strong>Flashcards</strong> &nbsp;|&nbsp; <strong>Vocabulary MCQ</strong> &nbsp;|&nbsp; <strong>True/False</strong> &nbsp;|&nbsp; <strong>Match'em Up</strong> &nbsp;|&nbsp; <strong>Hangman</strong> &nbsp;|&nbsp; <strong>Practice Set MCQs</strong> &nbsp;|&nbsp; <strong>Common Mistakes</strong>
+    </div>
+  </div>
+</div>
+
+<script>
+// ==============================================================
+// TERMS DATABASE
+// ==============================================================
+const termsDB = {
+  "1.1": [
+    {term:"Nature (Heredity)",def:"The biological and genetic influences that shape behavior and mental processes; inherited characteristics passed from parent to offspring."},
+    {term:"Nurture (Environment)",def:"External factors that shape development: family, education, culture, and social influences."},
+    {term:"Evolutionary Perspective",def:"Approach drawing on Darwin's theory of natural selection to explain behavior as adaptations that aided survival and reproduction."},
+    {term:"Natural Selection",def:"The process by which traits beneficial to a species are passed on across generations, while harmful traits die out."},
+    {term:"Eugenics",def:"A discredited misapplication of evolutionary principles; the belief in improving human genetics through selective breeding. Widely considered discriminatory."},
+    {term:"Epigenetics",def:"The study of how environment and behavior affect gene expression without changing the DNA sequence itself. Genes can be turned on or off by sustained environmental pressures."},
+    {term:"Twin Studies",def:"Research comparing identical twins (nearly 100% shared DNA) to isolate genetic from environmental influences on behavior."},
+    {term:"Minnesota Study of Twins Reared Apart",def:"Key twin study examining identical twins separated at birth and raised in different environments to separate nature from nurture."},
+    {term:"Family Studies",def:"Research examining behavioral similarities across biological relatives to identify patterns with a possible genetic basis."},
+    {term:"Adoption Studies",def:"Research comparing adopted individuals to their biological and adoptive families to separate genetic from environmental contributions."},
+    {term:"Colorado Adoption Project",def:"Longitudinal adoption study (since 1975) examining genetic and environmental contributions to cognition, personality, and mental processes."}
+  ],
+  "1.2": [
+    {term:"Central Nervous System (CNS)",def:"The brain and spinal cord; the body's primary command center that sends orders to the rest of the body."},
+    {term:"Peripheral Nervous System (PNS)",def:"All nerves branching from the brain and spinal cord; connects the CNS to the body's organs and muscles."},
+    {term:"Afferent Neurons",def:"Carry signals FROM sensory receptors TOWARD the CNS. Memory tip: Afferent approaches the brain."},
+    {term:"Efferent Neurons",def:"Carry signals FROM the CNS OUT to muscles and organs. Memory tip: Efferent exits the brain."},
+    {term:"Interneurons",def:"Connect sensory neurons to motor neurons within the CNS; the most numerous type of neuron in the nervous system."},
+    {term:"Somatic Nervous System",def:"Controls voluntary movements and processes information from the five senses; part of the PNS."},
+    {term:"Autonomic Nervous System",def:"Controls involuntary functions such as heartbeat, digestion, and breathing; part of the PNS."},
+    {term:"Sympathetic Division",def:"Mobilizes the body for action: increases heart rate, dilates pupils, speeds breathing. The fight-or-flight response."},
+    {term:"Parasympathetic Division",def:"Relaxes the body after stress: slows heart rate, increases digestion, conserves energy. The rest-and-digest response."},
+    {term:"Reflex Arc",def:"A nerve pathway allowing the body to respond to a stimulus without conscious thought, involving a sensory neuron, interneuron, and motor neuron in the spinal cord."}
+  ],
+  "1.3": [
+    {term:"Glial Cells",def:"Support cells providing structure, insulation, communication support, and waste transportation for neurons. They do NOT transmit information themselves."},
+    {term:"Neurons",def:"The basic functional unit of the nervous system; communicate using electrical impulses and chemical signals. Building blocks of all behavior and mental processes."},
+    {term:"Resting Potential",def:"The neuron's stable, negatively charged internal state when not firing; the cell is ready to fire but has not yet reached threshold."},
+    {term:"Threshold",def:"The minimum level of stimulation required to trigger an action potential. Below threshold, the neuron does not fire."},
+    {term:"Depolarization",def:"When threshold is met, positive ions rush into the neuron, reversing the internal charge and triggering an action potential."},
+    {term:"Action Potential",def:"The rapid electrical impulse that travels down the axon when a neuron fires; this is the signal itself."},
+    {term:"All-or-Nothing Principle",def:"A neuron either fires completely when its threshold is met, or does not fire at all. There is no partial firing."},
+    {term:"Refractory Period",def:"The brief recovery period after a neuron fires, during which it cannot fire again."},
+    {term:"Myelin Sheath",def:"A fatty insulating layer wrapping the axon that speeds up neural transmission. Damaged in multiple sclerosis."},
+    {term:"Synapse",def:"The junction between two neurons where chemical communication occurs via neurotransmitters."},
+    {term:"Neurotransmitters",def:"Chemical messengers released from the presynaptic neuron into the synaptic gap to communicate with the next neuron."},
+    {term:"Reuptake",def:"The process by which the presynaptic neuron reabsorbs excess neurotransmitters from the synaptic gap after transmission."},
+    {term:"Acetylcholine",def:"Neurotransmitter involved in muscle movement, attention, and memory. Low levels are associated with Alzheimer's disease."},
+    {term:"Dopamine",def:"Neurotransmitter linked to reward, motivation, and movement. Imbalances are associated with Parkinson's disease and schizophrenia."},
+    {term:"Serotonin",def:"Neurotransmitter regulating mood, hunger, sleep, and arousal. Low levels are associated with depression."},
+    {term:"Norepinephrine",def:"Neurotransmitter involved in alertness, arousal, and the fight-or-flight response."},
+    {term:"GABA",def:"The primary inhibitory neurotransmitter; associated with sleep, calming, and reducing neural activity. Low levels are linked to anxiety."},
+    {term:"Glutamate",def:"The primary excitatory neurotransmitter; plays a key role in learning and long-term memory formation."},
+    {term:"Endorphins",def:"Natural painkilling neurotransmitters produced by the brain; create feelings of euphoria and reduce pain perception."},
+    {term:"Substance P",def:"Neurotransmitter involved in transmitting pain signals through the nervous system."},
+    {term:"Agonist",def:"A drug that increases the effectiveness of a neurotransmitter by mimicking it, boosting its production, or blocking its reuptake."},
+    {term:"Antagonist",def:"A drug that blocks neurotransmitter receptors, reducing or preventing the neurotransmitter from having its normal effect."},
+    {term:"Reuptake Inhibitors",def:"Drugs (such as SSRIs) that block the reuptake of neurotransmitters, increasing their availability in the synapse."},
+    {term:"Hyperpolarization",def:"When inhibitory signals cause the inside of a neuron to become even more negative, moving it further away from the firing threshold."}
+  ],
+  "1.4": [
+    {term:"Hindbrain",def:"The bottom region of the brain controlling essential survival functions: breathing, arousal, coordination, and balance."},
+    {term:"Brain Stem",def:"Located at the base of the brain above the spinal cord; includes medulla and pons; controls vital automatic functions. Severe damage is often fatal."},
+    {term:"Medulla Oblongata",def:"Controls vital automatic functions: heartbeat, breathing, and blood pressure. Located just above the spinal cord."},
+    {term:"Pons",def:"Bridge connecting the medulla to the cerebellum; helps coordinate movement; involved in sleep and dreaming."},
+    {term:"Reticular Activating System",def:"Controls arousal, alertness, and the sleep-wake cycle; filters incoming stimuli and alerts the brain when something demands attention."},
+    {term:"Cerebellum",def:"The 'little brain' at the rear of the hindbrain; coordinates voluntary movement, posture, and balance; supports procedural learning."},
+    {term:"Limbic System",def:"A set of brain structures associated with emotions, learning, memory, and basic drives. Includes the thalamus, hypothalamus, hippocampus, and amygdala."},
+    {term:"Thalamus",def:"The brain's sensory relay station; receives information from all senses EXCEPT smell and routes it to the appropriate cortical areas."},
+    {term:"Hypothalamus",def:"Maintains homeostasis; regulates basic drives including hunger, thirst, body temperature, and sex drive."},
+    {term:"Pituitary Gland",def:"The 'master gland'; produces and releases hormones under hypothalamic control; releases growth hormones during Stage 3 sleep."},
+    {term:"Hippocampus",def:"Critical for forming new long-term memories and spatial navigation. NOT where memories are stored - it forms them."},
+    {term:"Amygdala",def:"Processes emotional reactions, especially fear, anxiety, and aggression. Also involved in storing emotional memories."},
+    {term:"Cerebral Cortex",def:"The outer layer of the brain; responsible for higher thought, language, memory, and consciousness."},
+    {term:"Corpus Callosum",def:"The bundle of nerve fibers connecting the left and right cerebral hemispheres; allows them to share and coordinate information."},
+    {term:"Frontal Lobe",def:"Responsible for higher-order thinking, judgment, planning, and voluntary movement via the motor cortex. Contains Broca's area."},
+    {term:"Prefrontal Cortex",def:"Part of the frontal lobe; responsible for executive functions: planning, impulse control, and decision-making."},
+    {term:"Motor Cortex",def:"Located at the rear of the frontal lobe; controls voluntary skeletal movement; organized contralaterally."},
+    {term:"Parietal Lobe",def:"Processes touch, pain, temperature, and spatial orientation via the somatosensory cortex; organized contralaterally."},
+    {term:"Somatosensory Cortex",def:"Located in the parietal lobe; processes bodily sensations including touch, pressure, temperature, and pain."},
+    {term:"Temporal Lobe",def:"Processes auditory information and language comprehension; assists with memory and face recognition. Contains Wernicke's area."},
+    {term:"Occipital Lobe",def:"Located at the back of the brain; contains the primary visual cortex; processes all visual information."},
+    {term:"Broca's Area",def:"Located in the left frontal lobe; controls the muscle movements needed for speech production."},
+    {term:"Broca's Aphasia",def:"Caused by damage to Broca's Area; the person understands language but cannot speak fluently or produce smooth speech."},
+    {term:"Wernicke's Area",def:"Located in the left temporal lobe; responsible for creating and comprehending meaningful speech."},
+    {term:"Wernicke's Aphasia",def:"Caused by damage to Wernicke's Area; the person can speak but produces meaningless or incoherent speech."},
+    {term:"Brain Lateralization",def:"The division of labor between the left and right cerebral hemispheres; each hemisphere specializes in different functions."},
+    {term:"Split-Brain Research",def:"Studies of patients whose corpus callosum was surgically severed to treat severe epilepsy; confirmed hemispheric specialization."},
+    {term:"Brain Plasticity",def:"The brain's ability to reorganize and form new connections throughout life; allows damaged areas to be partially compensated by other regions."},
+    {term:"Contralateral Organization",def:"Each brain hemisphere controls the opposite side of the body; left hemisphere controls right side, and vice versa."},
+    {term:"Phineas Gage",def:"A railroad worker whose skull was pierced by a rod in 1848; survived but underwent severe personality changes. A foundational case study linking frontal lobe damage to personality change."},
+    {term:"EEG",def:"Electroencephalogram; records electrical activity of the brain via scalp electrodes; useful for sleep and seizure research."},
+    {term:"fMRI",def:"Functional MRI; shows metabolic activity in the brain in real time by detecting blood flow changes; provides higher spatial resolution than EEG."}
+  ],
+  "1.5": [
+    {term:"Consciousness",def:"Awareness of ourselves and our environment; exists on varying levels. Sleep is a lower level of consciousness, not an absence of it."},
+    {term:"Circadian Rhythm",def:"The body's internal biological clock; an approximately 24-hour cycle regulating the sleep-wake cycle, body temperature, blood pressure, and hormone levels."},
+    {term:"Jet Lag",def:"Disruption of the circadian rhythm caused by rapidly crossing time zones; results in tiredness, disorientation, and difficulty sleeping at local time."},
+    {term:"Shift Work",def:"Work schedules that reverse the natural sleep-wake cycle, disrupting the circadian rhythm and impairing cognitive function."},
+    {term:"Beta Waves",def:"Low amplitude, fastest frequency brain waves; occur during active mental engagement and also during REM sleep."},
+    {term:"Alpha Waves",def:"High amplitude, slow frequency waves; occur during relaxed wakefulness and early Stage 1 sleep."},
+    {term:"Theta Waves",def:"Moderate brain waves occurring during NREM Stages 1 and 2."},
+    {term:"Delta Waves",def:"Highest amplitude, slowest frequency brain waves; the signature wave of NREM Stage 3 deep sleep."},
+    {term:"NREM Stage 1",def:"Light sleep lasting 5-10 minutes; transition from alpha to theta waves; hypnagogic sensations may occur."},
+    {term:"Hypnagogic Sensations",def:"Vivid, imagined sensations that feel real during Stage 1 sleep (e.g., the feeling of falling or sudden jerking awake)."},
+    {term:"NREM Stage 2",def:"Transitional sleep lasting 10-20 minutes; characterized by sleep spindles and K-complexes."},
+    {term:"Sleep Spindles",def:"Bursts of rapid neural activity occurring during NREM Stage 2; associated with memory consolidation."},
+    {term:"K-Complexes",def:"Large, sharp brain wave patterns occurring during NREM Stage 2; thought to suppress arousal during sleep."},
+    {term:"NREM Stage 3",def:"Deep slow-wave sleep; growth hormones are released; sleepwalking and sleep-talking most common at this stage."},
+    {term:"REM Sleep",def:"Rapid Eye Movement sleep; paradoxical sleep - brain is highly active but external muscles are paralyzed. Dreaming occurs here. REM periods grow longer across the night."},
+    {term:"REM Rebound",def:"After REM deprivation, a person enters REM more quickly and spends more time in REM on recovery nights to compensate for the deficit."},
+    {term:"Activation-Synthesis Theory",def:"Dreams are the brain's attempt to construct a narrative to make sense of random neural activity occurring during REM sleep."},
+    {term:"Memory Consolidation Theory",def:"Sleep (especially REM) allows the brain to process, organize, and strengthen memories formed during the waking day."},
+    {term:"Restoration Theory",def:"Sleep allows the body to repair itself, replenish energy, restore the immune system, and recover from daily activity."},
+    {term:"Insomnia",def:"Difficulty falling or staying asleep; caused by stress, medication, pain, or an irregular sleep schedule."},
+    {term:"Sleep Apnea",def:"Repeated interruptions to breathing during sleep, preventing sustained sleep quality; commonly associated with loud snoring."},
+    {term:"Narcolepsy",def:"Uncontrollable episodes of falling asleep during the day, despite difficulty sleeping at night."},
+    {term:"Somnambulism",def:"Sleepwalking; occurs during NREM Stage 3 deep sleep; more common in children than adults."},
+    {term:"REM Sleep Behavior Disorder",def:"The normal muscle paralysis of REM sleep is absent; individuals physically act out their dreams and may injure themselves or others."},
+    {term:"Sleep Terrors",def:"Intense fear episodes during sleep; most common during NREM Stage 3; the person is disoriented and may not recall the episode."}
+  ],
+  "1.6": [
+    {term:"Sensation",def:"The process of detecting environmental stimuli through sensory receptors and converting them into neural signals for the brain."},
+    {term:"Sensory Transduction",def:"The conversion of physical stimulus energy (light, sound, pressure) into electrical neural signals the brain can process."},
+    {term:"Absolute Threshold",def:"The minimum amount of stimulation needed to detect a stimulus at least 50% of the time. Stimuli below this level are subliminal."},
+    {term:"Difference Threshold (JND)",def:"The minimum change between two stimuli needed to detect a difference at least 50% of the time. Also called the just noticeable difference."},
+    {term:"Weber's Law",def:"For a difference to be noticed, stimuli must differ by a constant proportion - not a constant absolute amount."},
+    {term:"Sensory Adaptation",def:"Diminished sensitivity to a continuous, unchanging stimulus over time (e.g., no longer noticing a familiar background scent)."},
+    {term:"Habituation",def:"A learning-based reduction in response to a repeatedly presented stimulus. Distinct from sensory adaptation in that it involves a learned change in behavior."},
+    {term:"Sensory Interaction",def:"The phenomenon where multiple senses influence each other (e.g., taste and smell combine to create the full experience of flavor)."},
+    {term:"Synesthesia",def:"A neurological condition where stimulation of one sense automatically triggers an experience in another sense (e.g., seeing colors when hearing music)."},
+    {term:"Rods",def:"Photoreceptors located in the periphery of the retina; allow vision in dim light; detect shapes and movement but provide no color information."},
+    {term:"Cones",def:"Photoreceptors concentrated in the fovea; allow detailed color vision in bright light."},
+    {term:"Fovea",def:"The center of the retina with the highest density of cones; responsible for the sharpest, most detailed vision."},
+    {term:"Blind Spot",def:"The point where the optic nerve exits the retina; contains no photoreceptors. The brain fills in this gap using surrounding visual information."},
+    {term:"Accommodation (Vision)",def:"The lens changes shape to focus light correctly onto the retina for objects at varying distances."},
+    {term:"Myopia",def:"Nearsightedness; the lens focuses light in front of the retina, making distant objects appear blurry."},
+    {term:"Hyperopia",def:"Farsightedness; the lens focuses light behind the retina, making close objects appear blurry."},
+    {term:"Trichromatic Theory",def:"The retina contains three types of cones sensitive to red, green, and blue wavelengths; their combinations produce all visible colors."},
+    {term:"Opponent-Process Theory",def:"Color perception occurs via opposing pairs (red-green, blue-yellow, black-white); explains afterimages caused by receptor fatigue."},
+    {term:"Afterimage",def:"A visual sensation that persists after the original stimulus is removed; explained by opponent-process theory through receptor fatigue."},
+    {term:"Prosopagnosia",def:"Face blindness; the inability to recognize familiar faces despite intact vision; caused by damage to the occipital and temporal lobes."},
+    {term:"Blindsight",def:"A condition where primary visual cortex damage causes apparent blindness in part of the visual field, yet the person can still respond to visual stimuli without conscious awareness."},
+    {term:"Place Theory",def:"Pitch perception is determined by which specific location on the basilar membrane vibrates most in response to a sound."},
+    {term:"Frequency Theory",def:"Pitch perception is determined by the rate at which the auditory nerve fires; works best for explaining low-frequency sounds."},
+    {term:"Volley Theory",def:"Groups of neurons fire in rapid, staggered succession to collectively encode frequencies that no single neuron could match alone."},
+    {term:"Sound Localization",def:"The brain's ability to identify the direction and distance of a sound source using differences in timing and loudness between the two ears."},
+    {term:"Sensorineural Deafness",def:"Hearing loss caused by damage to the cochlea or auditory nerve; results in decline in clarity, loudness, and hearing range."},
+    {term:"Conduction Deafness",def:"Hearing loss caused by blockage or damage preventing sound waves from traveling efficiently from the outer ear to the inner ear."},
+    {term:"Gate Control Theory",def:"The spinal cord contains a neurological gate that can open or close to allow or block pain signals from reaching the brain."},
+    {term:"Vestibular Sense",def:"The sense of balance and spatial orientation; mediated by the semicircular canals in the inner ear."},
+    {term:"Kinesthesis",def:"The sense of body position and movement, detected by proprioceptors in muscles and joints."},
+    {term:"Olfaction",def:"The sense of smell; unique in that it bypasses the thalamus and connects directly to the olfactory bulb and limbic system."},
+    {term:"Pheromones",def:"Chemical signals released by individuals that affect the behavior or physiology of others of the same species."},
+    {term:"Gustation",def:"The sense of taste; the six basic tastes are sweet, sour, salty, bitter, umami, and oleogustus (fatty)."},
+    {term:"Supertasters",def:"Individuals with a higher density of taste receptor cells, giving them heightened sensitivity, especially to bitter tastes."}
+  ]
+};
+
+// ==============================================================
+// COMMON MISTAKES DATABASE
+// ==============================================================
+const mistakesDB = {
+  "1.1": [
+    "Students often think a twin study alone proves a trait is purely genetic. Actually twin studies estimate relative genetic contribution but cannot fully separate genetics from shared environment, especially for twins raised together.",
+    "Students often confuse epigenetics with a genetic mutation. Actually epigenetics changes whether a gene is expressed, not the underlying DNA sequence itself.",
+    "Students often think eugenics is just another name for evolutionary psychology. Actually eugenics is a discredited misuse of evolutionary ideas to justify selective breeding, not a legitimate application of natural selection.",
+    "Students often think adoption studies show that environment does not matter. Actually adoption studies typically reveal both genetic and environmental influences, and the balance varies by trait and by age.",
+    "Students often think identical twins raised apart share nothing but genes. Actually they may still share prenatal environment and some cultural overlap, which researchers try to account for."
+  ],
+  "1.2": [
+    "Students often mix up afferent and efferent neurons. Actually afferent neurons carry signals toward the CNS, while efferent neurons carry signals away from the CNS to muscles and organs.",
+    "Students often think the somatic and autonomic nervous systems do the same job. Actually the somatic system controls voluntary movement, while the autonomic system controls involuntary functions such as heart rate and digestion.",
+    "Students often think the sympathetic division is always the dominant one. Actually the parasympathetic division actively returns the body to a resting state after arousal, it does not simply switch off.",
+    "Students often think the CNS and PNS operate independently. Actually the PNS exists specifically to connect the CNS to the rest of the body.",
+    "Students often think a reflex arc always involves the brain. Actually many reflex arcs are processed entirely in the spinal cord, without the signal reaching the brain first."
+  ],
+  "1.3": [
+    "Students often think a stronger stimulus makes a single neuron fire a bigger action potential. Actually the all-or-nothing principle means the action potential itself does not vary in size, intensity is instead coded by how often neurons fire.",
+    "Students often confuse agonists and antagonists. Actually an agonist mimics or enhances a neurotransmitter's effect, while an antagonist blocks it.",
+    "Students often think glial cells transmit neural signals. Actually they support neurons structurally and metabolically but do not carry information themselves.",
+    "Students often think reuptake and the refractory period describe the same thing. Actually reuptake is about the sending neuron reabsorbing leftover neurotransmitters, while the refractory period is about a neuron's brief inability to fire again.",
+    "Students often mix up which neurotransmitters are excitatory and which are inhibitory. Actually glutamate is the main excitatory neurotransmitter and GABA is the main inhibitory one, and confusing them flips the expected effect on behavior."
+  ],
+  "1.4": [
+    "Students often think the hippocampus is where memories are permanently stored. Actually it is critical for forming new long-term memories, not for storing them long-term.",
+    "Students often mix up Broca's area and Wernicke's area. Actually Broca's area damage disrupts speech production while comprehension stays intact, while Wernicke's area damage disrupts comprehension while speech remains fluent but meaningless.",
+    "Students often think brain lateralization means one hemisphere does all the work for a task. Actually most functions involve both hemispheres working together, lateralization just describes a relative specialization.",
+    "Students often think each hemisphere controls the same side of the body. Actually brain organization is contralateral, so the left hemisphere controls the right side of the body and vice versa.",
+    "Students often think the thalamus processes smell the same way it processes other senses. Actually smell is the one sense that bypasses the thalamus, going directly to the olfactory bulb."
+  ],
+  "1.5": [
+    "Students often think REM sleep is the deepest, most restful stage. Actually NREM Stage 3 is the deep, slow-wave stage, while REM is paradoxical since brain activity looks nearly as active as when awake.",
+    "Students often think dreaming only happens during REM sleep. Actually some dreaming can occur in NREM stages too, though REM dreams tend to be more vivid and narrative.",
+    "Students often think sleepwalking happens during REM sleep. Actually somnambulism occurs during NREM Stage 3, when the body is not paralyzed the way it is in REM.",
+    "Students often think REM rebound just means someone sleeps more overall after deprivation. Actually it specifically means they spend more time in REM sleep on recovery nights, not just more total sleep.",
+    "Students often treat circadian rhythm disruption as a sleep disorder. Actually jet lag and shift work are temporary rhythm disruptions, not disorders, since the underlying sleep-wake system is not damaged."
+  ],
+  "1.6": [
+    "Students often think absolute threshold and difference threshold measure the same thing. Actually absolute threshold is about detecting a stimulus at all, while difference threshold is about noticing a change in a stimulus that is already present.",
+    "Students often think sensory adaptation and habituation are identical. Actually sensory adaptation is a receptor-level decline in sensitivity to unchanging stimulation, while habituation is a learned, more general decrease in behavioral response.",
+    "Students often think rods provide color vision. Actually rods only detect shapes and movement in dim light, cones are what provide color vision.",
+    "Students often think trichromatic theory and opponent-process theory contradict each other. Actually both are considered accurate, they just describe different stages of visual processing, trichromatic at the retina and opponent-process further along the visual pathway.",
+    "Students often think gate control theory means pain is imaginary. Actually it explains that the spinal cord can genuinely block or allow real pain signals to reach the brain, depending on other neural activity."
+  ]
+};
+
+// ==============================================================
+// PRACTICE SET DATABASE
+// ==============================================================
+const practiceDB = {
+  "1.1": [
+    {q:"Which of the following best defines epigenetics?",opts:["The study of how physical traits are passed from parent to offspring through chromosomes","The process by which neural connections are strengthened or weakened through experience","The study of how environment and behavior affect gene expression without altering the DNA sequence itself","The genetic basis for inherited psychological disorders such as schizophrenia"],answer:2,skill:"Skill 1"},
+    {q:"Identical twins Hana and Sara were raised in different countries. Hana grew up in a high-stress urban environment, while Sara was raised in a quiet rural setting. As adults, Hana shows significantly higher cortisol levels and different patterns of stress-related gene activity than Sara. Which concept best explains this difference?",opts:["Natural selection - Hana's stressful environment conferred a survival advantage","Epigenetics - environmental pressures turned on or off certain genes without changing the DNA sequence","Neuroplasticity - Hana's brain rewired its neural connections in response to stress","The all-or-nothing principle - Hana's neurons fired more frequently than Sara's"],answer:1,skill:"Skill 2"},
+    {q:"A researcher believes that introversion has a hereditary component but wants to rule out shared environmental influences. Which research design would best allow her to separate genetic from environmental contributions to introversion?",opts:["A case study of one introverted family observed over several years","A naturalistic observation of introverted individuals across different workplaces","A twin study comparing identical twins raised in different environments from birth","A survey measuring self-reported introversion across multiple generations of the same family"],answer:2,skill:"Skill 2"},
+    {q:"A government enacts a policy offering financial incentives to university graduates who have children, while simultaneously making sterilization mandatory for individuals with certain hereditary conditions. Which concept does this most directly illustrate?",opts:["Natural selection - the government is allowing environmental pressures to determine who reproduces","Eugenics - the deliberate use of selective reproduction to control the genetic composition of the population","Epigenetics - the government is manipulating environmental conditions to change gene expression","The evolutionary perspective applied to public health policy without discriminatory intent"],answer:1,skill:"Skill 2"},
+    {q:"A researcher finds that by adulthood, adopted children's cognitive test scores correlate more strongly with their biological parents' scores than with their adoptive parents' scores. Which conclusion is most supported by this finding?",opts:["Environment has no influence whatsoever on cognitive development","Adoptive parents do not engage meaningfully enough with their children to impact cognitive development","Genetic factors play a significant role in shaping cognitive abilities, particularly as individuals age into adulthood","The evolutionary perspective cannot explain cognitive differences between individuals"],answer:2,skill:"Skill 2"},
+    {q:"A researcher studying twins reports a correlation of r = 0.85 between identical twins raised apart on a measure of conscientiousness, compared to r = 0.44 for fraternal twins raised together. Which conclusion is best supported by this data?",opts:["Shared environment is the primary determinant of conscientiousness, since twins raised together are more similar","Genetic factors appear to contribute more strongly to conscientiousness than shared environment, given the higher correlation for identical twins despite different environments","Fraternal twins raised together are more similar in conscientiousness than identical twins raised apart","The data indicates that conscientiousness is entirely determined by heredity and immune to environmental influence"],answer:1,skill:"Skill 3"}
+  ],
+  "1.2": [
+    {q:"Which of the following correctly describes the primary function of the autonomic nervous system?",opts:["Controls conscious, voluntary movements of skeletal muscles throughout the body","Sends sensory information from peripheral receptors toward the central nervous system","Governs involuntary activities that maintain vital functions - heartbeat, digestion, breathing","Connects the brain's two hemispheres to allow inter-hemispheric communication"],answer:2,skill:"Skill 1"},
+    {q:"Afferent neurons are best described as neurons that:",opts:["Carry signals from the CNS to muscles and organs throughout the body","Connect sensory neurons to motor neurons within the spinal cord","Carry signals from sensory receptors toward the central nervous system","Regulate involuntary processes such as breathing and heart rate automatically"],answer:2,skill:"Skill 1"},
+    {q:"The somatic nervous system is primarily responsible for which of the following?",opts:["Regulating the fight-or-flight response during perceived emergencies","Controlling involuntary functions such as digestion, breathing, and heart rate","Coordinating voluntary movements and processing information from the five senses","Maintaining homeostasis through hormonal regulation via the endocrine system"],answer:2,skill:"Skill 1"},
+    {q:"Layla is hiking when she suddenly hears a loud rustling in the bushes nearby. Her heart rate surges, her breathing quickens, and her pupils dilate - all without any conscious effort on her part. Which division of the nervous system is primarily responsible for these responses?",opts:["Somatic nervous system - she is voluntarily preparing to respond to a threat","Parasympathetic division - the body is conserving resources for a potential challenge","Sympathetic division - mobilizing the body for action in the face of a perceived threat","Central nervous system - the brain alone is producing all of these physical reactions"],answer:2,skill:"Skill 2"},
+    {q:"After confirming the rustling was just a small animal, Layla sits down to rest. Her heart rate slows, her digestion resumes, and she feels a wave of calm wash over her. Which division of the nervous system is now most active?",opts:["Sympathetic division - it stays elevated for several minutes after a perceived threat","Somatic nervous system - voluntary muscle control is reasserting itself","Reticular activating system - it is reducing general arousal levels","Parasympathetic division - returning the body to a relaxed, resting state"],answer:3,skill:"Skill 2"}
+  ],
+  "1.3": [
+    {q:"Which of the following correctly describes the all-or-nothing principle of neural firing?",opts:["A neuron fires progressively stronger action potentials when stimulation is more intense","A neuron either fires completely when its threshold is met, or does not fire at all - there is no partial firing","All neurons in a neural pathway fire simultaneously whenever one neuron in the pathway is activated","A neuron requires all of its dendrites to be simultaneously stimulated before an action potential can occur"],answer:1,skill:"Skill 1"},
+    {q:"Which neurotransmitter is primarily associated with mood regulation, hunger, sleep, and arousal?",opts:["Dopamine - movement, reward, attention","Acetylcholine - muscle action, learning, memory","Serotonin - mood, hunger, sleep, arousal","GABA - inhibitory activity, sleep, calming"],answer:2,skill:"Skill 1"},
+    {q:"Which of the following best describes an agonist drug?",opts:["A drug that blocks neurotransmitter receptors on the postsynaptic neuron to prevent binding","A drug that prevents the release of neurotransmitters from the presynaptic terminal","A drug that increases the effectiveness of a neurotransmitter by mimicking it, increasing its production, or blocking reuptake","A drug that accelerates the reuptake of excess neurotransmitters into the sending neuron"],answer:2,skill:"Skill 1"},
+    {q:"Which of the following is the major inhibitory neurotransmitter of the nervous system, associated with sleep and the slowing of neural activity?",opts:["Glutamate - major excitatory neurotransmitter; involved in long-term memory","Serotonin - mood, hunger, arousal","Substance P - pain signal transmission","GABA - major inhibitory neurotransmitter; sleep, movement, calming"],answer:3,skill:"Skill 1"},
+    {q:"The process by which a sending neuron reabsorbs excess neurotransmitters from the synaptic gap after transmission is called:",opts:["Depolarization - the reversal of charge that triggers the action potential","Hyperpolarization - the inhibitory movement away from firing threshold","Reuptake - reclaiming excess neurotransmitters for recycling","Transduction - converting physical stimuli into neural signals"],answer:2,skill:"Skill 1"},
+    {q:"Which of the following correctly describes the primary functions of glial cells?",opts:["They transmit electrical impulses along axon pathways, passing messages between neighboring neurons","They provide structure, insulation, communication support, and waste transportation for neurons - but do not themselves transmit information","They release neurotransmitters into the synaptic gap during neural transmission","They serve as the primary functional units responsible for all behavior and mental processes in the nervous system"],answer:1,skill:"Skill 1"}
+  ],
+  "1.4": [
+    {q:"Which brain structure is primarily responsible for maintaining homeostasis and regulating basic drives such as hunger, thirst, body temperature, and sex drive?",opts:["Hippocampus - critical for learning and forming new memories","Thalamus - the brain's sensory relay station","Hypothalamus - the regulator of homeostasis and basic biological drives","Amygdala - the processor of emotional reactions and fear"],answer:2,skill:"Skill 1"},
+    {q:"Broca's area is located in which brain lobe, and it is responsible for which primary function?",opts:["Temporal lobe - understanding and comprehending spoken language","Frontal lobe - controlling the muscle movements required to produce speech","Parietal lobe - integrating sensory information related to written language","Occipital lobe - visually interpreting and reading written words"],answer:1,skill:"Skill 1"},
+    {q:"Which of the following best describes the primary function of the corpus callosum?",opts:["It connects the brain stem to the cerebellum, facilitating motor coordination and balance","It relays sensory information from the peripheral nervous system to the cerebral cortex","It connects the left and right cerebral hemispheres, allowing them to share and coordinate information","It controls the autonomic functions of the parasympathetic nervous system throughout the body"],answer:2,skill:"Skill 1"},
+    {q:"The cerebellum is primarily associated with which of the following functions?",opts:["Emotional processing, fear responses, and forming emotional memories","Coordinating voluntary movement, maintaining posture and balance, and supporting procedural learning","Regulating the sleep-wake cycle, alertness, and filtering incoming sensory stimuli","Processing visual information received from the optic nerve and eyes"],answer:1,skill:"Skill 1"},
+    {q:"The thalamus is best described as:",opts:["The emotional processing center of the limbic system - especially for fear and aggression","The master gland that regulates endocrine activity by releasing hormones into the bloodstream","The brain's sensory relay station - receiving sensory information and routing it to the appropriate cortical areas for processing","A frontal lobe structure responsible for executive functioning and impulse control"],answer:2,skill:"Skill 1"},
+    {q:"Which of the following correctly pairs a brain lobe with its primary function?",opts:["Occipital lobe - processing auditory information and recognizing spoken language","Temporal lobe - processing visual information from the eyes","Parietal lobe - processing touch, pressure, temperature, pain, and spatial orientation via the somatosensory cortex","Frontal lobe - regulating the sleep-wake cycle and circadian rhythms"],answer:2,skill:"Skill 1"}
+  ],
+  "1.5": [
+    {q:"The sleep-wake cycle is best described as which type of biological rhythm?",opts:["An ultradian rhythm - a cycle that repeats multiple times within a single day","A circadian rhythm - an approximately 24-hour biological cycle","An infradian rhythm - a cycle that occurs less frequently than once per day","A homeostatic rhythm - triggered exclusively by the onset of darkness each evening"],answer:1,skill:"Skill 1"},
+    {q:"Which of the following correctly describes REM sleep?",opts:["It is characterized by delta waves and is the deepest, most restorative stage of sleep","It involves the release of growth hormones and is primarily associated with physical restoration of the body","It is paradoxical sleep - brain wave activity resembles wakefulness but external muscles are paralyzed","It occurs only once per night, at the very beginning of the sleep cycle, before NREM sleep begins"],answer:2,skill:"Skill 1"},
+    {q:"Which brain wave type is most strongly associated with NREM Stage 3 deep sleep?",opts:["Alpha waves - high amplitude, slow frequency; characteristic of relaxed wakefulness","Beta waves - low amplitude, fast frequency; characteristic of active engagement","Theta waves - moderate amplitude; characteristic of light sleep and drowsiness","Delta waves - highest amplitude, slowest frequency; characteristic of deep, slow-wave sleep"],answer:3,skill:"Skill 1"},
+    {q:"Activation-synthesis theory proposes that dreams:",opts:["Represent the brain's symbolic processing of repressed unconscious conflicts from childhood experiences","Are the brain's attempt to construct a narrative to make sense of random neural activity occurring during REM sleep","Serve primarily to consolidate and organize emotional memories formed during the previous waking day","Occur equally across all sleep stages and serve no identifiable psychological or neurological function"],answer:1,skill:"Skill 1"},
+    {q:"Which sleep disorder is characterized by repeated interruptions to breathing during sleep, preventing the individual from sustaining adequate sleep quality?",opts:["Narcolepsy - uncontrollable sleep attacks during the day","Somnambulism - walking and moving during deep NREM sleep","Sleep apnea - repeated cessation of breathing interrupts the sleep cycle","REM sleep behavior disorder - absence of muscle paralysis during REM sleep"],answer:2,skill:"Skill 1"},
+    {q:"When individuals are deprived of REM sleep and are then allowed to sleep normally on a recovery night, they typically experience:",opts:["Reduced dreaming for several nights as the brain gradually recovers from the REM deficit","REM rebound - entering REM sleep more quickly and spending more time in REM than usual to compensate for the deficit","A compensatory shift toward deeper NREM Stage 3 sleep rather than REM","Permanent disruption of the normal sleep cycle requiring medical intervention to restore"],answer:1,skill:"Skill 1"}
+  ],
+  "1.6": [
+    {q:"Weber's law states that:",opts:["The absolute threshold for detecting any stimulus is fixed and does not vary with background conditions","For a difference between two stimuli to be noticed, they must differ by a constant percentage - not a constant absolute amount","The minimum stimulation needed to detect a stimulus occurs at least 75% of the time by definition","Sensory adaptation occurs automatically after repeated exposure to any type of changing stimulus"],answer:1,skill:"Skill 1"},
+    {q:"Which of the following correctly describes sensory transduction?",opts:["The process by which the brain integrates information from multiple sensory systems simultaneously","The minimum level of physical stimulation needed to activate a sensory receptor at least 50% of the time","The conversion of physical stimulus energy into electrical neural signals that the brain can process","The process by which the brain adapts to continuous, unchanging environmental stimulation over time"],answer:2,skill:"Skill 1"},
+    {q:"Rods are photoreceptors that:",opts:["Are concentrated in the fovea at the center of the retina and are responsible for detailed color vision","Are found in the periphery of the retina and enable vision in dim light - detecting shapes and movement without providing color information","Process short-wavelength light and are primarily activated under brightly lit conditions","Perform trichromatic processing of red, green, and blue wavelengths to generate color perception"],answer:1,skill:"Skill 1"},
+    {q:"Which theory of color vision best explains the phenomenon of afterimages?",opts:["Trichromatic theory - the three cone types combine to produce complementary color afterimages","Place theory - specific hair cells in the cochlea fatigue at different locations after prolonged stimulation","Opponent-process theory - opposing color receptor pairs fatigue with prolonged exposure, causing the opposing color to dominate when the stimulus is removed","Frequency theory - neural firing rates correspond to color wavelengths and produce complementary echoes"],answer:2,skill:"Skill 2"},
+    {q:"The sense of smell (olfaction) is unique among the sensory systems because:",opts:["It requires the largest number of receptor cells of any sensory system in the human body","It is the only sense that bypasses the thalamus, connecting directly to the olfactory bulb and then to the limbic system","It is processed in the occipital lobe rather than the temporal lobe like all other senses","It does not involve sensory transduction - odor molecules are directly recognized without receptor activation"],answer:1,skill:"Skill 1"},
+    {q:"Gate control theory proposes that:",opts:["Pain signals are suppressed by the hippocampus before reaching conscious awareness in the prefrontal cortex","The absolute threshold for pain is determined solely by the total number of nociceptors that are simultaneously activated","The spinal cord contains a neurological gate that can open or close to allow or block pain signals from reaching the brain","Pain signals are transmitted exclusively through the sympathetic division of the autonomic nervous system"],answer:2,skill:"Skill 1"}
+  ]
+};
+
+// ==============================================================
+// HELPERS
+// ==============================================================
+function shuffle(arr){const a=arr.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function getTerms(topic){return topic==="all"?Object.values(termsDB).flat():(termsDB[topic]||[]);}
+function getPractice(topic){return topic==="all"?Object.values(practiceDB).flat():(practiceDB[topic]||[]);}
+function skillClass(s){return s.includes("4")?"skill-4":s.includes("3")?"skill-3":s.includes("2")?"skill-2":"skill-1";}
+function progressBar(idx,total,score){
+  const pct=total>0?(idx/total)*100:0;
+  return `<div class="progress-row"><span>Question ${idx+1} of ${total}</span><span>Score: ${score} / ${idx}</span></div><div class="progress-bar-track"><div class="progress-bar-fill" style="width:${pct}%"></div></div>`;
+}
+
+// Logs one attempt for the session review panel and the printable answer key.
+function logAttempt(type,stem,studentAnswer,correctAnswer,correct){
+  S.log.push({type:type,stem:stem,studentAnswer:studentAnswer,correctAnswer:correctAnswer,correct:correct});
+}
+
+// Builds the on-screen "Terms to review" panel plus the Print Summary button, shown on every completion screen.
+function buildReviewBlock(){
+  const missed=S.log.filter(function(r){return !r.correct;});
+  let html="";
+  if(missed.length){
+    html+='<div class="review-block"><div class="review-header">Terms to Review ('+missed.length+')</div>';
+    html+=missed.map(function(r){return '<div class="review-item"><strong>'+r.stem+'</strong><span class="review-correct">Correct answer: '+r.correctAnswer+'</span></div>';}).join("");
+    html+='</div>';
+  }
+  html+='<button class="btn-restart btn-print" onclick="printSummary()">Print Summary</button>';
+  return html;
+}
+
+// Builds and opens the printable, teacher-checkable answer key in its own tab, so printing
+// does not depend on window.print() working inside whatever frame this page is embedded in.
+function printSummary(){
+  const total=S.log.length;
+  const correctCount=S.log.filter(function(r){return r.correct;}).length;
+  const scoreText=total?(correctCount+" / "+total+" ("+Math.round((correctCount/total)*100)+"%)"):"No graded items this session";
+  let rows=S.log.map(function(r,i){
+    return '<tr><td style="border:1px solid #999;padding:6px;">'+(i+1)+'</td>'+
+      '<td style="border:1px solid #999;padding:6px;">'+String(r.stem).replace(/\n/g," ")+'</td>'+
+      '<td style="border:1px solid #999;padding:6px;">'+r.studentAnswer+'</td>'+
+      '<td style="border:1px solid #999;padding:6px;">'+r.correctAnswer+'</td>'+
+      '<td style="border:1px solid #999;padding:6px;">'+(r.correct?"Correct":"Review")+'</td></tr>';
+  }).join("");
+  if(!rows){rows='<tr><td colspan="5" style="border:1px solid #999;padding:6px;">No graded items in this session.</td></tr>';}
+
+  let mistakesHTML="";
+  if(S.topic!=="all"&&mistakesDB[S.topic]){
+    mistakesHTML='<h2 style="font-size:15px;margin-top:18px;border-bottom:1px solid #999;">Common Mistakes for This Topic</h2><ul style="font-size:12px;line-height:1.6;">'+
+      mistakesDB[S.topic].map(function(m){return '<li style="margin-bottom:6px;">'+m+'</li>';}).join("")+'</ul>';
+  }
+
+  const reportBody=
+    '<h1 style="font-size:20px;border-bottom:2px solid #000;padding-bottom:8px;">AP Psychology Unit 1: Biological Bases of Behavior</h1>'+
+    '<p style="font-size:13px;">Revision Session Summary</p>'+
+    '<table style="width:100%;font-size:13px;margin:14px 0;"><tr><td>Name: ___________________________</td><td>Date: ___________________</td></tr></table>'+
+    '<p style="font-size:13px;">Topic: '+(S.topicLabel||"All Topics")+' &nbsp;|&nbsp; Activity: '+(S.modeLabel||"")+' &nbsp;|&nbsp; Score: '+scoreText+'</p>'+
+    '<h2 style="font-size:15px;margin-top:18px;border-bottom:1px solid #999;">Answer Key and Review</h2>'+
+    '<table style="width:100%;border-collapse:collapse;font-size:12px;margin-top:8px;">'+
+    '<tr style="background:#eee;"><th style="border:1px solid #999;padding:6px;text-align:left;">#</th><th style="border:1px solid #999;padding:6px;text-align:left;">Question / Term</th><th style="border:1px solid #999;padding:6px;text-align:left;">Your Answer</th><th style="border:1px solid #999;padding:6px;text-align:left;">Correct Answer</th><th style="border:1px solid #999;padding:6px;text-align:left;">Result</th></tr>'+
+    rows+'</table>'+mistakesHTML+
+    '<p class="no-print" style="margin-top:22px;font-size:12px;color:#666;">If the print dialog did not open automatically, use your browser\'s print command (Ctrl+P or Cmd+P) on this tab.</p>';
+
+  const fullDoc='<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Unit 1 Revision Summary</title>'+
+    '<style>body{font-family:Arial,Helvetica,sans-serif;color:#000;padding:20px;max-width:800px;margin:0 auto;}'+
+    '@media print{.no-print{display:none;}}</style></head><body>'+reportBody+'</body></html>';
+
+  const win=window.open("","_blank");
+  if(!win){
+    alert("Your browser blocked the new tab needed to print. Please allow pop-ups for this page and click Print Summary again.");
+    return;
+  }
+  win.document.open();
+  win.document.write(fullDoc);
+  win.document.close();
+  win.focus();
+  setTimeout(function(){
+    try{win.print();}catch(e){/* user can still print manually from the new tab */}
+  },250);
+}
+
+// ==============================================================
+// STATE
+// ==============================================================
+const S={mode:null,topic:"all",topicLabel:"All Topics",modeLabel:"",terms:[],practice:[],idx:0,score:0,
+  hWord:"",hGuessed:[],hMistakes:0,hAttempted:new Set(),hActive:false,hCurrentTerm:null,
+  _matchSet:[],log:[]};
+
+// ==============================================================
+// START
+// ==============================================================
+document.getElementById("startBtn").addEventListener("click",function(){
+  S.topic=document.getElementById("topicSelect").value;
+  S.mode=document.getElementById("modeSelect").value;
+  const topicSel=document.getElementById("topicSelect");
+  const modeSel=document.getElementById("modeSelect");
+  S.topicLabel=topicSel.options[topicSel.selectedIndex].text;
+  S.modeLabel=modeSel.options[modeSel.selectedIndex].text;
+  S.idx=0; S.score=0; S.hActive=false; S.hAttempted=new Set(); S.log=[];
+
+  if(S.mode==="mistakes"){
+    renderMistakes();
+    return;
+  }
+
+  if(S.mode==="practice"){
+    S.practice=shuffle(getPractice(S.topic));
+    if(!S.practice.length){setQA('<div class="placeholder-text">No practice questions for this topic yet.</div>');return;}
+    renderPractice();
+  } else {
+    S.terms=shuffle(getTerms(S.topic));
+    if(!S.terms.length){setQA('<div class="placeholder-text">No terms found for this selection.</div>');return;}
+    if(S.mode==="flash")renderFlash();
+    else if(S.mode==="mcq")renderMCQ();
+    else if(S.mode==="tf")renderTF();
+    else if(S.mode==="match")renderMatch();
+    else if(S.mode==="hangman"){S.hActive=true;renderHangman();}
+  }
+});
+
+function setQA(html){document.getElementById("quizArea").innerHTML=html;}
+
+// ==============================================================
+// COMMON MISTAKES
+// ==============================================================
+function renderMistakes(){
+  let html='<p style="text-align:center;color:#4a6080;font-size:13px;margin-bottom:18px;">Common mix-ups students make on this material. Review these before you test yourself.</p>';
+  const topicsToShow=(S.topic==="all")?Object.keys(mistakesDB):[S.topic];
+  topicsToShow.forEach(function(tKey){
+    if(!mistakesDB[tKey])return;
+    if(S.topic==="all"){html+='<div class="mistake-topic-header">Topic '+tKey+'</div>';}
+    mistakesDB[tKey].forEach(function(m){html+='<div class="mistake-item">'+m+'</div>';});
+  });
+  setQA(html);
+}
+
+// ==============================================================
+// FLASHCARDS
+// ==============================================================
+function renderFlash(){
+  if(S.idx>=S.terms.length){
+    setQA(`<div class="score-screen"><div class="big-score">${S.terms.length}</div><div class="score-label">cards reviewed</div><div class="score-message">All done!</div>${buildReviewBlock()}<br><button class="btn-restart" onclick="S.idx=0;S.log=[];renderFlash()">Start Over</button></div>`);
+    return;
+  }
+  const t=S.terms[S.idx];
+  const pct=(S.idx/S.terms.length)*100;
+  setQA(`
+    <div class="progress-row"><span>Card ${S.idx+1} of ${S.terms.length}</span><span style="font-size:12px;color:#7a90b5;">Click to flip</span></div>
+    <div class="progress-bar-track"><div class="progress-bar-fill" style="width:${pct}%"></div></div>
+    <div class="flashcard-wrapper" id="fc" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-face flashcard-front"><div class="face-label">Term</div><div class="face-term">${t.term}</div></div>
+        <div class="flashcard-face flashcard-back"><div class="face-label">Definition</div><div class="face-def">${t.def}</div></div>
+      </div>
+    </div>
+    <div class="flashcard-hint">Tap the card to reveal the definition, then rate yourself honestly</div>
+    <div class="flashcard-nav">
+      <button class="self-rate-review" onclick="rateFlash(false)">Review again</button>
+      <button class="self-rate-good" onclick="rateFlash(true)">Got it</button>
+    </div>
+    <div class="flashcard-nav" style="margin-top:8px;">
+      <button onclick="S.idx=Math.max(0,S.idx-1);renderFlash()">Previous</button>
+    </div>
+  `);
+}
+function rateFlash(gotIt){
+  const t=S.terms[S.idx];
+  logAttempt("Flashcards",t.term,gotIt?"Marked: Got it":"Marked: Review again",t.def,gotIt);
+  S.idx++;
+  renderFlash();
+}
+
+// ==============================================================
+// VOCABULARY MCQ
+// ==============================================================
+function renderMCQ(){
+  if(S.idx>=S.terms.length){showVocabScore();return;}
+  const cur=S.terms[S.idx];
+  const opts=shuffle([cur,...shuffle(S.terms.filter(t=>t!==cur)).slice(0,3)]);
+  const letters=["A","B","C","D"];
+  S._mcqOpts=opts; S._mcqCorrect=cur; S._mcqDef=cur.def;
+
+  let optsHTML=opts.map((o,i)=>`<button class="option-btn" data-idx="${i}"><span class="letter">${letters[i]}</span><span>${o.term}</span></button>`).join("");
+  setQA(`
+    ${progressBar(S.idx,S.terms.length,S.score)}
+    <div class="question-text"><span class="stem-label">Definition</span>${cur.def}</div>
+    <p style="font-size:12px;color:#4a6080;margin-bottom:10px;font-weight:600;">Which term matches this definition?</p>
+    <div class="options-list" id="mcqOpts">${optsHTML}</div>
+    <div id="mcqFb"></div>
+  `);
+  document.querySelectorAll("#mcqOpts .option-btn").forEach(function(btn){
+    btn.addEventListener("click",function(){handleMCQ(parseInt(this.dataset.idx));});
+  });
+}
+
+function handleMCQ(si){
+  if(document.querySelector(".option-btn.correct,.option-btn.incorrect"))return;
+  const opts=S._mcqOpts; const correct=S._mcqCorrect;
+  const ci=opts.indexOf(correct);
+  document.querySelectorAll(".option-btn").forEach(function(b){b.disabled=true;if(parseInt(b.dataset.idx)===ci)b.classList.add("revealed");});
+  const isRight=(si===ci);
+  const btn=document.querySelector(`[data-idx="${si}"]`);
+  if(btn){btn.classList.remove("revealed");btn.classList.add(isRight?"correct":"incorrect");}
+  if(isRight)S.score++;
+  logAttempt("Vocabulary MCQ",S._mcqDef,opts[si].term,correct.term,isRight);
+  S.idx++;
+  document.getElementById("mcqFb").innerHTML=`<div class="feedback-box ${isRight?"correct":"incorrect"}">${isRight?"Correct!":"Not quite. The correct answer is highlighted above."}</div><button class="btn-next" onclick="renderMCQ()">Next</button>`;
+}
+
+// ==============================================================
+// TRUE / FALSE
+// ==============================================================
+function renderTF(){
+  if(S.idx>=S.terms.length){showVocabScore();return;}
+  const cur=S.terms[S.idx];
+  const isTrue=Math.random()>0.5;
+  let disp=cur.def;
+  if(!isTrue&&S.terms.length>1){
+    let w=S.terms[Math.floor(Math.random()*S.terms.length)];
+    while(w.term===cur.term)w=S.terms[Math.floor(Math.random()*S.terms.length)];
+    disp=w.def;
+  }
+  S._tfIsTrue=isTrue; S._tfTerm=cur.term; S._tfDisp=disp;
+  setQA(`
+    ${progressBar(S.idx,S.terms.length,S.score)}
+    <div class="question-text">Is this the correct definition of <strong>${cur.term}</strong>?</div>
+    <div style="background:#f4f6fb;padding:13px 15px;border-radius:8px;font-style:italic;border-left:4px solid #b0c4de;margin-bottom:18px;font-size:14px;line-height:1.65;">"${disp}"</div>
+    <div class="options-list" style="flex-direction:row;gap:14px;">
+      <button class="option-btn" id="tfT" style="justify-content:center;"><span class="letter" style="color:#28a745;">T</span>True</button>
+      <button class="option-btn" id="tfF" style="justify-content:center;"><span class="letter" style="color:#dc3545;">F</span>False</button>
+    </div>
+    <div id="tfFb"></div>
+  `);
+  document.getElementById("tfT").addEventListener("click",function(){handleTF(true);});
+  document.getElementById("tfF").addEventListener("click",function(){handleTF(false);});
+}
+
+function handleTF(userTrue){
+  if(document.querySelector(".option-btn.correct,.option-btn.incorrect"))return;
+  document.querySelectorAll(".option-btn").forEach(function(b){b.disabled=true;});
+  const right=(S._tfIsTrue===userTrue);
+  const btn=userTrue?document.getElementById("tfT"):document.getElementById("tfF");
+  if(btn)btn.classList.add(right?"correct":"incorrect");
+  if(right)S.score++;
+  logAttempt("True/False",'"'+S._tfDisp+'" - definition of '+S._tfTerm+'?',userTrue?"True":"False",S._tfIsTrue?"True":"False",right);
+  S.idx++;
+  document.getElementById("tfFb").innerHTML=`<div class="feedback-box ${right?"correct":"incorrect"}">${right?"Correct!":"Not quite. The correct answer was: "+(S._tfIsTrue?"True":"False")}</div><button class="btn-next" onclick="renderTF()">Next</button>`;
+}
+
+// ==============================================================
+// MATCH'EM UP
+// ==============================================================
+function renderMatch(){
+  const chunk=S.terms.slice(0,Math.min(6,S.terms.length));
+  S._matchSet=chunk;
+  const shuffledDefs=shuffle(chunk.map(function(t,i){return {termIdx:i,def:t.def};}));
+
+  const termsHTML=chunk.map(function(t,i){
+    return `<div class="match-term" draggable="true" data-tidx="${i}">${t.term}</div>`;
+  }).join("");
+  const defsHTML=shuffledDefs.map(function(d){
+    return `<div class="match-def" data-correct="${d.termIdx}" data-dropped="-1"><div class="match-def-text" style="font-size:12px;line-height:1.5;">${d.def}</div></div>`;
+  }).join("");
+
+  setQA(`
+    <p style="text-align:center;color:#4a6080;font-size:13px;margin-bottom:18px;">Drag each <strong>term</strong> from the left onto its matching <strong>definition</strong> on the right.</p>
+    <div class="match-grid">
+      <div><div class="match-col-label">Terms</div><div class="match-terms" id="matchTerms">${termsHTML}</div></div>
+      <div><div class="match-col-label">Definitions</div><div class="match-defs" id="matchDefs">${defsHTML}</div></div>
+    </div>
+    <button class="match-check-btn" onclick="checkMatch()">Check Answers</button>
+    <div id="matchFb" style="margin-top:14px;"></div>
+  `);
+
+  document.querySelectorAll(".match-term").forEach(function(el){
+    el.addEventListener("dragstart",function(e){e.dataTransfer.setData("text",this.dataset.tidx);this.classList.add("dragging");});
+    el.addEventListener("dragend",function(){this.classList.remove("dragging");});
+  });
+  document.querySelectorAll(".match-def").forEach(function(el){
+    el.addEventListener("dragover",function(e){e.preventDefault();this.classList.add("drag-over");});
+    el.addEventListener("dragleave",function(){this.classList.remove("drag-over");});
+    el.addEventListener("drop",function(e){
+      e.preventDefault();this.classList.remove("drag-over");
+      const tidx=e.dataTransfer.getData("text");
+      this.dataset.dropped=tidx;
+      let lbl=this.querySelector(".match-dropped");
+      if(!lbl){lbl=document.createElement("div");lbl.className="match-dropped";this.insertBefore(lbl,this.firstChild);}
+      lbl.textContent=S._matchSet[parseInt(tidx)].term;
+    });
+  });
+}
+
+function checkMatch(){
+  let correct=0;
+  const defEls=document.querySelectorAll(".match-def");
+  defEls.forEach(function(el){
+    const dropped=parseInt(el.dataset.dropped);
+    const right=parseInt(el.dataset.correct);
+    const isRight=(dropped===right);
+    if(isRight){el.classList.add("correct");correct++;}
+    else{el.classList.add("incorrect");}
+    const defText=el.querySelector(".match-def-text").textContent;
+    const droppedTermText=(dropped>=0&&S._matchSet[dropped])?S._matchSet[dropped].term:"No answer given";
+    const correctTermText=S._matchSet[right].term;
+    logAttempt("Match'em Up",defText,droppedTermText,correctTermText,isRight);
+  });
+  const total=defEls.length;
+  const pct=Math.round((correct/total)*100);
+  document.getElementById("matchFb").innerHTML=`<div class="feedback-box ${correct===total?"correct":correct>total/2?"neutral":"incorrect"}">${correct} / ${total} correct (${pct}%)</div>${buildReviewBlock()}<button class="btn-next" onclick="renderMatch()">Try Another Set</button>`;
+}
+
+// ==============================================================
+// HANGMAN
+// ==============================================================
+function renderHangman(){
+  if(S.idx>=S.terms.length){showVocabScore();return;}
+  const t=S.terms[S.idx];
+  S.hCurrentTerm=t;
+  S.hWord=t.term.toUpperCase();
+  S.hGuessed=S.hWord.split("").map(function(ch){return /[A-Z]/.test(ch)?null:ch;});
+  S.hMistakes=0; S.hAttempted=new Set();
+  drawHangmanBoard(t);
+}
+
+function drawHangmanBoard(t){
+  const letters="ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+  const keyHTML=letters.map(function(l){return `<button class="key" data-ltr="${l}">${l}</button>`;}).join("");
+  const pct=(S.idx/S.terms.length)*100;
+  setQA(`
+    <div class="progress-row"><span>Word ${S.idx+1} of ${S.terms.length}</span><span>Score: ${S.score}</span></div>
+    <div class="progress-bar-track"><div class="progress-bar-fill" style="width:${pct}%"></div></div>
+    <div class="hangman-container">
+      <div class="hangman-drawing">
+        <svg class="hangman-svg" viewBox="0 0 100 120" stroke="#1a2744" stroke-width="3" fill="none" stroke-linecap="round">
+          <line x1="10" y1="115" x2="90" y2="115"/><line x1="30" y1="115" x2="30" y2="5"/>
+          <line x1="30" y1="5" x2="70" y2="5"/><line x1="70" y1="5" x2="70" y2="20"/>
+          <circle id="hp1" cx="70" cy="32" r="12" style="display:none"/>
+          <line id="hp2" x1="70" y1="44" x2="70" y2="80" style="display:none"/>
+          <line id="hp3" x1="70" y1="52" x2="54" y2="68" style="display:none"/>
+          <line id="hp4" x1="70" y1="52" x2="86" y2="68" style="display:none"/>
+          <line id="hp5" x1="70" y1="80" x2="54" y2="100" style="display:none"/>
+          <line id="hp6" x1="70" y1="80" x2="86" y2="100" style="display:none"/>
+        </svg>
+      </div>
+      <div class="hangman-hint"><strong>Hint:</strong> ${t.def}</div>
+      <div class="word-display" id="hDisp"></div>
+      <div class="keyboard" id="hKeys">${keyHTML}</div>
+      <div id="hFb" style="margin-top:16px;min-height:44px;text-align:center;"></div>
+    </div>
+  `);
+  updateHDisp();
+  document.querySelectorAll(".key").forEach(function(btn){
+    btn.addEventListener("click",function(){doHGuess(this.dataset.ltr);});
+  });
+}
+
+function updateHDisp(){
+  const el=document.getElementById("hDisp");
+  if(el)el.textContent=S.hGuessed.map(function(ch){return ch||"_";}).join(" ");
+}
+
+function updateHParts(){
+  for(let i=1;i<=6;i++){const el=document.getElementById("hp"+i);if(el)el.style.display=i<=S.hMistakes?"block":"none";}
+}
+
+function doHGuess(letter){
+  if(!S.hActive||S.hAttempted.has(letter)||S.hMistakes>=6)return;
+  S.hAttempted.add(letter);
+  const btn=document.querySelector(`.key[data-ltr="${letter}"]`);
+  if(S.hWord.includes(letter)){
+    S.hWord.split("").forEach(function(ch,i){if(ch===letter)S.hGuessed[i]=letter;});
+    if(btn){btn.classList.add("correct-guess");btn.disabled=true;}
+  } else {
+    S.hMistakes++;
+    if(btn){btn.classList.add("wrong-guess");btn.disabled=true;}
+    updateHParts();
+  }
+  updateHDisp();
+  checkHEnd();
+}
+
+function checkHEnd(){
+  const won=!S.hGuessed.includes(null);
+  const lost=S.hMistakes>=6;
+  if(!won&&!lost)return;
+  document.querySelectorAll(".key").forEach(function(k){k.disabled=true;});
+  const fb=document.getElementById("hFb");
+  const t=S.hCurrentTerm;
+  logAttempt("Hangman",t?t.def:"",won?"Solved":"Not solved ("+S.hMistakes+" wrong guesses)",S.hWord,won);
+  if(won){
+    S.score++;
+    if(fb)fb.innerHTML=`<div class="feedback-box correct">Correct! The term is "${S.hWord}".</div><button class="btn-next" onclick="S.idx++;renderHangman()">Next Word</button>`;
+  } else {
+    const d=document.getElementById("hDisp");
+    if(d)d.textContent=S.hWord.split("").join(" ");
+    if(fb)fb.innerHTML=`<div class="feedback-box incorrect">The term was: <strong>${S.hWord}</strong></div><button class="btn-next" onclick="S.idx++;renderHangman()">Next Word</button>`;
+  }
+}
+
+document.addEventListener("keydown",function(e){
+  if(!S.hActive)return;
+  const k=e.key.toUpperCase();
+  if(/^[A-Z]$/.test(k)){const btn=document.querySelector(`.key[data-ltr="${k}"]`);if(btn&&!btn.disabled)doHGuess(k);}
+});
+
+// ==============================================================
+// PRACTICE SET MCQs
+// ==============================================================
+function renderPractice(){
+  if(S.idx>=S.practice.length){showPracticeScore();return;}
+  const q=S.practice[S.idx];
+  const letters=["A","B","C","D"];
+  const optsHTML=q.opts.map(function(opt,i){return `<button class="option-btn" data-idx="${i}"><span class="letter">${letters[i]}</span><span>${opt}</span></button>`;}).join("");
+  const pct=(S.idx/S.practice.length)*100;
+  setQA(`
+    <div class="progress-row"><span>Question ${S.idx+1} of ${S.practice.length}</span><span>Score: ${S.score} / ${S.idx}</span></div>
+    <div class="progress-bar-track"><div class="progress-bar-fill" style="width:${pct}%"></div></div>
+    <span class="skill-badge ${skillClass(q.skill)}">${q.skill}</span>
+    <div class="question-text">${q.q}</div>
+    <div class="options-list" id="pOpts">${optsHTML}</div>
+    <div id="pFb"></div>
+  `);
+  S._pq=q;
+  document.querySelectorAll("#pOpts .option-btn").forEach(function(btn){
+    btn.addEventListener("click",function(){handlePractice(parseInt(this.dataset.idx));});
+  });
+}
+
+function handlePractice(si){
+  if(document.querySelector(".option-btn.correct,.option-btn.incorrect"))return;
+  const q=S._pq;
+  document.querySelectorAll(".option-btn").forEach(function(b){b.disabled=true;if(parseInt(b.dataset.idx)===q.answer)b.classList.add("revealed");});
+  const isRight=(si===q.answer);
+  const btn=document.querySelector(`#pOpts [data-idx="${si}"]`);
+  if(btn){btn.classList.remove("revealed");btn.classList.add(isRight?"correct":"incorrect");}
+  if(isRight)S.score++;
+  logAttempt("Practice Set MCQ",q.q,q.opts[si],q.opts[q.answer],isRight);
+  S.idx++;
+  document.getElementById("pFb").innerHTML=`<div class="feedback-box ${isRight?"correct":"incorrect"}">${isRight?"Correct!":"Not quite. The correct answer is highlighted above."}</div><button class="btn-next" onclick="renderPractice()">Next</button>`;
+}
+
+function showPracticeScore(){
+  const pct=Math.round((S.score/S.practice.length)*100);
+  const msg=pct>=80?"Strong work.":pct>=60?"Getting there. Keep reviewing.":"More revision needed - you've got this.";
+  setQA(`<div class="score-screen"><div class="big-score">${pct}%</div><div class="score-label">${S.score} correct out of ${S.practice.length}</div><div class="score-message">${msg}</div>${buildReviewBlock()}<br><button class="btn-restart" onclick="S.idx=0;S.score=0;S.log=[];S.practice=shuffle(getPractice(S.topic));renderPractice()">Try Again</button></div>`);
+}
+
+// ==============================================================
+// VOCAB SCORE
+// ==============================================================
+function showVocabScore(){
+  const pct=Math.round((S.score/S.terms.length)*100);
+  const msg=pct>=80?"Strong work.":pct>=60?"Getting there. Keep reviewing.":"More revision needed - you've got this.";
+  const restart=S.mode==="mcq"?"S.idx=0;S.score=0;S.log=[];S.terms=shuffle(getTerms(S.topic));renderMCQ()":S.mode==="tf"?"S.idx=0;S.score=0;S.log=[];S.terms=shuffle(getTerms(S.topic));renderTF()":"S.idx=0;S.score=0;S.log=[];S.hActive=true;S.terms=shuffle(getTerms(S.topic));renderHangman()";
+  setQA(`<div class="score-screen"><div class="big-score">${pct}%</div><div class="score-label">${S.score} correct out of ${S.terms.length}</div><div class="score-message">${msg}</div>${buildReviewBlock()}<br><button class="btn-restart" onclick="${restart}">Try Again</button></div>`);
+}
+</script>
+</body>
+</html>

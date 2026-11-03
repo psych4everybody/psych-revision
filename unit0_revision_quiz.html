@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 0: Scientific Foundations of Psychology | AP Psychology Revision</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Outfit',sans-serif;background:#f0f4fb;color:#1a2744;min-height:100vh;}
+
+header{background:#1a2744;color:#fff;padding:26px 20px 22px;text-align:center;}
+header .eyebrow{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#7fa8d4;margin-bottom:8px;}
+header h1{font-family:'Playfair Display',serif;font-size:26px;color:#fff;line-height:1.3;}
+header .subtitle{margin-top:7px;font-size:13px;color:#a8c4e0;}
+
+.controls-bar{background:#fff;border-bottom:2px solid #dde6f4;padding:14px 20px;display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:center;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(26,39,68,.09);}
+.controls-bar select{padding:9px 13px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:500;border:2px solid #c8d8ee;border-radius:8px;background:#f4f6fb;color:#1a2744;cursor:pointer;outline:none;min-width:175px;}
+.controls-bar select:focus{border-color:#2E75B6;}
+.btn-start{padding:9px 26px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;background:#1a2744;color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s;}
+.btn-start:hover{background:#2E75B6;}
+
+.main{max-width:860px;margin:28px auto;padding:0 14px 60px;}
+#quizArea{background:#fff;border-radius:12px;padding:28px;box-shadow:0 2px 16px rgba(26,39,68,.07);min-height:280px;}
+.placeholder-text{text-align:center;padding:56px 20px;color:#7a90b5;font-size:16px;line-height:1.8;}
+
+.progress-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;font-size:13px;font-weight:500;color:#4a6080;}
+.progress-bar-track{height:5px;background:#e0e8f4;border-radius:3px;margin-bottom:22px;overflow:hidden;}
+.progress-bar-fill{height:100%;background:#2E75B6;border-radius:3px;transition:width .4s ease;}
+
+.question-text{font-size:15px;line-height:1.75;margin-bottom:20px;color:#1a2744;}
+.stem-label{display:block;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#7fa8d4;margin-bottom:8px;}
+
+.skill-badge{display:inline-block;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:3px 10px;border-radius:20px;margin-bottom:13px;}
+.skill-1{background:#e8eef8;color:#3a5a8a;}
+.skill-2{background:#e3f2fd;color:#1565c0;}
+.skill-3{background:#fff3e0;color:#e65100;}
+.skill-4{background:#e8f5e9;color:#2e7d32;}
+
+.options-list{display:flex;flex-direction:column;gap:9px;}
+.option-btn{display:flex;align-items:flex-start;gap:11px;padding:13px 15px;border:2px solid #d0ddef;border-radius:8px;background:#f8fafd;cursor:pointer;font-family:'Outfit',sans-serif;font-size:14px;line-height:1.5;color:#1a2744;text-align:left;transition:border-color .15s,background .15s;width:100%;}
+.option-btn:hover:not(:disabled){border-color:#2E75B6;background:#eaf3fc;}
+.option-btn .letter{font-weight:700;min-width:20px;color:#2E75B6;flex-shrink:0;}
+.option-btn.correct{border-color:#28a745;background:#d4edda;color:#155724;}
+.option-btn.incorrect{border-color:#dc3545;background:#f8d7da;color:#721c24;}
+.option-btn.revealed{border-color:#28a745;background:#d4edda;color:#155724;}
+.option-btn:disabled{cursor:default;}
+
+.feedback-box{margin-top:16px;padding:13px 16px;border-radius:8px;font-size:14px;font-weight:600;}
+.feedback-box.correct{background:#d4edda;color:#155724;}
+.feedback-box.incorrect{background:#f8d7da;color:#721c24;}
+.feedback-box.neutral{background:#e8f1fa;color:#1a4a7a;}
+.btn-next{display:inline-block;margin-top:16px;padding:11px 28px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;background:#1a2744;color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s;}
+.btn-next:hover{background:#2E75B6;}
+
+.flashcard-wrapper{perspective:1200px;max-width:660px;margin:16px auto;height:240px;cursor:pointer;}
+.flashcard-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .55s ease;}
+.flashcard-wrapper.flipped .flashcard-inner{transform:rotateY(180deg);}
+.flashcard-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:26px 30px;text-align:center;}
+.flashcard-front{background:#1a2744;color:#fff;}
+.flashcard-front .face-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#7fa8d4;margin-bottom:12px;}
+.flashcard-front .face-term{font-size:20px;font-weight:700;line-height:1.35;}
+.flashcard-back{background:#eef4fc;border:2px solid #c8d8ee;transform:rotateY(180deg);}
+.flashcard-back .face-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#4a6080;margin-bottom:12px;}
+.flashcard-back .face-def{font-size:14px;line-height:1.65;color:#1a2744;}
+.flashcard-hint{text-align:center;margin-top:10px;font-size:12px;color:#7a90b5;}
+.flashcard-nav{display:flex;gap:10px;justify-content:center;margin-top:18px;}
+.flashcard-nav button{padding:9px 22px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;border:2px solid #1a2744;border-radius:8px;background:#fff;color:#1a2744;cursor:pointer;transition:all .15s;}
+.flashcard-nav button:hover{background:#1a2744;color:#fff;}
+.flashcard-nav button.self-rate-good{border-color:#28a745;color:#1e7b34;}
+.flashcard-nav button.self-rate-good:hover{background:#28a745;color:#fff;}
+.flashcard-nav button.self-rate-review{border-color:#dc3545;color:#a72638;}
+.flashcard-nav button.self-rate-review:hover{background:#dc3545;color:#fff;}
+
+.match-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+@media(max-width:580px){.match-grid{grid-template-columns:1fr;}}
+.match-col-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#7a90b5;margin-bottom:8px;}
+.match-terms,.match-defs{display:flex;flex-direction:column;gap:8px;}
+.match-term{padding:11px 13px;background:#1a2744;color:#fff;border-radius:7px;font-size:13px;font-weight:600;cursor:grab;user-select:none;transition:opacity .2s;}
+.match-term.dragging{opacity:.35;}
+.match-def{padding:11px 13px;background:#f4f6fb;border:2px dashed #b0c4de;border-radius:7px;font-size:12px;min-height:60px;position:relative;transition:border-color .15s,background .15s;}
+.match-def.drag-over{border-color:#2E75B6;background:#e3f2fd;border-style:solid;}
+.match-def.correct{border-color:#28a745;background:#d4edda;border-style:solid;}
+.match-def.incorrect{border-color:#dc3545;background:#f8d7da;border-style:solid;}
+.match-dropped{display:block;font-weight:700;font-size:12px;color:#1a2744;background:#c8d8ee;border-radius:4px;padding:2px 7px;margin-bottom:4px;}
+.match-check-btn{display:block;margin:18px auto 0;padding:11px 30px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;background:#2E75B6;color:#fff;border:none;border-radius:8px;cursor:pointer;}
+.match-check-btn:hover{background:#1a5a9a;}
+
+.hangman-container{display:flex;flex-direction:column;align-items:center;}
+.hangman-svg{width:180px;height:200px;}
+.hangman-hint{background:#e8f1fa;border-left:4px solid #2E75B6;padding:11px 15px;border-radius:0 8px 8px 0;font-size:13px;font-style:italic;color:#2a4a70;margin-bottom:18px;max-width:520px;width:100%;}
+.word-display{font-size:1.7rem;letter-spacing:6px;font-family:'Courier New',monospace;font-weight:700;margin:14px 0;word-break:break-all;text-align:center;}
+.keyboard{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;max-width:440px;margin-top:14px;}
+.key{width:35px;height:35px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;font-family:'Outfit',sans-serif;background:#1a2744;color:#fff;border:none;border-radius:5px;cursor:pointer;transition:background .15s;}
+.key:hover:not(:disabled){background:#2E75B6;}
+.key:disabled{opacity:.45;cursor:default;}
+.key.correct-guess{background:#28a745;}
+.key.wrong-guess{background:#dc3545;}
+
+.score-screen{text-align:center;padding:36px 20px;}
+.score-screen .big-score{font-family:'Playfair Display',serif;font-size:60px;font-weight:700;color:#1a2744;line-height:1;margin-bottom:8px;}
+.score-screen .score-label{font-size:17px;color:#4a6080;margin-bottom:22px;}
+.score-screen .score-message{font-size:20px;font-weight:700;margin-bottom:6px;color:#1a2744;}
+.btn-restart{display:inline-block;margin-top:20px;padding:11px 32px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;background:#1a2744;color:#fff;border:none;border-radius:8px;cursor:pointer;}
+.btn-restart:hover{background:#2E75B6;}
+.btn-print{background:#2E75B6;margin-left:10px;}
+.btn-print:hover{background:#1a5a9a;}
+
+/* Common Mistakes mode */
+.mistake-topic-header{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#7a90b5;margin:22px 0 10px;}
+.mistake-topic-header:first-child{margin-top:0;}
+.mistake-item{background:#fff3e0;border-left:4px solid #e65100;padding:12px 15px;border-radius:0 8px 8px 0;font-size:14px;line-height:1.65;margin-bottom:12px;color:#5a3a00;}
+
+/* Session review block */
+.review-block{text-align:left;background:#f8fafd;border:2px solid #d0ddef;border-radius:10px;padding:16px 18px;margin:22px 0;max-height:320px;overflow-y:auto;}
+.review-header{font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#4a6080;margin-bottom:10px;}
+.review-item{font-size:13px;line-height:1.6;padding:8px 0;border-bottom:1px solid #e0e8f4;}
+.review-item:last-child{border-bottom:none;}
+.review-item strong{color:#1a2744;}
+.review-correct{color:#155724;display:block;margin-top:2px;}
+
+@media(max-width:480px){
+  header h1{font-size:20px;}
+  #quizArea{padding:16px;}
+  .word-display{font-size:1.2rem;letter-spacing:3px;}
+  .key{width:28px;height:28px;font-size:11px;}
+  .controls-bar select{min-width:140px;font-size:13px;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">AP Psychology &nbsp;|&nbsp; Unit 0</div>
+  <h1>Scientific Foundations of Psychology</h1>
+  <p class="subtitle">Interactive Revision &nbsp;|&nbsp; 7 Topics &nbsp;|&nbsp; 7 Activity Types</p>
+</header>
+
+<div class="controls-bar no-print">
+  <select id="topicSelect">
+    <option value="all">All Topics</option>
+    <option value="0.1">0.1 - History and Perspectives</option>
+    <option value="0.2">0.2 - Scientific Method and Critical Thinking</option>
+    <option value="0.3">0.3 - Research Methods</option>
+    <option value="0.4">0.4 - Experimental Design</option>
+    <option value="0.5">0.5 - Sampling</option>
+    <option value="0.6">0.6 - Statistics</option>
+    <option value="0.7">0.7 - Ethics</option>
+  </select>
+  <select id="modeSelect">
+    <option value="flash">Flashcards</option>
+    <option value="mcq">Vocabulary MCQ</option>
+    <option value="tf">True / False</option>
+    <option value="match">Match'em Up</option>
+    <option value="hangman">Hangman</option>
+    <option value="practice">Practice Set MCQs</option>
+    <option value="mistakes">Common Mistakes</option>
+  </select>
+  <button class="btn-start" id="startBtn">Start</button>
+</div>
+
+<div class="main">
+  <div id="quizArea">
+    <div class="placeholder-text">
+      Select a topic and activity type, then click <strong>Start</strong>.<br><br>
+      <strong>Flashcards</strong> &nbsp;|&nbsp; <strong>Vocabulary MCQ</strong> &nbsp;|&nbsp; <strong>True/False</strong> &nbsp;|&nbsp; <strong>Match'em Up</strong> &nbsp;|&nbsp; <strong>Hangman</strong> &nbsp;|&nbsp; <strong>Practice Set MCQs</strong> &nbsp;|&nbsp; <strong>Common Mistakes</strong>
+    </div>
+  </div>
+</div>
+
+<script>
+// ==============================================================
+// TERMS DATABASE
+// ==============================================================
+const termsDB = {
+  "0.1": [
+    {term:"Psychology",def:"The scientific study of behaviour and mental processes. Note: not just therapy or advice. Psychology is an empirical science."},
+    {term:"Empiricism",def:"The philosophical principle that knowledge comes from observation and experience, not from authority or intuition. The foundation of the scientific method in psychology."},
+    {term:"Structuralism",def:"An early school of psychology led by Wilhelm Wundt and Edward Titchener. Goal: break down conscious experience into its basic elements (sensations, feelings, images) using introspection."},
+    {term:"Introspection",def:"The method of self-examination used by structuralists: trained observers report on their immediate conscious experience. Limitation: subjective and difficult to replicate."},
+    {term:"Functionalism",def:"An early school led by William James, influenced by Darwin. Goal: understand how mental processes and behaviours help people adapt and survive. Legacy: applied psychology, educational psychology."},
+    {term:"Psychodynamic Perspective",def:"Traces back to Freud. Proposes that behaviour is driven by unconscious motives, unresolved conflicts, and early childhood experiences. Method: free association and dream analysis."},
+    {term:"Behaviourism",def:"School founded by Watson and Skinner. Focuses exclusively on observable, measurable behaviour. Rejects internal mental states. All behaviour is learned through conditioning."},
+    {term:"Humanistic Perspective",def:"Led by Maslow and Rogers. Emphasises human potential, free will, and self-actualisation. Rejects the determinism of behaviourism and psychoanalysis."},
+    {term:"Cognitive Perspective",def:"Focuses on mental processes: how people perceive, think, remember, and solve problems. Compares the mind to an information-processing system. Key figures: Piaget, Beck, Miller."},
+    {term:"Biological / Neuroscience Perspective",def:"Explains behaviour through brain structure, neural chemistry, genetics, and physiology. Methods include brain imaging, lesion studies, and twin studies."},
+    {term:"Evolutionary Perspective",def:"Applies Darwin's natural selection to explain psychological traits. Asks: how did this behaviour help our ancestors survive and reproduce? Key figure: David Buss."},
+    {term:"Sociocultural Perspective",def:"Explains behaviour through the influence of culture, social context, and social norms. Development and cognition are shaped by the social world. Key figures: Vygotsky, Markus."},
+    {term:"Biopsychosocial Model",def:"An integrative framework proposing that behaviour and mental health are best understood as the product of interacting biological, psychological, and social-cultural factors."},
+    {term:"Self-Actualisation",def:"The humanistic concept of reaching one's full potential. The highest level of Maslow's hierarchy of needs, achieved after lower-order needs are met."},
+    {term:"Natural Selection",def:"Darwin's principle that traits benefiting survival and reproduction are passed on across generations, while less adaptive traits are eliminated from the gene pool over time."}
+  ],
+  "0.2": [
+    {term:"Scientific Method",def:"A cycle of systematic inquiry: (1) observe and question, (2) form a hypothesis, (3) test the hypothesis, (4) analyse results, (5) draw conclusions, (6) replicate and report."},
+    {term:"Theory",def:"An integrated set of principles that organises observations and generates testable predictions. A theory is NOT a guess. It is a well-supported explanatory framework."},
+    {term:"Hypothesis",def:"A specific, testable prediction derived from a theory. States what the researcher expects to find. A good hypothesis is falsifiable."},
+    {term:"Falsifiability",def:"The requirement that a hypothesis can, in principle, be proven wrong by evidence. If no possible evidence could disprove a claim, it is unscientific."},
+    {term:"Operational Definition",def:"A precise, measurable specification of how a variable will be defined and measured in a specific study. Allows for replication and consistency across studies."},
+    {term:"Replication",def:"Repeating a study to test whether its findings can be reproduced across different participants or contexts. Essential for establishing reliability and scientific confidence."},
+    {term:"Peer Review",def:"Evaluation of research by qualified experts before publication. The primary quality-control mechanism in science, filtering out methodologically flawed studies."},
+    {term:"Confirmation Bias",def:"The tendency to seek, interpret, favour, and remember information that confirms pre-existing beliefs or hypotheses. One of the most common threats to objective reasoning."},
+    {term:"Hindsight Bias",def:"The tendency to believe, after learning an outcome, that one would have predicted it in advance. The 'I knew it all along' phenomenon."},
+    {term:"Overconfidence",def:"The tendency to be more confident in the accuracy of one's judgments or knowledge than the available evidence actually justifies."}
+  ],
+  "0.3": [
+    {term:"Experiment",def:"A research method that manipulates at least one independent variable to observe its effect on a dependent variable. The only method that allows causal conclusions."},
+    {term:"Correlational Study",def:"A research method that measures two or more variables to assess the statistical relationship between them. Cannot establish causation. Identifies direction and strength of relationships."},
+    {term:"Case Study",def:"An in-depth examination of one individual or a small group. Provides rich detail but findings may not generalise. Useful for studying rare phenomena."},
+    {term:"Naturalistic Observation",def:"Observing behaviour in its natural setting without manipulation or intervention. High ecological validity but no control over variables. Cannot explain why behaviour occurs."},
+    {term:"Survey",def:"A self-report research method using questionnaires or interviews to collect data from a large sample. Efficient but susceptible to social desirability bias and wording effects."},
+    {term:"Meta-Analysis",def:"A statistical technique that combines data from multiple studies on the same topic to produce a more reliable overall estimate of an effect. More powerful than a single study."},
+    {term:"Structured Interview",def:"A research method where every participant is asked exactly the same set of questions in the same order. Ensures consistency and allows direct comparison across participants."},
+    {term:"Qualitative Research",def:"Research that collects non-numerical data: descriptions, observations, themes, and narratives. Used when depth of understanding matters more than statistical comparison."},
+    {term:"Quantitative Research",def:"Research that uses numerical data and statistical techniques to reach conclusions. Allows for comparison, generalisation, and statistical testing of hypotheses."},
+    {term:"Directionality Problem",def:"When two variables are correlated, it is unclear which variable is the cause and which is the effect. This limits causal conclusions from correlational research."},
+    {term:"Third Variable Problem",def:"A correlation between two variables (A and B) may be caused by a separate, unmeasured variable (C) influencing both. This is why correlation does not equal causation."},
+    {term:"Illusory Correlation",def:"Perceiving a relationship between variables when no real statistical relationship exists. Often driven by confirmation bias or memorable coincidences."}
+  ],
+  "0.4": [
+    {term:"Independent Variable (IV)",def:"The variable deliberately manipulated by the researcher. The presumed cause in an experiment. It is what is changed between groups."},
+    {term:"Dependent Variable (DV)",def:"The variable measured by the researcher to detect the effect of the IV. The presumed effect or outcome in an experiment."},
+    {term:"Confounding Variable",def:"An uncontrolled variable that could influence the DV and threaten the validity of the experiment by providing an alternative explanation for results."},
+    {term:"Random Assignment",def:"Assigning participants to experimental conditions entirely by chance. Distributes individual differences across groups and is what allows causal conclusions in an experiment."},
+    {term:"Experimental Group",def:"The group that receives the treatment or active version of the IV. Their results are compared to the control group."},
+    {term:"Control Group",def:"The group that does not receive the treatment. Provides the baseline against which the experimental group's results are compared."},
+    {term:"Placebo",def:"An inert, inactive treatment that appears identical to the real treatment. Used to control for the effect of participants' expectations on outcomes."},
+    {term:"Placebo Effect",def:"Improvement in outcome resulting from the expectation of improvement rather than from the treatment itself. A threat to internal validity in drug and intervention studies."},
+    {term:"Single-Blind Procedure",def:"Participants do not know which condition they are in (treatment or control). Reduces demand characteristics and participant expectation effects."},
+    {term:"Double-Blind Procedure",def:"Neither the participants nor the researchers administering the study know who is in the treatment or control condition. Controls for both participant and experimenter expectation effects."},
+    {term:"Experimenter Bias",def:"The researcher's expectations unconsciously influence how they conduct the study or interpret results. Controlled by using a double-blind procedure."},
+    {term:"Validity",def:"The extent to which a study or measurement actually measures what it claims to measure. Internal validity: did the IV cause the DV? External validity: can findings generalise?"}
+  ],
+  "0.5": [
+    {term:"Population",def:"The entire group of individuals that a researcher aims to draw conclusions about. Rarely studied in full; a representative sample is studied instead."},
+    {term:"Sample",def:"A subset of the population selected for study. The goal is for the sample to accurately represent the population so that findings can be generalised."},
+    {term:"Representative Sample",def:"A sample whose characteristics proportionally reflect those of the target population. Required for valid generalisation of findings."},
+    {term:"Random Sampling",def:"Every member of the population has an equal chance of being selected. The gold standard for obtaining a representative sample; enables generalisation."},
+    {term:"Convenience Sampling",def:"Selecting participants based on easy access rather than random selection. Efficient but risks producing a non-representative sample and limiting generalisability."},
+    {term:"Sampling Bias",def:"A systematic error in which the sample does not proportionally represent the target population, distorting findings and limiting generalisability."},
+    {term:"Volunteer Bias",def:"The systematic difference between people who choose to participate in research and those who do not. Volunteers may be more motivated, curious, or prosocial than the general population."},
+    {term:"Generalisability",def:"The extent to which findings from a specific sample can be applied to the broader population. Depends on sample size, diversity, and how participants were selected."},
+    {term:"Representation of Participants",def:"The degree to which a sample reflects the diversity of the target population across relevant characteristics such as age, background, and experience."}
+  ],
+  "0.6": [
+    {term:"Mean",def:"The arithmetic average of a set of scores. Calculated by summing all values and dividing by the number of scores. Sensitive to extreme outliers."},
+    {term:"Median",def:"The middle value in an ordered set of scores. Not sensitive to extreme outliers. Preferred measure of central tendency for skewed distributions."},
+    {term:"Mode",def:"The most frequently occurring value in a dataset. A distribution can have more than one mode (bimodal) or no mode."},
+    {term:"Range",def:"The difference between the highest and lowest scores in a dataset. A basic, crude measure of data spread that is sensitive to extreme outliers."},
+    {term:"Standard Deviation (SD)",def:"The average distance of scores from the mean. The most informative measure of data spread. A small SD = scores clustered tightly; a large SD = scores widely spread."},
+    {term:"Normal Curve",def:"A symmetrical, bell-shaped distribution in which most scores cluster around the mean. The mean, median, and mode are all equal in a perfectly normal distribution."},
+    {term:"Positive Skew",def:"A distribution with a long tail on the right, where most scores cluster on the low end. The mean is pulled higher than the median by the extreme high scores."},
+    {term:"Negative Skew",def:"A distribution with a long tail on the left, where most scores cluster on the high end. The mean is pulled lower than the median by the extreme low scores."},
+    {term:"Bimodal Distribution",def:"A distribution with two distinct peaks, indicating the presence of two separate groups or clusters within the data."},
+    {term:"Regression Toward the Mean",def:"Extreme scores tend to move closer to the average upon re-measurement. A key reason why dramatic improvements (or declines) are often not as large the second time."},
+    {term:"Percentile Rank",def:"The percentage of scores in a distribution that fall at or below a given score. Example: scoring in the 75th percentile means 75% of scores were at or below yours."},
+    {term:"Scatterplot",def:"A graph in which each dot represents one participant's scores on two variables. Used to visualise the direction and strength of a correlation."},
+    {term:"Correlation Coefficient (r)",def:"A statistical measure ranging from -1.0 to +1.0. Indicates both the direction (positive or negative) and strength (closer to 1.0 = stronger) of a relationship between two variables."},
+    {term:"Positive Correlation",def:"A relationship in which both variables increase or decrease together. The correlation coefficient (r) is positive. Example: hours studying and exam scores."},
+    {term:"Negative Correlation",def:"A relationship in which one variable increases as the other decreases. The correlation coefficient (r) is negative. Example: hours of sleep and number of errors."},
+    {term:"Statistical Significance",def:"The finding that an observed result is unlikely to have occurred by chance alone. Conventionally, results are significant when p < 0.05 (less than a 5% probability of chance)."},
+    {term:"p-value",def:"The probability that an observed result occurred by chance alone. A p-value of 0.03 means there is only a 3% chance the result is due to chance. Lower = more significant."},
+    {term:"Effect Size",def:"A measure of the practical magnitude or strength of a relationship or difference. Independent of sample size. A result can be statistically significant but have a small, trivial effect size."}
+  ],
+  "0.7": [
+    {term:"Institutional Review Board (IRB)",def:"A committee of experts that reviews research proposals BEFORE data collection begins. Ensures ethical standards are met: risks are minimised, consent is obtained, and vulnerable populations are protected."},
+    {term:"Informed Consent",def:"Participants must be fully informed about the study's nature, purpose, potential risks, and their right to withdraw at any time before agreeing to participate."},
+    {term:"Informed Assent",def:"Agreement to participate obtained from individuals (such as minors) who cannot give full legal informed consent. Parental or guardian consent is also required alongside assent."},
+    {term:"Confidentiality",def:"Participant data must be kept private. Identifiable information must not be disclosed without explicit permission. Stronger protection is anonymity, where no identifying information is collected at all."},
+    {term:"Anonymity",def:"Participants' identities are not linked to their data in any form. A stronger ethical protection than confidentiality because no identifying information is ever recorded."},
+    {term:"Protection from Harm",def:"The ethical requirement to minimise physical and psychological risks to participants. Any harm that occurs during a study must be identified and addressed by the researcher."},
+    {term:"Deception",def:"Misleading participants about the true purpose or nature of a study. Permitted only when no other method is available, risks are low, and participants are fully debriefed afterward."},
+    {term:"Debriefing",def:"Full explanation of the study's true purpose provided to participants after data collection. Mandatory when deception was used. Allows participants to ask questions and withdraw their data."},
+    {term:"Research Ethics",def:"The moral principles guiding psychologists in research and practice, ensuring participant welfare, scientific integrity, and honest reporting. Overseen by professional bodies such as the APA."}
+  ]
+};
+
+// ==============================================================
+// COMMON MISTAKES DATABASE
+// ==============================================================
+const mistakesDB = {
+  "0.1": [
+    "Students often think the perspectives compete and only one can be right for a given behaviour. Actually most psychologists apply several perspectives together, as in the biopsychosocial model.",
+    "Students often confuse structuralism with functionalism. Actually structuralism asks what the elements of the mind are, while functionalism asks why those processes exist and how they help someone adapt.",
+    "Students often think the psychodynamic perspective is just Freud. Actually it is broader than Freud alone, and it remains one lens among several rather than a settled fact.",
+    "Students often assume an evolutionary explanation means a behaviour is fixed and unchangeable. Actually evolutionary psychology explains predispositions, not fixed rules, and environment still shapes how a trait is expressed.",
+    "Students often think introspection and empiricism are opposites. Actually introspection was an early empirical method. It simply turned out to be too subjective to be reliable."
+  ],
+  "0.2": [
+    "Students often think a theory means an unproven guess. Actually in science a theory is a well-supported explanatory framework built from repeated testing, much stronger than a guess.",
+    "Students often confuse hypothesis with theory. Actually a hypothesis is one specific testable prediction, while a theory is the broader framework that generates many hypotheses.",
+    "Students often think hindsight bias means someone deliberately lied about predicting an outcome. Actually it usually happens without the person realising it, since memory reconstructs itself after learning the result.",
+    "Students often think peer review guarantees a study is true. Actually peer review filters out major flaws before publication, but findings can still fail to replicate later.",
+    "Students often think falsifiability means a claim has already been proven false. Actually it means a claim could in principle be tested and shown false, which is what makes it scientific in the first place."
+  ],
+  "0.3": [
+    "Students often think a strong correlation proves causation. Actually correlation only shows that a relationship exists, not which variable, if either, is causing the other.",
+    "Students often confuse case studies with experiments. Actually a case study describes one person or a small group in depth and cannot establish cause and effect, while only a true experiment can.",
+    "Students often think naturalistic observation can explain why a behaviour happens. Actually it only describes what happens in a natural setting, since nothing is manipulated.",
+    "Students often mix up the third variable problem and the directionality problem. Actually directionality asks which of two measured variables came first, while a third variable problem points to a separate, unmeasured cause behind both.",
+    "Students often think illusory correlations only happen to careless researchers. Actually anyone is prone to them, since the brain naturally overweights memorable or surprising coincidences."
+  ],
+  "0.4": [
+    "Students often mix up the independent and dependent variable. Actually the independent variable is what the researcher manipulates, and the dependent variable is what gets measured as a result.",
+    "Students often think random assignment and random sampling are the same thing. Actually random sampling is about how participants are selected from a population, while random assignment is about how those participants are placed into groups.",
+    "Students often think a placebo is the same as doing nothing. Actually a placebo is an inactive treatment that looks identical to the real one, designed specifically to control for the power of expectation.",
+    "Students often confuse single-blind and double-blind procedures. Actually single-blind hides group assignment from participants only, while double-blind hides it from participants and the researchers collecting data.",
+    "Students often think a confounding variable is the same as the independent variable. Actually a confound is an uncontrolled factor that could explain the results instead of the IV, which is exactly what good design tries to rule out."
+  ],
+  "0.5": [
+    "Students often think a large sample automatically means a representative sample. Actually a large but poorly selected sample, such as one gathered by convenience, can still be badly biased.",
+    "Students often confuse sampling bias with volunteer bias. Actually volunteer bias is one specific cause of sampling bias, where the people who choose to participate differ systematically from those who do not.",
+    "Students often think random sampling and convenience sampling both allow strong generalisation. Actually only random sampling gives every member of the population an equal chance of selection, which is what generalisation depends on.",
+    "Students often think a sample cannot be biased if it comes from a real population list. Actually if the list itself excludes certain groups, or response rates differ by group, bias can still creep in."
+  ],
+  "0.6": [
+    "Students often think a low p-value means the effect is large or important. Actually the p-value only reflects how unlikely a result is due to chance, while effect size is what tells you how large or meaningful it actually is.",
+    "Students often think the mean is always the best measure of central tendency. Actually the median resists outliers and skewed distributions better, so it is often the stronger summary in those cases.",
+    "Students often confuse positive skew with a distribution that has mostly high scores. Actually positive skew means the tail points toward higher values while most scores actually cluster low.",
+    "Students often think a correlation of -0.85 is weaker than +0.85 because it is negative. Actually strength depends on how close the number is to 1 or -1, so -0.85 and +0.85 are equally strong, just opposite in direction.",
+    "Students often think regression toward the mean signals a flaw in the research design. Actually it is a natural statistical pattern where extreme scores tend to become less extreme on retesting, regardless of any intervention."
+  ],
+  "0.7": [
+    "Students often think debriefing and informed consent happen at the same point in a study. Actually informed consent happens before participation begins, while debriefing happens afterward, especially when deception was used.",
+    "Students often think anonymity and confidentiality mean the same thing. Actually confidentiality means identifying information is collected but kept private, while anonymity means no identifying information is ever collected at all.",
+    "Students often think deception is never allowed in psychological research. Actually it can be permitted under strict conditions, including minimal risk and mandatory debriefing afterward.",
+    "Students often think the IRB reviews a study after it is finished. Actually the IRB reviews and approves the proposal before any data collection begins.",
+    "Students often think a minor's own assent is enough on its own. Actually research with minors requires both their assent and separate informed consent from a parent or guardian."
+  ]
+};
+
+// ==============================================================
+// PRACTICE SET DATABASE  -- 39 questions across 7 sections
+// ==============================================================
+const practiceDB = {
+  "0.1": [
+    {q:"A psychologist investigates how activity in the prefrontal cortex and dopamine levels are associated with impulsive decision-making in adolescents. This researcher is working within which psychological perspective?",opts:["Humanistic - focuses on free will and the drive toward self-actualisation","Sociocultural - examines how cultural norms and group membership shape decision-making","Biological / Neuroscience - explains behaviour through brain structure, neural chemistry, and genetics","Cognitive - focuses on mental processes such as thinking, memory, and problem-solving"],answer:2,skill:"Skill 1"},
+    {q:"A therapist tells her client: 'Your difficulty maintaining relationships in adulthood may be rooted in unresolved conflicts from early childhood attachment experiences.' Which psychological perspective is most consistent with this statement?",opts:["Behavioural - focuses on observable, learned patterns of behaviour reinforced over time","Humanistic - emphasises self-actualisation and the individual's inherent drive toward growth","Cognitive - focuses on information processing, rational thought patterns, and memory schemas","Psychodynamic - emphasises unconscious motives and the lasting influence of early experience"],answer:3,skill:"Skill 1"},
+    {q:"Wilhelm Wundt's laboratory used introspection as its primary research method. Which of the following represents the most significant limitation of introspection as a scientific tool?",opts:["It cannot study mental processes because consciousness is entirely inaccessible to outside observers","It is subjective and relies on self-report, making results difficult to verify or reliably replicate","It only measures overt behaviour and therefore cannot access the conscious experience Wundt sought to study","It requires participants to have prior training in neuroscience before they can accurately self-report"],answer:1,skill:"Skill 2"},
+    {q:"A researcher argues that humans across cultures tend to prefer certain facial features because those features historically signalled health and reproductive fitness. Which psychological perspective does this argument most directly reflect?",opts:["Sociocultural - cultural norms determine standards of attractiveness differently across societies","Behavioural - attraction to certain features is learned through repeated reinforcement and exposure","Evolutionary - behaviour and preferences are explained by natural selection and adaptive advantage","Cognitive - attraction is based on mental schemas developed through repeated perceptual experience"],answer:2,skill:"Skill 1"},
+    {q:"A clinical psychologist argues that a patient's anxiety disorder must be understood simultaneously as the product of an overactive amygdala, maladaptive thought patterns, and chronic stress from family conflict. Which framework best describes this position?",opts:["Structuralism - decomposing the experience of anxiety into its most basic sensory and perceptual elements","Biopsychosocial Model - integrating biological, psychological, and social-cultural factors in a unified framework","Behaviourism - focusing exclusively on observable anxiety symptoms and the conditions that reinforce them","Functionalism - examining how anxiety functions to help the individual adapt to environmental demands"],answer:1,skill:"Skill 1"}
+  ],
+  "0.2": [
+    {q:"A science journalist writes: 'Scientists have a theory that chronic stress damages the immune system - but it's just a theory, so we shouldn't place too much weight on it.' Which of the following best explains why this characterisation of a scientific theory is incorrect?",opts:["A scientific theory is identical to a hypothesis; both refer to untested predictions awaiting evidence","A scientific theory is a broad, well-supported explanatory framework built on extensive evidence - not an unverified guess","Theories in psychology are considered proven facts once published and accepted in the peer-reviewed literature","The journalist is correct; theories must be upgraded to scientific laws before they are accepted as reliable"],answer:1,skill:"Skill 1"},
+    {q:"A researcher wants to measure 'academic stress' in university students. She decides to operationalise it as 'the number of self-reported hours of sleep lost per week due to academic obligations.' This step in the research process is best described as:",opts:["Forming a hypothesis - a testable prediction about the relationship between academic demands and wellbeing","Establishing an operational definition - specifying precisely how the variable will be measured and recorded","Conducting a literature review to identify what prior studies have concluded about student stress responses","Designing a control condition to eliminate the influence of non-academic stress on results"],answer:1,skill:"Skill 2"},
+    {q:"After a study reports that students who listen to classical music score higher on cognitive tests, a critic argues: 'How do we know this would happen again with a different group of students?' The critic is most directly challenging which scientific principle?",opts:["Falsifiability - whether the hypothesis about music and cognition could in principle be disproven","Operational definition - whether cognitive performance was precisely and consistently defined","Replication - whether the findings can be reproduced across different participants and contexts","Peer review - whether the study was evaluated by qualified experts before being published"],answer:2,skill:"Skill 2"},
+    {q:"After learning that a student she tutored passed a difficult exam, a tutor says: 'I always knew she had what it takes - the signs were there from the very beginning.' This statement best illustrates:",opts:["Overconfidence - the tutor overestimates her ability to accurately predict student outcomes in advance","Confirmation bias - the tutor is selectively recalling only evidence that supports her positive view","Hindsight bias - the tutor is reinterpreting past events as more predictable than they actually were at the time","The placebo effect - the tutor's positive expectations directly influenced the student's exam performance"],answer:2,skill:"Skill 1"},
+    {q:"A researcher concludes that a new therapy reduces depression after testing it on 10 patients and observing that 8 showed improvement. He states: 'I am virtually certain this therapy is effective for all adults with depression.' Which cognitive bias best describes his conclusion?",opts:["Hindsight bias - the researcher is interpreting the outcome as predictable after seeing the results","Confirmation bias - the researcher only tested patients he already believed would respond well","Overconfidence - the researcher is more certain than the sample size and evidence actually justify","Illusory correlation - the researcher is perceiving a pattern between therapy and improvement where none exists"],answer:2,skill:"Skill 2"}
+  ],
+  "0.3": [
+    {q:"A psychologist randomly assigns 80 participants to one of two groups: Group A uses a mindfulness app daily for 8 weeks; Group B receives no intervention. Both groups complete an anxiety measure at the end of the study. Which research method is this, and what does it allow the researcher to conclude?",opts:["Correlational study - the researcher can identify whether app use and anxiety are statistically related","Naturalistic observation - the researcher can observe anxiety in an undisturbed, ecologically valid setting","Experiment - the researcher can draw causal conclusions about the effect of the mindfulness app on anxiety","Meta-analysis - the researcher is combining multiple existing studies on mindfulness and anxiety reduction"],answer:2,skill:"Skill 2"},
+    {q:"A researcher examines data from 400 adults and finds that individuals who report higher levels of daily exercise also report higher life satisfaction scores. No variables were manipulated. Which method is this, and what conclusion is justified?",opts:["Experiment - causation can be concluded because both variables were measured with objective instruments","Correlational study - a relationship can be identified, but causation cannot be established from this design","Case study - generalisations are valid because the sample size of 400 is sufficiently large","Naturalistic observation - behaviour was recorded in its natural context without any form of intervention"],answer:1,skill:"Skill 2"},
+    {q:"A researcher spends two years conducting weekly in-depth interviews with one individual who survived a severe traumatic brain injury, documenting how their personality and memory changed over time. Which research method is this, and what is its primary limitation?",opts:["Naturalistic observation - limited because the researcher intervened by conducting direct interviews","Survey - limited because self-report data from this individual is subject to social desirability bias","Case study - limited because findings from one individual may not generalise to other brain injury survivors","Correlational study - limited because no statistical relationship between specific variables is established"],answer:2,skill:"Skill 2"},
+    {q:"A team of researchers combines data from 52 independent studies that each examined the relationship between social media use and self-esteem in adolescents. They use statistical methods to produce a single overall estimate of the effect across all studies. Which research method is this?",opts:["Naturalistic observation - researchers are pooling observations of adolescents' natural social media behaviour","Survey - researchers are aggregating self-report questionnaire data from each of the 52 studies","Longitudinal study - researchers are tracking the development of the same participants over many years","Meta-analysis - researchers are statistically combining multiple independent studies to estimate an overall effect"],answer:3,skill:"Skill 2"},
+    {q:"A researcher finds a strong positive correlation (r = +0.74) between the number of hours children watch educational television and their vocabulary test scores. A parent concludes: 'We should make our child watch more educational TV because it will definitely improve her vocabulary.' Which of the following best identifies the problem with this conclusion?",opts:["The directionality problem only - it is unclear whether TV watching increases vocabulary or whether children with higher vocabulary are simply more drawn to educational TV","The third variable problem only - a hidden variable such as parental engagement with learning may be causing both higher TV exposure and better vocabulary scores","Both the directionality problem and the third variable problem apply - correlation alone is insufficient to establish a causal relationship between TV watching and vocabulary","Neither applies - a correlation coefficient of +0.74 is strong enough to conclude that educational TV causes vocabulary improvement"],answer:2,skill:"Skill 2"},
+    {q:"A psychologist posts recruitment flyers in a shopping mall for a study on memory and daily routines. Respondents are predominantly retired adults over 60. Which sampling problem does this most clearly illustrate, and what is the primary consequence?",opts:["Sampling bias and volunteer bias - the sample is self-selected and unrepresentative of the broader adult population, limiting the generalisability of findings","Experimenter bias - the researcher's expectations about older adults' memory will unconsciously skew the scoring of results","The third variable problem - age is a confounding variable that independently explains differences in memory performance","Random sampling error - the random nature of mall recruitment will always produce an unrepresentative sample by chance"],answer:0,skill:"Skill 2"}
+  ],
+  "0.4": [
+    {q:"A researcher tests whether caffeine improves short-term memory. Group A receives a caffeine pill; Group B receives a placebo pill. Both groups then complete a standardised memory task. What are the independent variable (IV) and dependent variable (DV) in this study?",opts:["IV: participants' memory task scores; DV: the type of pill administered to each group","IV: the type of pill administered (caffeine or placebo); DV: performance on the memory task","IV: participants' habitual daily caffeine intake prior to the study; DV: the type of pill assigned","IV: the memory task itself; DV: whether participants were assigned to Group A or Group B"],answer:1,skill:"Skill 2"},
+    {q:"In the caffeine study above, participants' normal daily caffeine intake is not controlled. Some Group B participants already consume large amounts of caffeine and may experience mild withdrawal during the study, which could independently affect their memory performance. This uncontrolled factor is best described as:",opts:["A dependent variable - it is part of what the researcher is measuring as the study outcome","A placebo effect - Group B participants believe the placebo will affect their performance","A confounding variable - it could affect memory performance independently of the IV treatment","Experimenter bias - the researcher's expectations about caffeine are influencing participant performance"],answer:2,skill:"Skill 2"},
+    {q:"In a pharmaceutical trial, participants are randomly assigned to a drug or placebo condition by a computer. The nurses administering the pills do not know which condition each participant is in. The researchers scoring outcome data also do not know which participants received the drug. Which procedure does this describe, and what does it control for?",opts:["Single-blind procedure - controls for participant expectation effects and demand characteristics only","Double-blind procedure - controls for both participant expectation effects and experimenter bias simultaneously","Random assignment - controls for pre-existing individual differences between participants across groups","Representative sampling - controls for the generalisability of findings to the broader patient population"],answer:1,skill:"Skill 2"},
+    {q:"Participants in a pain relief study are told they are receiving a powerful new painkiller. After taking the pill, 38% report significant reduction in pain - despite the pill containing no active ingredients whatsoever. This best illustrates:",opts:["Experimenter bias - the researcher's optimism about the drug caused participants to report reduced pain","The placebo effect - improvement in outcome resulting from expectation of treatment, not the treatment itself","Confirmation bias - participants are selectively attending to moments when they feel less pain","A confounding variable - pre-existing differences in pain tolerance are explaining the reported improvement"],answer:1,skill:"Skill 1"},
+    {q:"After data collection, a researcher reports that participants in the intervention group showed significantly better outcomes. A peer reviewer notes that the researcher who scored participants' outcome data knew which participants were in the treatment group and which were in the control group. Which threat to validity does this most directly raise?",opts:["Social desirability bias - participants answered questions in ways they believed would please the researcher","The placebo effect - participants in the control group expected poor outcomes and performed accordingly","Experimenter bias - the researcher's knowledge of group membership may have unconsciously influenced how outcomes were scored","Volunteer bias - participants who agreed to have their outcomes scored differed systematically from those who declined"],answer:2,skill:"Skill 2"},
+    {q:"A researcher designs a study where all participants first complete a four-week control phase, then a four-week experimental treatment phase in the same order. A colleague warns that any improvement in the second phase might simply reflect participants becoming more comfortable with the tasks over time, independent of the treatment. Which concept does the colleague's concern most directly illustrate?",opts:["Random assignment - participants were not distributed by chance across the two phases of the study","A confounding variable - time-related practice and familiarity effects could explain improvement without the IV causing any change","The placebo effect - participants in the treatment phase expected to improve and did so as a result","Experimenter bias - the researcher's design reveals a preference for finding significant treatment effects"],answer:1,skill:"Skill 2"}
+  ],
+  "0.5": [
+    {q:"A researcher surveys 2,000 secondary school students selected randomly from national enrollment databases across all regions of a country to study smartphone use and academic performance. Which sampling method is this, and what is its primary advantage?",opts:["Convenience sampling - enrollment databases are readily accessible and reduce recruitment effort","Volunteer sampling - students are already on a list and can therefore be considered self-selected","Random sampling - every student in the population had an equal chance of being selected, enabling generalisation to the national population","Stratified sampling - students were drawn from all regions in equal numbers regardless of regional population size"],answer:2,skill:"Skill 2"},
+    {q:"A researcher studying academic stress recruits participants by posting a sign-up sheet outside the university psychology department. The final sample consists entirely of psychology undergraduates. Which two sampling problems does this most clearly illustrate?",opts:["Random sampling error and experimenter bias - the random process produced a skewed result through the researcher's flyer placement","Convenience sampling and volunteer bias - participants were chosen for easy access and self-selected by choosing to sign up","Sampling bias and the placebo effect - the non-representative sample will expect an experimental treatment","The third variable problem and directionality problem - unmeasured variables explain who chose to participate"],answer:1,skill:"Skill 2"},
+    {q:"A workplace wellbeing study invites all 600 employees at a company to complete a stress survey via email. Only 120 employees respond. The average reported stress level among respondents is unusually low. Which concept best explains why this finding may not accurately represent stress levels across the whole company?",opts:["The third variable problem - an unmeasured factor is causing both low stress and higher response rates simultaneously","Experimenter bias - the researcher's expectations about employee wellbeing influenced how the survey was designed","Volunteer bias - employees who respond to surveys may be less stressed or more satisfied than those who do not, making the sample unrepresentative","Sampling bias from random sampling - randomly emailing the invitation systematically excluded high-stress employees"],answer:2,skill:"Skill 2"},
+    {q:"A research report states: 'Our sample consisted of 800 students from three private universities in a single city. We found that higher parental income was associated with greater academic motivation.' A reviewer argues the findings cannot be applied to all university students globally. The reviewer is raising a concern about:",opts:["Validity - the study is not measuring academic motivation in a way that truly captures the construct","Reliability - the findings would produce different results if the exact study were repeated with the same participants","Generalisability - the specific characteristics of this sample limit how broadly findings can be applied to other populations","The directionality problem - it is unclear whether income drives motivation or whether motivated students come from wealthier families"],answer:2,skill:"Skill 3"},
+    {q:"A researcher studies 120 students at a single international school and concludes: 'Teenagers globally prioritise academic achievement over social relationships.' Which is the strongest critique of this conclusion?",opts:["The sample of 120 is too small to conduct any meaningful statistical analysis on the relationship between age and priorities","The sample is not representative of teenagers globally - students at one international school represent a specific, non-random, and culturally narrow subset of the world's teenagers","The study should have used random assignment rather than a convenience sample to rule out confounding variables","A meta-analysis combining data from multiple studies would be required before any conclusions about adolescents can be drawn"],answer:1,skill:"Skill 2"}
+  ],
+  "0.6": [
+    {q:"A researcher records weekly study hours for two student groups:\n- Group A (structured study programme): Mean = 14.2 hrs, SD = 1.3\n- Group B (no programme): Mean = 14.2 hrs, SD = 5.1\nBoth groups have the same mean final exam score. Which conclusion is best supported by the standard deviation data?",opts:["Group A and Group B studied for exactly the same number of hours across the semester","Group A's study hours were more consistent and clustered closely around the mean, while Group B showed much greater variability in how much individuals studied each week","The identical standard deviation confirms that both groups were equally consistent in their study behaviour","Group B's larger SD indicates that students in this group were more likely to procrastinate before exams"],answer:1,skill:"Skill 3"},
+    {q:"A researcher measuring test anxiety in 300 students finds a distribution with a long tail on the right. Most students score low to moderate, but a small number score extremely high. What type of distribution is this, and what is the most likely relationship between the mean and median?",opts:["Normal distribution - the mean and median will be approximately equal because scores cluster symmetrically","Negative skew - the mean will be lower than the median because the extreme low scores pull the mean downward","Positive skew - the mean will be higher than the median because the extreme high scores on the right tail pull the mean upward","Bimodal distribution - two separate groups within the sample are producing two distinct peaks in the data"],answer:2,skill:"Skill 3"},
+    {q:"A study reports a correlation coefficient of r = -0.71 between average nightly sleep and the number of errors on a cognitive task. Which of the following correctly interprets this finding?",opts:["Getting more sleep causes fewer cognitive errors; the negative sign confirms the causal direction of the relationship","There is a strong negative correlation: as hours of sleep increase, errors on the task tend to decrease - though causation cannot be concluded from correlation alone","The negative sign indicates that sleep has a detrimental effect on cognitive performance and accuracy","A correlation of -0.71 is too weak to support any meaningful conclusion about the sleep-cognition relationship"],answer:1,skill:"Skill 3"},
+    {q:"A researcher reports: 'The difference in recall scores between the mindfulness group (M = 79.2) and the control group (M = 75.4) was statistically significant at p = 0.02, but the effect size was d = 0.09.' Which of the following best interprets these findings?",opts:["The effect is both statistically significant and practically important; p = 0.02 confirms the mindfulness intervention produces meaningful gains in real-world recall","The very small effect size (d = 0.09) suggests that while the result is statistically significant, the actual difference may have little practical importance","A p-value of 0.02 means there is only a 2% chance that the mindfulness intervention is genuinely effective","Statistical significance and effect size measure the same thing; both values indicate the intervention had a negligible impact on recall"],answer:1,skill:"Skill 3"},
+    {q:"A student receives a score that places her in the 91st percentile on a standardised psychology exam. Which of the following correctly interprets this percentile rank?",opts:["The student answered 91% of exam questions correctly","The student's raw score is 91 points above the national mean for this assessment","91% of test-takers who sat this exam scored at or below this student's score","The student performed 9% below the highest-scoring student in the national sample"],answer:2,skill:"Skill 3"},
+    {q:"After a difficult exam, a teacher notices that the five students who scored below 30% scored considerably higher on a follow-up test, with no additional instruction between tests. The teacher attributes this improvement entirely to her detailed written feedback. Which statistical concept best explains why this improvement may have occurred regardless of the feedback?",opts:["Positive skew - the original test distribution was asymmetrical, making low scores appear artificially deflated","Regression toward the mean - extreme scores tend to move closer to the average upon re-measurement, independent of any intervention","The placebo effect - students who received written feedback expected to improve and performed better as a result","Sampling bias - the five lowest-scoring students were not representative of the class's true ability distribution"],answer:1,skill:"Skill 3"}
+  ],
+  "0.7": [
+    {q:"A researcher studying social exclusion tells participants they are completing a teamwork exercise. During the session, participants are falsely told their group members do not want to work with them. After all data are collected, the researcher fully explains the true purpose of the study and the deception used. Which ethical guideline is illustrated by this final step?",opts:["Informed consent - participants are now being informed of the true nature of the study before further participation","Debriefing - participants receive a full explanation of the study's purpose and the deception used after completion","Protection from harm - the researcher is confirming that no lasting emotional harm occurred during the study","Confidentiality - participant responses are being kept private from the other group members in the exercise"],answer:1,skill:"Skill 2"},
+    {q:"A researcher studying risk-taking behaviour recruits 15-year-old participants and obtains their written agreement to take part. Which additional ethical requirement must the researcher fulfil specifically because the participants are minors?",opts:["Conducting a double-blind procedure so that experimenter bias does not affect how adolescent data is scored","Obtaining informed assent from the adolescents AND informed consent from their parents or legal guardians","Submitting the study for peer review and publication before collecting any data from the adolescent sample","Ensuring all participants are randomly assigned to conditions to control for age-related confounding variables"],answer:1,skill:"Skill 2"},
+    {q:"A researcher publishes a study using data from hospital patients. In the article, she includes participants' full names, diagnosis codes, and hospital ID numbers without their permission. Which ethical principle has she most clearly violated?",opts:["Informed consent - the participants did not agree to take part in the research to begin with","Debriefing - the participants were not informed of the study's findings after the article was published","Confidentiality - identifiable participant information was disclosed publicly without the participants' permission","Protection from harm - the physical safety of participants has been put at risk by the disclosure"],answer:2,skill:"Skill 2"},
+    {q:"Before a research study begins, an independent panel of experts reviews the proposal to assess whether the potential benefits justify the risks, whether consent procedures are adequate, and whether vulnerable populations are appropriately protected. This process is conducted by:",opts:["The peer review board - which evaluates scientific quality and methodology after findings are submitted for publication","The Institutional Review Board (IRB) - which reviews research proposals before data collection begins to ensure ethical standards are met","The experimental group participants - who review and approve the study design before they are randomly assigned","The APA Ethics Committee - which certifies individual researchers as meeting ethical qualifications for their field"],answer:1,skill:"Skill 1"},
+    {q:"A researcher studying trauma in disaster survivors assures participants that their responses are completely anonymous and will never be linked to their identities. Six months after data collection, she shares a spreadsheet containing participant names and their trauma scores with a colleague at another institution, without obtaining participant permission. Which ethical violation has occurred?",opts:["Deception - the researcher misled participants about the study's true purpose at the time of recruitment","Lack of informed consent - participants were not told at the outset that a colleague might access their data","Breach of confidentiality - identifiable participant data was shared without permission, directly contrary to what participants were told","Failure to debrief - participants were not informed after the study ended that their data had been shared externally"],answer:2,skill:"Skill 2"},
+    {q:"A social psychologist wants to study spontaneous helping behaviour in a public setting. He considers two designs:\nDesign 1: Inform bystanders in advance that they are participating in a psychology study on helping.\nDesign 2: Observe bystanders naturally without prior disclosure, then reveal the observation afterward and ask if they consent to their data being used.\nWhich ethical concern is MOST relevant to Design 1 specifically?",opts:["Protection from harm - informing participants in advance may cause distress or anxiety about being observed in public","Demand characteristics - knowing they are being studied may cause participants to alter their natural behaviour, reducing the ecological validity of the findings","Volunteer bias - participants who agree to be observed in advance may be systematically more prosocial than the average person","Experimenter bias - the researcher's visible presence in the setting will skew how often helping behaviour is observed and recorded"],answer:1,skill:"Skill 2"}
+  ]
+};
+
+// ==============================================================
+// HELPERS
+// ==============================================================
+function shuffle(arr){const a=arr.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function getTerms(t){return t==="all"?Object.values(termsDB).flat():(termsDB[t]||[]);}
+function getPractice(t){return t==="all"?Object.values(practiceDB).flat():(practiceDB[t]||[]);}
+function skillClass(s){return s.includes("4")?"skill-4":s.includes("3")?"skill-3":s.includes("2")?"skill-2":"skill-1";}
+function pBar(idx,total,score){
+  const pct=total>0?(idx/total)*100:0;
+  return `<div class="progress-row"><span>Question ${idx+1} of ${total}</span><span>Score: ${score} / ${idx}</span></div><div class="progress-bar-track"><div class="progress-bar-fill" style="width:${pct}%"></div></div>`;
+}
+
+// Logs one attempt for the session review panel and the printable answer key.
+function logAttempt(type,stem,studentAnswer,correctAnswer,correct){
+  S.log.push({type:type,stem:stem,studentAnswer:studentAnswer,correctAnswer:correctAnswer,correct:correct});
+}
+
+// Builds the on-screen "Terms to review" panel plus the Print Summary button, shown on every completion screen.
+function buildReviewBlock(){
+  const missed=S.log.filter(function(r){return !r.correct;});
+  let html="";
+  if(missed.length){
+    html+='<div class="review-block"><div class="review-header">Terms to Review ('+missed.length+')</div>';
+    html+=missed.map(function(r){return '<div class="review-item"><strong>'+r.stem+'</strong><span class="review-correct">Correct answer: '+r.correctAnswer+'</span></div>';}).join("");
+    html+='</div>';
+  }
+  html+='<button class="btn-restart btn-print no-print" onclick="printSummary()">Print Summary</button>';
+  return html;
+}
+
+// Builds the printable, teacher-checkable answer key and opens it in its own tab/window,
+// so printing does not depend on window.print() working inside whatever frame this page
+// happens to be embedded in.
+function printSummary(){
+  const total=S.log.length;
+  const correctCount=S.log.filter(function(r){return r.correct;}).length;
+  const scoreText=total?(correctCount+" / "+total+" ("+Math.round((correctCount/total)*100)+"%)"):"No graded items this session";
+  let rows=S.log.map(function(r,i){
+    return '<tr><td style="border:1px solid #999;padding:6px;">'+(i+1)+'</td>'+
+      '<td style="border:1px solid #999;padding:6px;">'+String(r.stem).replace(/\n/g," ")+'</td>'+
+      '<td style="border:1px solid #999;padding:6px;">'+r.studentAnswer+'</td>'+
+      '<td style="border:1px solid #999;padding:6px;">'+r.correctAnswer+'</td>'+
+      '<td style="border:1px solid #999;padding:6px;">'+(r.correct?"Correct":"Review")+'</td></tr>';
+  }).join("");
+  if(!rows){rows='<tr><td colspan="5" style="border:1px solid #999;padding:6px;">No graded items in this session.</td></tr>';}
+
+  let mistakesHTML="";
+  if(S.topic!=="all"&&mistakesDB[S.topic]){
+    mistakesHTML='<h2 style="font-size:15px;margin-top:18px;border-bottom:1px solid #999;">Common Mistakes for This Topic</h2><ul style="font-size:12px;line-height:1.6;">'+
+      mistakesDB[S.topic].map(function(m){return '<li style="margin-bottom:6px;">'+m+'</li>';}).join("")+'</ul>';
+  }
+
+  const reportBody=
+    '<h1 style="font-size:20px;border-bottom:2px solid #000;padding-bottom:8px;">AP Psychology Unit 0: Scientific Foundations of Psychology</h1>'+
+    '<p style="font-size:13px;">Revision Session Summary</p>'+
+    '<table style="width:100%;font-size:13px;margin:14px 0;"><tr><td>Name: ___________________________</td><td>Date: ___________________</td></tr></table>'+
+    '<p style="font-size:13px;">Topic: '+(S.topicLabel||"All Topics")+' &nbsp;|&nbsp; Activity: '+(S.modeLabel||"")+' &nbsp;|&nbsp; Score: '+scoreText+'</p>'+
+    '<h2 style="font-size:15px;margin-top:18px;border-bottom:1px solid #999;">Answer Key and Review</h2>'+
+    '<table style="width:100%;border-collapse:collapse;font-size:12px;margin-top:8px;">'+
+    '<tr style="background:#eee;"><th style="border:1px solid #999;padding:6px;text-align:left;">#</th><th style="border:1px solid #999;padding:6px;text-align:left;">Question / Term</th><th style="border:1px solid #999;padding:6px;text-align:left;">Your Answer</th><th style="border:1px solid #999;padding:6px;text-align:left;">Correct Answer</th><th style="border:1px solid #999;padding:6px;text-align:left;">Result</th></tr>'+
+    rows+'</table>'+mistakesHTML+
+    '<p class="no-print" style="margin-top:22px;font-size:12px;color:#666;">If the print dialog did not open automatically, use your browser\'s print command (Ctrl+P or Cmd+P) on this tab.</p>';
+
+  const fullDoc='<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Unit 0 Revision Summary</title>'+
+    '<style>body{font-family:Arial,Helvetica,sans-serif;color:#000;padding:20px;max-width:800px;margin:0 auto;}'+
+    '@media print{.no-print{display:none;}}</style></head><body>'+reportBody+'</body></html>';
+
+  const win=window.open("","_blank");
+  if(!win){
+    alert("Your browser blocked the new tab needed to print. Please allow pop-ups for this page and click Print Summary again.");
+    return;
+  }
+  win.document.open();
+  win.document.write(fullDoc);
+  win.document.close();
+  win.focus();
+  setTimeout(function(){
+    try{win.print();}catch(e){/* user can still print manually from the new tab */}
+  },250);
+}
+
+// ==============================================================
+// STATE
+// ==============================================================
+const S={mode:null,topic:"all",topicLabel:"All Topics",modeLabel:"",terms:[],practice:[],idx:0,score:0,
+  hWord:"",hGuessed:[],hMistakes:0,hAttempted:new Set(),hActive:false,hCurrentTerm:null,
+  _matchSet:[],log:[]};
+
+// ==============================================================
+// START
+// ==============================================================
+document.getElementById("startBtn").addEventListener("click",function(){
+  S.topic=document.getElementById("topicSelect").value;
+  S.mode=document.getElementById("modeSelect").value;
+  const topicSel=document.getElementById("topicSelect");
+  const modeSel=document.getElementById("modeSelect");
+  S.topicLabel=topicSel.options[topicSel.selectedIndex].text;
+  S.modeLabel=modeSel.options[modeSel.selectedIndex].text;
+  S.idx=0; S.score=0; S.hActive=false; S.hAttempted=new Set(); S.log=[];
+
+  if(S.mode==="mistakes"){
+    renderMistakes();
+    return;
+  }
+
+  if(S.mode==="practice"){
+    S.practice=shuffle(getPractice(S.topic));
+    if(!S.practice.length){setQA('<div class="placeholder-text">No practice questions for this topic yet.</div>');return;}
+    renderPractice();
+  } else {
+    S.terms=shuffle(getTerms(S.topic));
+    if(!S.terms.length){setQA('<div class="placeholder-text">No terms found for this selection.</div>');return;}
+    if(S.mode==="flash")renderFlash();
+    else if(S.mode==="mcq")renderMCQ();
+    else if(S.mode==="tf")renderTF();
+    else if(S.mode==="match")renderMatch();
+    else if(S.mode==="hangman"){S.hActive=true;renderHangman();}
+  }
+});
+
+function setQA(html){document.getElementById("quizArea").innerHTML=html;}
+
+// ==============================================================
+// COMMON MISTAKES
+// ==============================================================
+function renderMistakes(){
+  let html='<p style="text-align:center;color:#4a6080;font-size:13px;margin-bottom:18px;">Common mix-ups students make on this material. Review these before you test yourself.</p>';
+  const topicsToShow=(S.topic==="all")?Object.keys(mistakesDB):[S.topic];
+  topicsToShow.forEach(function(tKey){
+    if(!mistakesDB[tKey])return;
+    if(S.topic==="all"){html+='<div class="mistake-topic-header">Topic '+tKey+'</div>';}
+    mistakesDB[tKey].forEach(function(m){html+='<div class="mistake-item">'+m+'</div>';});
+  });
+  setQA(html);
+}
+
+// ==============================================================
+// FLASHCARDS
+// ==============================================================
+function renderFlash(){
+  if(S.idx>=S.terms.length){
+    setQA(`<div class="score-screen"><div class="big-score">${S.terms.length}</div><div class="score-label">cards reviewed</div><div class="score-message">All done!</div>${buildReviewBlock()}<br><button class="btn-restart" onclick="S.idx=0;S.log=[];renderFlash()">Start Over</button></div>`);
+    return;
+  }
+  const t=S.terms[S.idx];
+  const pct=(S.idx/S.terms.length)*100;
+  setQA(`
+    <div class="progress-row"><span>Card ${S.idx+1} of ${S.terms.length}</span><span style="font-size:12px;color:#7a90b5;">Click to flip</span></div>
+    <div class="progress-bar-track"><div class="progress-bar-fill" style="width:${pct}%"></div></div>
+    <div class="flashcard-wrapper" id="fc" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-face flashcard-front"><div class="face-label">Term</div><div class="face-term">${t.term}</div></div>
+        <div class="flashcard-face flashcard-back"><div class="face-label">Definition</div><div class="face-def">${t.def}</div></div>
+      </div>
+    </div>
+    <div class="flashcard-hint">Tap the card to reveal the definition, then rate yourself honestly</div>
+    <div class="flashcard-nav">
+      <button class="self-rate-review" onclick="rateFlash(false)">Review again</button>
+      <button class="self-rate-good" onclick="rateFlash(true)">Got it</button>
+    </div>
+    <div class="flashcard-nav" style="margin-top:8px;">
+      <button onclick="S.idx=Math.max(0,S.idx-1);renderFlash()">Previous</button>
+    </div>
+  `);
+}
+function rateFlash(gotIt){
+  const t=S.terms[S.idx];
+  logAttempt("Flashcards",t.term,gotIt?"Marked: Got it":"Marked: Review again",t.def,gotIt);
+  S.idx++;
+  renderFlash();
+}
+
+// ==============================================================
+// VOCABULARY MCQ
+// ==============================================================
+function renderMCQ(){
+  if(S.idx>=S.terms.length){showVocabScore();return;}
+  const cur=S.terms[S.idx];
+  const opts=shuffle([cur,...shuffle(S.terms.filter(function(t){return t!==cur;})).slice(0,3)]);
+  const letters=["A","B","C","D"];
+  S._mcqOpts=opts; S._mcqCorrect=cur; S._mcqDef=cur.def;
+  let optsHTML=opts.map(function(o,i){return `<button class="option-btn" data-idx="${i}"><span class="letter">${letters[i]}</span><span>${o.term}</span></button>`;}).join("");
+  setQA(`
+    ${pBar(S.idx,S.terms.length,S.score)}
+    <div class="question-text"><span class="stem-label">Definition</span>${cur.def}</div>
+    <p style="font-size:12px;color:#4a6080;margin-bottom:10px;font-weight:600;">Which term matches this definition?</p>
+    <div class="options-list" id="mcqOpts">${optsHTML}</div>
+    <div id="mcqFb"></div>
+  `);
+  document.querySelectorAll("#mcqOpts .option-btn").forEach(function(btn){
+    btn.addEventListener("click",function(){handleMCQ(parseInt(this.dataset.idx));});
+  });
+}
+function handleMCQ(si){
+  if(document.querySelector(".option-btn.correct,.option-btn.incorrect"))return;
+  const opts=S._mcqOpts; const correct=S._mcqCorrect;
+  const ci=opts.indexOf(correct);
+  document.querySelectorAll(".option-btn").forEach(function(b){b.disabled=true;if(parseInt(b.dataset.idx)===ci)b.classList.add("revealed");});
+  const isRight=(si===ci);
+  const btn=document.querySelector(`[data-idx="${si}"]`);
+  if(btn){btn.classList.remove("revealed");btn.classList.add(isRight?"correct":"incorrect");}
+  if(isRight)S.score++;
+  logAttempt("Vocabulary MCQ",S._mcqDef,opts[si].term,correct.term,isRight);
+  S.idx++;
+  document.getElementById("mcqFb").innerHTML=`<div class="feedback-box ${isRight?"correct":"incorrect"}">${isRight?"Correct!":"Not quite. The correct answer is highlighted above."}</div><button class="btn-next" onclick="renderMCQ()">Next</button>`;
+}
+
+// ==============================================================
+// TRUE / FALSE
+// ==============================================================
+function renderTF(){
+  if(S.idx>=S.terms.length){showVocabScore();return;}
+  const cur=S.terms[S.idx];
+  const isTrue=Math.random()>0.5;
+  let disp=cur.def;
+  if(!isTrue&&S.terms.length>1){
+    let w=S.terms[Math.floor(Math.random()*S.terms.length)];
+    while(w.term===cur.term)w=S.terms[Math.floor(Math.random()*S.terms.length)];
+    disp=w.def;
+  }
+  S._tfIsTrue=isTrue; S._tfTerm=cur.term; S._tfDisp=disp;
+  setQA(`
+    ${pBar(S.idx,S.terms.length,S.score)}
+    <div class="question-text">Is this the correct definition of <strong>${cur.term}</strong>?</div>
+    <div style="background:#f4f6fb;padding:13px 15px;border-radius:8px;font-style:italic;border-left:4px solid #b0c4de;margin-bottom:18px;font-size:14px;line-height:1.65;">"${disp}"</div>
+    <div class="options-list" style="flex-direction:row;gap:14px;">
+      <button class="option-btn" id="tfT" style="justify-content:center;"><span class="letter" style="color:#28a745;">T</span>True</button>
+      <button class="option-btn" id="tfF" style="justify-content:center;"><span class="letter" style="color:#dc3545;">F</span>False</button>
+    </div>
+    <div id="tfFb"></div>
+  `);
+  document.getElementById("tfT").addEventListener("click",function(){handleTF(true);});
+  document.getElementById("tfF").addEventListener("click",function(){handleTF(false);});
+}
+function handleTF(userTrue){
+  if(document.querySelector(".option-btn.correct,.option-btn.incorrect"))return;
+  document.querySelectorAll(".option-btn").forEach(function(b){b.disabled=true;});
+  const right=(S._tfIsTrue===userTrue);
+  const btn=userTrue?document.getElementById("tfT"):document.getElementById("tfF");
+  if(btn)btn.classList.add(right?"correct":"incorrect");
+  if(right)S.score++;
+  logAttempt("True/False",'"'+S._tfDisp+'" - definition of '+S._tfTerm+'?',userTrue?"True":"False",S._tfIsTrue?"True":"False",right);
+  S.idx++;
+  document.getElementById("tfFb").innerHTML=`<div class="feedback-box ${right?"correct":"incorrect"}">${right?"Correct!":"Not quite. The answer was: "+(S._tfIsTrue?"True":"False")}</div><button class="btn-next" onclick="renderTF()">Next</button>`;
+}
+
+// ==============================================================
+// MATCH'EM UP
+// ==============================================================
+function renderMatch(){
+  const chunk=S.terms.slice(0,Math.min(6,S.terms.length));
+  S._matchSet=chunk;
+  const shuffledDefs=shuffle(chunk.map(function(t,i){return {termIdx:i,def:t.def};}));
+  const termsHTML=chunk.map(function(t,i){return `<div class="match-term" draggable="true" data-tidx="${i}">${t.term}</div>`;}).join("");
+  const defsHTML=shuffledDefs.map(function(d){return `<div class="match-def" data-correct="${d.termIdx}" data-dropped="-1"><div style="font-size:12px;line-height:1.5;">${d.def}</div></div>`;}).join("");
+  setQA(`
+    <p style="text-align:center;color:#4a6080;font-size:13px;margin-bottom:18px;">Drag each <strong>term</strong> from the left onto its matching <strong>definition</strong> on the right.</p>
+    <div class="match-grid">
+      <div><div class="match-col-label">Terms</div><div class="match-terms" id="matchTerms">${termsHTML}</div></div>
+      <div><div class="match-col-label">Definitions</div><div class="match-defs" id="matchDefs">${defsHTML}</div></div>
+    </div>
+    <button class="match-check-btn" onclick="checkMatch()">Check Answers</button>
+    <div id="matchFb" style="margin-top:14px;"></div>
+  `);
+  document.querySelectorAll(".match-term").forEach(function(el){
+    el.addEventListener("dragstart",function(e){e.dataTransfer.setData("text",this.dataset.tidx);this.classList.add("dragging");});
+    el.addEventListener("dragend",function(){this.classList.remove("dragging");});
+  });
+  document.querySelectorAll(".match-def").forEach(function(el){
+    el.addEventListener("dragover",function(e){e.preventDefault();this.classList.add("drag-over");});
+    el.addEventListener("dragleave",function(){this.classList.remove("drag-over");});
+    el.addEventListener("drop",function(e){
+      e.preventDefault();this.classList.remove("drag-over");
+      const tidx=e.dataTransfer.getData("text");
+      this.dataset.dropped=tidx;
+      let lbl=this.querySelector(".match-dropped");
+      if(!lbl){lbl=document.createElement("div");lbl.className="match-dropped";this.insertBefore(lbl,this.firstChild);}
+      lbl.textContent=S._matchSet[parseInt(tidx)].term;
+    });
+  });
+}
+function checkMatch(){
+  let correct=0;
+  const defEls=document.querySelectorAll(".match-def");
+  defEls.forEach(function(el){
+    const dropped=parseInt(el.dataset.dropped);
+    const right=parseInt(el.dataset.correct);
+    const isRight=(dropped===right);
+    if(isRight){el.classList.add("correct");correct++;}
+    else{el.classList.add("incorrect");}
+    const defText=el.querySelector("div").textContent;
+    const droppedTermText=(dropped>=0&&S._matchSet[dropped])?S._matchSet[dropped].term:"No answer given";
+    const correctTermText=S._matchSet[right].term;
+    logAttempt("Match'em Up",defText,droppedTermText,correctTermText,isRight);
+  });
+  const total=defEls.length;
+  const pct=Math.round((correct/total)*100);
+  document.getElementById("matchFb").innerHTML=`<div class="feedback-box ${correct===total?"correct":correct>total/2?"neutral":"incorrect"}">${correct} / ${total} correct (${pct}%)</div>${buildReviewBlock()}<button class="btn-next" onclick="renderMatch()">Try Another Set</button>`;
+}
+
+// ==============================================================
+// HANGMAN
+// ==============================================================
+function renderHangman(){
+  if(S.idx>=S.terms.length){showVocabScore();return;}
+  const t=S.terms[S.idx];
+  S.hCurrentTerm=t;
+  S.hWord=t.term.toUpperCase();
+  S.hGuessed=S.hWord.split("").map(function(ch){return /[A-Z]/.test(ch)?null:ch;});
+  S.hMistakes=0; S.hAttempted=new Set();
+  drawHangmanBoard(t);
+}
+function drawHangmanBoard(t){
+  const letters="ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+  const keyHTML=letters.map(function(l){return `<button class="key" data-ltr="${l}">${l}</button>`;}).join("");
+  const pct=(S.idx/S.terms.length)*100;
+  setQA(`
+    <div class="progress-row"><span>Word ${S.idx+1} of ${S.terms.length}</span><span>Score: ${S.score}</span></div>
+    <div class="progress-bar-track"><div class="progress-bar-fill" style="width:${pct}%"></div></div>
+    <div class="hangman-container">
+      <div>
+        <svg class="hangman-svg" viewBox="0 0 100 120" stroke="#1a2744" stroke-width="3" fill="none" stroke-linecap="round">
+          <line x1="10" y1="115" x2="90" y2="115"/><line x1="30" y1="115" x2="30" y2="5"/>
+          <line x1="30" y1="5" x2="70" y2="5"/><line x1="70" y1="5" x2="70" y2="20"/>
+          <circle id="hp1" cx="70" cy="32" r="12" style="display:none"/>
+          <line id="hp2" x1="70" y1="44" x2="70" y2="80" style="display:none"/>
+          <line id="hp3" x1="70" y1="52" x2="54" y2="68" style="display:none"/>
+          <line id="hp4" x1="70" y1="52" x2="86" y2="68" style="display:none"/>
+          <line id="hp5" x1="70" y1="80" x2="54" y2="100" style="display:none"/>
+          <line id="hp6" x1="70" y1="80" x2="86" y2="100" style="display:none"/>
+        </svg>
+      </div>
+      <div class="hangman-hint"><strong>Hint:</strong> ${t.def}</div>
+      <div class="word-display" id="hDisp"></div>
+      <div class="keyboard" id="hKeys">${keyHTML}</div>
+      <div id="hFb" style="margin-top:16px;min-height:44px;text-align:center;"></div>
+    </div>
+  `);
+  updateHDisp();
+  document.querySelectorAll(".key").forEach(function(btn){
+    btn.addEventListener("click",function(){doHGuess(this.dataset.ltr);});
+  });
+}
+function updateHDisp(){
+  const el=document.getElementById("hDisp");
+  if(el)el.textContent=S.hGuessed.map(function(ch){return ch===null?"_":ch;}).join(" ");
+}
+function updateHParts(){
+  for(let i=1;i<=6;i++){const el=document.getElementById("hp"+i);if(el)el.style.display=i<=S.hMistakes?"block":"none";}
+}
+function doHGuess(letter){
+  if(!S.hActive||S.hAttempted.has(letter)||S.hMistakes>=6)return;
+  S.hAttempted.add(letter);
+  const btn=document.querySelector('.key[data-ltr="'+letter+'"]');
+  if(S.hWord.includes(letter)){
+    S.hWord.split("").forEach(function(ch,i){if(ch===letter)S.hGuessed[i]=letter;});
+    if(btn){btn.classList.add("correct-guess");btn.disabled=true;}
+  } else {
+    S.hMistakes++;
+    if(btn){btn.classList.add("wrong-guess");btn.disabled=true;}
+    updateHParts();
+  }
+  updateHDisp();
+  checkHEnd();
+}
+function checkHEnd(){
+  const won=!S.hGuessed.includes(null);
+  const lost=S.hMistakes>=6;
+  if(!won&&!lost)return;
+  document.querySelectorAll(".key").forEach(function(k){k.disabled=true;});
+  const fb=document.getElementById("hFb");
+  const t=S.hCurrentTerm;
+  logAttempt("Hangman",t?t.def:"",won?"Solved":"Not solved ("+S.hMistakes+" wrong guesses)",S.hWord,won);
+  if(won){
+    S.score++;
+    if(fb)fb.innerHTML=`<div class="feedback-box correct">Correct! The term is "${S.hWord}".</div><button class="btn-next" onclick="S.idx++;renderHangman()">Next Word</button>`;
+  } else {
+    const d=document.getElementById("hDisp");
+    if(d)d.textContent=S.hWord.split("").join(" ");
+    if(fb)fb.innerHTML=`<div class="feedback-box incorrect">The term was: <strong>${S.hWord}</strong></div><button class="btn-next" onclick="S.idx++;renderHangman()">Next Word</button>`;
+  }
+}
+document.addEventListener("keydown",function(e){
+  if(!S.hActive)return;
+  const k=e.key.toUpperCase();
+  if(/^[A-Z]$/.test(k)){const btn=document.querySelector('.key[data-ltr="'+k+'"]');if(btn&&!btn.disabled)doHGuess(k);}
+});
+
+// ==============================================================
+// PRACTICE SET MCQs
+// ==============================================================
+function renderPractice(){
+  if(S.idx>=S.practice.length){showPracticeScore();return;}
+  const q=S.practice[S.idx];
+  const letters=["A","B","C","D"];
+  const optsHTML=q.opts.map(function(opt,i){return `<button class="option-btn" data-idx="${i}"><span class="letter">${letters[i]}</span><span>${opt}</span></button>`;}).join("");
+  const pct=(S.idx/S.practice.length)*100;
+  const stemHTML=q.q.replace(/\n/g,"<br>");
+  setQA(`
+    <div class="progress-row"><span>Question ${S.idx+1} of ${S.practice.length}</span><span>Score: ${S.score} / ${S.idx}</span></div>
+    <div class="progress-bar-track"><div class="progress-bar-fill" style="width:${pct}%"></div></div>
+    <span class="skill-badge ${skillClass(q.skill)}">${q.skill}</span>
+    <div class="question-text">${stemHTML}</div>
+    <div class="options-list" id="pOpts">${optsHTML}</div>
+    <div id="pFb"></div>
+  `);
+  S._pq=q;
+  document.querySelectorAll("#pOpts .option-btn").forEach(function(btn){
+    btn.addEventListener("click",function(){handlePractice(parseInt(this.dataset.idx));});
+  });
+}
+function handlePractice(si){
+  if(document.querySelector(".option-btn.correct,.option-btn.incorrect"))return;
+  const q=S._pq;
+  document.querySelectorAll(".option-btn").forEach(function(b){b.disabled=true;if(parseInt(b.dataset.idx)===q.answer)b.classList.add("revealed");});
+  const isRight=(si===q.answer);
+  const btn=document.querySelector('#pOpts [data-idx="'+si+'"]');
+  if(btn){btn.classList.remove("revealed");btn.classList.add(isRight?"correct":"incorrect");}
+  if(isRight)S.score++;
+  logAttempt("Practice Set MCQ",q.q.replace(/\n/g," "),q.opts[si],q.opts[q.answer],isRight);
+  S.idx++;
+  document.getElementById("pFb").innerHTML=`<div class="feedback-box ${isRight?"correct":"incorrect"}">${isRight?"Correct!":"Not quite. The correct answer is highlighted above."}</div><button class="btn-next" onclick="renderPractice()">Next</button>`;
+}
+function showPracticeScore(){
+  const pct=Math.round((S.score/S.practice.length)*100);
+  const msg=pct>=80?"Strong work.":pct>=60?"Getting there. Keep reviewing.":"More revision needed - you have got this.";
+  setQA(`<div class="score-screen"><div class="big-score">${pct}%</div><div class="score-label">${S.score} correct out of ${S.practice.length}</div><div class="score-message">${msg}</div>${buildReviewBlock()}<br><button class="btn-restart" onclick="S.idx=0;S.score=0;S.log=[];S.practice=shuffle(getPractice(S.topic));renderPractice()">Try Again</button></div>`);
+}
+
+// ==============================================================
+// VOCAB SCORE
+// ==============================================================
+function showVocabScore(){
+  const pct=Math.round((S.score/S.terms.length)*100);
+  const msg=pct>=80?"Strong work.":pct>=60?"Getting there. Keep reviewing.":"More revision needed - you have got this.";
+  const restart=S.mode==="mcq"?"S.idx=0;S.score=0;S.log=[];S.terms=shuffle(getTerms(S.topic));renderMCQ()":S.mode==="tf"?"S.idx=0;S.score=0;S.log=[];S.terms=shuffle(getTerms(S.topic));renderTF()":"S.idx=0;S.score=0;S.log=[];S.hActive=true;S.terms=shuffle(getTerms(S.topic));renderHangman()";
+  setQA(`<div class="score-screen"><div class="big-score">${pct}%</div><div class="score-label">${S.score} correct out of ${S.terms.length}</div><div class="score-message">${msg}</div>${buildReviewBlock()}<br><button class="btn-restart" onclick="${restart}">Try Again</button></div>`);
+}
+</script>
+</body>
+</html>

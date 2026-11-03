@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 3: Development & Learning – Interactive Revision Quiz</title>
+<style>
+  body {margin:0;padding:0;font-family:Arial,Helvetica,sans-serif;background:#ffffff;color:#000000;line-height:1.5;}
+  .container {max-width:960px;margin:0 auto;padding:20px;}
+  h1 {text-align:center;margin-bottom:30px;font-size:28px;}
+  .controls {display:flex;flex-wrap:wrap;gap:15px;justify-content:center;margin-bottom:30px;}
+  select, button {padding:10px 15px;font-size:16px;border:1px solid #000;border-radius:4px;}
+  button {background:#000;color:#fff;cursor:pointer; font-weight: bold; transition: background 0.2s;}
+  button:hover {background:#333;}
+  #quizArea {min-height:400px;padding:20px;border:1px solid #000;border-radius:8px;background:#fff;position:relative;}
+
+  /* Quiz General Styles */
+  .question {font-size:19px;margin-bottom:20px; font-weight: bold;}
+  .options {display:flex;flex-direction:column;gap:12px;}
+  .option {padding:14px;border:1px solid #000;border-radius:6px;cursor:pointer;background:#fafafa;font-size: 16px; transition: background 0.2s;}
+  .option:hover {background:#f0f0f0;}
+  .feedback {margin-top:20px;padding:15px;border-radius:6px;font-weight:bold;text-align:center;}
+  .correct {background:#d4edda !important;color:#155724;border-color:#c3e6cb !important;}
+  .incorrect {background:#f8d7da !important;color:#721c24;border-color:#f5c6cb !important;}
+  .score {font-size:22px;text-align:center;margin:20px 0; font-weight:bold;}
+  .next-btn {display:block; width:200px; margin: 20px auto 0; text-align:center;}
+
+  /* Flashcards */
+  .card {perspective:1000px;margin:30px auto;max-width:700px;}
+  .card-inner {position:relative;width:100%;height:300px;transform-style:preserve-3d;transition:transform 0.7s;cursor:pointer;}
+  .card-front, .card-back {position:absolute;width:100%;height:100%;backface-visibility:hidden;display:flex;align-items:center;justify-content:center;padding:25px;box-sizing:border-box;border:3px solid #000;border-radius:10px;background:#fff;font-size:22px;text-align:center;}
+  .card-back {transform:rotateY(180deg);background:#f9f9f9;font-size:18px;}
+  .flipped .card-inner {transform:rotateY(180deg);}
+  .flashcard-controls {text-align: center; margin-top: 20px;}
+
+  /* Match'em Up */
+  .match-container {display:grid;grid-template-columns:1fr;gap:25px;}
+  @media (min-width:768px) {.match-container {grid-template-columns:1fr 1fr;}}
+  .terms, .defs {display:flex;flex-direction:column;gap:12px;}
+  .term, .def {padding:15px;border:2px solid #000;border-radius:8px;background:#fff;min-height:70px;display:flex;align-items:center;justify-content:center;text-align:center;font-weight:bold;cursor:grab;}
+  .term {background:#f0f0f0;}
+  .term:active {cursor:grabbing;}
+  .term.dragging {opacity:0.4;}
+  .def {border-style:dashed;position:relative; cursor: default; font-size: 14px; font-weight:normal;}
+  .def.drag-over {background:#e6f7ff; border-style: solid;}
+  .matched-term {position:absolute;top:0;left:0;width:100%;height:100%;background:#d4edda;display:flex;align-items:center;justify-content:center;font-weight:bold; border-radius: 6px; z-index: 10; color:#155724;}
+
+  /* Hangman */
+  .hangman-container {display:flex; flex-direction:column; align-items:center; width:100%;}
+  .hangman-hint {font-size: 16px; font-style: italic; background: #f0f8ff; padding: 15px; border-radius: 8px; border: 1px solid #cce5ff; margin-bottom: 20px; width: 100%; text-align: center; box-sizing: border-box;}
+  canvas#hangmanCanvas {border: 2px solid #000; border-radius: 8px; background: #fafafa; margin-bottom: 20px;}
+  .hangman-word {font-size: 28px; letter-spacing: 5px; margin: 20px 0; font-family: monospace; text-align: center; font-weight: bold; text-transform: uppercase; word-wrap: break-word; max-width: 100%;}
+  .keyboard {display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; max-width: 600px; margin: 0 auto;}
+
+  /* Updated Keyboard Styles */
+  .key {padding: 12px 18px; font-size: 18px; cursor: pointer; border: 2px solid #000; background: #000; color: #fff; border-radius: 6px; font-weight: bold; transition: all 0.1s;}
+  .key:hover:not(:disabled) {background: #444;}
+  .key:disabled {cursor: not-allowed; opacity: 0.6; border-color: #555; background:#222;}
+  .key.correct-guess {background: #28a745 !important; border-color: #1e7e34 !important; color: #fff !important;}
+  .key.incorrect-guess {background: #dc3545 !important; border-color: #bd2130 !important; color: #fff !important;}
+
+  .hidden {display:none !important;}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Unit 3: Development & Learning – Interactive Revision Quiz</h1>
+
+  <div class="controls">
+    <select id="subsection">
+      <option value="all">All Terms</option>
+      <option value="3.1">3.1 - Themes & Methods</option>
+      <option value="3.2">3.2 - Physical Development</option>
+      <option value="3.4">3.4 - Cognitive Development</option>
+      <option value="3.5">3.5 - Communication & Language</option>
+      <option value="3.6">3.6 - Social-Emotional Development</option>
+      <option value="3.7">3.7 - Classical Conditioning</option>
+      <option value="3.8">3.8 - Operant Conditioning</option>
+      <option value="3.9">3.9 - Social/Cognitive Factors</option>
+    </select>
+
+    <select id="quizType">
+      <option value="mcq">Multiple Choice (MCQ)</option>
+      <option value="tf">True/False</option>
+      <option value="match">Match'em Up (drag-and-drop)</option>
+      <option value="flash">Flashcards (click to flip)</option>
+      <option value="hangman">Hangman</option>
+    </select>
+
+    <button id="startQuiz">Start Quiz</button>
+  </div>
+
+  <div id="quizArea">
+    <div style="text-align:center; padding-top: 50px; color: #666; font-size: 18px;">
+      Select a topic and activity type, then click "Start Quiz".
+    </div>
+  </div>
+</div>
+
+<script>
+// ====================== COMPLETE TERMS DATABASE ======================
+const termsDB = {
+  "3.1": [
+    {term:"Developmental psychology",def:"The scientific study of how humans grow, change, and adapt throughout their entire lifespan"},
+    {term:"Stability & Change",def:"Examines whether traits remain consistent throughout life or change significantly over time."},
+    {term:"Nature vs. Nurture",def:"Debate on how much behavior is influenced by genetics vs environment."},
+    {term:"Continuous Development",def:"Development occurs gradually and cumulatively, without sharp breaks."},
+    {term:"Discontinuous Development",def:"Development occurs in distinct, separate stages with qualitative leaps."},
+    {term:"Cross-sectional research",def:"Data collected from different groups of participants at a single point in time."},
+    {term:"Longitudinal research",def:"The same group of participants are studied repeatedly over a long period of time."}
+  ],
+  "3.2": [
+    {term:"Teratogens",def:"Any substance or agent that can cause harm to a developing fetus during pregnancy"},
+    {term:"Genetic Mutation",def:"A permanent change in the DNA sequence of an organism."},
+    {term:"Prenatal development",def:"Process of a baby's growth within the womb, from conception to birth."},
+    {term:"Infancy",def:"Developmental stage from birth to approximately one year old."},
+    {term:"Childhood",def:"Stage from birth until the onset of adolescence (roughly ages 3-11)."},
+    {term:"Physical Development",def:"Bodily changes and growth throughout a lifespan."},
+    {term:"Fine Motor Coordination",def:"Ability to make precise, small movements using hands and fingers."},
+    {term:"Gross Motor Coordination",def:"Ability to perform large, coordinated movements using major muscle groups."},
+    {term:"Infant reflexes",def:"Automatic, involuntary movements present in babies at birth."},
+    {term:"Rooting Reflex",def:"Infant's response to touch on the cheek, turning their head to locate food."},
+    {term:"Visual cliff apparatus",def:"Experimental setup used to test an infant's depth perception."},
+    {term:"Depth perception",def:"Ability to perceive relative distance of objects in three dimensions."},
+    {term:"Critical period",def:"Specific window where organism is highly sensitive to environmental stimuli."},
+    {term:"Imprinting",def:"Rapid learning where a young animal forms a strong attachment to the first moving object seen."},
+    {term:"Adolescence",def:"Transition period between childhood and adulthood."},
+    {term:"Growth Spurt",def:"Rapid increase in height and weight during adolescence."},
+    {term:"Puberty",def:"Period of physical maturation to sexual maturity."},
+    {term:"Primary Sex Characteristics",def:"Physical traits directly involved in reproduction."},
+    {term:"Secondary Sex Characteristics",def:"Physical features distinguishing sexes not involved in reproduction."},
+    {term:"Menarche",def:"The first menstrual period a female experiences."},
+    {term:"Spermarche",def:"The first time a male experiences ejaculation."},
+    {term:"Menopause",def:"Biological cessation of menstruation and fertility in women."}
+  ],
+  "3.4": [
+    {term:"Jean Piaget",def:"Psychologist known for theory of cognitive development in children."},
+    {term:"Schemas",def:"Mental framework that helps individuals organize and interpret information."},
+    {term:"Assimilation",def:"Incorporating new information into existing mental schemas."},
+    {term:"Accommodation",def:"Modifying existing mental schemas to fit new information."},
+    {term:"Sensorimotor Stage",def:"First stage of cognitive development (birth to 2 years), learning through senses."},
+    {term:"Object Permanence",def:"Understanding that an object continues to exist even when hidden."},
+    {term:"Preoperational Stage",def:"Second stage (ages 2-7), using symbols/language but lacking logic."},
+    {term:"Conservation",def:"Understanding quantity remains the same even if appearance changes."},
+    {term:"Reversibility",def:"Ability to understand actions or processes can be reversed."},
+    {term:"Animism",def:"Belief that inanimate objects have living characteristics."},
+    {term:"Egocentrism",def:"Inability to see a situation from another person's perspective."},
+    {term:"Theory of Mind",def:"Ability to understand others have their own unique thoughts and beliefs."},
+    {term:"Concrete Operational Stage",def:"Third stage (ages 7-11), thinking logically about concrete situations."},
+    {term:"Formal Operational Stage",def:"Final stage (age 11+), ability to think abstractly and hypothetically."},
+    {term:"Lev Vygotsky",def:"Emphasized cognitive development is influenced by social interactions/culture."},
+    {term:"Scaffolding",def:"Providing temporary support to a learner within their zone of proximal development."},
+    {term:"Zone of Proximal Development",def:"Range of tasks a learner can do with guidance but not yet alone."},
+    {term:"Crystallized Intelligence",def:"Ability to apply previously learned knowledge and experience."},
+    {term:"Fluid Intelligence",def:"Ability to reason and solve new problems flexibly."},
+    {term:"Dementia",def:"Significant decline in cognitive functions interfering with daily life."}
+  ],
+  "3.5": [
+    {term:"Language",def:"Complex system of communication following grammar rules."},
+    {term:"Phonemes",def:"The smallest distinctive unit of sound in a spoken language."},
+    {term:"Morphemes",def:"The smallest meaningful unit of language."},
+    {term:"Semantics",def:"The study of meaning in language."},
+    {term:"Grammar",def:"System of rules governing structure of a language."},
+    {term:"Syntax",def:"Rules governing how words are arranged to form sentences."},
+    {term:"Nonverbal gestures",def:"Body movements used to convey meaning without speaking."},
+    {term:"Cooing",def:"Early infancy stage producing soft, vowel-like sounds."},
+    {term:"Babbling",def:"Early childhood stage producing repetitive consonant-vowel combinations."},
+    {term:"One-Word Stage",def:"Phase where infants communicate using single words."},
+    {term:"Telegraphic Speech",def:"Stage using short, two-word phrases omitting grammatical elements."},
+    {term:"Overgeneralization",def:"Applying grammatical rules too broadly (e.g., 'goed')."}
+  ],
+  "3.6": [
+    {term:"Ecological Systems Theory",def:"Bronfenbrenner's framework explaining environmental influences on development."},
+    {term:"Microsystem",def:"Most immediate environment (family, peers)."},
+    {term:"Mesosystem",def:"Connections between immediate environments (e.g., family & school)."},
+    {term:"Exosystem",def:"External environments indirectly influencing development."},
+    {term:"Macrosystem",def:"Broader societal influences (culture, laws)."},
+    {term:"Chronosystem",def:"Dimension of time and transitions throughout a person's life."},
+    {term:"Authoritarian Parenting",def:"Strict rules, high expectations, low responsiveness."},
+    {term:"Authoritative Parenting",def:"Demanding but responsive, clear rules with open communication."},
+    {term:"Permissive Parenting",def:"Lenient, few rules, high freedom."},
+    {term:"Secure Attachment",def:"Child feels comfortable exploring, trusts reliable caregiver."},
+    {term:"Insecure Avoidant Attachment",def:"Child shows little distress upon separation, avoids reunion."},
+    {term:"Insecure Anxious Attachment",def:"Persistent fear of abandonment, clingy behavior."},
+    {term:"Insecure Disorganized Attachment",def:"Inconsistent mix of avoidant and anxious behaviors."},
+    {term:"Temperament",def:"Individual's characteristic level of emotional excitability."},
+    {term:"Separation Anxiety",def:"Distress when separated from primary caregiver."},
+    {term:"Harry Harlow’s research",def:"Monkey experiments proving importance of contact comfort over food."},
+    {term:"Parallel play",def:"Children play alongside each other without direct interaction."},
+    {term:"Pretend play",def:"Symbolic play using objects to represent something else."},
+    {term:"Imaginary audience",def:"Adolescent belief that others are constantly watching them."},
+    {term:"Personal fable",def:"Adolescent belief they are unique, special, and invulnerable."},
+    {term:"Social Clock",def:"Culturally established timeline for life events."},
+    {term:"Emerging Adulthood",def:"Exploration period from late teens to mid-twenties."},
+    {term:"Erik Erikson",def:"Creator of Psychosocial development theory (8 stages)."},
+    {term:"Trust & Mistrust",def:"Erikson Stage 1: Infants learn world reliability."},
+    {term:"Autonomy & Shame",def:"Erikson Stage 2: Toddlers learn independence vs doubt."},
+    {term:"Initiative vs. Guilt",def:"Erikson Stage 3: Preschoolers initiate tasks or feel guilty."},
+    {term:"Industry & Inferiority",def:"Erikson Stage 4: Children strive for competence vs feeling inferior."},
+    {term:"Identity & Role Confusion",def:"Erikson Stage 5: Adolescents establish sense of self."},
+    {term:"Intimacy & Isolation",def:"Erikson Stage 6: Young adults form deep relationships."},
+    {term:"Generativity & Stagnation",def:"Erikson Stage 7: Middle adulthood contribution vs feeling stuck."},
+    {term:"Integrity & Despair",def:"Erikson Stage 8: Older adults reflect with satisfaction or regret."}
+  ],
+  "3.7": [
+    {term:"Behavioral psychology",def:"Perspective focusing solely on observable behaviors shaped by environment."},
+    {term:"Classical Conditioning",def:"Learning where neutral stimulus becomes associated with natural stimulus."},
+    {term:"Association",def:"Mental connection formed between concepts or events."},
+    {term:"Unconditioned Stimulus",def:"Stimulus naturally triggering a reflexive response."},
+    {term:"Unconditioned response",def:"Natural, automatic reaction to a stimulus."},
+    {term:"Conditioned Stimulus",def:"Previously neutral stimulus that now triggers a learned response."},
+    {term:"Conditioned Response",def:"Learned behavior triggered by a conditioned stimulus."},
+    {term:"Neutral Stimulus",def:"Stimulus initially producing no specific response."},
+    {term:"Acquisition",def:"Initial stage of learning when a conditioned response is established."},
+    {term:"Extinction",def:"Gradual weakening and disappearance of a learned behavior when reinforcement stops."}
+  ],
+  "3.8": [
+    {term:"Operant Conditioning",def:"Learning based on consequences (rewards and punishments) of behavior."},
+    {term:"B.F. Skinner",def:"Psychologist most closely associated with Operant Conditioning."},
+    {term:"Positive Reinforcement",def:"Adding a desirable stimulus to increase a behavior."},
+    {term:"Negative Reinforcement",def:"Removing an unpleasant stimulus to increase a behavior."},
+    {term:"Punishment",def:"Adding an unpleasant consequence to decrease a behavior."}
+  ],
+  "3.9": [
+    {term:"Observational Learning",def:"Learning by watching and imitating others."},
+    {term:"Albert Bandura",def:"Psychologist known for the Bobo Doll experiment and social learning theory."},
+    {term:"Mirror Neurons",def:"Brain cells that fire both when acting and when observing the same action."}
+  ]
+};
+
+// ====================== APP STATE & LOGIC ======================
+const quizArea = document.getElementById('quizArea');
+let currentTermsList = [];
+let currentQuestionIndex = 0;
+let score = 0;
+
+document.getElementById('startQuiz').addEventListener('click', startQuiz);
+
+function startQuiz() {
+  const subsection = document.getElementById('subsection').value;
+  const quizType = document.getElementById('quizType').value;
+
+  // Get active terms
+  currentTermsList = [];
+  if (subsection === 'all') {
+    for (const key in termsDB) {
+      currentTermsList = currentTermsList.concat(termsDB[key]);
+    }
+  } else {
+    currentTermsList = [...(termsDB[subsection] || [])];
+  }
+
+  // Shuffle terms
+  currentTermsList = currentTermsList.sort(() => Math.random() - 0.5);
+  currentQuestionIndex = 0;
+  score = 0;
+
+  if (currentTermsList.length === 0) {
+    quizArea.innerHTML = "<p>No terms found for this section.</p>";
+    return;
+  }
+
+  // Route to the selected quiz mode
+  quizArea.innerHTML = '';
+  switch (quizType) {
+    case 'mcq': renderMCQ(); break;
+    case 'tf': renderTF(); break;
+    case 'flash': renderFlashcards(); break;
+    case 'match': renderMatch(); break;
+    case 'hangman': renderHangman(); break;
+  }
+}
+
+// ====================== UTILITIES ======================
+function getRandomDistractors(correctItem, list, count) {
+  let distractors = list.filter(item => item.term !== correctItem.term);
+  distractors = distractors.sort(() => Math.random() - 0.5).slice(0, count);
+  return distractors;
+}
+
+// ====================== MULTIPLE CHOICE ======================
+function renderMCQ() {
+  if (currentQuestionIndex >= currentTermsList.length) {
+    showFinalScore();
+    return;
+  }
+
+  const currentItem = currentTermsList[currentQuestionIndex];
+  const distractors = getRandomDistractors(currentItem, currentTermsList, 3);
+  let options = [currentItem, ...distractors].sort(() => Math.random() - 0.5);
+
+  let html = `
+    <div class="score">Question: ${currentQuestionIndex + 1} / ${currentTermsList.length} | Score: ${score}</div>
+    <div class="question">Definition: "${currentItem.def}"</div>
+    <div class="options">
+  `;
+
+  options.forEach((opt, index) => {
+    html += `<div class="option" onclick="checkMCQ('${opt.term.replace(/'/g, "\\'")}', this, '${currentItem.term.replace(/'/g, "\\'")}')">${opt.term}</div>`;
+  });
+
+  html += `</div><div id="feedbackBox" class="feedback hidden"></div>`;
+  quizArea.innerHTML = html;
+}
+
+window.checkMCQ = function(selectedTerm, element, correctTerm) {
+  if (document.querySelector('.option.correct')) return; // already answered
+
+  const feedbackBox = document.getElementById('feedbackBox');
+  const allOptions = document.querySelectorAll('.option');
+
+  allOptions.forEach(opt => {
+    if (opt.innerText === correctTerm) opt.classList.add('correct');
+  });
+
+  if (selectedTerm === correctTerm) {
+    element.classList.add('correct');
+    feedbackBox.innerText = "Correct!";
+    feedbackBox.className = "feedback correct";
+    score++;
+  } else {
+    element.classList.add('incorrect');
+    feedbackBox.innerText = `Incorrect! The correct answer is: ${correctTerm}`;
+    feedbackBox.className = "feedback incorrect";
+  }
+
+  currentQuestionIndex++;
+  setTimeout(renderMCQ, 2000);
+};
+
+// ====================== TRUE / FALSE ======================
+function renderTF() {
+  if (currentQuestionIndex >= currentTermsList.length) {
+    showFinalScore();
+    return;
+  }
+
+  const currentItem = currentTermsList[currentQuestionIndex];
+  // 50% chance to show correct definition, 50% wrong
+  const isTrue = Math.random() > 0.5;
+  let displayDef = currentItem.def;
+
+  if (!isTrue && currentTermsList.length > 1) {
+    let wrongItem = currentTermsList[Math.floor(Math.random() * currentTermsList.length)];
+    while (wrongItem.term === currentItem.term) {
+      wrongItem = currentTermsList[Math.floor(Math.random() * currentTermsList.length)];
+    }
+    displayDef = wrongItem.def;
+  }
+
+  let html = `
+    <div class="score">Question: ${currentQuestionIndex + 1} / ${currentTermsList.length} | Score: ${score}</div>
+    <div class="question">Term: <strong>${currentItem.term}</strong></div>
+    <div class="question" style="font-weight:normal; font-style:italic;">Definition: "${displayDef}"</div>
+    <div class="options" style="flex-direction:row; justify-content:center; gap:20px;">
+      <button class="option" style="width:150px;" onclick="checkTF(${isTrue}, true, this)">True</button>
+      <button class="option" style="width:150px;" onclick="checkTF(${isTrue}, false, this)">False</button>
+    </div>
+    <div id="feedbackBox" class="feedback hidden"></div>
+  `;
+  quizArea.innerHTML = html;
+}
+
+window.checkTF = function(correctAnswerIsTrue, userGuessedTrue, element) {
+  if (document.querySelector('.option.correct')) return;
+
+  const feedbackBox = document.getElementById('feedbackBox');
+
+  if (correctAnswerIsTrue === userGuessedTrue) {
+    element.classList.add('correct');
+    feedbackBox.innerText = "Correct!";
+    feedbackBox.className = "feedback correct";
+    score++;
+  } else {
+    element.classList.add('incorrect');
+    feedbackBox.innerText = "Incorrect!";
+    feedbackBox.className = "feedback incorrect";
+  }
+
+  currentQuestionIndex++;
+  setTimeout(renderTF, 1500);
+};
+
+// ====================== FLASHCARDS ======================
+function renderFlashcards() {
+  if (currentQuestionIndex >= currentTermsList.length) {
+    currentQuestionIndex = 0; // loop back
+  }
+
+  const currentItem = currentTermsList[currentQuestionIndex];
+
+  let html = `
+    <div class="score">Card: ${currentQuestionIndex + 1} / ${currentTermsList.length}</div>
+    <div class="card" onclick="this.classList.toggle('flipped')">
+      <div class="card-inner">
+        <div class="card-front">${currentItem.term}</div>
+        <div class="card-back">${currentItem.def}</div>
+      </div>
+    </div>
+    <div class="flashcard-controls">
+      <button onclick="prevCard()">Previous</button>
+      <span style="margin:0 10px;">(Click card to flip)</span>
+      <button onclick="nextCard()">Next</button>
+    </div>
+  `;
+  quizArea.innerHTML = html;
+}
+
+window.nextCard = function() {
+  currentQuestionIndex++;
+  renderFlashcards();
+}
+window.prevCard = function() {
+  currentQuestionIndex = currentQuestionIndex > 0 ? currentQuestionIndex - 1 : currentTermsList.length - 1;
+  renderFlashcards();
+}
+
+// ====================== MATCH'EM UP ======================
+let matchPairs = [];
+let matchedCount = 0;
+
+function renderMatch() {
+  // Take up to 5 items at a time
+  if (currentQuestionIndex >= currentTermsList.length) {
+    showFinalScore();
+    return;
+  }
+
+  const endIndex = Math.min(currentQuestionIndex + 5, currentTermsList.length);
+  matchPairs = currentTermsList.slice(currentQuestionIndex, endIndex);
+  matchedCount = 0;
+
+  let shuffledTerms = [...matchPairs].sort(() => Math.random() - 0.5);
+  let shuffledDefs = [...matchPairs].sort(() => Math.random() - 0.5);
+
+  let html = `
+    <div class="score">Match Set: ${Math.ceil((currentQuestionIndex + 1) / 5)}</div>
+    <p style="text-align:center;">Drag the terms on the left to their correct definitions on the right.</p>
+    <div class="match-container">
+      <div class="terms" id="draggableTerms">
+        ${shuffledTerms.map(t => `<div class="term" draggable="true" ondragstart="drag(event)" id="term_${t.term.replace(/\s+/g, '')}" data-term="${t.term}">${t.term}</div>`).join('')}
+      </div>
+      <div class="defs">
+        ${shuffledDefs.map(d => `<div class="def" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="dragLeave(event)" data-term="${d.term}">${d.def}</div>`).join('')}
+      </div>
+    </div>
+  `;
+  quizArea.innerHTML = html;
+}
+
+window.allowDrop = function(ev) {
+  ev.preventDefault();
+  if(!ev.target.classList.contains('matched-term') && ev.target.classList.contains('def')) {
+    ev.target.classList.add('drag-over');
+  }
+}
+
+window.dragLeave = function(ev) {
+  ev.target.classList.remove('drag-over');
+}
+
+window.drag = function(ev) {
+  ev.dataTransfer.setData("text", ev.target.id);
+  ev.target.classList.add('dragging');
+  setTimeout(() => ev.target.classList.remove('dragging'), 100); // Visual fix
+}
+
+window.drop = function(ev) {
+  ev.preventDefault();
+  let dropTarget = ev.target;
+
+  // Prevent dropping on already matched items
+  if (dropTarget.classList.contains('matched-term')) return;
+  // Ensure we are dropping on the container, not inner text
+  if (!dropTarget.classList.contains('def')) {
+     dropTarget = dropTarget.closest('.def');
+  }
+
+  if (dropTarget) {
+    dropTarget.classList.remove('drag-over');
+    const draggedElementId = ev.dataTransfer.getData("text");
+    const draggedElement = document.getElementById(draggedElementId);
+
+    if (draggedElement.getAttribute('data-term') === dropTarget.getAttribute('data-term')) {
+      // Correct match
+      draggedElement.style.visibility = 'hidden'; // Hide original
+
+      const matchedOverlay = document.createElement('div');
+      matchedOverlay.className = 'matched-term';
+      matchedOverlay.innerText = draggedElement.getAttribute('data-term');
+      dropTarget.appendChild(matchedOverlay);
+
+      matchedCount++;
+      if (matchedCount === matchPairs.length) {
+        currentQuestionIndex += 5;
+        setTimeout(renderMatch, 1500);
+      }
+    } else {
+      // Wrong Match Effect
+      dropTarget.style.borderColor = 'red';
+      dropTarget.style.background = '#f8d7da';
+      setTimeout(() => {
+        dropTarget.style.borderColor = '#000';
+        dropTarget.style.background = '#fff';
+      }, 500);
+    }
+  }
+}
+
+// ====================== HANGMAN FEATURE ======================
+let hangmanWord = "";
+let guessedLetters = new Set();
+let wrongGuesses = 0;
+const MAX_MISTAKES = 6;
+
+function renderHangman() {
+  if (currentQuestionIndex >= currentTermsList.length) {
+    showFinalScore();
+    return;
+  }
+
+  const currentItem = currentTermsList[currentQuestionIndex];
+  hangmanWord = currentItem.term.toUpperCase();
+  guessedLetters.clear();
+  wrongGuesses = 0;
+
+  // Render initial UI
+  const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('');
+
+  let html = `
+    <div class="score">Hangman Word: ${currentQuestionIndex + 1} / ${currentTermsList.length}</div>
+    <div class="hangman-container">
+      <div class="hangman-hint"><strong>Hint:</strong> ${currentItem.def}</div>
+      <canvas id="hangmanCanvas" width="200" height="250"></canvas>
+      <div class="hangman-word" id="hangmanWordDisplay"></div>
+
+      <div id="hangmanMessage" style="font-size:20px; font-weight:bold; margin-bottom:15px; height:30px;"></div>
+
+      <div class="keyboard" id="hangmanKeyboard">
+        ${alphabet.map(letter => `<button class="key" onclick="handleHangmanGuess('${letter}')" id="key-${letter}">${letter}</button>`).join('')}
+      </div>
+
+      <button id="hangmanNextBtn" class="next-btn hidden" onclick="nextHangman()">Next Word</button>
+    </div>
+  `;
+  quizArea.innerHTML = html;
+
+  updateHangmanWordDisplay();
+  drawHangman();
+}
+
+function updateHangmanWordDisplay() {
+  const displayEl = document.getElementById('hangmanWordDisplay');
+  let displayStr = "";
+
+  for (let char of hangmanWord) {
+    // If it's a letter and not guessed, show underscore
+    if (/[A-Z]/.test(char)) {
+      if (guessedLetters.has(char)) {
+        displayStr += char;
+      } else {
+        displayStr += "_";
+      }
+    } else {
+      // Display spaces and punctuation as is (e.g., in "Stability & Change")
+      displayStr += (char === " " ? "&nbsp;&nbsp;" : char);
+    }
+  }
+
+  displayEl.innerHTML = displayStr;
+  return displayStr;
+}
+
+window.handleHangmanGuess = function(letter) {
+  if (guessedLetters.has(letter) || wrongGuesses >= MAX_MISTAKES) return;
+
+  guessedLetters.add(letter);
+  const btn = document.getElementById(`key-${letter}`);
+  if(!btn) return;
+
+  if (hangmanWord.includes(letter)) {
+    btn.classList.add('correct-guess');
+    btn.disabled = true;
+
+    // Check Win
+    const currentDisplay = updateHangmanWordDisplay();
+    if (!currentDisplay.includes("_")) {
+      endHangmanGame(true);
+    }
+  } else {
+    btn.classList.add('incorrect-guess');
+    btn.disabled = true;
+    wrongGuesses++;
+    drawHangman();
+
+    // Check Loss
+    if (wrongGuesses >= MAX_MISTAKES) {
+      endHangmanGame(false);
+    }
+  }
+}
+
+// Global Keyboard Listener for Hangman
+document.addEventListener('keydown', function(event) {
+  const keyboard = document.getElementById('hangmanKeyboard');
+  // Only process if the hangman keyboard is on screen and the game is active
+  if (!keyboard || keyboard.style.pointerEvents === 'none') return;
+
+  const key = event.key.toUpperCase();
+  // Ensure the pressed key is a single alphabetical character
+  if (/^[A-Z]$/.test(key)) {
+    window.handleHangmanGuess(key);
+  }
+});
+
+function drawHangman() {
+  const canvas = document.getElementById('hangmanCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  ctx.lineWidth = 3;
+  ctx.strokeStyle = '#333';
+
+  // Base setup (always drawn)
+  if (wrongGuesses === 0) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // Gallows
+    ctx.beginPath();
+    ctx.moveTo(20, 230); ctx.lineTo(180, 230); // base
+    ctx.moveTo(50, 230); ctx.lineTo(50, 20);   // pole
+    ctx.moveTo(50, 20); ctx.lineTo(120, 20);   // top
+    ctx.moveTo(120, 20); ctx.lineTo(120, 50);  // rope
+    ctx.stroke();
+  }
+
+  // Head
+  if (wrongGuesses === 1) {
+    ctx.beginPath(); ctx.arc(120, 70, 20, 0, Math.PI * 2); ctx.stroke();
+  }
+  // Body
+  if (wrongGuesses === 2) {
+    ctx.beginPath(); ctx.moveTo(120, 90); ctx.lineTo(120, 150); ctx.stroke();
+  }
+  // Left Arm
+  if (wrongGuesses === 3) {
+    ctx.beginPath(); ctx.moveTo(120, 100); ctx.lineTo(90, 130); ctx.stroke();
+  }
+  // Right Arm
+  if (wrongGuesses === 4) {
+    ctx.beginPath(); ctx.moveTo(120, 100); ctx.lineTo(150, 130); ctx.stroke();
+  }
+  // Left Leg
+  if (wrongGuesses === 5) {
+    ctx.beginPath(); ctx.moveTo(120, 150); ctx.lineTo(90, 190); ctx.stroke();
+  }
+  // Right Leg
+  if (wrongGuesses === 6) {
+    ctx.beginPath(); ctx.moveTo(120, 150); ctx.lineTo(150, 190); ctx.stroke();
+
+    // Draw dead eyes
+    ctx.beginPath();
+    ctx.moveTo(112, 65); ctx.lineTo(118, 71);
+    ctx.moveTo(118, 65); ctx.lineTo(112, 71);
+    ctx.moveTo(122, 65); ctx.lineTo(128, 71);
+    ctx.moveTo(128, 65); ctx.lineTo(122, 71);
+    ctx.stroke();
+  }
+}
+
+function endHangmanGame(isWin) {
+  const msgEl = document.getElementById('hangmanMessage');
+  const keyboard = document.getElementById('hangmanKeyboard');
+  const nextBtn = document.getElementById('hangmanNextBtn');
+
+  keyboard.style.pointerEvents = 'none'; // Disable keyboard
+  keyboard.style.opacity = '0.7';
+
+  if (isWin) {
+    msgEl.innerHTML = "<span style='color:green;'>🎉 You saved them! Correct!</span>";
+    score++;
+  } else {
+    msgEl.innerHTML = `<span style='color:red;'>💀 Game Over! The word was: ${hangmanWord}</span>`;
+    // Reveal word
+    const displayEl = document.getElementById('hangmanWordDisplay');
+    displayEl.innerHTML = hangmanWord.replace(/ /g, "&nbsp;&nbsp;");
+    displayEl.style.color = "red";
+  }
+
+  nextBtn.classList.remove('hidden');
+}
+
+window.nextHangman = function() {
+  currentQuestionIndex++;
+  renderHangman();
+}
+
+// ====================== END OF QUIZ ======================
+function showFinalScore() {
+  quizArea.innerHTML = `
+    <h2 style="text-align:center;">Quiz Complete!</h2>
+    <div class="score">Final Score: ${score} / ${currentTermsList.length}</div>
+    <button class="next-btn" onclick="startQuiz()">Restart Activity</button>
+  `;
+}
+</script>
+</body>
+</html>
