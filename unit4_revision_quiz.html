@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 4: Social Psychology and Personality | AP Psychology Revision</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Outfit',sans-serif;background:#f0f4fb;color:#1a2744;min-height:100vh;}
+
+/* HEADER */
+header{background:#1a2744;color:#fff;padding:26px 20px 22px;text-align:center;}
+header .eyebrow{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#7fa8d4;margin-bottom:8px;}
+header h1{font-family:'Playfair Display',serif;font-size:26px;color:#fff;line-height:1.3;}
+header .subtitle{margin-top:7px;font-size:13px;color:#a8c4e0;}
+
+/* CONTROLS */
+.controls-bar{background:#fff;border-bottom:2px solid #dde6f4;padding:14px 20px;display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:center;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(26,39,68,.09);}
+.controls-bar select{padding:9px 13px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:500;border:2px solid #c8d8ee;border-radius:8px;background:#f4f6fb;color:#1a2744;cursor:pointer;outline:none;min-width:175px;}
+.controls-bar select:focus{border-color:#2E75B6;}
+.btn-start{padding:9px 26px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;background:#1a2744;color:#fff;border:none;border-radius:8px;cursor:pointer;letter-spacing:.4px;transition:background .2s;}
+.btn-start:hover{background:#2E75B6;}
+
+/* MAIN */
+.main{max-width:860px;margin:28px auto;padding:0 14px 60px;}
+#quizArea{background:#fff;border-radius:12px;padding:28px;box-shadow:0 2px 16px rgba(26,39,68,.07);min-height:280px;}
+.placeholder-text{text-align:center;padding:56px 20px;color:#7a90b5;font-size:16px;line-height:1.8;}
+
+/* PROGRESS */
+.progress-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;font-size:13px;font-weight:500;color:#4a6080;}
+.progress-bar-track{height:5px;background:#e0e8f4;border-radius:3px;margin-bottom:22px;overflow:hidden;}
+.progress-bar-fill{height:100%;background:#2E75B6;border-radius:3px;transition:width .4s ease;}
+
+/* QUESTION */
+.question-text{font-size:16px;line-height:1.7;margin-bottom:20px;color:#1a2744;}
+.stem-label{display:block;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#7fa8d4;margin-bottom:8px;}
+
+.skill-badge{display:inline-block;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:3px 10px;border-radius:20px;margin-bottom:13px;}
+.skill-1{background:#e8eef8;color:#3a5a8a;}
+.skill-2{background:#e3f2fd;color:#1565c0;}
+.skill-3{background:#fff3e0;color:#e65100;}
+.skill-4{background:#e8f5e9;color:#2e7d32;}
+
+/* OPTIONS */
+.options-list{display:flex;flex-direction:column;gap:9px;}
+.option-btn{display:flex;align-items:flex-start;gap:11px;padding:13px 15px;border:2px solid #d0ddef;border-radius:8px;background:#f8fafd;cursor:pointer;font-family:'Outfit',sans-serif;font-size:14px;line-height:1.5;color:#1a2744;text-align:left;transition:border-color .15s,background .15s;width:100%;}
+.option-btn:hover:not(:disabled){border-color:#2E75B6;background:#eaf3fc;}
+.option-btn .letter{font-weight:700;min-width:20px;color:#2E75B6;flex-shrink:0;}
+.option-btn.correct{border-color:#28a745;background:#d4edda;color:#155724;}
+.option-btn.incorrect{border-color:#dc3545;background:#f8d7da;color:#721c24;}
+.option-btn.revealed{border-color:#28a745;background:#d4edda;color:#155724;}
+.option-btn:disabled{cursor:default;}
+
+/* FEEDBACK */
+.feedback-box{margin-top:16px;padding:13px 16px;border-radius:8px;font-size:14px;font-weight:600;}
+.feedback-box.correct{background:#d4edda;color:#155724;}
+.feedback-box.incorrect{background:#f8d7da;color:#721c24;}
+.feedback-box.neutral{background:#e8f1fa;color:#1a4a7a;}
+.btn-next{display:inline-block;margin-top:16px;padding:11px 28px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;background:#1a2744;color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s;}
+.btn-next:hover{background:#2E75B6;}
+
+/* FLASHCARD */
+.flashcard-wrapper{perspective:1200px;max-width:660px;margin:16px auto;height:240px;cursor:pointer;}
+.flashcard-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .55s ease;}
+.flashcard-wrapper.flipped .flashcard-inner{transform:rotateY(180deg);}
+.flashcard-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:26px 30px;text-align:center;}
+.flashcard-front{background:#1a2744;color:#fff;}
+.flashcard-front .face-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#7fa8d4;margin-bottom:12px;}
+.flashcard-front .face-term{font-size:22px;font-weight:700;line-height:1.35;}
+.flashcard-back{background:#eef4fc;border:2px solid #c8d8ee;transform:rotateY(180deg);}
+.flashcard-back .face-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#4a6080;margin-bottom:12px;}
+.flashcard-back .face-def{font-size:15px;line-height:1.65;color:#1a2744;}
+.flashcard-hint{text-align:center;margin-top:10px;font-size:12px;color:#7a90b5;}
+.flashcard-nav{display:flex;gap:10px;justify-content:center;margin-top:18px;}
+.flashcard-nav button{padding:9px 22px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;border:2px solid #1a2744;border-radius:8px;background:#fff;color:#1a2744;cursor:pointer;transition:all .15s;}
+.flashcard-nav button:hover{background:#1a2744;color:#fff;}
+.flashcard-nav button.self-rate-good{border-color:#28a745;color:#1e7b34;}
+.flashcard-nav button.self-rate-good:hover{background:#28a745;color:#fff;}
+.flashcard-nav button.self-rate-review{border-color:#dc3545;color:#a72638;}
+.flashcard-nav button.self-rate-review:hover{background:#dc3545;color:#fff;}
+
+/* MATCH */
+.match-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+@media(max-width:580px){.match-grid{grid-template-columns:1fr;}}
+.match-col-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#7a90b5;margin-bottom:8px;}
+.match-terms,.match-defs{display:flex;flex-direction:column;gap:8px;}
+.match-term{padding:11px 13px;background:#1a2744;color:#fff;border-radius:7px;font-size:13px;font-weight:600;cursor:grab;user-select:none;transition:opacity .2s;}
+.match-term.dragging{opacity:.35;}
+.match-def{padding:11px 13px;background:#f4f6fb;border:2px dashed #b0c4de;border-radius:7px;font-size:12px;min-height:56px;position:relative;transition:border-color .15s,background .15s;}
+.match-def.drag-over{border-color:#2E75B6;background:#e3f2fd;border-style:solid;}
+.match-def.correct{border-color:#28a745;background:#d4edda;border-style:solid;}
+.match-def.incorrect{border-color:#dc3545;background:#f8d7da;border-style:solid;}
+.match-dropped{display:block;font-weight:700;font-size:12px;color:#1a2744;background:#c8d8ee;border-radius:4px;padding:2px 7px;margin-bottom:4px;}
+.match-check-btn{display:block;margin:18px auto 0;padding:11px 30px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;background:#2E75B6;color:#fff;border:none;border-radius:8px;cursor:pointer;}
+.match-check-btn:hover{background:#1a5a9a;}
+
+/* HANGMAN */
+.hangman-container{display:flex;flex-direction:column;align-items:center;}
+.hangman-svg{width:180px;height:200px;}
+.hangman-hint{background:#e8f1fa;border-left:4px solid #2E75B6;padding:11px 15px;border-radius:0 8px 8px 0;font-size:13px;font-style:italic;color:#2a4a70;margin-bottom:18px;max-width:480px;width:100%;}
+.word-display{font-size:1.9rem;letter-spacing:7px;font-family:'Courier New',monospace;font-weight:700;margin:14px 0;word-break:break-all;text-align:center;}
+.keyboard{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;max-width:440px;margin-top:14px;}
+.key{width:35px;height:35px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;font-family:'Outfit',sans-serif;background:#1a2744;color:#fff;border:none;border-radius:5px;cursor:pointer;transition:background .15s;}
+.key:hover:not(:disabled){background:#2E75B6;}
+.key:disabled{opacity:.45;cursor:default;}
+.key.correct-guess{background:#28a745;}
+.key.wrong-guess{background:#dc3545;}
+
+/* SCORE SCREEN */
+.score-screen{text-align:center;padding:36px 20px;}
+.score-screen .big-score{font-family:'Playfair Display',serif;font-size:60px;font-weight:700;color:#1a2744;line-height:1;margin-bottom:8px;}
+.score-screen .score-label{font-size:17px;color:#4a6080;margin-bottom:22px;}
+.score-screen .score-message{font-size:20px;font-weight:700;margin-bottom:6px;color:#1a2744;}
+.btn-restart{display:inline-block;margin-top:20px;padding:11px 32px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;background:#1a2744;color:#fff;border:none;border-radius:8px;cursor:pointer;}
+.btn-restart:hover{background:#2E75B6;}
+.btn-print{background:#2E75B6;margin-left:10px;}
+.btn-print:hover{background:#1a5a9a;}
+
+/* Common Mistakes mode */
+.mistake-topic-header{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#7a90b5;margin:22px 0 10px;}
+.mistake-topic-header:first-child{margin-top:0;}
+.mistake-item{background:#fff3e0;border-left:4px solid #e65100;padding:12px 15px;border-radius:0 8px 8px 0;font-size:14px;line-height:1.65;margin-bottom:12px;color:#5a3a00;}
+
+/* Session review block */
+.review-block{text-align:left;background:#f8fafd;border:2px solid #d0ddef;border-radius:10px;padding:16px 18px;margin:22px 0;max-height:320px;overflow-y:auto;}
+.review-header{font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#4a6080;margin-bottom:10px;}
+.review-item{font-size:13px;line-height:1.6;padding:8px 0;border-bottom:1px solid #e0e8f4;}
+.review-item:last-child{border-bottom:none;}
+.review-item strong{color:#1a2744;}
+.review-correct{color:#155724;display:block;margin-top:2px;}
+
+@media(max-width:480px){
+  header h1{font-size:20px;}
+  #quizArea{padding:16px;}
+  .word-display{font-size:1.3rem;letter-spacing:3px;}
+  .key{width:28px;height:28px;font-size:11px;}
+  .controls-bar select{min-width:140px;font-size:13px;}
+}
+</style>
+<style>
+.topbar{background:#1a2744;padding:10px 16px;text-align:left;}
+.back-btn{display:inline-block;font-family:'Outfit',Arial,sans-serif;font-size:13px;font-weight:600;color:#fff;text-decoration:none;padding:7px 14px;border:1.5px solid #7fa8d4;border-radius:20px;background:rgba(255,255,255,.08);}
+.back-btn:hover{background:#2E75B6;border-color:#2E75B6;}
+.topbar.light{background:#fff;border-bottom:1px solid #ccc;}
+.topbar.light .back-btn{color:#1a2744;border-color:#1a2744;background:#f4f6fb;}
+.topbar.light .back-btn:hover{background:#1a2744;color:#fff;}
+</style>
+</head>
+<body>
+<nav class="topbar"><a class="back-btn" href="index.html">&larr; All Units</a></nav>
+
+
+<header>
+  <div class="eyebrow">AP Psychology &nbsp;|&nbsp; Unit 4</div>
+  <h1>Social Psychology and Personality</h1>
+  <p class="subtitle">Interactive Revision &nbsp;|&nbsp; 7 Topics &nbsp;|&nbsp; 7 Activity Types</p>
+</header>
+
+<div class="controls-bar">
+  <select id="topicSelect">
+    <option value="all">All Topics</option>
+    <option value="4.1">4.1 - Attribution and Person Perception</option>
+    <option value="4.2">4.2 - Attitude Formation and Change</option>
+    <option value="4.3">4.3 - Social Influence, Conformity and Group Dynamics</option>
+    <option value="4.4">4.4 - Personality: Psychodynamic and Humanistic</option>
+    <option value="4.5">4.5 - Personality: Social Cognitive and Trait</option>
+    <option value="4.6">4.6 - Motivation</option>
+    <option value="4.7">4.7 - Emotion</option>
+  </select>
+  <select id="modeSelect">
+    <option value="flash">Flashcards</option>
+    <option value="mcq">Vocabulary MCQ</option>
+    <option value="tf">True / False</option>
+    <option value="match">Match'em Up</option>
+    <option value="hangman">Hangman</option>
+    <option value="practice">Practice Set MCQs</option>
+    <option value="mistakes">Common Mistakes</option>
+  </select>
+  <button class="btn-start" id="startBtn">Start</button>
+</div>
+
+<div class="main">
+  <div id="quizArea">
+    <div class="placeholder-text">
+      Select a topic and activity type, then click <strong>Start</strong>.<br><br>
+      <strong>Flashcards</strong> &nbsp;|&nbsp; <strong>Vocabulary MCQ</strong> &nbsp;|&nbsp; <strong>True/False</strong> &nbsp;|&nbsp; <strong>Match'em Up</strong> &nbsp;|&nbsp; <strong>Hangman</strong> &nbsp;|&nbsp; <strong>Practice Set MCQs</strong> &nbsp;|&nbsp; <strong>Common Mistakes</strong>
+    </div>
+  </div>
+</div>
+
+<script>
+// ==============================================================
+// TERMS DATABASE
+// ==============================================================
+const termsDB = {
+  "4.1": [
+    {term:"Attribution Theory",def:"Explains how people interpret and explain the causes of behavior, using either internal (dispositional) or external (situational) factors."},
+    {term:"Dispositional Attribution",def:"Explaining behavior by referring to internal factors such as personality, intelligence, or attitude."},
+    {term:"Situational Attribution",def:"Explaining behavior by referring to external, environmental factors such as weather, circumstances, or other people."},
+    {term:"Fundamental Attribution Error (FAE)",def:"The tendency to overemphasize internal factors when judging others while underestimating situational factors."},
+    {term:"Actor-Observer Bias",def:"Using situational attributions to explain our own actions, but dispositional attributions to explain the same actions in others."},
+    {term:"Self-Serving Bias",def:"Attributing our successes to internal factors and our failures to external factors. Protects self-esteem but can prevent learning from mistakes."},
+    {term:"Explanatory Style",def:"The way a person habitually explains the causes of events in their life. It can be optimistic or pessimistic."},
+    {term:"Optimistic Explanatory Style",def:"Explaining bad events as temporary and external, and good events as internal. Linked to resilience."},
+    {term:"Pessimistic Explanatory Style",def:"Explaining bad events as permanent and internal, and good events as external. Linked to helplessness."},
+    {term:"Internal Locus of Control",def:"The belief that your own actions directly affect outcomes. Linked to initiative, resilience, and self-efficacy."},
+    {term:"External Locus of Control",def:"The belief that outside forces such as luck, fate, or other people control outcomes. May lead to learned helplessness and reduced motivation."},
+    {term:"Person Perception",def:"The process of forming impressions of other people and sometimes of oneself."},
+    {term:"Mere Exposure Effect",def:"Repeated exposure to a stimulus increases liking for it. Used heavily in advertising. Repeated exposure to something strongly disliked can intensify that dislike."},
+    {term:"Self-Fulfilling Prophecy",def:"An expectation that changes behavior in ways that cause the expectation to come true, creating a self-reinforcing cycle."},
+    {term:"Social Comparison",def:"Evaluating ourselves by comparing ourselves to others. Upward comparison is to someone better off; downward comparison is to someone worse off."},
+    {term:"Relative Deprivation",def:"Feeling worse off than your reference group, regardless of your actual circumstances. It is about what you have compared to others around you."}
+  ],
+  "4.2": [
+    {term:"Explicit Attitude",def:"A belief the individual is consciously aware of holding."},
+    {term:"Implicit Attitude",def:"An unconscious belief or evaluation. The individual may not even realize they hold it, yet it can shape behavior automatically."},
+    {term:"Stereotype",def:"A generalized belief about a group of people. It works as a mental heuristic that allows quick categorization but promotes selective attention. The thinking part of the chain."},
+    {term:"Prejudice",def:"A preconceived negative attitude toward a group and its members. It can be explicit or implicit. The feeling part of the chain."},
+    {term:"Discrimination",def:"Unfair treatment of an individual based on group membership. Prejudice turned into action. The behavior part of the chain."},
+    {term:"Just World Phenomenon",def:"The belief that the world is fair and people get what they deserve. Can lead to blaming victims for their misfortune."},
+    {term:"Outgroup Homogeneity Bias",def:"Perceiving members of an outgroup as more similar to each other than they actually are. Promotes stereotypes and erases individual differences."},
+    {term:"Ingroup Bias",def:"Favoring people within your own group while being more critical of outsiders."},
+    {term:"Ethnocentrism",def:"Believing your own culture is superior and judging other cultures by its standards."},
+    {term:"Cultural Relativism",def:"Evaluating another culture by its own standards, with no culture seen as inherently superior. The opposite of ethnocentrism."},
+    {term:"Belief Perseverance",def:"Maintaining a belief despite clear contradictory evidence."},
+    {term:"Confirmation Bias",def:"Seeking out information that confirms existing views while dismissing contradictory evidence."},
+    {term:"Cognitive Dissonance",def:"Mental discomfort caused by holding two conflicting beliefs, attitudes, or behaviors. Because humans seek consistency, it motivates attitude or behavior change to restore harmony."}
+  ],
+  "4.3": [
+    {term:"Social Norms",def:"Unwritten rules and expectations that guide acceptable behavior within a society."},
+    {term:"Conformity",def:"The tendency to align your behaviors, beliefs, or attitudes with group norms, usually without a direct command."},
+    {term:"Obedience",def:"Following the directives of an authority figure."},
+    {term:"Normative Influence",def:"Conforming because of the desire to be liked and accepted by a group."},
+    {term:"Informational Influence",def:"Conforming because you believe others have more accurate information than you."},
+    {term:"Elaboration Likelihood Model",def:"Explains persuasion through two routes: the central route (facts and logic) and the peripheral route (emotion and quick thinking)."},
+    {term:"Central Route Persuasion",def:"Persuasion using facts, logic, and evidence. Involves slow, careful thinking and produces more lasting attitude change."},
+    {term:"Peripheral Route Persuasion",def:"Persuasion using emotion, surface cues, and quick thinking rather than the quality of the argument."},
+    {term:"Halo Effect",def:"A positive first impression colors how we interpret all other information about a person."},
+    {term:"Foot-in-the-Door Technique",def:"A small request first, then a larger one. Prior agreement creates a sense of commitment."},
+    {term:"Door-in-the-Face Technique",def:"A large request first (likely refused), then a smaller one that feels reasonable by comparison."},
+    {term:"Multiculturalism",def:"The coexistence of multiple cultures in one society, generally promoting openness and diversity of thought."},
+    {term:"Group Polarization",def:"Opinions become more extreme in a group, especially when rhetoric escalates with no opposing views."},
+    {term:"Groupthink",def:"The group prioritizes harmony over critical evaluation. Dissent is suppressed, leading to poor decisions."},
+    {term:"Deindividuation",def:"Loss of self-awareness and personal accountability when absorbed into a group."},
+    {term:"Diffusion of Responsibility",def:"Each person feels less responsible to act when others are present."},
+    {term:"Social Loafing",def:"Exerting less effort in a group than when working alone, relying on others to carry the workload."},
+    {term:"Social Facilitation",def:"Performing better in the presence of others or an audience. The opposite of social loafing."},
+    {term:"False Consensus Effect",def:"Overestimating how many other people share your views or behaviors."},
+    {term:"Superordinate Goals",def:"Goals that require cooperation between groups and reduce conflict by encouraging collaboration."},
+    {term:"Social Trap",def:"A situation where short-term individual interests lead to long-term collective harm, such as delayed climate action."},
+    {term:"Altruism",def:"Selfless concern for others without expectation of reward."},
+    {term:"Social Responsibility Norm",def:"The expectation that people will help those who are vulnerable or in need."},
+    {term:"Social Reciprocity Norm",def:"The expectation that positive actions should be returned in kind."},
+    {term:"Bystander Effect",def:"People are less likely to help in an emergency when others are present, caused by diffusion of responsibility."}
+  ],
+  "4.4": [
+    {term:"Psychodynamic Perspective",def:"Rooted in Freud's work. Personality and behavior are shaped by the conscious and unconscious mind, and by internal conflicts that often come from unresolved issues."},
+    {term:"Id",def:"Resides in the unconscious. Seeks immediate gratification of basic drives with no concern for morality or consequences."},
+    {term:"Superego",def:"Represents ideals, morals, and societal expectations. Guides behavior based on right and wrong."},
+    {term:"Ego",def:"Mediates between the id and the superego. Makes rational, reality-based decisions and uses defense mechanisms to manage conflict."},
+    {term:"Denial",def:"Defense mechanism: refusing to accept reality or blocking external events from awareness."},
+    {term:"Displacement",def:"Defense mechanism: redirecting an emotional response from one target to another, safer target."},
+    {term:"Projection",def:"Defense mechanism: attributing your own thoughts or feelings to someone else."},
+    {term:"Rationalization",def:"Defense mechanism: justifying uncomfortable thoughts or behaviors to make them seem acceptable."},
+    {term:"Reaction Formation",def:"Defense mechanism: acting in the opposite way of how you actually feel."},
+    {term:"Regression",def:"Defense mechanism: reverting to behaviors of an earlier developmental stage under stress."},
+    {term:"Sublimation",def:"Defense mechanism: channeling an unacceptable impulse into a socially acceptable action."},
+    {term:"Repression",def:"Defense mechanism: pushing distressing memories or thoughts out of conscious awareness."},
+    {term:"Projective Test",def:"An open-ended personality assessment designed to reveal unconscious material, such as the Rorschach Inkblot Test and the Thematic Apperception Test (TAT)."},
+    {term:"Objective Test",def:"A personality assessment with limited, specific answer choices that measures conscious traits."},
+    {term:"Humanistic Perspective",def:"Emphasizes the inherent goodness of people and the desire to grow toward full potential."},
+    {term:"Unconditional Positive Regard",def:"Accepting and valuing a person with no conditions or requirements. Promotes a healthier self-concept and higher self-esteem."},
+    {term:"Conditional Positive Regard",def:"Acceptance or approval given only when a person meets certain conditions."},
+    {term:"Self-Actualization",def:"The innate drive to realize your full personal potential: creativity, authenticity, and a fulfilled life."},
+    {term:"Self-Transcendence",def:"Going beyond personal goals to serve something larger, such as spiritual belief, social good, or the greater community."},
+    {term:"Q-Sort Technique",def:"A humanistic assessment in which a person sorts descriptive statements from 'most like me' to 'least like me' to compare the real self with the ideal self."},
+    {term:"Congruence",def:"Alignment between the actual self and the ideal self. Linked to lower distress and healthier self-esteem."},
+    {term:"Incongruence",def:"A large gap between the actual self and the ideal self. Associated with anxiety, lower self-esteem, and dissatisfaction."}
+  ],
+  "4.5": [
+    {term:"Social Cognitive Theory",def:"Personality is shaped by the interaction of personal factors, behavior, and environment, with a focus on how a person interprets their situation."},
+    {term:"Reciprocal Determinism",def:"Bandura's idea that personal factors, behavior, and environment all influence each other in a continuous cycle. No single factor operates alone."},
+    {term:"Self-Concept",def:"How you see and describe yourself, including traits, roles, and abilities. Answers the question 'Who am I?'"},
+    {term:"Self-Esteem",def:"How positively you evaluate yourself overall, including your abilities and accomplishments."},
+    {term:"Self-Efficacy",def:"Belief in your ability to perform one specific task. Task-specific confidence, not a general self-view."},
+    {term:"Trait Theory",def:"Focuses on stable, enduring characteristics that lead to predictable behavior. Describes personality rather than explaining how it develops."},
+    {term:"Big Five (OCEAN)",def:"A trait theory with five core dimensions: Openness, Conscientiousness, Extraversion, Agreeableness, and Neuroticism."},
+    {term:"Openness",def:"Imagination, creativity, and curiosity. High scorers enjoy new experiences; low scorers prefer routine and familiarity."},
+    {term:"Conscientiousness",def:"Organization, dependability, and discipline. High scorers are reliable and efficient; low scorers are spontaneous and less detail-oriented."},
+    {term:"Extraversion",def:"Sociability, enthusiasm, and assertiveness. High scorers are outgoing and energetic; low scorers are reserved and comfortable alone."},
+    {term:"Agreeableness",def:"Trustworthiness, altruism, and kindness. High scorers are cooperative and empathetic; low scorers are competitive and self-interested."},
+    {term:"Neuroticism",def:"Tendency toward emotional instability. High neuroticism means anxious and moody; low neuroticism means calm and resilient. This scale is reversed, so high neuroticism equals low emotional stability."},
+    {term:"Personality Inventory",def:"A Likert-scale questionnaire measuring where a person falls on each personality dimension, such as the Big Five."},
+    {term:"Factor Analysis",def:"A statistical method that identifies clusters of related items in a personality test, supporting accuracy and coherence in the results."}
+  ],
+  "4.6": [
+    {term:"Motivation",def:"The biological, emotional, social, and cognitive forces that push us to take action."},
+    {term:"Drive Reduction Theory",def:"Behavior is driven by the need to restore homeostasis. Imbalances create drives that motivate action, such as hunger leading to eating."},
+    {term:"Homeostasis",def:"The body's internal balance of systems such as temperature and energy levels."},
+    {term:"Ghrelin",def:"The 'hunger hormone.' Rises when the stomach is empty and signals the hypothalamus to increase appetite."},
+    {term:"Leptin",def:"The 'satiety hormone.' Produced by fat cells and signals fullness, reducing the motivation to eat."},
+    {term:"Arousal Theory",def:"People are motivated to maintain an optimal level of alertness and stimulation. Too little leads to boredom; too much leads to stress."},
+    {term:"Yerkes-Dodson Law",def:"Performance increases with arousal up to an optimal point, then declines, forming an inverted U-curve. Difficult tasks need less arousal for optimal performance."},
+    {term:"Self-Determination Theory",def:"Behavior is driven by intrinsic or extrinsic motivation. Intrinsic motivation has a greater lasting impact. People also need autonomy, competence, and relatedness."},
+    {term:"Intrinsic Motivation",def:"Doing something for the enjoyment or satisfaction of the activity itself."},
+    {term:"Extrinsic Motivation",def:"Doing something to gain an external reward or avoid punishment."},
+    {term:"Incentive Theory",def:"Behavior is primarily driven by external rewards and punishments. Rewarded actions are more likely to be repeated."},
+    {term:"Sensation Seeking Theory",def:"People differ in their need for novel, stimulating, or risky experiences."},
+    {term:"Experience Seeking",def:"A desire for new, unconventional experiences such as new places and new people."},
+    {term:"Thrill and Adventure Seeking",def:"A drive for physically risky activities such as skydiving and extreme sports."},
+    {term:"Disinhibition",def:"Seeking social and recreational situations involving fun and relaxation, such as parties."},
+    {term:"Boredom Susceptibility",def:"Low tolerance for repetitive routines and a strong drive for new stimulation."},
+    {term:"Approach-Approach Conflict",def:"Lewin's conflict type: choosing between two desirable options, such as two appealing job offers."},
+    {term:"Avoidance-Avoidance Conflict",def:"Lewin's conflict type: choosing between two undesirable options, such as chores versus homework."},
+    {term:"Approach-Avoidance Conflict",def:"Lewin's conflict type: one option has both positives and negatives, such as a better-paying job with a much longer commute."}
+  ],
+  "4.7": [
+    {term:"Emotion",def:"A complex psychological state, also called affect, involving physiological responses shaped by internal factors (bodily changes, thoughts, memories) and external factors (situations, social interactions)."},
+    {term:"James-Lange Theory",def:"Physiological changes come first, then you feel the emotion. Stimulus, then body reaction, then emotion."},
+    {term:"Cannon-Bard Theory",def:"Physiological arousal and the emotional experience occur at the same time, with no sequence."},
+    {term:"Schachter-Singer Two-Factor Theory",def:"Physiological arousal occurs, then you cognitively label that arousal, and the emotion emerges from the label."},
+    {term:"Facial Feedback Hypothesis",def:"Facial expressions can influence emotional experience, so smiling may make you feel happier. Research results are mixed."},
+    {term:"Broaden-and-Build Theory",def:"Positive emotions broaden thinking and build lasting personal resources. Negative emotions narrow focus, which can also be adaptive."},
+    {term:"Universal Emotions",def:"Some research suggests six emotions are recognized across cultures: anger, disgust, sadness, happiness, surprise, and fear. Findings remain mixed."},
+    {term:"Display Rules",def:"Culturally established guidelines about when, where, and how emotions may be expressed. They vary by culture, age, situation, and social background."},
+    {term:"Elicitors of Emotion",def:"Events, stimuli, or situations that trigger an emotional response. The same stimulus can produce different emotions in different people."}
+  ]
+};
+
+// ==============================================================
+// COMMON MISTAKES DATABASE
+// ==============================================================
+const mistakesDB = {
+  "4.1": [
+    "Students often mix up self-concept, self-esteem, and self-efficacy. Actually self-concept is your description of who you are, self-esteem is how positively you feel about that picture, and self-efficacy is confidence in one specific task.",
+    "Students often think the fundamental attribution error, actor-observer bias, and self-serving bias are the same thing. Actually FAE is about judging others by their character, actor-observer bias contrasts how we explain our own actions with how we explain others' actions, and self-serving bias protects our ego by crediting ourselves for success and blaming circumstances for failure.",
+    "Students often think dispositional means 'in the situation.' Actually dispositional attributions point to the person (personality, ability), while situational attributions point to the surroundings.",
+    "Students often think an internal locus of control means a person never blames anything outside themselves. Actually it is a general belief that your own actions shape outcomes, which tends to support initiative and resilience.",
+    "Students often think the mere exposure effect always makes us like things more. Actually if you strongly dislike something at first, repeated exposure can intensify that dislike."
+  ],
+  "4.2": [
+    "Students often treat stereotype, prejudice, and discrimination as three words for the same thing. Actually they form a chain from thought (stereotype) to feeling (prejudice) to action (discrimination).",
+    "Students often think people always know their own attitudes. Actually implicit attitudes can shape behavior without a person realizing they hold them, so stated beliefs and behavior can differ.",
+    "Students often think ethnocentrism and cultural relativism are similar. Actually ethnocentrism judges other cultures by your own standards, while cultural relativism evaluates a culture by its own standards.",
+    "Students often confuse belief perseverance with confirmation bias. Actually confirmation bias is about seeking and favoring supporting information, while belief perseverance is holding on to a belief even after clear contradictory evidence appears.",
+    "Students often think cognitive dissonance always makes people change their behavior. Actually people often reduce the discomfort by rationalizing, such as telling themselves a small positive action cancels out a larger contradiction."
+  ],
+  "4.3": [
+    "Students often confuse groupthink, group polarization, and deindividuation. Actually groupthink suppresses dissent to keep harmony, group polarization makes shared opinions more extreme, and deindividuation is losing your sense of self inside a crowd.",
+    "Students often think conformity and obedience are the same. Actually conformity is matching a group's norms, often with no one giving orders, while obedience is following a direct command from an authority figure.",
+    "Students often confuse normative and informational influence. Actually normative influence is about being liked and accepted, while informational influence is about believing others know more than you do.",
+    "Students often mix up foot-in-the-door and door-in-the-face. Actually foot-in-the-door starts small and then asks for more, while door-in-the-face starts with a huge request that gets refused and then asks for less.",
+    "Students often think social loafing and social facilitation both describe working in a group. Actually social loafing is putting in less effort in a group, while social facilitation is performing better in front of others."
+  ],
+  "4.4": [
+    "Students often think projective tests have right and wrong answers. Actually projective tests such as the Rorschach and TAT are open-ended and are meant to reveal unconscious material, while objective tests use fixed answer choices.",
+    "Students often think self-actualization and self-transcendence mean the same thing. Actually self-actualization is reaching your own full potential, while self-transcendence goes beyond yourself toward something larger such as service or spirituality.",
+    "Students often think the ego is the part of us that wants immediate pleasure. Actually that is the id. The ego is the rational mediator between the id and the superego.",
+    "Students often mix up projection and displacement. Actually projection attributes your own feelings to someone else, while displacement redirects your emotion toward a safer target.",
+    "Students often think high congruence means a person has no ideal self. Actually congruence means the real self and ideal self are closely aligned, which is linked to lower distress."
+  ],
+  "4.5": [
+    "Students often think reciprocal determinism means the environment shapes personality alone. Actually personal factors, behavior, and environment all influence each other, and no single factor works alone.",
+    "Students often think a high neuroticism score is a good thing because the scale is about stability. Actually the scale is reversed, so high neuroticism means low emotional stability.",
+    "Students often think trait theories explain how personality develops. Actually trait theories mainly describe stable, enduring characteristics rather than explaining their origins.",
+    "Students often think self-efficacy is a general feeling about yourself. Actually self-efficacy is confidence in your ability to do one specific task, which is different from overall self-esteem.",
+    "Students often think factor analysis creates the Big Five traits. Actually it is a statistical method that identifies clusters of related test items, which supports the coherence of the results."
+  ],
+  "4.6": [
+    "Students often think self-determination theory and incentive theory say the same thing. Actually incentive theory focuses on external rewards and punishments, while self-determination theory says intrinsic motivation has the stronger lasting impact.",
+    "Students often think more arousal always means better performance. Actually the Yerkes-Dodson Law shows performance rises to an optimal point and then falls, and difficult tasks need less arousal than easy tasks.",
+    "Students often mix up ghrelin and leptin. Actually ghrelin is the hunger hormone that rises when the stomach is empty, while leptin comes from fat cells and signals fullness.",
+    "Students often think drive reduction theory is about wanting excitement. Actually it is about restoring homeostasis, such as eating to correct low energy.",
+    "Students often mix up Lewin's conflicts. Actually approach-approach is two good options, avoidance-avoidance is two bad options, and approach-avoidance is a single option with both good and bad features."
+  ],
+  "4.7": [
+    "Students often mix up James-Lange, Cannon-Bard, and the Two-Factor theory. Actually James-Lange says the body reacts first, Cannon-Bard says body and emotion happen together, and Schachter-Singer says arousal plus a cognitive label produces the emotion.",
+    "Students often think the facial feedback hypothesis is firmly proven. Actually research results on it are mixed.",
+    "Students often think negative emotions are always harmful. Actually broaden-and-build theory notes that negative emotions narrow focus, which can be adaptive, such as fear focusing attention on an immediate threat.",
+    "Students often think emotion research proves all six emotions are recognized the same way everywhere. Actually findings are mixed, and cultural background can shape how emotions are recognized and interpreted.",
+    "Students often confuse display rules with emotions themselves. Actually display rules are cultural guidelines about when and how emotions may be expressed, so two cultures may feel the same emotion but show it differently."
+  ]
+};
+
+// ==============================================================
+// PRACTICE SET DATABASE
+// ==============================================================
+const practiceDB = {
+  "4.1": [
+    {q:"Which of the following best defines the fundamental attribution error?",opts:["The tendency to attribute one's own failures to external factors while crediting successes to internal factors","The tendency to overemphasize internal factors when explaining others' behavior while underestimating the role of situational factors","The tendency to use dispositional attributions for one's own behavior and situational attributions for others","The tendency to assume that other people share the same attitudes and beliefs as oneself"],answer:1,skill:"Skill 1"},
+    {q:"A person with an external locus of control is most likely to believe which of the following?",opts:["Hard work and effort are the primary determinants of success","Their intelligence is the key factor shaping their academic performance","Outside forces such as luck or circumstance largely determine what happens to them","Setbacks are best addressed by reflecting on and adjusting one's own behavior"],answer:2,skill:"Skill 1"},
+    {q:"A teacher reads in a student's file that the student has a history of behavioral problems. On the student's first day, the teacher seats him near the back and calls on him infrequently. The student, sensing low expectations, gradually disengages from class activities and eventually begins acting out. Which concept does this scenario best illustrate?",opts:["Relative deprivation","Social loafing","Self-fulfilling prophecy","Downward social comparison"],answer:2,skill:"Skill 2"},
+    {q:"After receiving a failing grade on her chemistry exam, Nadia tells herself, 'I always do badly in science. I'm just not a science person, and no matter what I do, that won't change.' Which of the following best characterizes Nadia's attribution and explanatory style?",opts:["Optimistic explanatory style; situational attribution","Pessimistic explanatory style; dispositional attribution","Pessimistic explanatory style; situational attribution","Optimistic explanatory style; dispositional attribution"],answer:1,skill:"Skill 2"},
+    {q:"Carlos recently received a modest salary increase and was initially pleased. After learning that several colleagues received larger raises, he now feels dissatisfied and undervalued, even though his financial situation is objectively better than it was before. Which concept best explains Carlos's shift in feeling?",opts:["Learned helplessness","Cognitive dissonance","Relative deprivation","Self-serving bias"],answer:2,skill:"Skill 2"},
+    {q:"A researcher wants to test whether receiving positive information about a student influences how a teacher evaluates that student's work. She randomly assigns 40 teachers to one of two conditions: half receive a brief note saying a student 'shows real potential'; the other half receive no such note. All teachers then grade the same student essay. Teachers who received the positive note gave the essay significantly higher scores. Which of the following is the most appropriate conclusion?",opts:["Teachers who receive positive information about students will always grade those students more generously","The positive note caused teachers to evaluate the essay more favorably, consistent with a self-fulfilling prophecy dynamic","Teachers with an external locus of control were more susceptible to the influence of the positive note","The study demonstrates a correlation but cannot determine which variable influenced the other"],answer:1,skill:"Skill 4"}
+  ],
+  "4.2": [
+    {q:"Which of the following best distinguishes implicit attitudes from explicit attitudes?",opts:["Explicit attitudes are based on emotional responses, while implicit attitudes are based on logical reasoning","Implicit attitudes are unconscious beliefs a person may not realize they hold, while explicit attitudes are consciously held and acknowledged","Implicit attitudes are always negative, while explicit attitudes can be positive or negative","Explicit attitudes are formed in childhood, while implicit attitudes develop in adulthood through social experience"],answer:1,skill:"Skill 1"},
+    {q:"Which of the following best defines cognitive dissonance?",opts:["The tendency to seek out information that confirms one's pre-existing beliefs","The discomfort experienced when a person holds two contradictory beliefs or when behavior conflicts with a belief","The process by which attitudes gradually shift through repeated exposure to new information","The unconscious tendency to associate members of an outgroup with negative characteristics"],answer:1,skill:"Skill 1"},
+    {q:"A community organizer notices that many residents assume a family whose home was recently foreclosed 'must have been irresponsible with their money.' The residents make this judgment without knowing anything specific about the family's circumstances. Which of the following best explains the residents' assumption?",opts:["Ingroup bias, because the residents see themselves as financially responsible","Outgroup homogeneity bias, because the residents perceive the family as part of a different group","The just world phenomenon, because the residents assume misfortune must be deserved","Ethnocentrism, because the residents are applying their own cultural standards to judge the family"],answer:2,skill:"Skill 2"},
+    {q:"A sports commentator covering an international football tournament consistently describes players from his home country as displaying individual flair and tactical intelligence, while describing players from other nations as all playing the same predictable, physical style. Which bias does the commentator most clearly demonstrate?",opts:["Ingroup bias","Outgroup homogeneity bias","The just world phenomenon","Ethnocentrism"],answer:1,skill:"Skill 2"},
+    {q:"A university student genuinely believes in environmental sustainability and participates in campus recycling programs. However, she also regularly takes long hot showers and frequently orders food delivery in single-use plastic containers. When a friend points this out, she feels uneasy but tells herself, 'At least I recycle. That offsets the rest.' Which of the following best describes what the student is experiencing, and how she is managing it?",opts:["Belief perseverance; she is ignoring contradictory evidence to maintain her position","Confirmation bias; she is selectively attending only to information that supports her self-image","Cognitive dissonance; she is reducing the discomfort by rationalizing her behavior","The just world phenomenon; she believes her positive actions will be rewarded"],answer:2,skill:"Skill 2"},
+    {q:"A researcher wants to determine whether exposing people to counter-stereotypical examples, such as reading about a highly accomplished member of a typically stigmatized group, reduces their implicit bias scores on a follow-up test. She randomly assigns 80 participants to either read counter-stereotypical profiles or neutral, unrelated articles, then measures both groups' implicit bias scores. Which of the following best describes this study, and what could it establish if the results are statistically significant?",opts:["A correlational study; it could establish that counter-stereotypical exposure is associated with lower implicit bias","A case study; it could provide in-depth insight into how one individual's bias changes over time","An experiment; it could support a causal claim that counter-stereotypical exposure reduces implicit bias scores","A naturalistic observation; it could show how bias manifests in real-world settings without interference"],answer:2,skill:"Skill 4"}
+  ],
+  "4.3": [
+    {q:"Which of the following best distinguishes normative influence from informational influence?",opts:["Normative influence involves conforming to avoid social rejection, while informational influence involves conforming because one believes others have more accurate knowledge","Normative influence occurs only in large groups, while informational influence occurs in one-on-one interactions","Normative influence leads to permanent attitude change, while informational influence produces only temporary behavioral compliance","Normative influence is driven by authority figures, while informational influence is driven by peer pressure"],answer:0,skill:"Skill 1"},
+    {q:"Which of the following best describes groupthink?",opts:["The process by which a group's opinions become progressively more extreme over the course of a discussion","A phenomenon in which group members suppress dissent and prioritize consensus, often leading to poor decision-making","The loss of personal identity and accountability that occurs when an individual is absorbed into a crowd","The tendency for individuals to exert less effort when working as part of a group than when working alone"],answer:1,skill:"Skill 1"},
+    {q:"During a large outdoor music festival, a spectator witnesses a person collapse near the main stage. Despite hundreds of people standing nearby, nobody moves to help for nearly two minutes. Which of the following best explains the crowd's inaction?",opts:["Social loafing, because individuals assumed others were more physically capable of helping","Deindividuation, because the crowd atmosphere caused individuals to abandon their personal values","The bystander effect, driven by diffusion of responsibility, because each person assumed someone else would act","Group polarization, because the shared experience of the festival strengthened the group's reluctance to intervene"],answer:2,skill:"Skill 2"},
+    {q:"A new employee at a consulting firm consistently stays late at the office, not because she has unfinished work, but because all of her colleagues do, and she does not want to seem less committed. Which type of social influence best explains her behavior?",opts:["Informational influence","Obedience to authority","Social facilitation","Normative influence"],answer:3,skill:"Skill 2"},
+    {q:"A group of long-distance runners trains together three times a week. Their coach notices that each runner consistently records faster split times during group training sessions than during solo runs on the same course. Which of the following best explains this pattern?",opts:["Social loafing, because the runners are motivated by their teammates","Deindividuation, because the runners lose their individual pacing strategies in a group","Normative influence, because the runners conform to the group's pace","Social facilitation, because the presence of others enhances individual performance"],answer:3,skill:"Skill 2"},
+    {q:"Dr. Osei is studying obedience to authority. He designs a study in which participants are told by a researcher in a lab coat to administer increasingly uncomfortable but non-harmful noise blasts to another person in the next room whenever that person makes an error on a memory task. The 'other person' is actually a confederate who never receives any noise. Before beginning, participants are told they may stop at any time. An ethics board raises concerns about the study. Which of the following best identifies a legitimate ethical concern, and how it could be addressed?",opts:["The study lacks a control group; this could be addressed by adding a condition in which participants are not instructed to administer noise blasts","Participants may experience psychological distress from believing they are harming another person; this could be addressed by thorough debriefing after the session and providing follow-up support if needed","The use of a confederate makes the study a naturalistic observation rather than an experiment, undermining its validity","The lab coat worn by the researcher represents an uncontrolled variable; it should be removed to prevent demand characteristics"],answer:1,skill:"Skill 4"}
+  ],
+  "4.4": [
+    {q:"In Freud's model of personality, which of the following best describes the role of the ego?",opts:["It operates entirely in the unconscious and seeks immediate gratification of biological drives","It represents the internalized moral standards and ideals of society","It mediates between the demands of the id and the superego by making rational, reality-based decisions","It represses distressing memories to protect the individual from psychological harm"],answer:2,skill:"Skill 1"},
+    {q:"Which of the following best defines unconditional positive regard as used in humanistic psychology?",opts:["Accepting and valuing a person only after they have demonstrated personal growth and self-improvement","Providing support and approval to an individual regardless of their behavior or whether they meet certain conditions","The therapist's ability to accurately understand and reflect a client's emotional experience","The process of comparing a person's real self against their ideal self to identify areas for growth"],answer:1,skill:"Skill 1"},
+    {q:"Nine-year-old Marcus recently started a new school after his family moved cities and has been struggling socially and academically. His teacher notices that he has begun sucking his thumb in class and occasionally throws small tantrums when asked to complete independent work, behaviors more typical of much younger children. From a psychodynamic perspective, which defense mechanism best explains Marcus's behavior?",opts:["Sublimation","Reaction formation","Regression","Displacement"],answer:2,skill:"Skill 2"},
+    {q:"A therapist asks her client to look at a series of inkblot images and describe what he sees. The client's responses are recorded and later interpreted to gain insight into his unconscious thoughts and emotional conflicts. Which of the following best identifies the assessment tool being used and the theoretical perspective it reflects?",opts:["The Q-Sort Technique; humanistic perspective","The Myers-Briggs Type Indicator; trait perspective","The Rorschach Inkblot Test; psychodynamic perspective","A personality inventory; social cognitive perspective"],answer:2,skill:"Skill 2"},
+    {q:"Camille has always dreamed of being a professional dancer, but after years of rigorous training, she must acknowledge that her technical skill has not developed to the level she hoped. She describes herself as 'a dedicated but limited dancer' and has made peace with pursuing dance as a serious hobby rather than a career. A humanistic psychologist would most likely describe Camille as demonstrating which of the following?",opts:["High incongruence, because her ideal self and real self do not match","A pessimistic explanatory style, because she attributes her limitations to internal factors","High congruence, because she has developed a realistic and accepting alignment between her real self and ideal self","Conditional positive regard, because her self-worth depends on her dancing ability"],answer:2,skill:"Skill 2"},
+    {q:"A researcher wants to test the humanistic claim that individuals who receive unconditional positive regard during childhood develop higher self-esteem in adulthood. She surveys 300 adults about their recollections of their parents' parenting style during childhood and also administers a standardized self-esteem scale. She finds a moderate positive correlation between recalled unconditional positive regard and adult self-esteem. Which of the following is the most significant limitation of this study's design?",opts:["The study should have used a projective test rather than a standardized scale to measure self-esteem.","Correlational designs cannot determine the direction of the relationship between the two variables in this case.","Relying on adults' retrospective recall of childhood experiences introduces the risk of memory distortion, threatening the validity of the independent measure.","The sample size of 300 is too small to produce a meaningful correlation coefficient between the two variables."],answer:2,skill:"Skill 4"}
+  ],
+  "4.5": [
+    {q:"Which of the following best describes reciprocal determinism as proposed by Albert Bandura?",opts:["The tendency for individuals to attribute their successes to internal factors and their failures to external factors","A cycle in which a person's personal factors, behavior, and environment mutually and continuously influence one another","The process by which individuals develop personality traits through reinforcement and punishment from their environment","The idea that personality is determined primarily by unconscious drives acquired during early childhood"],answer:1,skill:"Skill 1"},
+    {q:"Which of the following best defines self-efficacy?",opts:["A person's overall evaluation of their worth and abilities across all areas of life","The degree to which a person's actual self aligns with the person they ideally wish to be","An individual's belief in their capacity to perform a specific task or achieve a particular goal","The internalized set of values and moral standards that guides a person's behavior"],answer:2,skill:"Skill 1"},
+    {q:"In the Big Five model of personality, which of the following best describes a person who scores very low on agreeableness?",opts:["Someone who is highly anxious, prone to mood swings, and emotionally reactive under stress","Someone who tends to be competitive, critical of others, and more likely to prioritize personal interests over social harmony","Someone who prefers routine and familiar experiences over novel or unconventional ones","Someone who is reserved, reflective, and more comfortable spending time alone than in social situations"],answer:1,skill:"Skill 1"},
+    {q:"A career counselor administers a Big Five personality inventory to a client who is deciding between two career paths: freelance graphic design and corporate project management. The client scores very high on openness and very low on conscientiousness. Which of the following recommendations is most consistent with what the Big Five results suggest about the client's personality?",opts:["Corporate project management, because high openness suggests the client enjoys structured, goal-directed work environments","Freelance graphic design, because high openness suggests creativity and comfort with unconventional approaches, while low conscientiousness may make rigid corporate structures frustrating","Corporate project management, because low conscientiousness suggests the client needs external structure and deadlines to stay productive","Freelance graphic design, because low conscientiousness indicates the client prefers working alone rather than collaborating with others"],answer:1,skill:"Skill 2"},
+    {q:"A researcher conducts a study examining whether individuals high in conscientiousness score differently on a self-discipline task than individuals low in conscientiousness. After collecting data from 40 participants, the researcher reports: 'The difference between the high-conscientiousness group (M = 14.3) and the low-conscientiousness group (M = 13.8) produced a p-value of p = 0.38.' Which of the following best interprets this finding?",opts:["The result is statistically significant because the means of the two groups are different","The result is statistically significant because a p-value below 0.5 confirms the researcher's hypothesis","The result is not statistically significant because the p-value of 0.38 exceeds the conventional threshold of p < 0.05, meaning the observed difference could plausibly be due to chance","The result is not statistically significant because the sample size of 40 is always too small to produce a significant finding"],answer:2,skill:"Skill 3"},
+    {q:"A researcher wants to test whether self-efficacy training, a structured program teaching students to set incremental goals and track small successes, causes improvement in academic performance. She recruits 80 university students and randomly assigns half to the training program and half to a control condition where they attend a general study skills seminar of equal length. GPA is measured at the end of the semester. Which of the following best explains why random assignment is critical to the validity of this study?",opts:["Random assignment ensures that all participants complete the training program at the same pace, reducing variability in the results","Random assignment eliminates the need for a control group, because all participants are equally likely to benefit from the intervention","Random assignment distributes pre-existing differences in personality, motivation, and academic background roughly equally across both groups, reducing the likelihood that these variables, rather than the training program itself, explain any observed difference in GPA","Random assignment guarantees that the study will produce a statistically significant result if the training program is effective"],answer:2,skill:"Skill 4"}
+  ],
+  "4.6": [
+    {q:"Which of the following best describes the Yerkes-Dodson Law?",opts:["The principle that intrinsic motivation decreases when external rewards are introduced for an already enjoyable activity","The principle that performance improves as arousal increases, but only up to an optimal point, after which further arousal causes performance to decline","The principle that individuals are motivated to restore physiological balance whenever internal imbalances are detected by the body","The principle that people seek out stimulating experiences to maintain an optimal level of alertness and avoid boredom"],answer:1,skill:"Skill 1"},
+    {q:"Which of the following best distinguishes intrinsic motivation from extrinsic motivation?",opts:["Intrinsic motivation is stronger in childhood, while extrinsic motivation becomes dominant in adulthood","Intrinsic motivation arises from external rewards such as praise or money, while extrinsic motivation comes from internal satisfaction","Intrinsic motivation comes from within the individual, such as enjoyment or personal satisfaction, while extrinsic motivation comes from outside, such as rewards or the avoidance of punishment","Intrinsic motivation leads to short-term behavioral change, while extrinsic motivation produces lasting attitude shifts"],answer:2,skill:"Skill 1"},
+    {q:"A medical student is studying for a licensing exam. She works efficiently and concentrates well during her regular study sessions, but on the evenings before practice exams her anxiety spikes so severely that she cannot retain information and makes careless errors. Her performance on low-pressure review quizzes is also weaker, because she feels under-motivated and distracted. Which of the following best accounts for this full pattern of performance?",opts:["The student has low self-efficacy, which undermines her performance in both high- and low-pressure situations","The Yerkes-Dodson Law: moderate arousal during regular study produces optimal performance, while both the excessively high arousal before practice exams and the low arousal during easy quizzes push her outside her optimal zone","Incentive theory: the absence of external rewards during low-pressure quizzes reduces her motivation to perform well","Drive reduction theory: the student is only motivated to study when her body detects an imbalance caused by insufficient knowledge"],answer:1,skill:"Skill 2"},
+    {q:"A documentary filmmaker has built her career on traveling to remote and unfamiliar locations, learning endangered languages, and immersing herself in communities whose ways of life are radically different from her own. She regularly turns down more stable, better-paying opportunities to continue this work, saying she would feel empty doing anything more conventional. Which component of sensation-seeking theory best describes her primary motivational profile?",opts:["Disinhibition, because she seeks out recreational and social freedom","Boredom susceptibility, because she avoids repetitive or routine work","Experience seeking, because she is driven by the pursuit of novel, unconventional, and intellectually stimulating experiences","Thrill and adventure seeking, because her work involves physical risk in unfamiliar environments"],answer:2,skill:"Skill 2"},
+    {q:"A university student has been offered a prestigious research internship abroad. The opportunity would significantly strengthen her graduate school application and expose her to world-class researchers. However, accepting it means spending six months away from her family and partner, living in an unfamiliar city, and taking on a heavy workload. She feels simultaneously pulled toward and repelled by the same option. Which type of motivational conflict does this best illustrate?",opts:["Approach-approach conflict, because both staying and going offer positive outcomes","Avoidance-avoidance conflict, because both options carry high costs","Approach-avoidance conflict, because the single option of accepting the internship has both genuinely attractive and genuinely unattractive features","An intrinsic-extrinsic motivational conflict, because her personal desire conflicts with external pressure"],answer:2,skill:"Skill 2"},
+    {q:"A researcher studies the effect of moderate exercise on self-reported motivation in office workers. Participants rate their motivation on a 1 to 10 scale before and after a four-week walking program. The pre-program mean was 5.8 (SD = 0.4) and the post-program mean was 7.2 (SD = 0.5). Which of the following best explains what the small standard deviations indicate about the data?",opts:["The small standard deviations indicate that the sample size was too small to produce variable results, so the mean difference is unreliable","Most participants' scores were clustered tightly around the group mean in both conditions, suggesting the increase from 5.8 to 7.2 reflects a consistent pattern across participants rather than a few extreme scores","The small standard deviations confirm that the difference between pre- and post-program scores is statistically significant","The small standard deviations suggest that motivation levels did not change meaningfully, because low variability indicates a lack of response to the intervention"],answer:1,skill:"Skill 3"}
+  ],
+  "4.7": [
+    {q:"Which of the following best describes the Cannon-Bard theory of emotion?",opts:["Physiological arousal occurs first, and the cognitive interpretation of that arousal then produces the emotional experience","Facial muscle movements send signals to the brain that are interpreted as emotions, meaning expressions can influence how a person feels","Physiological arousal and the subjective experience of emotion occur simultaneously and independently, rather than one causing the other","Emotions arise from the need to restore physiological homeostasis after an internal imbalance is detected"],answer:2,skill:"Skill 1"},
+    {q:"Which of the following best defines display rules as used in the study of emotion?",opts:["The innate, biologically hardwired patterns of facial expression that are universally recognized across all human cultures","Culturally established social norms that govern when, where, and how it is appropriate for individuals to express particular emotions","The cognitive labels individuals apply to their physiological arousal in order to identify and name the emotion they are experiencing","The set of stimuli and situations that reliably trigger emotional responses in individuals across different cultural contexts"],answer:1,skill:"Skill 1"},
+    {q:"Yusuf is a first-time skydiver. As his plane approaches the jump altitude, his heart pounds, his palms sweat, and his breathing quickens. A psychologist says: 'What matters is not just that Yusuf is physiologically aroused. He looks around at the open plane door, the altitude, and the gear, and labels his arousal as fear based on that context. If he were on a roller coaster instead, he might label the same physical sensations as excitement.' Which theory does this explanation best represent?",opts:["James-Lange theory","Cannon-Bard theory","Broaden-and-build theory","Schachter-Singer two-factor theory"],answer:3,skill:"Skill 2"},
+    {q:"In one culture, it is considered deeply inappropriate for adults to cry or show sadness in any public setting, including funerals, where grief is expected to be expressed only through quiet, composed behavior. A visitor from a different cultural background finds this restraint confusing and even cold. Which of the following concepts best explains the difference in the visitor's reaction and the local cultural norm?",opts:["The universality of emotional expression: people everywhere experience grief but show it differently due to individual personality differences","Elicitors of emotion: funerals trigger different emotional responses in different cultures because the meaning attached to death varies","Display rules: both cultures may experience similar grief, but the cultural norms governing how and when it is appropriate to express that grief differ significantly","The broaden-and-build theory: negative emotions like grief narrow behavior, and different cultures have developed different ways of managing that narrowing"],answer:2,skill:"Skill 2"},
+    {q:"A drama teacher instructs her students to hold a wide smile for three full minutes while rehearsing a neutral scene, one with no inherently funny or joyful content. Several students report that by the end of the exercise, they actually feel slightly happier and more energized than when they began, even though nothing in the scene changed. Which of the following best explains the students' experience?",opts:["Cannon-Bard theory: the students' emotional experience and facial expression occurred simultaneously, with neither causing the other","Schachter-Singer two-factor theory: the students labeled their muscle activity as happiness after searching for a contextual explanation","The facial feedback hypothesis: the physical act of smiling sent signals to the brain that were interpreted as a positive emotional state, influencing how the students felt","The broaden-and-build theory: the sustained smile broadened the students' cognitive flexibility, making them more receptive to positive feelings"],answer:2,skill:"Skill 2"},
+    {q:"A researcher wants to test whether the facial feedback hypothesis holds when participants are unaware that their facial expressions are being manipulated. Participants hold a pen between their teeth (which activates smiling muscles) or between their lips (which prevents smiling) while rating the funniness of cartoons. She does not tell participants that the pen position is related to facial expression. Which of the following best explains the methodological purpose of keeping participants unaware?",opts:["It eliminates the need for informed consent, because participants are not being directly deceived about the nature of the study","It controls for demand characteristics: if participants knew the pen was activating smile muscles, they might consciously adjust their ratings to match what they believe the researcher expects, confounding the results","It ensures that the facial feedback effect can only be measured through physiological instruments rather than self-report ratings","It prevents social desirability bias by ensuring participants do not feel pressure to rate the cartoons as funnier than they actually find them"],answer:1,skill:"Skill 4"}
+  ]
+};
+
+// ==============================================================
+// HELPERS
+// ==============================================================
+function shuffle(arr){const a=arr.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function getTerms(topic){return topic==="all"?Object.values(termsDB).flat():(termsDB[topic]||[]);}
+function getPractice(topic){return topic==="all"?Object.values(practiceDB).flat():(practiceDB[topic]||[]);}
+function skillClass(s){return s.includes("4")?"skill-4":s.includes("3")?"skill-3":s.includes("2")?"skill-2":"skill-1";}
+function progressBar(idx,total,score){
+  const pct=total>0?(idx/total)*100:0;
+  return `<div class="progress-row"><span>Question ${idx+1} of ${total}</span><span>Score: ${score} / ${idx}</span></div><div class="progress-bar-track"><div class="progress-bar-fill" style="width:${pct}%"></div></div>`;
+}
+
+// Logs one attempt for the session review panel and the printable answer key.
+function logAttempt(type,stem,studentAnswer,correctAnswer,correct){
+  S.log.push({type:type,stem:stem,studentAnswer:studentAnswer,correctAnswer:correctAnswer,correct:correct});
+}
+
+// Builds the on-screen "Terms to review" panel plus the Print Summary button, shown on every completion screen.
+function buildReviewBlock(){
+  const missed=S.log.filter(function(r){return !r.correct;});
+  let html="";
+  if(missed.length){
+    html+='<div class="review-block"><div class="review-header">Terms to Review ('+missed.length+')</div>';
+    html+=missed.map(function(r){return '<div class="review-item"><strong>'+r.stem+'</strong><span class="review-correct">Correct answer: '+r.correctAnswer+'</span></div>';}).join("");
+    html+='</div>';
+  }
+  html+='<button class="btn-restart btn-print" onclick="printSummary()">Print Summary</button>';
+  return html;
+}
+
+// Builds and opens the printable, teacher-checkable answer key in its own tab, so printing
+// does not depend on window.print() working inside whatever frame this page is embedded in.
+function printSummary(){
+  const total=S.log.length;
+  const correctCount=S.log.filter(function(r){return r.correct;}).length;
+  const scoreText=total?(correctCount+" / "+total+" ("+Math.round((correctCount/total)*100)+"%)"):"No graded items this session";
+  let rows=S.log.map(function(r,i){
+    return '<tr><td style="border:1px solid #999;padding:6px;">'+(i+1)+'</td>'+
+      '<td style="border:1px solid #999;padding:6px;">'+String(r.stem).replace(/\n/g," ")+'</td>'+
+      '<td style="border:1px solid #999;padding:6px;">'+r.studentAnswer+'</td>'+
+      '<td style="border:1px solid #999;padding:6px;">'+r.correctAnswer+'</td>'+
+      '<td style="border:1px solid #999;padding:6px;">'+(r.correct?"Correct":"Review")+'</td></tr>';
+  }).join("");
+  if(!rows){rows='<tr><td colspan="5" style="border:1px solid #999;padding:6px;">No graded items in this session.</td></tr>';}
+
+  let mistakesHTML="";
+  if(S.topic!=="all"&&mistakesDB[S.topic]){
+    mistakesHTML='<h2 style="font-size:15px;margin-top:18px;border-bottom:1px solid #999;">Common Mistakes for This Topic</h2><ul style="font-size:12px;line-height:1.6;">'+
+      mistakesDB[S.topic].map(function(m){return '<li style="margin-bottom:6px;">'+m+'</li>';}).join("")+'</ul>';
+  }
+
+  const reportBody=
+    '<h1 style="font-size:20px;border-bottom:2px solid #000;padding-bottom:8px;">AP Psychology Unit 4: Social Psychology and Personality</h1>'+
+    '<p style="font-size:13px;">Revision Session Summary</p>'+
+    '<table style="width:100%;font-size:13px;margin:14px 0;"><tr><td>Name: ___________________________</td><td>Date: ___________________</td></tr></table>'+
+    '<p style="font-size:13px;">Topic: '+(S.topicLabel||"All Topics")+' &nbsp;|&nbsp; Activity: '+(S.modeLabel||"")+' &nbsp;|&nbsp; Score: '+scoreText+'</p>'+
+    '<h2 style="font-size:15px;margin-top:18px;border-bottom:1px solid #999;">Answer Key and Review</h2>'+
+    '<table style="width:100%;border-collapse:collapse;font-size:12px;margin-top:8px;">'+
+    '<tr style="background:#eee;"><th style="border:1px solid #999;padding:6px;text-align:left;">#</th><th style="border:1px solid #999;padding:6px;text-align:left;">Question / Term</th><th style="border:1px solid #999;padding:6px;text-align:left;">Your Answer</th><th style="border:1px solid #999;padding:6px;text-align:left;">Correct Answer</th><th style="border:1px solid #999;padding:6px;text-align:left;">Result</th></tr>'+
+    rows+'</table>'+mistakesHTML+
+    '<p class="no-print" style="margin-top:22px;font-size:12px;color:#666;">If the print dialog did not open automatically, use your browser\'s print command (Ctrl+P or Cmd+P) on this tab.</p>';
+
+  const fullDoc='<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Unit 4 Revision Summary</title>'+
+    '<style>body{font-family:Arial,Helvetica,sans-serif;color:#000;padding:20px;max-width:800px;margin:0 auto;}'+
+    '@media print{.no-print{display:none;}}</style></head><body>'+reportBody+'</body></html>';
+
+  const win=window.open("","_blank");
+  if(!win){
+    alert("Your browser blocked the new tab needed to print. Please allow pop-ups for this page and click Print Summary again.");
+    return;
+  }
+  win.document.open();
+  win.document.write(fullDoc);
+  win.document.close();
+  win.focus();
+  setTimeout(function(){
+    try{win.print();}catch(e){/* user can still print manually from the new tab */}
+  },250);
+}
+
+// ==============================================================
+// STATE
+// ==============================================================
+const S={mode:null,topic:"all",topicLabel:"All Topics",modeLabel:"",terms:[],practice:[],idx:0,score:0,
+  hWord:"",hGuessed:[],hMistakes:0,hAttempted:new Set(),hActive:false,hCurrentTerm:null,
+  _matchSet:[],log:[]};
+
+// ==============================================================
+// START
+// ==============================================================
+document.getElementById("startBtn").addEventListener("click",function(){
+  S.topic=document.getElementById("topicSelect").value;
+  S.mode=document.getElementById("modeSelect").value;
+  const topicSel=document.getElementById("topicSelect");
+  const modeSel=document.getElementById("modeSelect");
+  S.topicLabel=topicSel.options[topicSel.selectedIndex].text;
+  S.modeLabel=modeSel.options[modeSel.selectedIndex].text;
+  S.idx=0; S.score=0; S.hActive=false; S.hAttempted=new Set(); S.log=[];
+
+  if(S.mode==="mistakes"){
+    renderMistakes();
+    return;
+  }
+
+  if(S.mode==="practice"){
+    S.practice=shuffle(getPractice(S.topic));
+    if(!S.practice.length){setQA('<div class="placeholder-text">No practice questions for this topic yet.</div>');return;}
+    renderPractice();
+  } else {
+    S.terms=shuffle(getTerms(S.topic));
+    if(!S.terms.length){setQA('<div class="placeholder-text">No terms found for this selection.</div>');return;}
+    if(S.mode==="flash")renderFlash();
+    else if(S.mode==="mcq")renderMCQ();
+    else if(S.mode==="tf")renderTF();
+    else if(S.mode==="match")renderMatch();
+    else if(S.mode==="hangman"){S.hActive=true;renderHangman();}
+  }
+});
+
+function setQA(html){document.getElementById("quizArea").innerHTML=html;}
+
+// ==============================================================
+// COMMON MISTAKES
+// ==============================================================
+function renderMistakes(){
+  let html='<p style="text-align:center;color:#4a6080;font-size:13px;margin-bottom:18px;">Common mix-ups students make on this material. Review these before you test yourself.</p>';
+  const topicsToShow=(S.topic==="all")?Object.keys(mistakesDB):[S.topic];
+  topicsToShow.forEach(function(tKey){
+    if(!mistakesDB[tKey])return;
+    if(S.topic==="all"){html+='<div class="mistake-topic-header">Topic '+tKey+'</div>';}
+    mistakesDB[tKey].forEach(function(m){html+='<div class="mistake-item">'+m+'</div>';});
+  });
+  setQA(html);
+}
+
+// ==============================================================
+// FLASHCARDS
+// ==============================================================
+function renderFlash(){
+  if(S.idx>=S.terms.length){
+    setQA(`<div class="score-screen"><div class="big-score">${S.terms.length}</div><div class="score-label">cards reviewed</div><div class="score-message">All done!</div>${buildReviewBlock()}<br><button class="btn-restart" onclick="S.idx=0;S.log=[];renderFlash()">Start Over</button></div>`);
+    return;
+  }
+  const t=S.terms[S.idx];
+  const pct=(S.idx/S.terms.length)*100;
+  setQA(`
+    <div class="progress-row"><span>Card ${S.idx+1} of ${S.terms.length}</span><span style="font-size:12px;color:#7a90b5;">Click to flip</span></div>
+    <div class="progress-bar-track"><div class="progress-bar-fill" style="width:${pct}%"></div></div>
+    <div class="flashcard-wrapper" id="fc" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-face flashcard-front"><div class="face-label">Term</div><div class="face-term">${t.term}</div></div>
+        <div class="flashcard-face flashcard-back"><div class="face-label">Definition</div><div class="face-def">${t.def}</div></div>
+      </div>
+    </div>
+    <div class="flashcard-hint">Tap the card to reveal the definition, then rate yourself honestly</div>
+    <div class="flashcard-nav">
+      <button class="self-rate-review" onclick="rateFlash(false)">Review again</button>
+      <button class="self-rate-good" onclick="rateFlash(true)">Got it</button>
+    </div>
+    <div class="flashcard-nav" style="margin-top:8px;">
+      <button onclick="S.idx=Math.max(0,S.idx-1);renderFlash()">Previous</button>
+    </div>
+  `);
+}
+function rateFlash(gotIt){
+  const t=S.terms[S.idx];
+  logAttempt("Flashcards",t.term,gotIt?"Marked: Got it":"Marked: Review again",t.def,gotIt);
+  S.idx++;
+  renderFlash();
+}
+
+// ==============================================================
+// VOCABULARY MCQ
+// ==============================================================
+function renderMCQ(){
+  if(S.idx>=S.terms.length){showVocabScore();return;}
+  const cur=S.terms[S.idx];
+  const opts=shuffle([cur,...shuffle(S.terms.filter(t=>t!==cur)).slice(0,3)]);
+  const letters=["A","B","C","D"];
+  S._mcqOpts=opts; S._mcqCorrect=cur; S._mcqDef=cur.def;
+
+  let optsHTML=opts.map((o,i)=>`<button class="option-btn" data-idx="${i}"><span class="letter">${letters[i]}</span><span>${o.term}</span></button>`).join("");
+  setQA(`
+    ${progressBar(S.idx,S.terms.length,S.score)}
+    <div class="question-text"><span class="stem-label">Definition</span>${cur.def}</div>
+    <p style="font-size:12px;color:#4a6080;margin-bottom:10px;font-weight:600;">Which term matches this definition?</p>
+    <div class="options-list" id="mcqOpts">${optsHTML}</div>
+    <div id="mcqFb"></div>
+  `);
+  document.querySelectorAll("#mcqOpts .option-btn").forEach(function(btn){
+    btn.addEventListener("click",function(){handleMCQ(parseInt(this.dataset.idx));});
+  });
+}
+
+function handleMCQ(si){
+  if(document.querySelector(".option-btn.correct,.option-btn.incorrect"))return;
+  const opts=S._mcqOpts; const correct=S._mcqCorrect;
+  const ci=opts.indexOf(correct);
+  document.querySelectorAll(".option-btn").forEach(function(b){b.disabled=true;if(parseInt(b.dataset.idx)===ci)b.classList.add("revealed");});
+  const isRight=(si===ci);
+  const btn=document.querySelector(`[data-idx="${si}"]`);
+  if(btn){btn.classList.remove("revealed");btn.classList.add(isRight?"correct":"incorrect");}
+  if(isRight)S.score++;
+  logAttempt("Vocabulary MCQ",S._mcqDef,opts[si].term,correct.term,isRight);
+  S.idx++;
+  document.getElementById("mcqFb").innerHTML=`<div class="feedback-box ${isRight?"correct":"incorrect"}">${isRight?"Correct!":"Not quite. The correct answer is highlighted above."}</div><button class="btn-next" onclick="renderMCQ()">Next</button>`;
+}
+
+// ==============================================================
+// TRUE / FALSE
+// ==============================================================
+function renderTF(){
+  if(S.idx>=S.terms.length){showVocabScore();return;}
+  const cur=S.terms[S.idx];
+  const isTrue=Math.random()>0.5;
+  let disp=cur.def;
+  if(!isTrue&&S.terms.length>1){
+    let w=S.terms[Math.floor(Math.random()*S.terms.length)];
+    while(w.term===cur.term)w=S.terms[Math.floor(Math.random()*S.terms.length)];
+    disp=w.def;
+  }
+  S._tfIsTrue=isTrue; S._tfTerm=cur.term; S._tfDisp=disp;
+  setQA(`
+    ${progressBar(S.idx,S.terms.length,S.score)}
+    <div class="question-text">Is this the correct definition of <strong>${cur.term}</strong>?</div>
+    <div style="background:#f4f6fb;padding:13px 15px;border-radius:8px;font-style:italic;border-left:4px solid #b0c4de;margin-bottom:18px;font-size:14px;line-height:1.65;">"${disp}"</div>
+    <div class="options-list" style="flex-direction:row;gap:14px;">
+      <button class="option-btn" id="tfT" style="justify-content:center;"><span class="letter" style="color:#28a745;">T</span>True</button>
+      <button class="option-btn" id="tfF" style="justify-content:center;"><span class="letter" style="color:#dc3545;">F</span>False</button>
+    </div>
+    <div id="tfFb"></div>
+  `);
+  document.getElementById("tfT").addEventListener("click",function(){handleTF(true);});
+  document.getElementById("tfF").addEventListener("click",function(){handleTF(false);});
+}
+
+function handleTF(userTrue){
+  if(document.querySelector(".option-btn.correct,.option-btn.incorrect"))return;
+  document.querySelectorAll(".option-btn").forEach(function(b){b.disabled=true;});
+  const right=(S._tfIsTrue===userTrue);
+  const btn=userTrue?document.getElementById("tfT"):document.getElementById("tfF");
+  if(btn)btn.classList.add(right?"correct":"incorrect");
+  if(right)S.score++;
+  logAttempt("True/False",'"'+S._tfDisp+'" - definition of '+S._tfTerm+'?',userTrue?"True":"False",S._tfIsTrue?"True":"False",right);
+  S.idx++;
+  document.getElementById("tfFb").innerHTML=`<div class="feedback-box ${right?"correct":"incorrect"}">${right?"Correct!":"Not quite. The correct answer was: "+(S._tfIsTrue?"True":"False")}</div><button class="btn-next" onclick="renderTF()">Next</button>`;
+}
+
+// ==============================================================
+// MATCH'EM UP
+// ==============================================================
+function renderMatch(){
+  const chunk=S.terms.slice(0,Math.min(6,S.terms.length));
+  S._matchSet=chunk;
+  const shuffledDefs=shuffle(chunk.map(function(t,i){return {termIdx:i,def:t.def};}));
+
+  const termsHTML=chunk.map(function(t,i){
+    return `<div class="match-term" draggable="true" data-tidx="${i}">${t.term}</div>`;
+  }).join("");
+  const defsHTML=shuffledDefs.map(function(d){
+    return `<div class="match-def" data-correct="${d.termIdx}" data-dropped="-1"><div class="match-def-text" style="font-size:12px;line-height:1.5;">${d.def}</div></div>`;
+  }).join("");
+
+  setQA(`
+    <p style="text-align:center;color:#4a6080;font-size:13px;margin-bottom:18px;">Drag each <strong>term</strong> from the left onto its matching <strong>definition</strong> on the right.</p>
+    <div class="match-grid">
+      <div><div class="match-col-label">Terms</div><div class="match-terms" id="matchTerms">${termsHTML}</div></div>
+      <div><div class="match-col-label">Definitions</div><div class="match-defs" id="matchDefs">${defsHTML}</div></div>
+    </div>
+    <button class="match-check-btn" onclick="checkMatch()">Check Answers</button>
+    <div id="matchFb" style="margin-top:14px;"></div>
+  `);
+
+  document.querySelectorAll(".match-term").forEach(function(el){
+    el.addEventListener("dragstart",function(e){e.dataTransfer.setData("text",this.dataset.tidx);this.classList.add("dragging");});
+    el.addEventListener("dragend",function(){this.classList.remove("dragging");});
+  });
+  document.querySelectorAll(".match-def").forEach(function(el){
+    el.addEventListener("dragover",function(e){e.preventDefault();this.classList.add("drag-over");});
+    el.addEventListener("dragleave",function(){this.classList.remove("drag-over");});
+    el.addEventListener("drop",function(e){
+      e.preventDefault();this.classList.remove("drag-over");
+      const tidx=e.dataTransfer.getData("text");
+      this.dataset.dropped=tidx;
+      let lbl=this.querySelector(".match-dropped");
+      if(!lbl){lbl=document.createElement("div");lbl.className="match-dropped";this.insertBefore(lbl,this.firstChild);}
+      lbl.textContent=S._matchSet[parseInt(tidx)].term;
+    });
+  });
+}
+
+function checkMatch(){
+  let correct=0;
+  const defEls=document.querySelectorAll(".match-def");
+  defEls.forEach(function(el){
+    const dropped=parseInt(el.dataset.dropped);
+    const right=parseInt(el.dataset.correct);
+    const isRight=(dropped===right);
+    if(isRight){el.classList.add("correct");correct++;}
+    else{el.classList.add("incorrect");}
+    const defText=el.querySelector(".match-def-text").textContent;
+    const droppedTermText=(dropped>=0&&S._matchSet[dropped])?S._matchSet[dropped].term:"No answer given";
+    const correctTermText=S._matchSet[right].term;
+    logAttempt("Match'em Up",defText,droppedTermText,correctTermText,isRight);
+  });
+  const total=defEls.length;
+  const pct=Math.round((correct/total)*100);
+  document.getElementById("matchFb").innerHTML=`<div class="feedback-box ${correct===total?"correct":correct>total/2?"neutral":"incorrect"}">${correct} / ${total} correct (${pct}%)</div>${buildReviewBlock()}<button class="btn-next" onclick="renderMatch()">Try Another Set</button>`;
+}
+
+// ==============================================================
+// HANGMAN
+// ==============================================================
+function renderHangman(){
+  if(S.idx>=S.terms.length){showVocabScore();return;}
+  const t=S.terms[S.idx];
+  S.hCurrentTerm=t;
+  S.hWord=t.term.toUpperCase();
+  S.hGuessed=S.hWord.split("").map(function(ch){return /[A-Z]/.test(ch)?null:ch;});
+  S.hMistakes=0; S.hAttempted=new Set();
+  drawHangmanBoard(t);
+}
+
+function drawHangmanBoard(t){
+  const letters="ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+  const keyHTML=letters.map(function(l){return `<button class="key" data-ltr="${l}">${l}</button>`;}).join("");
+  const pct=(S.idx/S.terms.length)*100;
+  setQA(`
+    <div class="progress-row"><span>Word ${S.idx+1} of ${S.terms.length}</span><span>Score: ${S.score}</span></div>
+    <div class="progress-bar-track"><div class="progress-bar-fill" style="width:${pct}%"></div></div>
+    <div class="hangman-container">
+      <div class="hangman-drawing">
+        <svg class="hangman-svg" viewBox="0 0 100 120" stroke="#1a2744" stroke-width="3" fill="none" stroke-linecap="round">
+          <line x1="10" y1="115" x2="90" y2="115"/><line x1="30" y1="115" x2="30" y2="5"/>
+          <line x1="30" y1="5" x2="70" y2="5"/><line x1="70" y1="5" x2="70" y2="20"/>
+          <circle id="hp1" cx="70" cy="32" r="12" style="display:none"/>
+          <line id="hp2" x1="70" y1="44" x2="70" y2="80" style="display:none"/>
+          <line id="hp3" x1="70" y1="52" x2="54" y2="68" style="display:none"/>
+          <line id="hp4" x1="70" y1="52" x2="86" y2="68" style="display:none"/>
+          <line id="hp5" x1="70" y1="80" x2="54" y2="100" style="display:none"/>
+          <line id="hp6" x1="70" y1="80" x2="86" y2="100" style="display:none"/>
+        </svg>
+      </div>
+      <div class="hangman-hint"><strong>Hint:</strong> ${t.def}</div>
+      <div class="word-display" id="hDisp"></div>
+      <div class="keyboard" id="hKeys">${keyHTML}</div>
+      <div id="hFb" style="margin-top:16px;min-height:44px;text-align:center;"></div>
+    </div>
+  `);
+  updateHDisp();
+  document.querySelectorAll(".key").forEach(function(btn){
+    btn.addEventListener("click",function(){doHGuess(this.dataset.ltr);});
+  });
+}
+
+function updateHDisp(){
+  const el=document.getElementById("hDisp");
+  if(el)el.textContent=S.hGuessed.map(function(ch){return ch||"_";}).join(" ");
+}
+
+function updateHParts(){
+  for(let i=1;i<=6;i++){const el=document.getElementById("hp"+i);if(el)el.style.display=i<=S.hMistakes?"block":"none";}
+}
+
+function doHGuess(letter){
+  if(!S.hActive||S.hAttempted.has(letter)||S.hMistakes>=6)return;
+  S.hAttempted.add(letter);
+  const btn=document.querySelector(`.key[data-ltr="${letter}"]`);
+  if(S.hWord.includes(letter)){
+    S.hWord.split("").forEach(function(ch,i){if(ch===letter)S.hGuessed[i]=letter;});
+    if(btn){btn.classList.add("correct-guess");btn.disabled=true;}
+  } else {
+    S.hMistakes++;
+    if(btn){btn.classList.add("wrong-guess");btn.disabled=true;}
+    updateHParts();
+  }
+  updateHDisp();
+  checkHEnd();
+}
+
+function checkHEnd(){
+  const won=!S.hGuessed.includes(null);
+  const lost=S.hMistakes>=6;
+  if(!won&&!lost)return;
+  document.querySelectorAll(".key").forEach(function(k){k.disabled=true;});
+  const fb=document.getElementById("hFb");
+  const t=S.hCurrentTerm;
+  logAttempt("Hangman",t?t.def:"",won?"Solved":"Not solved ("+S.hMistakes+" wrong guesses)",S.hWord,won);
+  if(won){
+    S.score++;
+    if(fb)fb.innerHTML=`<div class="feedback-box correct">Correct! The term is "${S.hWord}".</div><button class="btn-next" onclick="S.idx++;renderHangman()">Next Word</button>`;
+  } else {
+    const d=document.getElementById("hDisp");
+    if(d)d.textContent=S.hWord.split("").join(" ");
+    if(fb)fb.innerHTML=`<div class="feedback-box incorrect">The term was: <strong>${S.hWord}</strong></div><button class="btn-next" onclick="S.idx++;renderHangman()">Next Word</button>`;
+  }
+}
+
+document.addEventListener("keydown",function(e){
+  if(!S.hActive)return;
+  const k=e.key.toUpperCase();
+  if(/^[A-Z]$/.test(k)){const btn=document.querySelector(`.key[data-ltr="${k}"]`);if(btn&&!btn.disabled)doHGuess(k);}
+});
+
+// ==============================================================
+// PRACTICE SET MCQs
+// ==============================================================
+function renderPractice(){
+  if(S.idx>=S.practice.length){showPracticeScore();return;}
+  const q=S.practice[S.idx];
+  const letters=["A","B","C","D"];
+  const optsHTML=q.opts.map(function(opt,i){return `<button class="option-btn" data-idx="${i}"><span class="letter">${letters[i]}</span><span>${opt}</span></button>`;}).join("");
+  const pct=(S.idx/S.practice.length)*100;
+  setQA(`
+    <div class="progress-row"><span>Question ${S.idx+1} of ${S.practice.length}</span><span>Score: ${S.score} / ${S.idx}</span></div>
+    <div class="progress-bar-track"><div class="progress-bar-fill" style="width:${pct}%"></div></div>
+    <span class="skill-badge ${skillClass(q.skill)}">${q.skill}</span>
+    <div class="question-text">${q.q.replace(/\n/g,"<br>")}</div>
+    <div class="options-list" id="pOpts">${optsHTML}</div>
+    <div id="pFb"></div>
+  `);
+  S._pq=q;
+  document.querySelectorAll("#pOpts .option-btn").forEach(function(btn){
+    btn.addEventListener("click",function(){handlePractice(parseInt(this.dataset.idx));});
+  });
+}
+
+function handlePractice(si){
+  if(document.querySelector(".option-btn.correct,.option-btn.incorrect"))return;
+  const q=S._pq;
+  document.querySelectorAll(".option-btn").forEach(function(b){b.disabled=true;if(parseInt(b.dataset.idx)===q.answer)b.classList.add("revealed");});
+  const isRight=(si===q.answer);
+  const btn=document.querySelector(`#pOpts [data-idx="${si}"]`);
+  if(btn){btn.classList.remove("revealed");btn.classList.add(isRight?"correct":"incorrect");}
+  if(isRight)S.score++;
+  logAttempt("Practice Set MCQ",q.q,q.opts[si],q.opts[q.answer],isRight);
+  S.idx++;
+  document.getElementById("pFb").innerHTML=`<div class="feedback-box ${isRight?"correct":"incorrect"}">${isRight?"Correct!":"Not quite. The correct answer is highlighted above."}</div><button class="btn-next" onclick="renderPractice()">Next</button>`;
+}
+
+function showPracticeScore(){
+  const pct=Math.round((S.score/S.practice.length)*100);
+  const msg=pct>=80?"Strong work.":pct>=60?"Getting there. Keep reviewing.":"More revision needed - you've got this.";
+  setQA(`<div class="score-screen"><div class="big-score">${pct}%</div><div class="score-label">${S.score} correct out of ${S.practice.length}</div><div class="score-message">${msg}</div>${buildReviewBlock()}<br><button class="btn-restart" onclick="S.idx=0;S.score=0;S.log=[];S.practice=shuffle(getPractice(S.topic));renderPractice()">Try Again</button></div>`);
+}
+
+// ==============================================================
+// VOCAB SCORE
+// ==============================================================
+function showVocabScore(){
+  const pct=Math.round((S.score/S.terms.length)*100);
+  const msg=pct>=80?"Strong work.":pct>=60?"Getting there. Keep reviewing.":"More revision needed - you've got this.";
+  const restart=S.mode==="mcq"?"S.idx=0;S.score=0;S.log=[];S.terms=shuffle(getTerms(S.topic));renderMCQ()":S.mode==="tf"?"S.idx=0;S.score=0;S.log=[];S.terms=shuffle(getTerms(S.topic));renderTF()":"S.idx=0;S.score=0;S.log=[];S.hActive=true;S.terms=shuffle(getTerms(S.topic));renderHangman()";
+  setQA(`<div class="score-screen"><div class="big-score">${pct}%</div><div class="score-label">${S.score} correct out of ${S.terms.length}</div><div class="score-message">${msg}</div>${buildReviewBlock()}<br><button class="btn-restart" onclick="${restart}">Try Again</button></div>`);
+}
+</script>
+</body>
+</html>

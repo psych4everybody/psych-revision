@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 5: Mental and Physical Health | AP Psychology Revision</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Outfit',sans-serif;background:#f0f4fb;color:#1a2744;min-height:100vh;}
+
+/* HEADER */
+header{background:#1a2744;color:#fff;padding:26px 20px 22px;text-align:center;}
+header .eyebrow{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#7fa8d4;margin-bottom:8px;}
+header h1{font-family:'Playfair Display',serif;font-size:26px;color:#fff;line-height:1.3;}
+header .subtitle{margin-top:7px;font-size:13px;color:#a8c4e0;}
+
+/* CONTROLS */
+.controls-bar{background:#fff;border-bottom:2px solid #dde6f4;padding:14px 20px;display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:center;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(26,39,68,.09);}
+.controls-bar select{padding:9px 13px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:500;border:2px solid #c8d8ee;border-radius:8px;background:#f4f6fb;color:#1a2744;cursor:pointer;outline:none;min-width:175px;}
+.controls-bar select:focus{border-color:#2E75B6;}
+.btn-start{padding:9px 26px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;background:#1a2744;color:#fff;border:none;border-radius:8px;cursor:pointer;letter-spacing:.4px;transition:background .2s;}
+.btn-start:hover{background:#2E75B6;}
+
+/* MAIN */
+.main{max-width:860px;margin:28px auto;padding:0 14px 60px;}
+#quizArea{background:#fff;border-radius:12px;padding:28px;box-shadow:0 2px 16px rgba(26,39,68,.07);min-height:280px;}
+.placeholder-text{text-align:center;padding:56px 20px;color:#7a90b5;font-size:16px;line-height:1.8;}
+
+/* PROGRESS */
+.progress-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;font-size:13px;font-weight:500;color:#4a6080;}
+.progress-bar-track{height:5px;background:#e0e8f4;border-radius:3px;margin-bottom:22px;overflow:hidden;}
+.progress-bar-fill{height:100%;background:#2E75B6;border-radius:3px;transition:width .4s ease;}
+
+/* QUESTION */
+.question-text{font-size:16px;line-height:1.7;margin-bottom:20px;color:#1a2744;}
+.stem-label{display:block;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#7fa8d4;margin-bottom:8px;}
+
+.skill-badge{display:inline-block;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:3px 10px;border-radius:20px;margin-bottom:13px;}
+.skill-1{background:#e8eef8;color:#3a5a8a;}
+.skill-2{background:#e3f2fd;color:#1565c0;}
+.skill-3{background:#fff3e0;color:#e65100;}
+.skill-4{background:#e8f5e9;color:#2e7d32;}
+
+/* OPTIONS */
+.options-list{display:flex;flex-direction:column;gap:9px;}
+.option-btn{display:flex;align-items:flex-start;gap:11px;padding:13px 15px;border:2px solid #d0ddef;border-radius:8px;background:#f8fafd;cursor:pointer;font-family:'Outfit',sans-serif;font-size:14px;line-height:1.5;color:#1a2744;text-align:left;transition:border-color .15s,background .15s;width:100%;}
+.option-btn:hover:not(:disabled){border-color:#2E75B6;background:#eaf3fc;}
+.option-btn .letter{font-weight:700;min-width:20px;color:#2E75B6;flex-shrink:0;}
+.option-btn.correct{border-color:#28a745;background:#d4edda;color:#155724;}
+.option-btn.incorrect{border-color:#dc3545;background:#f8d7da;color:#721c24;}
+.option-btn.revealed{border-color:#28a745;background:#d4edda;color:#155724;}
+.option-btn:disabled{cursor:default;}
+
+/* FEEDBACK */
+.feedback-box{margin-top:16px;padding:13px 16px;border-radius:8px;font-size:14px;font-weight:600;}
+.feedback-box.correct{background:#d4edda;color:#155724;}
+.feedback-box.incorrect{background:#f8d7da;color:#721c24;}
+.feedback-box.neutral{background:#e8f1fa;color:#1a4a7a;}
+.btn-next{display:inline-block;margin-top:16px;padding:11px 28px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;background:#1a2744;color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s;}
+.btn-next:hover{background:#2E75B6;}
+
+/* FLASHCARD */
+.flashcard-wrapper{perspective:1200px;max-width:660px;margin:16px auto;height:240px;cursor:pointer;}
+.flashcard-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .55s ease;}
+.flashcard-wrapper.flipped .flashcard-inner{transform:rotateY(180deg);}
+.flashcard-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:26px 30px;text-align:center;}
+.flashcard-front{background:#1a2744;color:#fff;}
+.flashcard-front .face-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#7fa8d4;margin-bottom:12px;}
+.flashcard-front .face-term{font-size:22px;font-weight:700;line-height:1.35;}
+.flashcard-back{background:#eef4fc;border:2px solid #c8d8ee;transform:rotateY(180deg);}
+.flashcard-back .face-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#4a6080;margin-bottom:12px;}
+.flashcard-back .face-def{font-size:15px;line-height:1.65;color:#1a2744;}
+.flashcard-hint{text-align:center;margin-top:10px;font-size:12px;color:#7a90b5;}
+.flashcard-nav{display:flex;gap:10px;justify-content:center;margin-top:18px;}
+.flashcard-nav button{padding:9px 22px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;border:2px solid #1a2744;border-radius:8px;background:#fff;color:#1a2744;cursor:pointer;transition:all .15s;}
+.flashcard-nav button:hover{background:#1a2744;color:#fff;}
+.flashcard-nav button.self-rate-good{border-color:#28a745;color:#1e7b34;}
+.flashcard-nav button.self-rate-good:hover{background:#28a745;color:#fff;}
+.flashcard-nav button.self-rate-review{border-color:#dc3545;color:#a72638;}
+.flashcard-nav button.self-rate-review:hover{background:#dc3545;color:#fff;}
+
+/* MATCH */
+.match-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+@media(max-width:580px){.match-grid{grid-template-columns:1fr;}}
+.match-col-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#7a90b5;margin-bottom:8px;}
+.match-terms,.match-defs{display:flex;flex-direction:column;gap:8px;}
+.match-term{padding:11px 13px;background:#1a2744;color:#fff;border-radius:7px;font-size:13px;font-weight:600;cursor:grab;user-select:none;transition:opacity .2s;}
+.match-term.dragging{opacity:.35;}
+.match-def{padding:11px 13px;background:#f4f6fb;border:2px dashed #b0c4de;border-radius:7px;font-size:12px;min-height:56px;position:relative;transition:border-color .15s,background .15s;}
+.match-def.drag-over{border-color:#2E75B6;background:#e3f2fd;border-style:solid;}
+.match-def.correct{border-color:#28a745;background:#d4edda;border-style:solid;}
+.match-def.incorrect{border-color:#dc3545;background:#f8d7da;border-style:solid;}
+.match-dropped{display:block;font-weight:700;font-size:12px;color:#1a2744;background:#c8d8ee;border-radius:4px;padding:2px 7px;margin-bottom:4px;}
+.match-check-btn{display:block;margin:18px auto 0;padding:11px 30px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;background:#2E75B6;color:#fff;border:none;border-radius:8px;cursor:pointer;}
+.match-check-btn:hover{background:#1a5a9a;}
+
+/* HANGMAN */
+.hangman-container{display:flex;flex-direction:column;align-items:center;}
+.hangman-svg{width:180px;height:200px;}
+.hangman-hint{background:#e8f1fa;border-left:4px solid #2E75B6;padding:11px 15px;border-radius:0 8px 8px 0;font-size:13px;font-style:italic;color:#2a4a70;margin-bottom:18px;max-width:480px;width:100%;}
+.word-display{font-size:1.9rem;letter-spacing:7px;font-family:'Courier New',monospace;font-weight:700;margin:14px 0;word-break:break-all;text-align:center;}
+.keyboard{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;max-width:440px;margin-top:14px;}
+.key{width:35px;height:35px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;font-family:'Outfit',sans-serif;background:#1a2744;color:#fff;border:none;border-radius:5px;cursor:pointer;transition:background .15s;}
+.key:hover:not(:disabled){background:#2E75B6;}
+.key:disabled{opacity:.45;cursor:default;}
+.key.correct-guess{background:#28a745;}
+.key.wrong-guess{background:#dc3545;}
+
+/* SCORE SCREEN */
+.score-screen{text-align:center;padding:36px 20px;}
+.score-screen .big-score{font-family:'Playfair Display',serif;font-size:60px;font-weight:700;color:#1a2744;line-height:1;margin-bottom:8px;}
+.score-screen .score-label{font-size:17px;color:#4a6080;margin-bottom:22px;}
+.score-screen .score-message{font-size:20px;font-weight:700;margin-bottom:6px;color:#1a2744;}
+.btn-restart{display:inline-block;margin-top:20px;padding:11px 32px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;background:#1a2744;color:#fff;border:none;border-radius:8px;cursor:pointer;}
+.btn-restart:hover{background:#2E75B6;}
+.btn-print{background:#2E75B6;margin-left:10px;}
+.btn-print:hover{background:#1a5a9a;}
+
+/* Common Mistakes mode */
+.mistake-topic-header{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#7a90b5;margin:22px 0 10px;}
+.mistake-topic-header:first-child{margin-top:0;}
+.mistake-item{background:#fff3e0;border-left:4px solid #e65100;padding:12px 15px;border-radius:0 8px 8px 0;font-size:14px;line-height:1.65;margin-bottom:12px;color:#5a3a00;}
+
+/* Session review block */
+.review-block{text-align:left;background:#f8fafd;border:2px solid #d0ddef;border-radius:10px;padding:16px 18px;margin:22px 0;max-height:320px;overflow-y:auto;}
+.review-header{font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#4a6080;margin-bottom:10px;}
+.review-item{font-size:13px;line-height:1.6;padding:8px 0;border-bottom:1px solid #e0e8f4;}
+.review-item:last-child{border-bottom:none;}
+.review-item strong{color:#1a2744;}
+.review-correct{color:#155724;display:block;margin-top:2px;}
+
+@media(max-width:480px){
+  header h1{font-size:20px;}
+  #quizArea{padding:16px;}
+  .word-display{font-size:1.3rem;letter-spacing:3px;}
+  .key{width:28px;height:28px;font-size:11px;}
+  .controls-bar select{min-width:140px;font-size:13px;}
+}
+.disclaimer{max-width:860px;margin:16px auto 0;padding:11px 16px;background:#fff8e1;border-left:5px solid #f9a825;border-radius:6px;font-size:13px;line-height:1.5;color:#5d4a00;}
+</style>
+<style>
+.topbar{background:#1a2744;padding:10px 16px;text-align:left;}
+.back-btn{display:inline-block;font-family:'Outfit',Arial,sans-serif;font-size:13px;font-weight:600;color:#fff;text-decoration:none;padding:7px 14px;border:1.5px solid #7fa8d4;border-radius:20px;background:rgba(255,255,255,.08);}
+.back-btn:hover{background:#2E75B6;border-color:#2E75B6;}
+.topbar.light{background:#fff;border-bottom:1px solid #ccc;}
+.topbar.light .back-btn{color:#1a2744;border-color:#1a2744;background:#f4f6fb;}
+.topbar.light .back-btn:hover{background:#1a2744;color:#fff;}
+</style>
+</head>
+<body>
+<nav class="topbar"><a class="back-btn" href="index.html">&larr; All Units</a></nav>
+
+
+<header>
+  <div class="eyebrow">AP Psychology &nbsp;|&nbsp; Unit 5</div>
+  <h1>Mental and Physical Health</h1>
+  <p class="subtitle">Interactive Revision &nbsp;|&nbsp; 5 Topics &nbsp;|&nbsp; 7 Activity Types</p>
+</header>
+
+<div class="controls-bar">
+  <select id="topicSelect">
+    <option value="all">All Topics</option>
+    <option value="5.1">5.1 - Health Psychology and Stress</option>
+    <option value="5.2">5.2 - Positive Psychology</option>
+    <option value="5.3">5.3 - Defining and Explaining Disorders</option>
+    <option value="5.4">5.4 - Categories of Disorders</option>
+    <option value="5.5">5.5 - Treatment</option>
+  </select>
+  <select id="modeSelect">
+    <option value="flash">Flashcards</option>
+    <option value="mcq">Vocabulary MCQ</option>
+    <option value="tf">True / False</option>
+    <option value="match">Match'em Up</option>
+    <option value="hangman">Hangman</option>
+    <option value="practice">Practice Set MCQs</option>
+    <option value="mistakes">Common Mistakes</option>
+  </select>
+  <button class="btn-start" id="startBtn">Start</button>
+</div>
+
+<div class="disclaimer"><strong>Please note:</strong> This unit is for learning about psychology. It is not for diagnosing yourself or other people. If a topic feels personal or worrying, talk with the school counsellor or a trusted adult.</div>
+<div class="main">
+  <div id="quizArea">
+    <div class="placeholder-text">
+      Select a topic and activity type, then click <strong>Start</strong>.<br><br>
+      <strong>Flashcards</strong> &nbsp;|&nbsp; <strong>Vocabulary MCQ</strong> &nbsp;|&nbsp; <strong>True/False</strong> &nbsp;|&nbsp; <strong>Match'em Up</strong> &nbsp;|&nbsp; <strong>Hangman</strong> &nbsp;|&nbsp; <strong>Practice Set MCQs</strong> &nbsp;|&nbsp; <strong>Common Mistakes</strong>
+    </div>
+  </div>
+</div>
+
+<script>
+// ==============================================================
+// TERMS DATABASE
+// ==============================================================
+const termsDB = {
+  "5.1": [
+    {term:"Health Psychology",def:"Examines how physical health and wellness shape behaviors and mental processes, taking a holistic view of behaviors, coping, stressors, and community engagement."},
+    {term:"Eustress",def:"Positive stress that motivates a person to take on challenges and perform better."},
+    {term:"Distress",def:"Negative stress that overwhelms a person, leading to exhaustion and impaired functioning."},
+    {term:"Daily Hassles",def:"Small but frequent annoyances that accumulate over time into significant stress, such as overlapping deadlines."},
+    {term:"Traumatic Events",def:"Severe acute stressors such as accidents, disasters, violence, or the loss of a loved one. They can lead to strong emotional responses, including PTSD."},
+    {term:"Adverse Childhood Experiences (ACEs)",def:"Potentially traumatic events or chronic stressors during childhood. Effects often persist into adulthood and are linked to higher risk of mental and physical health problems."},
+    {term:"General Adaptation Syndrome (GAS)",def:"Selye's three-stage model of the body's physiological response to prolonged stress: alarm, resistance, and exhaustion."},
+    {term:"Alarm Reaction",def:"GAS Stage 1. The stressor is first perceived, the fight-flight-freeze response is activated, and the body releases adrenaline and cortisol."},
+    {term:"Resistance Stage",def:"GAS Stage 2. The stressor persists, and the body tries to adapt by using more energy to maintain a higher level of tension. Fatigue begins to develop."},
+    {term:"Exhaustion Stage",def:"GAS Stage 3. Energy stores are depleted and the immune system weakens, leaving a person open to burnout, illness, and heightened anxiety."},
+    {term:"Fight-Flight-Freeze Response",def:"An automatic reaction to a perceived threat in which the body prepares to confront it, escape it, or become immobile."},
+    {term:"Tend-and-Befriend Theory",def:"An alternative stress response in which people protect and nurture others (tending) or seek out social connection (befriending). It describes behavior, while GAS describes the body's physiological stages."},
+    {term:"Problem-Focused Coping",def:"Treats the stressor as a problem to be solved: identify the source, make a plan, act, and revise. Best when a practical solution exists."},
+    {term:"Emotion-Focused Coping",def:"Manages the emotional reaction to a stressor rather than changing it directly, using relaxation, mindfulness, physical activity, or social support. Best when the stressor is outside your control."}
+  ],
+  "5.2": [
+    {term:"Positive Psychology",def:"A branch of psychology focused on what makes life most worth living: positive emotions, character strengths, resilience, and well-being."},
+    {term:"Resilience",def:"The ability to recover from setbacks and maintain psychological health in challenging circumstances."},
+    {term:"Gratitude",def:"Recognizing and appreciating the positive aspects of life. Regular practice is linked to higher happiness and life satisfaction."},
+    {term:"Signature Strengths and Virtues",def:"Personal qualities that come most naturally to a person. Developing them leads to greater satisfaction and a more purposeful life."},
+    {term:"Wisdom",def:"Virtue category covering creativity and curiosity."},
+    {term:"Courage",def:"Virtue category covering bravery and integrity."},
+    {term:"Humanity",def:"Virtue category covering interpersonal strengths such as kindness and love."},
+    {term:"Justice",def:"Virtue category covering fairness and leadership."},
+    {term:"Temperance",def:"Virtue category covering strengths that protect against excess, such as humility and self-control."},
+    {term:"Transcendence",def:"Virtue category covering strengths that deepen connections to something larger, such as gratitude and hope."},
+    {term:"Post-Traumatic Growth",def:"Positive psychological change that emerges from struggling with a highly challenging or traumatic event, such as new strengths, deeper relationships, appreciation for life, and a sense of new purpose."}
+  ],
+  "5.3": [
+    {term:"Level of Dysfunction",def:"Criterion for judging a disorder: how well or poorly a person can carry out day-to-day activities and responsibilities."},
+    {term:"Perception of Distress",def:"Criterion for judging a disorder: the person's own experience of negative emotions, pain, or stress related to their thoughts, feelings, or behaviors."},
+    {term:"Deviation from Social Norms",def:"Criterion for judging a disorder: behavior measured against social and cultural standards. Norms vary across cultures, so only trained professionals should diagnose."},
+    {term:"DSM",def:"The Diagnostic and Statistical Manual of Mental Disorders, developed by the American Psychiatric Association (APA). It classifies mental disorders with symptoms, criteria, and statistical data."},
+    {term:"ICD",def:"The International Classification of Diseases, developed by the World Health Organization (WHO). A global standard that classifies all health conditions, including mental and behavioral disorders."},
+    {term:"Eclectic Approach",def:"Combining techniques from several psychological perspectives to build a personalized treatment plan."},
+    {term:"Behavioral Perspective",def:"Disorders come from maladaptive learned associations (classical conditioning, operant conditioning, observational learning). Because they are learned, they can be unlearned."},
+    {term:"Psychodynamic Perspective",def:"Disorders originate from unconscious conflicts rooted in unresolved childhood experiences that have been repressed."},
+    {term:"Humanistic Perspective",def:"Disorders develop from a lack of social support, failure to reach potential, or a large gap between the actual and ideal self (incongruence)."},
+    {term:"Cognitive Perspective",def:"Disorders arise from maladaptive thought patterns: distorted, irrational, or negative thinking that produces distress."},
+    {term:"Evolutionary Perspective",def:"Traits that were once adaptive for survival may now be maladaptive and cause problems. Also examines genetic predispositions."},
+    {term:"Sociocultural Perspective",def:"Disorders are shaped by social and cultural factors such as group dynamics, cultural norms, and societal pressures."},
+    {term:"Biological Perspective",def:"Disorders are driven by physiological and genetic factors such as neurotransmitter imbalances, brain structure differences, or inherited vulnerabilities."},
+    {term:"Biopsychosocial Model",def:"Disorders are influenced by interacting biological, psychological, and sociocultural factors."},
+    {term:"Diathesis-Stress Model",def:"Disorders arise from the interaction of an inherited or biological vulnerability (diathesis) and stressful life events (stress)."}
+  ],
+  "5.4": [
+    {term:"Neurodevelopmental Disorders",def:"Conditions with early (childhood) onset that affect social relationships, communication, or learning. Symptoms range from mild to severe."},
+    {term:"ADHD",def:"Attention-deficit/hyperactivity disorder. Characterized by inattention, hyperactivity, and impulsivity."},
+    {term:"Autism Spectrum Disorder (ASD)",def:"A spectrum of neurodevelopmental conditions involving challenges in social communication, repetitive behaviors, restricted interests, and sensory sensitivities. Each person's profile varies."},
+    {term:"Delusions",def:"False beliefs held despite clear contradictory evidence. A positive symptom."},
+    {term:"Delusions of Persecution",def:"The false belief that others are trying to harm or deceive you."},
+    {term:"Delusions of Grandeur",def:"The false belief that you have exceptional abilities, wealth, or fame."},
+    {term:"Hallucinations",def:"False sensory perceptions without an external stimulus. The most common are auditory (hearing voices). A positive symptom."},
+    {term:"Disorganized Thinking and Speech",def:"A positive symptom that includes word salad, loose associations, and tangential speech."},
+    {term:"Word Salad",def:"Words strung together with no logical connection."},
+    {term:"Positive Symptoms",def:"Something ADDED to a person's behavior or experience, such as hallucinations, delusions, disorganized speech, or catatonic excitement."},
+    {term:"Negative Symptoms",def:"Something REMOVED from a person's typical functioning, such as flat affect, alogia, reduced motivation, or catatonic stupor."},
+    {term:"Flat Affect",def:"A negative symptom: reduced emotional expression, with little facial movement and a monotone voice."},
+    {term:"Alogia",def:"A negative symptom: reduced speech output. The person says very little."},
+    {term:"Catatonia",def:"A disturbance of movement and behavior. It can appear as catatonic excitement (excessive movement, positive) or catatonic stupor (near-unresponsiveness, negative)."},
+    {term:"Dopamine Hypothesis",def:"Excess dopamine activity in the limbic system is linked to positive symptoms, while too little dopamine in the prefrontal cortex is linked to negative symptoms."},
+    {term:"Major Depressive Disorder (MDD)",def:"Intense symptoms such as diminished interest, sleep and appetite changes, and negative thoughts. Must last at least 2 weeks."},
+    {term:"Persistent Depressive Disorder (PDD)",def:"Less intense but chronic low mood lasting at least 2 years. People can often still function."},
+    {term:"Mania",def:"A period of abnormally elevated mood, high energy, impulsivity, and euphoria."},
+    {term:"Hypomania",def:"A milder form of mania that is less severe and does not cause major impairment."},
+    {term:"Bipolar I Disorder",def:"At least one full manic episode (7 or more days), typically followed by depressive episodes."},
+    {term:"Bipolar II Disorder",def:"Hypomanic episodes (less severe than full mania) followed by major depressive episodes."},
+    {term:"Specific Phobia",def:"An intense, irrational fear of a particular object or situation, such as acrophobia (heights) or arachnophobia (spiders)."},
+    {term:"Agoraphobia",def:"Fear of situations where escape is difficult or help is unavailable. Often leads to avoiding crowds, public transport, and enclosed spaces."},
+    {term:"Panic Disorder",def:"Unexpected, intense episodes of fear with physical symptoms such as a pounding heart, sweating, and shortness of breath."},
+    {term:"Social Anxiety Disorder",def:"Fear of being judged or scrutinized in social situations. Different from agoraphobia, which is about escape."},
+    {term:"Generalized Anxiety Disorder (GAD)",def:"Excessive, uncontrollable worry across multiple life domains lasting at least 6 months."},
+    {term:"Culture-Bound Disorder",def:"A condition specific to a particular cultural group, recognized within that culture and not necessarily elsewhere."},
+    {term:"Ataque de Nervios",def:"A culture-bound panic-like episode described in Caribbean and Iberian cultures: a sudden wave of intense emotional distress with physical symptoms."},
+    {term:"Taijin Kyofusho",def:"A culture-bound variant of social anxiety found mainly in Japan, centered on fear of offending or displeasing others rather than personal embarrassment."},
+    {term:"Obsessive-Compulsive Disorder (OCD)",def:"A cycle of intrusive obsessions (unwanted repeated thoughts) and compulsions (repetitive behaviors that temporarily relieve the anxiety), such as repeated handwashing."},
+    {term:"Hoarding Disorder",def:"Difficulty discarding possessions regardless of their value, with significant anxiety at the thought of disposal, creating cluttered and potentially unsafe living conditions."},
+    {term:"Dissociative Amnesia",def:"Inability to recall important personal information, typically linked to trauma. It can be localized, selective, or generalized."},
+    {term:"Dissociative Fugue",def:"A subtype of dissociative amnesia that also involves unexpected travel and sometimes the adoption of a new identity."},
+    {term:"Dissociative Identity Disorder (DID)",def:"Two or more distinct identity states with gaps in memory, associated with severe or repeated early childhood trauma. Formerly called multiple personality disorder. It is different from schizophrenia."},
+    {term:"Post-Traumatic Stress Disorder (PTSD)",def:"Follows a disturbing event. Includes flashbacks and nightmares, intrusive thoughts, avoidance of reminders, and social withdrawal."},
+    {term:"Hypervigilance",def:"A state of heightened alertness, constantly on guard for threats. Common in trauma-related disorders."},
+    {term:"Anorexia Nervosa",def:"An eating disorder involving extreme restriction of food, intense fear of gaining weight, and a distorted body image, with serious health risks."},
+    {term:"Bulimia Nervosa",def:"An eating disorder involving a cycle of binge eating followed by compensatory behaviors, with serious health risks."},
+    {term:"Personality Disorders",def:"Enduring, inflexible patterns of thinking and behavior that begin in late adolescence or early adulthood, differ significantly from cultural expectations, and cause distress or impaired functioning. Organized into Clusters A, B, and C."},
+    {term:"Cluster A",def:"Personality disorders marked by social awkwardness, suspiciousness, and difficulty relating to others: paranoid, schizoid, and schizotypal."},
+    {term:"Paranoid Personality Disorder",def:"Persistent distrust and suspicion; believes others want to deceive or harm them."},
+    {term:"Schizoid Personality Disorder",def:"Detachment from relationships, limited emotional expression, and a preference for solitude."},
+    {term:"Schizotypal Personality Disorder",def:"Social discomfort with odd beliefs, behaviors, or speech and unusual perceptual experiences."},
+    {term:"Cluster B",def:"Personality disorders marked by intense emotions, impulsivity, and a need for attention or admiration: antisocial, histrionic, narcissistic, and borderline."},
+    {term:"Antisocial Personality Disorder",def:"Disregard for others' rights, impulsivity, and lack of remorse for harmful actions."},
+    {term:"Histrionic Personality Disorder",def:"Excessive emotionality and attention-seeking; discomfort when not the center of attention."},
+    {term:"Narcissistic Personality Disorder",def:"A need for admiration, lack of empathy, an inflated sense of self-importance, and an expectation of special treatment."},
+    {term:"Borderline Personality Disorder",def:"Instability in relationships, self-image, and emotions, with a strong fear of abandonment and intense mood swings."},
+    {term:"Cluster C",def:"Personality disorders marked by anxiety, fearfulness, and avoidance: avoidant, dependent, and obsessive-compulsive personality disorder."},
+    {term:"Avoidant Personality Disorder",def:"Social inhibition, feelings of inadequacy, and hypersensitivity to negative evaluation, leading to avoidance of social situations."},
+    {term:"Dependent Personality Disorder",def:"A strong need to be cared for, difficulty making independent decisions, and difficulty with separation."},
+    {term:"Obsessive-Compulsive Personality Disorder (OCPD)",def:"Perfectionism and a rigid need for control and order. Different from OCD because it is not driven by obsessions and anxiety-relief cycles."}
+  ],
+  "5.5": [
+    {term:"Psychotherapy",def:"Structured conversations with a trained mental health professional to address emotional, psychological, and behavioral challenges."},
+    {term:"Meta-Analysis",def:"A research method that statistically combines results from many independent studies to identify overall trends and effect sizes. It shows psychotherapy is generally effective."},
+    {term:"Therapeutic Alliance",def:"The trusting, collaborative relationship between therapist and client, built on mutual respect and shared goals."},
+    {term:"Cultural Humility",def:"A therapist's respectful openness to a client's cultural background, beliefs, and values, without judgment."},
+    {term:"Deinstitutionalization",def:"The movement to close or scale back psychiatric hospitals and return patients to community-based settings such as outpatient clinics and group homes."},
+    {term:"Group Therapy",def:"Several people meet with a therapist together. Benefits include peer support and lower cost. Limitation: less individual focus."},
+    {term:"Individual Therapy",def:"One-on-one work with a therapist. Highly personalized and private, but usually more expensive."},
+    {term:"Non-maleficence",def:"APA ethical principle: do no harm. Avoid causing physical, emotional, or psychological harm to clients."},
+    {term:"Fidelity",def:"APA ethical principle: be trustworthy and keep confidentiality unless a legal or ethical duty requires disclosure."},
+    {term:"Integrity",def:"APA ethical principle: be honest about qualifications, methods, and expectations."},
+    {term:"Respect for Rights and Dignity",def:"APA ethical principle: obtain informed consent, respect cultural differences, and protect client autonomy."},
+    {term:"Hypnosis",def:"A state of focused attention, heightened suggestibility, and deep relaxation. Helpful for pain and anxiety but not for reliably retrieving memories, and leading questions can create false memories."},
+    {term:"Psychodynamic Therapy",def:"Aims to uncover and resolve unconscious conflicts using free association and dream interpretation. Looks backward at what buried conflicts shape a person."},
+    {term:"Free Association",def:"The client speaks freely about any thoughts or images that come to mind while the therapist looks for patterns pointing to unconscious motives."},
+    {term:"Dream Interpretation",def:"Analyzing the manifest content and latent content of dreams to connect them to emotional struggles."},
+    {term:"Manifest Content",def:"The actual storyline of a dream."},
+    {term:"Latent Content",def:"The deeper symbolic meaning of a dream, reflecting hidden desires, fears, or conflicts."},
+    {term:"Cognitive Restructuring",def:"The therapist helps the client recognize, challenge, and replace distorted thoughts with realistic ones, such as turning 'I am a failure' into 'I can succeed in many areas.'"},
+    {term:"Fear Hierarchy",def:"A list of anxiety-provoking situations ordered from least to most frightening, used in gradual exposure."},
+    {term:"Cognitive Triad",def:"Three interconnected areas of negative thought: the self, the world, and the future. Negative thoughts in one area feed the others."},
+    {term:"Applied Behavior Analysis",def:"Identifies how environmental factors such as rewards and punishments shape behavior, then uses those principles to change it."},
+    {term:"Exposure Therapy",def:"Gradual exposure to a feared stimulus while practicing relaxation. Uses classical conditioning to pair the stimulus with calm instead of fear."},
+    {term:"Systematic Desensitization",def:"An exposure therapy for phobias: gradually increasing intensity of the feared stimulus paired with relaxation techniques."},
+    {term:"Aversion Therapy",def:"Pairs an unwanted behavior with an unpleasant stimulus to create a new negative association and reduce the behavior."},
+    {term:"Token Economy",def:"Clients earn tokens for desired behaviors (operant conditioning, positive reinforcement) that can be exchanged for rewards."},
+    {term:"Biofeedback",def:"Real-time electronic monitoring of body responses such as heart rate or muscle tension so clients can learn to regulate them."},
+    {term:"Cognitive-Behavioral Therapy (CBT)",def:"Blends cognitive (thought-challenging) and behavioral (habit-changing) approaches."},
+    {term:"Dialectical Behavior Therapy (DBT)",def:"A CBT approach with four focus areas: mindfulness, distress tolerance, emotional regulation, and interpersonal effectiveness. Originally developed for borderline personality disorder."},
+    {term:"Rational Emotive Behavior Therapy (REBT)",def:"Uses the ABCDE model to disrupt irrational beliefs: Activating event, Belief, Consequence, Disputation, Effective new belief."},
+    {term:"Humanistic Therapy",def:"Person-centered therapy that focuses on present growth, self-actualization, and congruence between the real and ideal self. Looks forward at who you can become."},
+    {term:"Active Listening",def:"The therapist fully concentrates on the client and paraphrases what is shared to validate feelings and encourage openness."},
+    {term:"Unconditional Positive Regard",def:"Complete acceptance of the client regardless of what they think or do, fostering safety and growth."},
+    {term:"Psychotropic Medications",def:"Drugs that affect brain function to alter mood, behavior, emotions, or thinking."},
+    {term:"Antidepressants",def:"Boost serotonin (and sometimes norepinephrine) levels to regulate mood. Used for depression and anxiety."},
+    {term:"Anti-Anxiety Drugs",def:"Enhance GABA activity to produce a calming effect. Carry a risk of dependence."},
+    {term:"Lithium",def:"A mood stabilizer used mainly for bipolar disorder. Has a narrow therapeutic window and needs monitoring."},
+    {term:"Antipsychotics",def:"Block dopamine receptors to reduce excess dopamine activity. Used for schizophrenia, delusions, and hallucinations."},
+    {term:"Tardive Dyskinesia (TD)",def:"A movement disorder of involuntary, repetitive body movements that can follow long-term antipsychotic use."},
+    {term:"Psychosurgery",def:"Surgical removal or damage of specific brain tissue to relieve severe symptoms."},
+    {term:"Lobotomy",def:"A historical procedure that severed frontal lobe connections. Now extremely rare because of serious side effects and better alternatives."},
+    {term:"Transcranial Magnetic Stimulation (TMS)",def:"A non-invasive treatment that uses magnetic fields to stimulate brain regions linked to mood. Used mainly for depression."},
+    {term:"Electroconvulsive Therapy (ECT)",def:"Small electrical currents trigger a brief seizure. Used for severe, treatment-resistant depression, only after other treatments have failed."}
+  ]
+};
+
+// ==============================================================
+// COMMON MISTAKES DATABASE
+// ==============================================================
+const mistakesDB = {
+  "5.1": [
+    "Students often think all stress is bad. Actually eustress is positive stress that motivates and improves performance, while distress is the overwhelming kind.",
+    "Students often think the General Adaptation Syndrome and tend-and-befriend describe the same thing. Actually GAS describes the physiological stages inside the body over time, while tend-and-befriend describes behavioral responses to stress.",
+    "Students often think emotion-focused coping is a weaker choice than problem-focused coping. Actually each fits different situations: problem-focused works when you can change the stressor, and emotion-focused works when the stressor is outside your control. They can also be combined.",
+    "Students often think the resistance stage means the stress is over. Actually in the resistance stage the stressor persists and the body keeps working at a higher energy cost, and exhaustion follows if it continues.",
+    "Students often think adverse childhood experiences only affect childhood. Actually their effects often persist into adulthood and are linked to higher risk of mental and physical health problems."
+  ],
+  "5.2": [
+    "Students often think positive psychology ignores difficult experiences. Actually it studies how people recover from setbacks and can even grow after them, as in post-traumatic growth.",
+    "Students often think post-traumatic growth just means getting back to normal. Actually it is a genuine positive transformation, such as new strengths, deeper relationships, and renewed purpose.",
+    "Students often mix up the six virtue categories. Actually wisdom covers creativity and curiosity, courage covers bravery and integrity, humanity covers kindness and love, justice covers fairness and leadership, temperance covers humility and self-control, and transcendence covers gratitude and hope.",
+    "Students often think signature strengths are skills you must be taught. Actually they are qualities that come most naturally to you, and developing them leads to greater satisfaction.",
+    "Students often think gratitude only works because it makes people feel good in the moment. Actually it directs attention toward the positives in life, which fosters optimism and higher life satisfaction over time."
+  ],
+  "5.3": [
+    "Students often think the DSM and ICD are the same manual. Actually the DSM is published by the American Psychiatric Association and focuses on mental disorders, while the ICD is published by the WHO and classifies all health conditions globally.",
+    "Students often confuse the biopsychosocial model with the diathesis-stress model. Actually biopsychosocial is a wide lens across biological, psychological, and sociocultural factors, while diathesis-stress is narrower and focuses on a vulnerability interacting with a stressful trigger.",
+    "Students often think unusual behavior alone means a person has a disorder. Actually professionals consider level of dysfunction, perception of distress, and deviation from social norms, and norms vary across cultures.",
+    "Students often think a psychologist must stick to one perspective. Actually most use an eclectic approach, combining techniques from several perspectives.",
+    "Students often think diagnosis is purely helpful or purely harmful. Actually it can open access to treatment and validation, but it also carries risks such as stigma and self-fulfilling prophecy."
+  ],
+  "5.4": [
+    "Students often think positive symptoms are good ones. Actually positive means something is ADDED (hallucinations, delusions), and negative means something is REMOVED (flat affect, alogia).",
+    "Students often mix up flat affect and alogia. Actually flat affect is reduced emotional expression, while alogia is reduced speech output.",
+    "Students often think major depressive disorder and persistent depressive disorder differ only by name. Actually MDD is more intense and lasts at least 2 weeks, while PDD is less intense but lasts at least 2 years.",
+    "Students often think bipolar I and bipolar II are the same. Actually bipolar I requires at least one full manic episode, while bipolar II involves hypomania instead of full mania.",
+    "Students often confuse OCD and OCPD. Actually OCD is an anxiety-related disorder driven by obsessions and compulsions, while OCPD is a personality disorder of perfectionism and rigid control without that cycle.",
+    "Students often confuse social anxiety disorder with agoraphobia. Actually social anxiety is fear of being judged, while agoraphobia is fear of situations where escape is difficult.",
+    "Students often think dissociative identity disorder is the same as schizophrenia. Actually DID involves distinct identity states and memory gaps linked to trauma, while schizophrenia involves symptoms such as hallucinations and delusions.",
+    "Students often think dissociative amnesia and dissociative fugue are identical. Actually fugue is a subtype that also includes unexpected travel and sometimes a new identity."
+  ],
+  "5.5": [
+    "Students often mix up psychodynamic and humanistic therapy. Actually psychodynamic therapy looks backward to uncover unconscious conflicts, while humanistic therapy focuses on present growth and congruence.",
+    "Students often confuse systematic desensitization with aversion therapy. Actually desensitization pairs a feared stimulus with relaxation to reduce fear, while aversion therapy pairs an unwanted behavior with something unpleasant to reduce it.",
+    "Students often think hypnosis reliably retrieves lost memories. Actually it helps with pain and anxiety, but it cannot reliably retrieve memories and leading questions can create false memories.",
+    "Students often think ECT is a first-choice treatment. Actually it is used only for severe, treatment-resistant depression after other treatments have failed.",
+    "Students often think a token economy is a form of cognitive therapy. Actually it is a behavioral technique based on operant conditioning, using tokens as positive reinforcement."
+  ]
+};
+
+// ==============================================================
+// PRACTICE SET DATABASE
+// ==============================================================
+const practiceDB = {
+  "5.1": [
+    {q:"Which of the following best describes the focus of health psychology?",opts:["The study of how biological factors alone determine physical health outcomes across the lifespan","The examination of how a person's physical health and wellness shape their behaviors and mental processes, taking a holistic perspective","The branch of psychology concerned exclusively with treating individuals who have stress-related physical illnesses","The study of how cognitive distortions lead to unhealthy behaviors such as poor diet and lack of exercise"],answer:1,skill:"Skill 1"},
+    {q:"Which of the following best describes what happens during the resistance stage of the General Adaptation Syndrome?",opts:["The stressor is first perceived and the body activates the fight-flight-freeze response, releasing adrenaline and cortisol","The body's energy stores become depleted, the immune system weakens, and the individual becomes susceptible to illness and burnout","The stressor has been removed and the body begins returning to its resting baseline state","The stressor persists and the body attempts to adapt by sustaining elevated tension, consuming greater energy reserves in the process"],answer:3,skill:"Skill 1"},
+    {q:"After a difficult argument with a close friend, Yusuf feels overwhelmed and upset. Rather than trying to resolve the disagreement immediately, he goes for a long run, calls his sister for emotional support, and practices deep breathing before going to sleep. Which of the following best characterizes Yusuf's approach?",opts:["Problem-focused coping, because he is taking action to address the stressor directly","Eustress management, because he is converting distress into a productive challenge","Emotion-focused coping, because he is managing his emotional response to the conflict rather than attempting to resolve it immediately","The resistance stage of GAS, because he is sustaining effort to adapt to an ongoing stressor"],answer:2,skill:"Skill 2"},
+    {q:"A hospital nurse works in a high-pressure intensive care unit. After a particularly difficult shift, she stays late to help a junior colleague work through a complex patient case, calls her closest colleague to process the day's events together, and picks up groceries for an elderly neighbor on her way home. A researcher suggests this pattern reflects a specific stress response tendency. Which of the following best identifies and explains this pattern?",opts:["Problem-focused coping, because she is addressing the source of the stressor through direct action","The exhaustion stage of GAS, because prolonged stress is causing her to seek social contact as a means of replenishing depleted resources","The tend-and-befriend response, because under stress she is responding by nurturing others and strengthening social bonds rather than withdrawing","Eustress, because the challenges of the ICU are motivating rather than debilitating, so she is able to remain prosocial"],answer:2,skill:"Skill 2"},
+    {q:"A university student has been procrastinating on a major research paper that is now due in three days. He is feeling anxious and overwhelmed. He sits down, breaks the paper into sections, creates a realistic writing schedule for the remaining days, eliminates non-essential activities from his calendar, and begins drafting the introduction. Which of the following best describes the coping strategy he is using, and why it is appropriate in this situation?",opts:["Emotion-focused coping, because writing and scheduling are behavioral responses to the emotional distress caused by the deadline","Problem-focused coping, because the stressor is a concrete, solvable problem (the paper can be written) and he is taking direct action to address it","Tend-and-befriend, because reaching out to his schedule and resources constitutes a form of social connection under stress","Resistance-stage adaptation, because sustained effort directed at the stressor signals that his body is in the GAS resistance phase"],answer:1,skill:"Skill 2"},
+    {q:"A researcher reviews a published study claiming that individuals who report higher levels of daily social support experience significantly lower cortisol levels during stressful work periods. The study surveyed 150 office workers monthly for six months, measuring both social support and cortisol. A critic argues that the study cannot support a causal conclusion. Which of the following best identifies the methodological reason for this limitation, and what type of study would be needed to establish causation?",opts:["The sample of office workers is too small and specialized to generalize findings; a larger sample across multiple professions would establish causation","The study uses self-report measures of social support, which are always invalid; replacing them with observational measures would establish causation","Because neither variable was manipulated, the study can identify a relationship but cannot determine whether social support reduces cortisol, whether lower cortisol makes people more socially engaged, or whether a third variable explains both; a randomized experiment manipulating social support would be needed","The six-month timeframe is too short to observe the effects of social support on cortisol; a longitudinal study spanning multiple years would establish causation"],answer:2,skill:"Skill 4"}
+  ],
+  "5.2": [
+    {q:"Which of the following best describes what positive psychology seeks to accomplish?",opts:["To eliminate negative emotions from individuals' lives by replacing them with trained positive responses","To diagnose and treat psychological disorders using strength-based rather than deficit-based frameworks","To identify factors that lead to well-being, resilience, positive emotions, and psychological health, focusing on what allows individuals to flourish","To demonstrate that individuals who express gratitude and optimism are less susceptible to all forms of psychological disorder"],answer:2,skill:"Skill 1"},
+    {q:"According to the classification of character strengths and virtues used in positive psychology, which of the following correctly matches a virtue category with one of its associated strengths?",opts:["Transcendence: self-control and humility","Justice: fairness and leadership","Temperance: curiosity and creativity","Humanity: bravery and integrity"],answer:1,skill:"Skill 1"},
+    {q:"Which of the following best defines post-traumatic growth?",opts:["The return to a pre-trauma baseline level of functioning once sufficient time and support have been provided","The absence of negative symptoms following a traumatic event, indicating that the individual processed the experience effectively","Positive psychological changes, such as new personal strengths, deeper relationships, and renewed appreciation for life, that emerge from struggling with a traumatic or highly challenging experience","A coping strategy in which individuals reframe traumatic memories as positive experiences in order to reduce distress"],answer:2,skill:"Skill 1"},
+    {q:"A primary school teacher begins ending each school day with a five-minute class ritual in which students are invited to share one specific thing they appreciated about that day, such as a kind act from a classmate, something they learned, or a moment they enjoyed. Over the following semester, the teacher informally observes that students seem more cooperative, more positive in their interactions, and report enjoying school more. Which positive psychology concept most directly explains the potential mechanism behind these changes?",opts:["Post-traumatic growth, because students are finding meaning in their daily difficulties","Expressing gratitude, which focuses attention on positive experiences and is associated with higher subjective well-being and a more positive outlook","Resilience training, because the ritual helps students develop coping strategies for adversity","Temperance, because the structured ritual teaches students self-control and moderation in expressing emotion"],answer:1,skill:"Skill 2"},
+    {q:"A community center offers a weekly program for adults called 'Strengths in Action.' Participants complete a character strengths assessment and then spend each session doing activities designed around their highest-scoring strengths: a highly creative person designs community art projects, a natural leader facilitates group discussions, and a person high in curiosity leads a weekly current events exploration. Participants consistently report feeling more purposeful and satisfied during weeks they attend. Which positive psychology principle most directly explains this pattern?",opts:["Post-traumatic growth, because the program helps participants recover from past adversity through structured activity","Resilience, because engaging in preferred activities builds psychological resources that protect against stress","People who exercise their signature strengths report higher levels of happiness and well-being, and the program is designed around this principle","Gratitude, because recognizing one's own strengths is a form of appreciation for the positive aspects of one's character"],answer:2,skill:"Skill 2"},
+    {q:"A researcher wants to test whether a structured gratitude intervention (writing three specific things one is grateful for each evening) increases subjective well-being over four weeks. She randomly assigns 100 university students to the gratitude writing group or to a control group that writes three neutral observations about their day each evening. Which of the following best explains why the control group writes neutral observations rather than simply doing nothing?",opts:["Writing neutral observations ensures that the control group also improves their well-being, making the comparison between groups more meaningful","The neutral writing condition controls for the act of writing itself, isolating whether the gratitude content specifically drives any well-being improvement rather than the general practice of daily self-reflection","Having a control group write each evening eliminates demand characteristics, because both groups engage in the same behavior and cannot guess which condition produces the expected result","The neutral writing condition serves as a placebo to prevent the control group from seeking out alternative well-being strategies outside the study"],answer:1,skill:"Skill 4"}
+  ],
+  "5.3": [
+    {q:"Which of the following best describes what is meant by 'level of dysfunction' when evaluating whether a behavior constitutes a psychological disorder?",opts:["The degree to which an individual's behavior departs from the statistical average for their cultural group","The extent to which a person's behavior or mental state impairs their ability to carry out day-to-day activities and responsibilities","The intensity of the subjective emotional pain a person experiences as a result of their thoughts or behaviors","The frequency with which a person's behavior violates established legal or institutional norms"],answer:1,skill:"Skill 1"},
+    {q:"Which of the following best describes the biopsychosocial model's approach to psychological disorders?",opts:["It proposes that psychological disorders can be fully explained by identifying the single most influential factor (biological, psychological, or social) in each individual case","It assumes that any psychological problem potentially involves a combination of biological, psychological, and sociocultural factors that interact with one another","It holds that biological factors are the primary drivers of psychological disorders, with psychological and social factors serving only as moderating influences","It focuses exclusively on how social inequalities and cultural pressures create conditions that lead to psychological disorders in vulnerable populations"],answer:1,skill:"Skill 1"},
+    {q:"A therapist is working with a client who developed an intense fear of elevators after being trapped in one during a power outage for several hours. The therapist believes the fear developed because the client formed a strong association between elevators and danger during that incident, and that this association is now triggered every time the client encounters an elevator, even in safe conditions. Which psychological perspective does this therapist's explanation most closely reflect?",opts:["Humanistic perspective","Psychodynamic perspective","Behavioral perspective","Cognitive perspective"],answer:2,skill:"Skill 2"},
+    {q:"A clinical psychologist believes that a patient's obsessive-compulsive behaviors stem from a deep unconscious fear of losing control, rooted in early childhood experiences of unpredictability and emotional neglect, that the patient has never consciously processed. Which psychological perspective is the psychologist drawing on?",opts:["Humanistic perspective","Behavioral perspective","Cognitive perspective","Psychodynamic perspective"],answer:3,skill:"Skill 2"},
+    {q:"A family has a strong history of schizophrenia across three generations. One sibling grows up in a stable, supportive home environment with access to mental health resources and never develops the disorder. Another sibling experiences severe trauma in adolescence, moves frequently, and faces financial instability, and develops schizophrenia in their early twenties. Which model most directly accounts for this difference in outcomes between the siblings?",opts:["The biopsychosocial model, because it considers biological, psychological, and social factors equally","The behavioral perspective, because the second sibling's environment reinforced maladaptive responses","The diathesis-stress model, because both siblings share the genetic vulnerability, but only the second sibling encountered the environmental stressors that activated it","The sociocultural perspective, because the second sibling's financial instability and frequent moves represent the social causes of the disorder"],answer:2,skill:"Skill 2"},
+    {q:"A public health researcher evaluates whether a destigmatization program reduces negative public attitudes toward people with psychological disorders. She surveys 500 community members before the program, delivers an eight-week educational campaign, and surveys the same participants again afterward, finding a significant reduction in stigma scores. A critic argues the design cannot confirm that the program caused the change. Which of the following best identifies the design limitation the critic is pointing to?",opts:["The sample of 500 is too small; doubling the sample size would eliminate the possibility that the results are due to chance","The study lacks a control group: without a comparison group that did not receive the program, it is impossible to rule out that other factors (such as media coverage or historical events) caused the reduction in stigma; adding a randomly assigned control group would address this limitation","The use of self-report surveys introduces social desirability bias that makes all results invalid; the study should use behavioral observation instead","The eight-week timeframe is too short to produce genuine attitude change; extending the program to six months would confirm that the observed reduction is real"],answer:1,skill:"Skill 4"}
+  ],
+  "5.4": [
+    {q:"Which of the following best describes the critical distinction between obsessive-compulsive disorder (OCD) and obsessive-compulsive personality disorder (OCPD)?",opts:["OCD involves intrusive obsessions and anxiety-driven compulsions in a cyclical pattern, while OCPD is a personality disorder characterized by perfectionism and a pervasive need for control, not driven by intrusive thoughts or anxiety-relief cycles","OCD is classified as a personality disorder, while OCPD is classified as an anxiety-related disorder","OCD affects primarily adults, while OCPD typically emerges during early childhood","OCD involves distress caused by unwanted behaviors, while OCPD involves distress caused by unwanted thoughts that the individual cannot suppress"],answer:0,skill:"Skill 1"},
+    {q:"Which of the following best distinguishes bipolar I disorder from bipolar II disorder?",opts:["Bipolar I involves only depressive episodes, while bipolar II involves only manic episodes","Bipolar I is characterized by at least one full manic episode lasting seven or more days, while bipolar II is characterized by hypomanic episodes (less severe than full mania) accompanied by major depressive episodes","Bipolar I is more common than bipolar II and is considered the less severe of the two disorders","Bipolar I involves rapid cycling between mood states within a single day, while bipolar II involves longer, more stable mood episodes over months"],answer:1,skill:"Skill 1"},
+    {q:"Theo is a nine-year-old whose teacher reports that he frequently jumps out of his seat during lessons, calls out answers before questions are finished, and struggles to wait his turn during group activities. His parents note that completing homework requires hours of effort and constant redirection, even for topics Theo enjoys. His pediatrician notes that these behaviors are present at home, at school, and during extracurricular activities. Which of the following disorders is Theo's profile most consistent with?",opts:["Autism spectrum disorder, because Theo shows challenges with social interaction and repetitive behaviors","Attention-deficit/hyperactivity disorder, because his presentation includes inattention, hyperactivity, and impulsivity across multiple settings","Generalized anxiety disorder, because Theo's difficulty concentrating reflects excessive worry about academic performance","Persistent depressive disorder, because Theo's low motivation and difficulty completing tasks reflect chronic low mood"],answer:1,skill:"Skill 2"},
+    {q:"Mia is a six-year-old who has begun speaking in full sentences but rarely initiates conversation with other children. She becomes visibly distressed when her daily routine is changed. She has developed an intense, encyclopedic knowledge of deep-sea marine life and lines up her toy fish collection in a precise order each evening, becoming upset if any piece is moved. She also covers her ears in environments others find only mildly noisy. Which of the following disorders is Mia's profile most consistent with?",opts:["Attention-deficit/hyperactivity disorder, because her emotional outbursts and sensitivity suggest poor impulse control","Obsessive-compulsive disorder, because her repetitive behaviors and distress when routines are disrupted reflect a cycle of obsessions and compulsions","Autism spectrum disorder, because her profile includes challenges with social communication, restricted and repetitive behaviors, and heightened sensory sensitivity","Specific phobia, because her strong emotional reactions to environmental changes reflect an intense irrational fear of unfamiliar situations"],answer:2,skill:"Skill 2"},
+    {q:"During a psychiatric evaluation, a patient describes hearing a voice that consistently narrates his actions throughout the day: 'Now he is walking to the window. Now he is sitting down.' The voice is not present in the room and no one else can hear it. The patient also reports that he has become convinced that his neighbor has been secretly filming him for months and plans to use the footage to have him arrested. Which of the following correctly identifies the symptom types the patient is experiencing?",opts:["The heard voice is a negative symptom; the belief about the neighbor is a positive symptom","Both the heard voice and the belief about the neighbor are negative symptoms, as both represent distortions of normal perception","The heard voice is an auditory hallucination (a positive symptom); the belief about the neighbor is a delusion of persecution (also a positive symptom)","The heard voice is a delusion of grandeur and the belief about the neighbor is an auditory hallucination; both are positive symptoms"],answer:2,skill:"Skill 2"},
+    {q:"While grocery shopping, Amara suddenly experiences a racing heart, chest tightness, dizziness, and an overwhelming sense that something catastrophic is about to happen, even though nothing in her environment has changed. The episode peaks within ten minutes and then subsides, leaving her shaken and fearful that it will happen again. Over the following weeks, she avoids crowded stores and plans routes through her day to ensure she is always near an exit. Which of the following disorders are Amara's symptoms most consistent with?",opts:["Specific phobia, because her fear is triggered by a specific location: the grocery store","Agoraphobia, because she is avoiding public spaces where escape might be difficult","Panic disorder, because she is experiencing recurrent unexpected episodes of intense fear with physical symptoms, followed by persistent worry and behavioral changes aimed at preventing future episodes","Generalized anxiety disorder, because her worry about future episodes reflects excessive, uncontrollable concern about multiple aspects of her daily life"],answer:2,skill:"Skill 2"},
+    {q:"Kofi refuses to use the city's subway system, avoids cinemas and shopping centers, and will not attend outdoor events with large crowds. When asked why, he says he becomes overwhelmed by the thought of being stuck somewhere he cannot easily leave if he begins to feel unwell or panics. As a result, he has been working from home exclusively. Which of the following best identifies the disorder Kofi's behavior is most consistent with, and how it differs from social anxiety disorder?",opts:["Social anxiety disorder: Kofi's avoidance reflects fear of being embarrassed or judged in public situations, which is the defining feature of social anxiety disorder","Agoraphobia: Kofi's avoidance centers on situations where escape is difficult or help might be unavailable, which distinguishes it from social anxiety disorder, whose core fear is scrutiny or embarrassment from others","Specific phobia: Kofi has developed an irrational fear of specific enclosed or crowded locations that generalizes across settings","Generalized anxiety disorder: Kofi's avoidance of multiple situations reflects pervasive, uncontrollable worry rather than fear of entrapment"],answer:1,skill:"Skill 2"},
+    {q:"Every morning before leaving her apartment, Nadia checks that the stove is off, the windows are locked, and the front door is secured. She knows rationally that she has checked each item, but an intrusive thought ('What if I missed something and something terrible happens?') compels her to check again. And again. The process takes over an hour each morning and she has begun arriving late to work regularly. She describes the checking behavior as something she does not want to do but feels unable to stop. Which of the following best identifies the disorder Nadia is experiencing?",opts:["Generalized anxiety disorder, because her worry about potential harm reflects excessive, uncontrollable concern across multiple life domains","Obsessive-compulsive disorder, because she is experiencing intrusive obsessions about potential harm and performing repetitive compulsions to temporarily relieve the anxiety they generate","Specific phobia, because her fear is irrationally directed at a specific stimulus: her apartment","Paranoid personality disorder, because her persistent belief that something might go wrong reflects pervasive distrust and suspiciousness"],answer:1,skill:"Skill 2"},
+    {q:"After a psychologically devastating period of workplace harassment lasting two years, Elias suddenly left his city, traveled to a coastal town several hundred kilometers away, and took up work at a fishing company under a different name. When found by his family six weeks later, he had no memory of his previous life, his job, or his family. He had constructed a coherent new daily identity in the new location and showed no recognition of his family members. Which of the following best identifies Elias's experience?",opts:["Dissociative amnesia without fugue, because his memory loss is linked to prolonged stress and he has forgotten significant personal information","Dissociative identity disorder, because Elias has developed a second distinct personality state that emerged under prolonged stress","Dissociative fugue, a subtype of dissociative amnesia that includes not only profound memory loss for personal identity but also unexpected travel to a new location and the assumption of a new identity","Paranoid personality disorder, because his departure and identity change reflect pervasive distrust of his previous environment"],answer:2,skill:"Skill 2"},
+    {q:"Eighteen months after surviving a violent armed robbery at her workplace, Imani still experiences vivid, involuntary mental replays of the event that feel as though they are happening in real time. She has quit her job to avoid passing the building, becomes hypervigilant and trembling when she hears sudden loud noises, and has withdrawn almost entirely from friends and family, telling her sister that she feels emotionally 'numb' and disconnected from the people she used to love. Which of the following best identifies the disorder Imani is experiencing, and names two of its key symptom features?",opts:["Generalized anxiety disorder, featuring pervasive worry and social withdrawal","Major depressive disorder, featuring emotional numbness and loss of interest in social relationships","Post-traumatic stress disorder, featuring re-experiencing the trauma through flashbacks and avoidance of trauma-related stimuli","Panic disorder, featuring recurrent unexpected episodes of intense fear and behavioral avoidance to prevent future episodes"],answer:2,skill:"Skill 2"},
+    {q:"A hospital's psychiatric unit tracks the number of emergency admissions per month related to acute schizophrenic episodes over a 12-month period. The monthly counts are: 4, 5, 5, 6, 6, 6, 7, 8, 8, 9, 12, 24. A hospital administrator claims the mean of 8.3 admissions per month is the best summary of the typical monthly admission rate. Which of the following best evaluates this claim?",opts:["The administrator is correct: the mean of 8.3 is the most precise measure because it incorporates all values in the dataset","The value of 24 is a likely outlier that pulls the mean upward substantially; the median of 6.5 or the mode of 6 would better represent the typical monthly admission rate because they are less sensitive to this extreme value","The mean is appropriate here because the dataset contains 12 values, making it large enough for the mean to be resistant to outlier influence","The mode of 6 is not an appropriate measure because it appears only three times and therefore does not represent the full distribution"],answer:1,skill:"Skill 3"},
+    {q:"A journalist publishes an article claiming: 'New study proves that social media use causes depression in teenagers.' The study cited surveyed 1,200 adolescents, measuring daily social media use and depression symptom scores at a single point in time, finding a positive correlation of r = +0.44. Which of the following best evaluates the journalist's claim?",opts:["The claim is justified because a correlation of r = +0.44 is strong enough to support a causal conclusion in a sample of 1,200","The claim is not justified. The study is correlational, measuring both variables at one time point without manipulating either, so it cannot establish whether social media use causes depression, whether depression causes increased social media use, or whether a third variable explains both; a longitudinal experiment randomly assigning social media use levels would be needed","The claim is not justified because the correlation of +0.44 is too weak to be considered meaningful in psychological research","The claim is justified because the large sample of 1,200 adolescents eliminates alternative explanations and confirms the direction of causation"],answer:1,skill:"Skill 4"}
+  ],
+  "5.5": [
+    {q:"Which of the following best describes what meta-analysis contributes to the evaluation of psychotherapy's effectiveness?",opts:["It allows researchers to conduct new therapy trials with larger sample sizes than would be possible in a single study","It is a research method that combines and statistically analyzes results from multiple independent studies on the same topic to identify overall trends, patterns, and effect sizes, providing stronger evidence than any single study alone","It measures the therapeutic alliance between therapist and client across multiple sessions to determine whether the relationship predicts treatment outcomes","It provides a standardized framework for training therapists in evidence-based techniques, ensuring consistent application across clinical settings"],answer:1,skill:"Skill 1"},
+    {q:"Which of the following best describes tardive dyskinesia and identifies its most common cause?",opts:["A mood disorder characterized by involuntary emotional outbursts and rapid mood shifts, most commonly caused by long-term use of antidepressants","A dissociative condition involving involuntary identity switching, most commonly triggered by long-term use of anti-anxiety medications","A movement disorder characterized by involuntary, repetitive body movements, particularly of the face, tongue, and limbs, most commonly caused by long-term use of antipsychotic medications that block dopamine receptors","A cognitive impairment characterized by memory loss and disorientation, most commonly caused by repeated sessions of electroconvulsive therapy"],answer:2,skill:"Skill 1"},
+    {q:"A therapist works with a university student who has a needle phobia. She constructs a list of increasingly anxiety-provoking situations involving needles and works with the client to practice relaxation techniques at each step. This approach is best identified as which of the following?",opts:["Aversion therapy, because the therapist is pairing the feared stimulus with a negative response to reduce the behavior","Systematic desensitization, because the therapist is gradually exposing the client to increasingly intense versions of the feared stimulus while pairing each step with relaxation, using classical conditioning principles to replace the fear response with calm","Token economy, because the client is earning reinforcement for approaching each step on the fear hierarchy","Rational emotive behavior therapy, because the therapist is using the ABCDE model to challenge the irrational belief that needles are dangerous"],answer:1,skill:"Skill 2"},
+    {q:"A therapist is working with a woman who frequently thinks, 'I am fundamentally unlovable and nothing will ever change that.' The therapist helps her examine the evidence for and against this belief and develop a more realistic alternative. This is best identified as which technique, and which therapy approach does it reflect?",opts:["Free association; psychodynamic therapy","Active listening; humanistic therapy","Dream interpretation; psychodynamic therapy","Cognitive restructuring; cognitive-behavioral therapy"],answer:3,skill:"Skill 2"},
+    {q:"During therapy sessions, a client with borderline personality disorder works with her therapist on staying present in the moment when she feels overwhelmed, identifying early warning signs before her emotions escalate, and practicing specific scripts for communicating her needs to her partner without triggering conflict. The therapist describes the approach as integrating mindfulness, distress tolerance, emotional regulation, and interpersonal effectiveness. Which therapy is the therapist using?",opts:["Rational emotive behavior therapy, because the therapist is using the ABCDE model to disrupt irrational beliefs about relationships","Psychodynamic therapy, because the focus on emotional regulation and relationships reflects attention to unconscious relational patterns","Dialectical behavior therapy, because the four focus areas (mindfulness, distress tolerance, emotional regulation, and interpersonal effectiveness) are the defining components of DBT, which was originally developed for borderline personality disorder","Person-centered therapy, because the therapist is providing unconditional positive regard while encouraging the client to develop self-awareness"],answer:2,skill:"Skill 2"},
+    {q:"After years of severe, treatment-resistant depression that has not responded to multiple antidepressant medications or to psychotherapy, a patient is referred to a specialist clinic for a procedure in which a brief, carefully calibrated electrical current is passed through her brain under anesthesia, producing a controlled brief seizure. Her psychiatrist explains this is typically used only after other treatments have been exhausted. Which treatment is being described, and for what condition is it most commonly used?",opts:["Transcranial magnetic stimulation; generalized anxiety disorder","Psychosurgery via lesioning; obsessive-compulsive disorder that has not responded to CBT","Electroconvulsive therapy; severe, treatment-resistant depression","Deep brain stimulation; schizophrenia with persistent negative symptoms"],answer:2,skill:"Skill 2"},
+    {q:"A school uses a classroom management system in which students receive points for completing assignments on time, following class guidelines, and supporting classmates. Points are recorded on individual cards and can be exchanged at the end of each week for privileges such as extra free time, choice of activity, or homework passes, with different privileges costing different amounts. Which behavioral technique does this system most closely represent, and which learning principle does it rely on?",opts:["Systematic desensitization; classical conditioning, because the system gradually reduces anxiety about academic tasks by pairing them with positive outcomes","Aversion therapy; classical conditioning, because the system creates negative associations with undesirable behaviors through the removal of points","Token economy; operant conditioning, because students receive tokens (points) as positive reinforcement for desired behaviors, which can be exchanged for rewards","Cognitive restructuring; cognitive-behavioral therapy, because the system helps students identify and replace maladaptive beliefs about academic work"],answer:2,skill:"Skill 2"},
+    {q:"A pharmaceutical company wants to test whether a new antidepressant medication produces greater symptom reduction than a placebo in adults with major depressive disorder. They recruit 200 participants, randomly assign half to receive the medication and half to receive an identical-looking sugar pill, and measure depression severity at weeks 4, 8, and 12. Neither the participants nor the clinicians administering assessments know which condition each participant is in. Which of the following best explains the purpose of keeping both the participants and the assessors unaware of group assignment?",opts:["To ensure that participants in both groups complete the same number of assessment sessions, preventing dropout bias from affecting the results","To control for both the placebo effect (participants improving simply because they believe they are receiving treatment) and researcher bias (assessors unconsciously rating outcomes differently based on knowing which group a participant is in); keeping both parties blind strengthens the causal conclusion","To prevent participants in the placebo condition from seeking alternative treatments outside the study, which would introduce a confounding variable","To ensure that the medication and placebo look identical, so that participants cannot determine their group assignment based on the appearance of what they receive"],answer:1,skill:"Skill 4"}
+  ]
+};
+
+// ==============================================================
+// HELPERS
+// ==============================================================
+function shuffle(arr){const a=arr.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function getTerms(topic){return topic==="all"?Object.values(termsDB).flat():(termsDB[topic]||[]);}
+function getPractice(topic){return topic==="all"?Object.values(practiceDB).flat():(practiceDB[topic]||[]);}
+function skillClass(s){return s.includes("4")?"skill-4":s.includes("3")?"skill-3":s.includes("2")?"skill-2":"skill-1";}
+function progressBar(idx,total,score){
+  const pct=total>0?(idx/total)*100:0;
+  return `<div class="progress-row"><span>Question ${idx+1} of ${total}</span><span>Score: ${score} / ${idx}</span></div><div class="progress-bar-track"><div class="progress-bar-fill" style="width:${pct}%"></div></div>`;
+}
+
+// Logs one attempt for the session review panel and the printable answer key.
+function logAttempt(type,stem,studentAnswer,correctAnswer,correct){
+  S.log.push({type:type,stem:stem,studentAnswer:studentAnswer,correctAnswer:correctAnswer,correct:correct});
+}
+
+// Builds the on-screen "Terms to review" panel plus the Print Summary button, shown on every completion screen.
+function buildReviewBlock(){
+  const missed=S.log.filter(function(r){return !r.correct;});
+  let html="";
+  if(missed.length){
+    html+='<div class="review-block"><div class="review-header">Terms to Review ('+missed.length+')</div>';
+    html+=missed.map(function(r){return '<div class="review-item"><strong>'+r.stem+'</strong><span class="review-correct">Correct answer: '+r.correctAnswer+'</span></div>';}).join("");
+    html+='</div>';
+  }
+  html+='<button class="btn-restart btn-print" onclick="printSummary()">Print Summary</button>';
+  return html;
+}
+
+// Builds and opens the printable, teacher-checkable answer key in its own tab, so printing
+// does not depend on window.print() working inside whatever frame this page is embedded in.
+function printSummary(){
+  const total=S.log.length;
+  const correctCount=S.log.filter(function(r){return r.correct;}).length;
+  const scoreText=total?(correctCount+" / "+total+" ("+Math.round((correctCount/total)*100)+"%)"):"No graded items this session";
+  let rows=S.log.map(function(r,i){
+    return '<tr><td style="border:1px solid #999;padding:6px;">'+(i+1)+'</td>'+
+      '<td style="border:1px solid #999;padding:6px;">'+String(r.stem).replace(/\n/g," ")+'</td>'+
+      '<td style="border:1px solid #999;padding:6px;">'+r.studentAnswer+'</td>'+
+      '<td style="border:1px solid #999;padding:6px;">'+r.correctAnswer+'</td>'+
+      '<td style="border:1px solid #999;padding:6px;">'+(r.correct?"Correct":"Review")+'</td></tr>';
+  }).join("");
+  if(!rows){rows='<tr><td colspan="5" style="border:1px solid #999;padding:6px;">No graded items in this session.</td></tr>';}
+
+  let mistakesHTML="";
+  if(S.topic!=="all"&&mistakesDB[S.topic]){
+    mistakesHTML='<h2 style="font-size:15px;margin-top:18px;border-bottom:1px solid #999;">Common Mistakes for This Topic</h2><ul style="font-size:12px;line-height:1.6;">'+
+      mistakesDB[S.topic].map(function(m){return '<li style="margin-bottom:6px;">'+m+'</li>';}).join("")+'</ul>';
+  }
+
+  const reportBody=
+    '<h1 style="font-size:20px;border-bottom:2px solid #000;padding-bottom:8px;">AP Psychology Unit 5: Mental and Physical Health</h1>'+
+    '<p style="font-size:13px;">Revision Session Summary</p>'+
+    '<table style="width:100%;font-size:13px;margin:14px 0;"><tr><td>Name: ___________________________</td><td>Date: ___________________</td></tr></table>'+
+    '<p style="font-size:13px;">Topic: '+(S.topicLabel||"All Topics")+' &nbsp;|&nbsp; Activity: '+(S.modeLabel||"")+' &nbsp;|&nbsp; Score: '+scoreText+'</p>'+
+    '<h2 style="font-size:15px;margin-top:18px;border-bottom:1px solid #999;">Answer Key and Review</h2>'+
+    '<table style="width:100%;border-collapse:collapse;font-size:12px;margin-top:8px;">'+
+    '<tr style="background:#eee;"><th style="border:1px solid #999;padding:6px;text-align:left;">#</th><th style="border:1px solid #999;padding:6px;text-align:left;">Question / Term</th><th style="border:1px solid #999;padding:6px;text-align:left;">Your Answer</th><th style="border:1px solid #999;padding:6px;text-align:left;">Correct Answer</th><th style="border:1px solid #999;padding:6px;text-align:left;">Result</th></tr>'+
+    rows+'</table>'+mistakesHTML+
+    '<p class="no-print" style="margin-top:22px;font-size:12px;color:#666;">If the print dialog did not open automatically, use your browser\'s print command (Ctrl+P or Cmd+P) on this tab.</p>';
+
+  const fullDoc='<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Unit 5 Revision Summary</title>'+
+    '<style>body{font-family:Arial,Helvetica,sans-serif;color:#000;padding:20px;max-width:800px;margin:0 auto;}'+
+    '@media print{.no-print{display:none;}}</style></head><body>'+reportBody+'</body></html>';
+
+  const win=window.open("","_blank");
+  if(!win){
+    alert("Your browser blocked the new tab needed to print. Please allow pop-ups for this page and click Print Summary again.");
+    return;
+  }
+  win.document.open();
+  win.document.write(fullDoc);
+  win.document.close();
+  win.focus();
+  setTimeout(function(){
+    try{win.print();}catch(e){/* user can still print manually from the new tab */}
+  },250);
+}
+
+// ==============================================================
+// STATE
+// ==============================================================
+const S={mode:null,topic:"all",topicLabel:"All Topics",modeLabel:"",terms:[],practice:[],idx:0,score:0,
+  hWord:"",hGuessed:[],hMistakes:0,hAttempted:new Set(),hActive:false,hCurrentTerm:null,
+  _matchSet:[],log:[]};
+
+// ==============================================================
+// START
+// ==============================================================
+document.getElementById("startBtn").addEventListener("click",function(){
+  S.topic=document.getElementById("topicSelect").value;
+  S.mode=document.getElementById("modeSelect").value;
+  const topicSel=document.getElementById("topicSelect");
+  const modeSel=document.getElementById("modeSelect");
+  S.topicLabel=topicSel.options[topicSel.selectedIndex].text;
+  S.modeLabel=modeSel.options[modeSel.selectedIndex].text;
+  S.idx=0; S.score=0; S.hActive=false; S.hAttempted=new Set(); S.log=[];
+
+  if(S.mode==="mistakes"){
+    renderMistakes();
+    return;
+  }
+
+  if(S.mode==="practice"){
+    S.practice=shuffle(getPractice(S.topic));
+    if(!S.practice.length){setQA('<div class="placeholder-text">No practice questions for this topic yet.</div>');return;}
+    renderPractice();
+  } else {
+    S.terms=shuffle(getTerms(S.topic));
+    if(!S.terms.length){setQA('<div class="placeholder-text">No terms found for this selection.</div>');return;}
+    if(S.mode==="flash")renderFlash();
+    else if(S.mode==="mcq")renderMCQ();
+    else if(S.mode==="tf")renderTF();
+    else if(S.mode==="match")renderMatch();
+    else if(S.mode==="hangman"){S.hActive=true;renderHangman();}
+  }
+});
+
+function setQA(html){document.getElementById("quizArea").innerHTML=html;}
+
+// ==============================================================
+// COMMON MISTAKES
+// ==============================================================
+function renderMistakes(){
+  let html='<p style="text-align:center;color:#4a6080;font-size:13px;margin-bottom:18px;">Common mix-ups students make on this material. Review these before you test yourself.</p>';
+  const topicsToShow=(S.topic==="all")?Object.keys(mistakesDB):[S.topic];
+  topicsToShow.forEach(function(tKey){
+    if(!mistakesDB[tKey])return;
+    if(S.topic==="all"){html+='<div class="mistake-topic-header">Topic '+tKey+'</div>';}
+    mistakesDB[tKey].forEach(function(m){html+='<div class="mistake-item">'+m+'</div>';});
+  });
+  setQA(html);
+}
+
+// ==============================================================
+// FLASHCARDS
+// ==============================================================
+function renderFlash(){
+  if(S.idx>=S.terms.length){
+    setQA(`<div class="score-screen"><div class="big-score">${S.terms.length}</div><div class="score-label">cards reviewed</div><div class="score-message">All done!</div>${buildReviewBlock()}<br><button class="btn-restart" onclick="S.idx=0;S.log=[];renderFlash()">Start Over</button></div>`);
+    return;
+  }
+  const t=S.terms[S.idx];
+  const pct=(S.idx/S.terms.length)*100;
+  setQA(`
+    <div class="progress-row"><span>Card ${S.idx+1} of ${S.terms.length}</span><span style="font-size:12px;color:#7a90b5;">Click to flip</span></div>
+    <div class="progress-bar-track"><div class="progress-bar-fill" style="width:${pct}%"></div></div>
+    <div class="flashcard-wrapper" id="fc" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-face flashcard-front"><div class="face-label">Term</div><div class="face-term">${t.term}</div></div>
+        <div class="flashcard-face flashcard-back"><div class="face-label">Definition</div><div class="face-def">${t.def}</div></div>
+      </div>
+    </div>
+    <div class="flashcard-hint">Tap the card to reveal the definition, then rate yourself honestly</div>
+    <div class="flashcard-nav">
+      <button class="self-rate-review" onclick="rateFlash(false)">Review again</button>
+      <button class="self-rate-good" onclick="rateFlash(true)">Got it</button>
+    </div>
+    <div class="flashcard-nav" style="margin-top:8px;">
+      <button onclick="S.idx=Math.max(0,S.idx-1);renderFlash()">Previous</button>
+    </div>
+  `);
+}
+function rateFlash(gotIt){
+  const t=S.terms[S.idx];
+  logAttempt("Flashcards",t.term,gotIt?"Marked: Got it":"Marked: Review again",t.def,gotIt);
+  S.idx++;
+  renderFlash();
+}
+
+// ==============================================================
+// VOCABULARY MCQ
+// ==============================================================
+function renderMCQ(){
+  if(S.idx>=S.terms.length){showVocabScore();return;}
+  const cur=S.terms[S.idx];
+  const opts=shuffle([cur,...shuffle(S.terms.filter(t=>t!==cur)).slice(0,3)]);
+  const letters=["A","B","C","D"];
+  S._mcqOpts=opts; S._mcqCorrect=cur; S._mcqDef=cur.def;
+
+  let optsHTML=opts.map((o,i)=>`<button class="option-btn" data-idx="${i}"><span class="letter">${letters[i]}</span><span>${o.term}</span></button>`).join("");
+  setQA(`
+    ${progressBar(S.idx,S.terms.length,S.score)}
+    <div class="question-text"><span class="stem-label">Definition</span>${cur.def}</div>
+    <p style="font-size:12px;color:#4a6080;margin-bottom:10px;font-weight:600;">Which term matches this definition?</p>
+    <div class="options-list" id="mcqOpts">${optsHTML}</div>
+    <div id="mcqFb"></div>
+  `);
+  document.querySelectorAll("#mcqOpts .option-btn").forEach(function(btn){
+    btn.addEventListener("click",function(){handleMCQ(parseInt(this.dataset.idx));});
+  });
+}
+
+function handleMCQ(si){
+  if(document.querySelector(".option-btn.correct,.option-btn.incorrect"))return;
+  const opts=S._mcqOpts; const correct=S._mcqCorrect;
+  const ci=opts.indexOf(correct);
+  document.querySelectorAll(".option-btn").forEach(function(b){b.disabled=true;if(parseInt(b.dataset.idx)===ci)b.classList.add("revealed");});
+  const isRight=(si===ci);
+  const btn=document.querySelector(`[data-idx="${si}"]`);
+  if(btn){btn.classList.remove("revealed");btn.classList.add(isRight?"correct":"incorrect");}
+  if(isRight)S.score++;
+  logAttempt("Vocabulary MCQ",S._mcqDef,opts[si].term,correct.term,isRight);
+  S.idx++;
+  document.getElementById("mcqFb").innerHTML=`<div class="feedback-box ${isRight?"correct":"incorrect"}">${isRight?"Correct!":"Not quite. The correct answer is highlighted above."}</div><button class="btn-next" onclick="renderMCQ()">Next</button>`;
+}
+
+// ==============================================================
+// TRUE / FALSE
+// ==============================================================
+function renderTF(){
+  if(S.idx>=S.terms.length){showVocabScore();return;}
+  const cur=S.terms[S.idx];
+  const isTrue=Math.random()>0.5;
+  let disp=cur.def;
+  if(!isTrue&&S.terms.length>1){
+    let w=S.terms[Math.floor(Math.random()*S.terms.length)];
+    while(w.term===cur.term)w=S.terms[Math.floor(Math.random()*S.terms.length)];
+    disp=w.def;
+  }
+  S._tfIsTrue=isTrue; S._tfTerm=cur.term; S._tfDisp=disp;
+  setQA(`
+    ${progressBar(S.idx,S.terms.length,S.score)}
+    <div class="question-text">Is this the correct definition of <strong>${cur.term}</strong>?</div>
+    <div style="background:#f4f6fb;padding:13px 15px;border-radius:8px;font-style:italic;border-left:4px solid #b0c4de;margin-bottom:18px;font-size:14px;line-height:1.65;">"${disp}"</div>
+    <div class="options-list" style="flex-direction:row;gap:14px;">
+      <button class="option-btn" id="tfT" style="justify-content:center;"><span class="letter" style="color:#28a745;">T</span>True</button>
+      <button class="option-btn" id="tfF" style="justify-content:center;"><span class="letter" style="color:#dc3545;">F</span>False</button>
+    </div>
+    <div id="tfFb"></div>
+  `);
+  document.getElementById("tfT").addEventListener("click",function(){handleTF(true);});
+  document.getElementById("tfF").addEventListener("click",function(){handleTF(false);});
+}
+
+function handleTF(userTrue){
+  if(document.querySelector(".option-btn.correct,.option-btn.incorrect"))return;
+  document.querySelectorAll(".option-btn").forEach(function(b){b.disabled=true;});
+  const right=(S._tfIsTrue===userTrue);
+  const btn=userTrue?document.getElementById("tfT"):document.getElementById("tfF");
+  if(btn)btn.classList.add(right?"correct":"incorrect");
+  if(right)S.score++;
+  logAttempt("True/False",'"'+S._tfDisp+'" - definition of '+S._tfTerm+'?',userTrue?"True":"False",S._tfIsTrue?"True":"False",right);
+  S.idx++;
+  document.getElementById("tfFb").innerHTML=`<div class="feedback-box ${right?"correct":"incorrect"}">${right?"Correct!":"Not quite. The correct answer was: "+(S._tfIsTrue?"True":"False")}</div><button class="btn-next" onclick="renderTF()">Next</button>`;
+}
+
+// ==============================================================
+// MATCH'EM UP
+// ==============================================================
+function renderMatch(){
+  const chunk=S.terms.slice(0,Math.min(6,S.terms.length));
+  S._matchSet=chunk;
+  const shuffledDefs=shuffle(chunk.map(function(t,i){return {termIdx:i,def:t.def};}));
+
+  const termsHTML=chunk.map(function(t,i){
+    return `<div class="match-term" draggable="true" data-tidx="${i}">${t.term}</div>`;
+  }).join("");
+  const defsHTML=shuffledDefs.map(function(d){
+    return `<div class="match-def" data-correct="${d.termIdx}" data-dropped="-1"><div class="match-def-text" style="font-size:12px;line-height:1.5;">${d.def}</div></div>`;
+  }).join("");
+
+  setQA(`
+    <p style="text-align:center;color:#4a6080;font-size:13px;margin-bottom:18px;">Drag each <strong>term</strong> from the left onto its matching <strong>definition</strong> on the right.</p>
+    <div class="match-grid">
+      <div><div class="match-col-label">Terms</div><div class="match-terms" id="matchTerms">${termsHTML}</div></div>
+      <div><div class="match-col-label">Definitions</div><div class="match-defs" id="matchDefs">${defsHTML}</div></div>
+    </div>
+    <button class="match-check-btn" onclick="checkMatch()">Check Answers</button>
+    <div id="matchFb" style="margin-top:14px;"></div>
+  `);
+
+  document.querySelectorAll(".match-term").forEach(function(el){
+    el.addEventListener("dragstart",function(e){e.dataTransfer.setData("text",this.dataset.tidx);this.classList.add("dragging");});
+    el.addEventListener("dragend",function(){this.classList.remove("dragging");});
+  });
+  document.querySelectorAll(".match-def").forEach(function(el){
+    el.addEventListener("dragover",function(e){e.preventDefault();this.classList.add("drag-over");});
+    el.addEventListener("dragleave",function(){this.classList.remove("drag-over");});
+    el.addEventListener("drop",function(e){
+      e.preventDefault();this.classList.remove("drag-over");
+      const tidx=e.dataTransfer.getData("text");
+      this.dataset.dropped=tidx;
+      let lbl=this.querySelector(".match-dropped");
+      if(!lbl){lbl=document.createElement("div");lbl.className="match-dropped";this.insertBefore(lbl,this.firstChild);}
+      lbl.textContent=S._matchSet[parseInt(tidx)].term;
+    });
+  });
+}
+
+function checkMatch(){
+  let correct=0;
+  const defEls=document.querySelectorAll(".match-def");
+  defEls.forEach(function(el){
+    const dropped=parseInt(el.dataset.dropped);
+    const right=parseInt(el.dataset.correct);
+    const isRight=(dropped===right);
+    if(isRight){el.classList.add("correct");correct++;}
+    else{el.classList.add("incorrect");}
+    const defText=el.querySelector(".match-def-text").textContent;
+    const droppedTermText=(dropped>=0&&S._matchSet[dropped])?S._matchSet[dropped].term:"No answer given";
+    const correctTermText=S._matchSet[right].term;
+    logAttempt("Match'em Up",defText,droppedTermText,correctTermText,isRight);
+  });
+  const total=defEls.length;
+  const pct=Math.round((correct/total)*100);
+  document.getElementById("matchFb").innerHTML=`<div class="feedback-box ${correct===total?"correct":correct>total/2?"neutral":"incorrect"}">${correct} / ${total} correct (${pct}%)</div>${buildReviewBlock()}<button class="btn-next" onclick="renderMatch()">Try Another Set</button>`;
+}
+
+// ==============================================================
+// HANGMAN
+// ==============================================================
+function renderHangman(){
+  if(S.idx>=S.terms.length){showVocabScore();return;}
+  const t=S.terms[S.idx];
+  S.hCurrentTerm=t;
+  S.hWord=t.term.toUpperCase();
+  S.hGuessed=S.hWord.split("").map(function(ch){return /[A-Z]/.test(ch)?null:ch;});
+  S.hMistakes=0; S.hAttempted=new Set();
+  drawHangmanBoard(t);
+}
+
+function drawHangmanBoard(t){
+  const letters="ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+  const keyHTML=letters.map(function(l){return `<button class="key" data-ltr="${l}">${l}</button>`;}).join("");
+  const pct=(S.idx/S.terms.length)*100;
+  setQA(`
+    <div class="progress-row"><span>Word ${S.idx+1} of ${S.terms.length}</span><span>Score: ${S.score}</span></div>
+    <div class="progress-bar-track"><div class="progress-bar-fill" style="width:${pct}%"></div></div>
+    <div class="hangman-container">
+      <div class="hangman-drawing">
+        <svg class="hangman-svg" viewBox="0 0 100 120" stroke="#1a2744" stroke-width="3" fill="none" stroke-linecap="round">
+          <line x1="10" y1="115" x2="90" y2="115"/><line x1="30" y1="115" x2="30" y2="5"/>
+          <line x1="30" y1="5" x2="70" y2="5"/><line x1="70" y1="5" x2="70" y2="20"/>
+          <circle id="hp1" cx="70" cy="32" r="12" style="display:none"/>
+          <line id="hp2" x1="70" y1="44" x2="70" y2="80" style="display:none"/>
+          <line id="hp3" x1="70" y1="52" x2="54" y2="68" style="display:none"/>
+          <line id="hp4" x1="70" y1="52" x2="86" y2="68" style="display:none"/>
+          <line id="hp5" x1="70" y1="80" x2="54" y2="100" style="display:none"/>
+          <line id="hp6" x1="70" y1="80" x2="86" y2="100" style="display:none"/>
+        </svg>
+      </div>
+      <div class="hangman-hint"><strong>Hint:</strong> ${t.def}</div>
+      <div class="word-display" id="hDisp"></div>
+      <div class="keyboard" id="hKeys">${keyHTML}</div>
+      <div id="hFb" style="margin-top:16px;min-height:44px;text-align:center;"></div>
+    </div>
+  `);
+  updateHDisp();
+  document.querySelectorAll(".key").forEach(function(btn){
+    btn.addEventListener("click",function(){doHGuess(this.dataset.ltr);});
+  });
+}
+
+function updateHDisp(){
+  const el=document.getElementById("hDisp");
+  if(el)el.textContent=S.hGuessed.map(function(ch){return ch||"_";}).join(" ");
+}
+
+function updateHParts(){
+  for(let i=1;i<=6;i++){const el=document.getElementById("hp"+i);if(el)el.style.display=i<=S.hMistakes?"block":"none";}
+}
+
+function doHGuess(letter){
+  if(!S.hActive||S.hAttempted.has(letter)||S.hMistakes>=6)return;
+  S.hAttempted.add(letter);
+  const btn=document.querySelector(`.key[data-ltr="${letter}"]`);
+  if(S.hWord.includes(letter)){
+    S.hWord.split("").forEach(function(ch,i){if(ch===letter)S.hGuessed[i]=letter;});
+    if(btn){btn.classList.add("correct-guess");btn.disabled=true;}
+  } else {
+    S.hMistakes++;
+    if(btn){btn.classList.add("wrong-guess");btn.disabled=true;}
+    updateHParts();
+  }
+  updateHDisp();
+  checkHEnd();
+}
+
+function checkHEnd(){
+  const won=!S.hGuessed.includes(null);
+  const lost=S.hMistakes>=6;
+  if(!won&&!lost)return;
+  document.querySelectorAll(".key").forEach(function(k){k.disabled=true;});
+  const fb=document.getElementById("hFb");
+  const t=S.hCurrentTerm;
+  logAttempt("Hangman",t?t.def:"",won?"Solved":"Not solved ("+S.hMistakes+" wrong guesses)",S.hWord,won);
+  if(won){
+    S.score++;
+    if(fb)fb.innerHTML=`<div class="feedback-box correct">Correct! The term is "${S.hWord}".</div><button class="btn-next" onclick="S.idx++;renderHangman()">Next Word</button>`;
+  } else {
+    const d=document.getElementById("hDisp");
+    if(d)d.textContent=S.hWord.split("").join(" ");
+    if(fb)fb.innerHTML=`<div class="feedback-box incorrect">The term was: <strong>${S.hWord}</strong></div><button class="btn-next" onclick="S.idx++;renderHangman()">Next Word</button>`;
+  }
+}
+
+document.addEventListener("keydown",function(e){
+  if(!S.hActive)return;
+  const k=e.key.toUpperCase();
+  if(/^[A-Z]$/.test(k)){const btn=document.querySelector(`.key[data-ltr="${k}"]`);if(btn&&!btn.disabled)doHGuess(k);}
+});
+
+// ==============================================================
+// PRACTICE SET MCQs
+// ==============================================================
+function renderPractice(){
+  if(S.idx>=S.practice.length){showPracticeScore();return;}
+  const q=S.practice[S.idx];
+  const letters=["A","B","C","D"];
+  const optsHTML=q.opts.map(function(opt,i){return `<button class="option-btn" data-idx="${i}"><span class="letter">${letters[i]}</span><span>${opt}</span></button>`;}).join("");
+  const pct=(S.idx/S.practice.length)*100;
+  setQA(`
+    <div class="progress-row"><span>Question ${S.idx+1} of ${S.practice.length}</span><span>Score: ${S.score} / ${S.idx}</span></div>
+    <div class="progress-bar-track"><div class="progress-bar-fill" style="width:${pct}%"></div></div>
+    <span class="skill-badge ${skillClass(q.skill)}">${q.skill}</span>
+    <div class="question-text">${q.q.replace(/\n/g,"<br>")}</div>
+    <div class="options-list" id="pOpts">${optsHTML}</div>
+    <div id="pFb"></div>
+  `);
+  S._pq=q;
+  document.querySelectorAll("#pOpts .option-btn").forEach(function(btn){
+    btn.addEventListener("click",function(){handlePractice(parseInt(this.dataset.idx));});
+  });
+}
+
+function handlePractice(si){
+  if(document.querySelector(".option-btn.correct,.option-btn.incorrect"))return;
+  const q=S._pq;
+  document.querySelectorAll(".option-btn").forEach(function(b){b.disabled=true;if(parseInt(b.dataset.idx)===q.answer)b.classList.add("revealed");});
+  const isRight=(si===q.answer);
+  const btn=document.querySelector(`#pOpts [data-idx="${si}"]`);
+  if(btn){btn.classList.remove("revealed");btn.classList.add(isRight?"correct":"incorrect");}
+  if(isRight)S.score++;
+  logAttempt("Practice Set MCQ",q.q,q.opts[si],q.opts[q.answer],isRight);
+  S.idx++;
+  document.getElementById("pFb").innerHTML=`<div class="feedback-box ${isRight?"correct":"incorrect"}">${isRight?"Correct!":"Not quite. The correct answer is highlighted above."}</div><button class="btn-next" onclick="renderPractice()">Next</button>`;
+}
+
+function showPracticeScore(){
+  const pct=Math.round((S.score/S.practice.length)*100);
+  const msg=pct>=80?"Strong work.":pct>=60?"Getting there. Keep reviewing.":"More revision needed - you've got this.";
+  setQA(`<div class="score-screen"><div class="big-score">${pct}%</div><div class="score-label">${S.score} correct out of ${S.practice.length}</div><div class="score-message">${msg}</div>${buildReviewBlock()}<br><button class="btn-restart" onclick="S.idx=0;S.score=0;S.log=[];S.practice=shuffle(getPractice(S.topic));renderPractice()">Try Again</button></div>`);
+}
+
+// ==============================================================
+// VOCAB SCORE
+// ==============================================================
+function showVocabScore(){
+  const pct=Math.round((S.score/S.terms.length)*100);
+  const msg=pct>=80?"Strong work.":pct>=60?"Getting there. Keep reviewing.":"More revision needed - you've got this.";
+  const restart=S.mode==="mcq"?"S.idx=0;S.score=0;S.log=[];S.terms=shuffle(getTerms(S.topic));renderMCQ()":S.mode==="tf"?"S.idx=0;S.score=0;S.log=[];S.terms=shuffle(getTerms(S.topic));renderTF()":"S.idx=0;S.score=0;S.log=[];S.hActive=true;S.terms=shuffle(getTerms(S.topic));renderHangman()";
+  setQA(`<div class="score-screen"><div class="big-score">${pct}%</div><div class="score-label">${S.score} correct out of ${S.terms.length}</div><div class="score-message">${msg}</div>${buildReviewBlock()}<br><button class="btn-restart" onclick="${restart}">Try Again</button></div>`);
+}
+</script>
+</body>
+</html>
