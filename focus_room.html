@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>Focus Room | AP Psychology</title>
+<style>
+  :root{
+    --bg:#f4f7fb; --panel:#ffffff; --ink:#1a2744; --muted:#5d6b82;
+    --accent:#2E75B6; --accent-dark:#1F3864; --accent-soft:#DEEAF1;
+    --break:#C55A11; --break-soft:#fbeadc;
+    --line:#d9e2ee; --shadow:0 10px 30px rgba(26,39,68,.16);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);
+    font-family:"Outfit",Arial,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,sans-serif}
+  button{font:inherit;cursor:pointer}
+  input,textarea{font:inherit}
+  .hidden{display:none !important}
+  a{color:var(--accent)}
+
+  /* ---------- PICKER ---------- */
+  #picker{min-height:100%;padding:0 0 60px}
+  .top{background:var(--accent-dark);color:#fff;padding:22px 20px 20px}
+  .top .in{max-width:900px;margin:0 auto}
+  .top small{letter-spacing:1.6px;text-transform:uppercase;font-size:12px;opacity:.8}
+  .top h1{margin:4px 0 4px;font-size:30px}
+  .top p{margin:0;opacity:.9}
+  .top a{color:#cfe3f6;font-size:14px;text-decoration:none;display:inline-block;margin-bottom:10px}
+  .wrap{max-width:900px;margin:0 auto;padding:0 20px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:24px;margin-top:20px}
+  .card h2{margin:0 0 6px;font-size:20px}
+  .card p.sub{margin:0 0 14px;color:var(--muted)}
+  .steps{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0 0}
+  .steps span{background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:13.5px;color:var(--muted)}
+  .steps b{color:var(--accent-dark)}
+  .unitrow{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+  .unitbtn{border:1px solid var(--line);background:#fff;border-radius:10px;padding:9px 14px;font-weight:600;color:var(--ink)}
+  .unitbtn.on{background:var(--accent-dark);border-color:var(--accent-dark);color:#fff}
+  .topics{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
+  .topicbtn{text-align:left;border:2px solid var(--line);background:#fff;border-radius:12px;padding:12px 14px;line-height:1.3}
+  .topicbtn:hover{border-color:var(--accent)}
+  .topicbtn.on{border-color:var(--accent);background:var(--accent-soft)}
+  .topicbtn .n{display:block;font-size:12.5px;color:var(--muted);font-weight:600;letter-spacing:.4px}
+  .topicbtn .t{font-weight:700}
+  label{display:block;font-size:13px;font-weight:700;color:var(--muted);margin:14px 0 6px;text-transform:uppercase;letter-spacing:.5px}
+  .field{width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
+  .field:focus{outline:2px solid var(--accent-soft);border-color:var(--accent)}
+  .row{display:flex;gap:14px}
+  .row > div{flex:1}
+  .hint{font-size:13px;color:var(--muted);margin-top:6px;line-height:1.45}
+  .btn{border:0;border-radius:10px;padding:11px 18px;background:var(--accent);color:#fff;font-weight:700}
+  .btn:hover{filter:brightness(1.08)}
+  .btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+  .btn.big{width:100%;padding:15px;font-size:17px;margin-top:22px}
+  .btn.warm{background:var(--break)}
+  .linkbtn{background:none;border:0;color:var(--accent);padding:0;text-decoration:underline;font-size:13.5px}
+  .whatyouget{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin-top:6px}
+  .whatyouget div{background:var(--accent-soft);border-radius:10px;padding:10px 12px;font-size:14px}
+  .whatyouget b{display:block;color:var(--accent-dark);margin-bottom:2px}
+
+  /* ---------- WORKSPACE ---------- */
+  #workspace{position:fixed;inset:0;display:grid;grid-template-columns:1fr 320px}
+  #workspace.collapsed{grid-template-columns:1fr 0}
+  #docArea{display:flex;flex-direction:column;min-width:0;border-right:1px solid var(--line)}
+  #docBar{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--panel);border-bottom:1px solid var(--line);flex-wrap:wrap}
+  #taskTitle{font-weight:700;margin-right:auto;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+  #tabs{display:flex;gap:6px}
+  .tab{border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px 12px;font-size:14px;font-weight:600}
+  .tab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .iconbtn{border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px 10px;font-size:13px}
+  #frameWrap{position:relative;flex:1;background:#fff;display:flex;min-height:0}
+  .docpane{flex:1;display:flex;flex-direction:column;min-width:0;min-height:0}
+  .docpane iframe{flex:1;width:100%;border:0;min-height:0}
+  .phead{display:none;align-items:center;justify-content:space-between;gap:8px;padding:6px 12px;background:var(--accent-soft);border-bottom:1px solid var(--line);font-weight:700;font-size:14px;color:var(--accent-dark)}
+  .phead a{font-weight:600;font-size:13px;text-decoration:none}
+  #frameWrap.split .phead{display:flex}
+  #frameWrap.split .docpane + .docpane{border-left:3px solid var(--accent-dark)}
+
+  #sidebar{background:var(--panel);display:flex;flex-direction:column;overflow:hidden}
+  #sidebar header{padding:18px 18px 8px}
+  #sidebar h2{margin:0;font-size:18px}
+  .progress{height:8px;background:var(--line);border-radius:6px;margin-top:10px;overflow:hidden}
+  .progress > div{height:100%;width:0;background:var(--accent);transition:width .4s}
+  #progressText{font-size:13px;color:var(--muted);margin-top:6px}
+  #addForm{display:flex;gap:6px;padding:8px 18px}
+  #addForm input{flex:1;min-width:0;padding:9px 11px;border:1px solid var(--line);border-radius:9px}
+  #addForm button{padding:9px 13px}
+  #list{list-style:none;margin:0;padding:6px 12px 18px;overflow:auto;flex:1}
+  #list li{display:flex;align-items:flex-start;gap:10px;padding:10px 8px;border-radius:10px;transition:background .2s}
+  #list li:hover{background:var(--bg)}
+  #list input[type=checkbox]{width:20px;height:20px;margin-top:1px;accent-color:var(--accent);flex-shrink:0;cursor:pointer}
+  #list span{flex:1;line-height:1.4;word-break:break-word}
+  #list li.done span{text-decoration:line-through;color:var(--muted)}
+  #list .del{border:0;background:none;color:var(--muted);opacity:.35;font-size:16px;padding:0 4px}
+  #list li:hover .del{opacity:1}
+  #emptyList{color:var(--muted);font-size:14px;padding:4px 20px}
+  #sideFoot{padding:12px 18px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+
+  /* ---------- FLOATING TIMER ---------- */
+  #timer{position:fixed;top:62px;right:340px;z-index:50;background:rgba(255,255,255,.97);
+    border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:10px 12px;
+    display:flex;align-items:center;gap:12px;user-select:none;touch-action:none}
+  #timer .grip{cursor:grab;color:#a9b6c9;font-size:18px;line-height:1;padding:4px 0}
+  #timer .grip:active{cursor:grabbing}
+  #ring{width:50px;height:50px;flex-shrink:0}
+  #ring circle{fill:none;stroke-width:6}
+  #ring .bg{stroke:var(--line)}
+  #ring .fg{stroke:var(--accent);stroke-linecap:round;transform:rotate(-90deg);transform-origin:50% 50%;transition:stroke-dashoffset .9s linear}
+  #timeTxt{font-size:28px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-1px;line-height:1}
+  #modeTxt{font-size:12px;text-transform:uppercase;letter-spacing:.8px;color:var(--muted)}
+  #timer .ctrls{display:flex;gap:6px}
+  #timer .ctrls button{border:1px solid var(--line);background:#fff;border-radius:9px;width:34px;height:34px;font-size:14px}
+  #timer.mini #ring,#timer.mini .ctrls,#timer.mini #modeTxt{display:none}
+  #timer.mini #timeTxt{font-size:18px}
+  #workspace.collapsed ~ #timer{right:20px}
+
+  /* ---------- BREAK OVERLAY ---------- */
+  #breakScreen{position:fixed;inset:0;z-index:100;background:var(--break-soft);display:flex;flex-direction:column;align-items:center;padding:24px;overflow:auto}
+  #breakScreen h1{margin:6px 0 2px;font-size:34px;color:#7a3a0e}
+  #breakScreen .bigtime{font-size:64px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--break);letter-spacing:-2px}
+  .choices{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:14px 0}
+  .choice{border:2px solid transparent;background:#fff;border-radius:14px;padding:11px 16px;font-weight:600;box-shadow:0 3px 10px rgba(0,0,0,.06)}
+  .choice.active{border-color:var(--break)}
+  #activity{width:min(820px,100%);flex:1;min-height:340px;background:#fff;border-radius:18px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+  .pane{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px}
+  #bubbles{display:grid;grid-template-columns:repeat(10,1fr);gap:10px;width:100%;max-width:640px}
+  .bub{aspect-ratio:1;border-radius:50%;border:0;background:radial-gradient(circle at 32% 30%,#fff 0 14%,#cfe6f5 30%,#9cc8e6 100%);
+    box-shadow:inset -3px -4px 8px rgba(0,0,0,.12),0 2px 4px rgba(0,0,0,.08);transition:transform .08s}
+  .bub:hover{transform:scale(1.06)}
+  .bub.popped{background:#eef3f6;box-shadow:inset 2px 2px 5px rgba(0,0,0,.12);transform:scale(.9);cursor:default}
+  #popCount{margin-top:14px;color:var(--muted)}
+  #pond{position:absolute;inset:0;width:100%;height:100%;cursor:crosshair;background:linear-gradient(#1f4e5f,#16394a)}
+  #pondHint{position:absolute;bottom:14px;width:100%;text-align:center;color:#b9d6df;font-size:14px;pointer-events:none}
+  #breathCircle{width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,#f1b98c,#c8763c);
+    animation:breathe 10s ease-in-out infinite;box-shadow:0 0 60px rgba(200,118,60,.4)}
+  @keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(2.3)}}
+  #breathTxt{margin-top:90px;font-size:22px;color:#7a3a0e;font-weight:600}
+  .musicBtns{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:16px}
+  .soundnote{color:var(--muted);text-align:center;max-width:420px;line-height:1.5}
+  .stretch{background:var(--accent-soft);border-radius:12px;padding:12px 16px;margin-top:12px;max-width:560px;text-align:center;font-size:15px}
+
+  #backToWork{position:fixed;inset:0;z-index:120;background:rgba(244,247,251,.97);display:flex;align-items:center;justify-content:center;padding:20px}
+  #backToWork .card{width:min(560px,100%);text-align:center}
+
+  /* ---------- SMALL SCREENS ---------- */
+  @media (max-width:860px){
+    #workspace,#workspace.collapsed{grid-template-columns:1fr}
+    #sidebar{position:fixed;top:0;right:0;bottom:0;width:min(330px,92vw);z-index:70;box-shadow:var(--shadow);transform:translateX(0);transition:transform .2s}
+    #workspace.collapsed #sidebar{transform:translateX(105%)}
+    #timer,#workspace.collapsed ~ #timer{right:10px;top:104px}
+    .row{flex-direction:column;gap:0}
+    #bubbles{grid-template-columns:repeat(8,1fr)}
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= PICKER ================= -->
+<section id="picker">
+  <div class="top"><div class="in">
+    <a href="index.html">&larr; Back to main page</a><br>
+    <small>AP Psychology</small>
+    <h1>Focus Room</h1>
+    <p>Pick a topic. Your notes, your practice questions, a timer and a checklist open together.</p>
+  </div></div>
+
+  <div class="wrap">
+    <div class="steps"><span><b>1</b> Choose a topic</span><span><b>2</b> Check your plan</span><span><b>3</b> Focus, break, repeat</span></div>
+
+    <div class="card">
+      <h2>1. What are you studying?</h2>
+      <p class="sub">Choose a unit, then a topic.</p>
+      <div class="unitrow" id="unitRow"></div>
+      <div class="topics" id="topicGrid"></div>
+    </div>
+
+    <div class="card hidden" id="planCard">
+      <h2>2. Your study plan</h2>
+      <p class="sub" id="planSub"></p>
+      <div class="whatyouget">
+        <div><b>Notes</b>That topic in the revision notes.</div>
+        <div><b>Practice</b>Questions on that topic, right beside your notes.</div>
+        <div><b>Timer</b>Focus time, then a real break.</div>
+        <div><b>Checklist</b>Small steps you can tick off.</div>
+      </div>
+
+      <div class="row">
+        <div><label for="inFocus">Focus (minutes)</label><input id="inFocus" class="field" type="number" min="5" max="90" value="25"></div>
+        <div><label for="inBreak">Break (minutes)</label><input id="inBreak" class="field" type="number" min="1" max="30" value="5"></div>
+      </div>
+      <div class="hint">25 and 5 is the classic Pomodoro rhythm. If you lose focus quickly, try 15 and 3.</div>
+
+      <label for="inItems">Your checklist <span style="text-transform:none;font-weight:400">(one step per line, edit freely)</span></label>
+      <textarea id="inItems" class="field" rows="6"></textarea>
+
+      <button id="startBtn" class="btn big">Start my focus session</button>
+      <div class="hint" style="text-align:center;margin-top:10px">
+        <button class="linkbtn" id="copyLinkBtn" type="button">Copy a link that opens this topic</button>
+        <span id="copiedMsg" class="hidden"> Copied.</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>How this helps</h2>
+      <p style="margin:0;line-height:1.55">Short, protected study blocks beat long, drifting ones. Reading is only half the job, so each plan includes questions and a short write from memory. Turn off notifications, put your phone out of reach, and let the break be a real break.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= WORKSPACE ================= -->
+<section id="workspace" class="hidden">
+  <div id="docArea">
+    <div id="docBar">
+      <div id="taskTitle"></div>
+      <div id="tabs"></div>
+      <button class="iconbtn" id="viewBtn" title="Switch between side by side and tabs">&#9707; Side by side</button>
+      <button class="iconbtn" id="popoutBtn" title="Open this tab in its own window">&#8599; New window</button>
+      <button class="iconbtn" id="fsBtn" title="Full screen on or off">&#9974; Full screen</button>
+      <button class="iconbtn" id="toggleSide" title="Show or hide the checklist">&#9776; Checklist</button>
+      <button class="iconbtn" id="leaveBtn" title="Choose a different topic">Topics</button>
+    </div>
+    <div id="frameWrap"></div>
+  </div>
+
+  <aside id="sidebar">
+    <header>
+      <h2>&#9989; Checklist</h2>
+      <div class="progress"><div id="bar"></div></div>
+      <div id="progressText">0 of 0 done</div>
+    </header>
+    <form id="addForm">
+      <input id="newItem" placeholder="Add a step" autocomplete="off">
+      <button class="btn" type="submit">+</button>
+    </form>
+    <ul id="list"></ul>
+    <div id="emptyList">Break your task into small, tickable steps. Small steps are easier to start.</div>
+    <div id="sideFoot">&#127813; Focus sessions completed: <b id="sessCount">0</b></div>
+  </aside>
+</section>
+
+<!-- ================= FLOATING TIMER ================= -->
+<div id="timer" class="hidden">
+  <div class="grip" title="Drag me">&#8942;&#8942;</div>
+  <svg id="ring" viewBox="0 0 64 64"><circle class="bg" cx="32" cy="32" r="27"/><circle class="fg" id="ringFg" cx="32" cy="32" r="27"/></svg>
+  <div>
+    <div id="modeTxt">Focus</div>
+    <div id="timeTxt">25:00</div>
+  </div>
+  <div class="ctrls">
+    <button id="playBtn" title="Pause or resume">&#9208;</button>
+    <button id="resetBtn" title="Restart this timer">&#8634;</button>
+    <button id="skipBtn" title="Skip to break">&#9197;</button>
+    <button id="miniBtn" title="Shrink">&#9662;</button>
+  </div>
+</div>
+
+<!-- ================= BREAK ================= -->
+<section id="breakScreen" class="hidden">
+  <div style="font-size:15px;color:#7a3a0e">Nice work. Step away from the screen content for a few minutes.</div>
+  <h1>Break time</h1>
+  <div class="bigtime" id="breakTime">5:00</div>
+  <div class="stretch" id="stretchTip"></div>
+  <div class="choices">
+    <button class="choice active" data-pane="paneBubbles">&#129707; Bubble wrap</button>
+    <button class="choice" data-pane="panePond">&#128167; Ripple pond</button>
+    <button class="choice" data-pane="paneBreath">&#127788; Just breathe</button>
+    <button class="choice" data-pane="paneMusic">&#127911; Calm sounds</button>
+  </div>
+  <div id="activity">
+    <div class="pane" id="paneBubbles">
+      <div id="bubbles"></div>
+      <div id="popCount">Pop them all. Or don't. It doesn't matter.</div>
+    </div>
+    <div class="pane hidden" id="panePond" style="padding:0">
+      <canvas id="pond"></canvas>
+      <div id="pondHint">Click, tap, or drag across the water</div>
+    </div>
+    <div class="pane hidden" id="paneBreath">
+      <div id="breathCircle"></div>
+      <div id="breathTxt">Breathe in...</div>
+    </div>
+    <div class="pane hidden" id="paneMusic">
+      <div class="musicBtns">
+        <button class="btn warm" id="rainBtn">&#127783; Rain sounds</button>
+        <button class="btn ghost" id="noiseBtn">&#127754; Soft brown noise</button>
+      </div>
+      <div class="soundnote">These sounds are made right here in your browser, so they work offline and on school Wi-Fi. Press the button again to stop.</div>
+    </div>
+  </div>
+  <div style="margin-top:16px;display:flex;gap:10px">
+    <button class="btn ghost" id="endBreakBtn">I'm ready, end the break early</button>
+  </div>
+</section>
+
+<section id="backToWork" class="hidden">
+  <div class="card">
+    <div style="font-size:50px">&#127793;</div>
+    <h1 style="margin:6px 0">Break's over</h1>
+    <p class="sub">Take a look at your checklist. What's the <i>next small step</i>?</p>
+    <div id="nextStep" style="font-size:18px;font-weight:700;margin:10px 0 4px"></div>
+    <button class="btn big" id="resumeBtn">Back to work</button>
+  </div>
+</section>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+
+  /* ---------------- Topic map (matches the notes and the revision quizzes) ---------------- */
+  const NOTES = "https://psych4everybody.github.io/ap-psych-notes/";
+  const QUIZ  = "https://psych4everybody.github.io/psych-revision/";
+  const UNITS = [
+    {u:0, name:"Unit 0 Scientific Foundations", topics:[["0.1","Perspectives","History and Perspectives"],["0.2","Thinking","Scientific Method and Critical Thinking"],["0.3","Methods","Research Methods"],["0.4","Experiments","Experimental Design"],["0.5","Sampling","Sampling"],["0.6","Statistics","Statistics"],["0.7","Ethics","Ethics"]]},
+    {u:1, name:"Unit 1 Biological Bases", topics:[["1.1","Heredity","Interaction of Heredity and Environment"],["1.2","Nervous system","Overview of the Nervous System"],["1.3","Neurons","The Neuron and Neural Firing"],["1.4","Brain","The Brain"],["1.5","Sleep","Sleep"],["1.6","Sensation","Sensation"]]},
+    {u:2, name:"Unit 2 Cognition", topics:[["2.1","Perception","Perception"],["2.2","Thinking","Thinking, Problem-Solving, Judgments, and Decision-Making"],["2.3","Memory","Introduction to Memory"],["2.4","Encoding","Encoding Memories"],["2.5","Storing","Storing Memories"],["2.6","Retrieving","Retrieving Memories"],["2.7","Forgetting","Forgetting and Other Memory Challenges"],["2.8","Intelligence","Intelligence and Achievement"]]},
+    {u:3, name:"Unit 3 Development and Learning", topics:[["3.1","Themes","Themes and Methods in Developmental Psychology"],["3.2","Physical","Physical Development Across the Lifespan"],["3.4","Cognitive","Cognitive Development Across the Lifespan"],["3.5","Language","Communication and Language Development"],["3.6","Social-emotional","Social-Emotional Development Across the Lifespan"],["3.7","Classical","Classical Conditioning"],["3.8","Operant","Operant Conditioning"],["3.9","Social learning","Social, Cognitive, and Neurological Factors in Learning"]]},
+    {u:4, name:"Unit 4 Social and Personality", topics:[["4.1","Attribution","Attribution Theory and Person Perception"],["4.2","Attitudes","Attitude Formation and Attitude Change"],["4.3","Social situations","Psychology of Social Situations"],["4.4","Psychodynamic","Psychodynamic and Humanistic Theories of Personality"],["4.5","Traits","Social-Cognitive and Trait Theories of Personality"],["4.6","Motivation","Motivation"],["4.7","Emotion","Emotion"]]},
+    {u:5, name:"Unit 5 Mental and Physical Health", topics:[["5.1","Health","Introduction to Health Psychology"],["5.2","Positive psych","Positive Psychology"],["5.3","Classifying","Explaining and Classifying Psychological Disorders"],["5.4","Disorders","Selection of Categories of Psychological Disorders"],["5.5","Treatment","Treatment of Psychological Disorders"]]}
+  ];
+  const ALL = {}; UNITS.forEach(U => U.topics.forEach(t => ALL[t[0]] = {num:t[0], short:t[1], title:t[2], u:U.u}));
+
+  function linksFor(num){
+    const t = ALL[num], u = t.u;
+    return {
+      notes: NOTES + "Unit" + u + "_Notes.html#t" + num.replace(".", "-"),
+      practice: QUIZ + "unit" + u + "_revision_quiz.html?topic=" + num + "&mode=practice"
+    };
+  }
+  function starterItems(num){
+    const t = ALL[num];
+    return [
+      "Read the goals at the top of " + num + " " + t.short,
+      "Read the notes for " + num + " and underline the key terms",
+      "Do the Check yourself questions in the notes",
+      "Practice questions on " + num + " (Practice tab), at least 10",
+      "Redo the questions I got wrong",
+      "Close the notes and write 3 sentences from memory"
+    ].join("\n");
+  }
+
+  const S = { topic:null, task:"", docs:[], focusMin:25, breakMin:5, mode:"focus", running:false, endAt:0,
+              remaining:0, total:0, sessions:0, items:[], activeDoc:0 };
+  let tick = null;
+
+  /* ---------------- Picker ---------------- */
+  let pickedUnit = 0, picked = null;
+  const unitRow = $("unitRow"), topicGrid = $("topicGrid");
+  UNITS.forEach(U => {
+    const b = document.createElement("button"); b.className = "unitbtn"; b.type = "button"; b.textContent = "Unit " + U.u;
+    b.title = U.name; b.onclick = () => { pickedUnit = U.u; renderTopics(); };
+    unitRow.appendChild(b);
+  });
+  function renderTopics(){
+    [...unitRow.children].forEach((b,i) => b.classList.toggle("on", UNITS[i].u === pickedUnit));
+    topicGrid.innerHTML = "";
+    const U = UNITS.find(x => x.u === pickedUnit);
+    U.topics.forEach(t => {
+      const b = document.createElement("button"); b.type = "button"; b.className = "topicbtn" + (picked === t[0] ? " on" : "");
+      b.innerHTML = '<span class="n">TOPIC ' + t[0] + '</span><span class="t"></span>';
+      b.querySelector(".t").textContent = t[2];
+      b.onclick = () => choose(t[0], true);
+      topicGrid.appendChild(b);
+    });
+  }
+  function choose(num, scroll){
+    picked = num; pickedUnit = ALL[num].u; renderTopics();
+    const t = ALL[num];
+    $("planCard").classList.remove("hidden");
+    $("planSub").textContent = "Topic " + num + ": " + t.title;
+    const saved = loadSaved(num);
+    $("inItems").value = saved && saved.items && saved.items.length ? saved.items.map(x => x.t).join("\n") : starterItems(num);
+    if (scroll) $("planCard").scrollIntoView({behavior:"smooth", block:"start"});
+  }
+
+  // links that open a topic directly: focus_room.html?topic=2.4&focus=25&break=5
+  const qp = new URLSearchParams(location.search);
+  if (qp.get("focus")) $("inFocus").value = qp.get("focus");
+  if (qp.get("break")) $("inBreak").value = qp.get("break");
+  const wanted = qp.get("topic");
+  if (wanted && ALL[wanted]) { pickedUnit = ALL[wanted].u; renderTopics(); choose(wanted, false); }
+  else renderTopics();
+
+  $("copyLinkBtn").onclick = () => {
+    if (!picked) return;
+    const p = new URLSearchParams();
+    p.set("topic", picked); p.set("focus", $("inFocus").value || 25); p.set("break", $("inBreak").value || 5);
+    const url = location.href.split("?")[0].split("#")[0] + "?" + p.toString();
+    const done = () => { $("copiedMsg").classList.remove("hidden"); setTimeout(() => $("copiedMsg").classList.add("hidden"), 2000); };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(done, () => prompt("Copy this link:", url));
+    else prompt("Copy this link:", url);
+  };
+
+  /* ---------------- Start ---------------- */
+  function clamp(v,a,b){return Math.min(b,Math.max(a,v))}
+  function storeKey(num){ return "focusroom:topic:" + num; }
+  function loadSaved(num){ try { return JSON.parse(localStorage.getItem(storeKey(num)) || "null"); } catch(e){ return null; } }
+  function save(){ try { localStorage.setItem(storeKey(S.topic), JSON.stringify({items:S.items, sessions:S.sessions})); } catch(e){} }
+
+  $("startBtn").onclick = () => {
+    if (!picked) return;
+    const t = ALL[picked], L = linksFor(picked);
+    S.topic = picked; S.task = picked + " " + t.short;
+    S.docs = [{label:"Notes", embed:L.notes, open:L.notes}, {label:"Practice", embed:L.practice, open:L.practice}];
+    S.focusMin = clamp(+$("inFocus").value || 25, 5, 90);
+    S.breakMin = clamp(+$("inBreak").value || 5, 1, 30);
+    const saved = loadSaved(picked);
+    S.sessions = saved ? (saved.sessions || 0) : 0;
+    const lines = $("inItems").value.split("\n").map(s => s.trim()).filter(Boolean);
+    const old = saved && saved.items ? saved.items : [];
+    S.items = lines.map(l => { const m = old.find(o => o.t === l); return {t:l, d:m ? m.d : false}; });
+    unlockAudio();
+    $("picker").classList.add("hidden");
+    $("workspace").classList.remove("hidden");
+    $("timer").classList.remove("hidden");
+    if (innerWidth <= 860) $("workspace").classList.add("collapsed");
+    $("taskTitle").textContent = S.task;
+    buildDocs(); renderList(); save();
+    $("sessCount").textContent = S.sessions;
+    startPhase("focus");
+  };
+
+  $("leaveBtn").onclick = () => {
+    if (!confirm("Go back to the topic list? Your checklist is saved.")) return;
+    pause(); save();
+    $("workspace").classList.add("hidden"); $("timer").classList.add("hidden");
+    $("frameWrap").innerHTML = ""; $("tabs").innerHTML = "";
+    $("picker").classList.remove("hidden");
+    document.title = "Focus Room | AP Psychology";
+    if (picked) choose(picked, false);
+  };
+
+  /* ---------------- Fullscreen (optional) ---------------- */
+  $("fsBtn").onclick = () => {
+    if (document.fullscreenElement) { document.exitFullscreen(); return; }
+    const el = document.documentElement;
+    const f = el.requestFullscreen || el.webkitRequestFullscreen;
+    if (f) { const r = f.call(el); if (r && r.catch) r.catch(() => {}); }
+  };
+
+  /* ---------------- Docs ---------------- */
+  let split = innerWidth >= 1000;
+  try { const v = localStorage.getItem("focusroom:view"); if (v && innerWidth >= 1000) split = v === "split"; } catch(e){}
+  function buildDocs(){
+    const wrap = $("frameWrap"), tabs = $("tabs");
+    wrap.innerHTML = ""; tabs.innerHTML = ""; S.activeDoc = 0;
+    S.docs.forEach((d,i) => {
+      const pane = document.createElement("div"); pane.className = "docpane"; pane.id = "doc" + i;
+      const head = document.createElement("div"); head.className = "phead";
+      const lab = document.createElement("span"); lab.textContent = d.label;
+      const a = document.createElement("a"); a.href = d.open; a.target = "_blank"; a.rel = "noopener"; a.textContent = "Open in new window";
+      head.append(lab, a);
+      const f = document.createElement("iframe"); f.src = d.embed; f.title = d.label;
+      pane.append(head, f); wrap.appendChild(pane);
+      const b = document.createElement("button");
+      b.className = "tab" + (i ? "" : " active"); b.textContent = d.label;
+      b.onclick = () => showDoc(i);
+      tabs.appendChild(b);
+    });
+    applyView();
+  }
+  function applyView(){
+    $("frameWrap").classList.toggle("split", split);
+    $("tabs").classList.toggle("hidden", split);
+    $("popoutBtn").classList.toggle("hidden", split);
+    $("viewBtn").innerHTML = split ? "&#9707; Tabs" : "&#9707; Side by side";
+    S.docs.forEach((_,j) => $("doc" + j).classList.toggle("hidden", !split && j !== S.activeDoc));
+    [...$("tabs").children].forEach((b,j) => b.classList.toggle("active", j === S.activeDoc));
+  }
+  function showDoc(i){ S.activeDoc = i; applyView(); }
+  $("viewBtn").onclick = () => { split = !split; try { localStorage.setItem("focusroom:view", split ? "split" : "tabs"); } catch(e){} applyView(); };
+  $("popoutBtn").onclick = () => { const d = S.docs[S.activeDoc]; if (d) window.open(d.open, "_blank", "noopener"); };
+  $("toggleSide").onclick = () => $("workspace").classList.toggle("collapsed");
+
+  /* ---------------- Checklist ---------------- */
+  function renderList(){
+    const ul = $("list"); ul.innerHTML = "";
+    S.items.forEach((it,i) => {
+      const li = document.createElement("li"); if (it.d) li.className = "done";
+      const cb = document.createElement("input"); cb.type = "checkbox"; cb.checked = it.d;
+      cb.setAttribute("aria-label", it.t);
+      cb.onchange = () => { it.d = cb.checked; if (cb.checked) ding(); save(); renderList(); };
+      const sp = document.createElement("span"); sp.textContent = it.t;
+      sp.ondblclick = () => { const n = prompt("Edit step:", it.t); if (n && n.trim()){ it.t = n.trim(); save(); renderList(); } };
+      const del = document.createElement("button"); del.className = "del"; del.textContent = "✕"; del.title = "Remove"; del.setAttribute("aria-label","Remove step");
+      del.onclick = () => { S.items.splice(i,1); save(); renderList(); };
+      li.append(cb, sp, del); ul.appendChild(li);
+    });
+    const done = S.items.filter(x => x.d).length, n = S.items.length;
+    $("bar").style.width = n ? (done/n*100) + "%" : "0";
+    $("progressText").textContent = n && done === n ? "All " + n + " done. Brilliant! 🎉" : done + " of " + n + " done";
+    $("emptyList").classList.toggle("hidden", n > 0);
+  }
+  $("addForm").onsubmit = e => {
+    e.preventDefault();
+    const v = $("newItem").value.trim(); if (!v) return;
+    S.items.push({t:v, d:false}); $("newItem").value = ""; save(); renderList();
+  };
+
+  /* ---------------- Timer ---------------- */
+  const C = 2*Math.PI*27; $("ringFg").style.strokeDasharray = C;
+  function startPhase(mode){
+    S.mode = mode;
+    S.total = (mode === "focus" ? S.focusMin : S.breakMin) * 60;
+    S.remaining = S.total;
+    $("modeTxt").textContent = mode === "focus" ? "Focus" : "Break";
+    $("ringFg").style.stroke = mode === "focus" ? "var(--accent)" : "var(--break)";
+    $("skipBtn").title = mode === "focus" ? "Skip to break" : "End break";
+    run();
+  }
+  function run(){
+    S.running = true; S.endAt = Date.now() + S.remaining*1000;
+    $("playBtn").innerHTML = "&#9208;";
+    clearInterval(tick); tick = setInterval(update, 250); update();
+  }
+  function pause(){
+    if (!S.running) return;
+    S.running = false; clearInterval(tick);
+    S.remaining = Math.max(0, Math.round((S.endAt - Date.now())/1000));
+    $("playBtn").innerHTML = "&#9654;";
+  }
+  function update(){
+    const left = S.running ? Math.max(0, Math.ceil((S.endAt - Date.now())/1000)) : S.remaining;
+    const txt = fmt(left);
+    $("timeTxt").textContent = txt; $("breakTime").textContent = txt;
+    $("ringFg").style.strokeDashoffset = C * (1 - left/S.total);
+    document.title = txt + " · " + (S.mode === "focus" ? "Focus" : "Break") + " | Focus Room";
+    if (S.running && left <= 0){ clearInterval(tick); S.running = false; phaseDone(); }
+  }
+  function fmt(s){ return Math.floor(s/60) + ":" + String(s%60).padStart(2,"0"); }
+  function phaseDone(){
+    chime();
+    if (S.mode === "focus"){ S.sessions++; $("sessCount").textContent = S.sessions; save(); openBreak(); }
+    else closeBreak();
+  }
+  $("playBtn").onclick = () => S.running ? pause() : run();
+  $("resetBtn").onclick = () => { S.remaining = S.total; if (S.running) run(); else update(); };
+  $("skipBtn").onclick = () => { clearInterval(tick); S.running = false; phaseDone(); };
+  $("miniBtn").onclick = () => $("timer").classList.toggle("mini");
+  $("timer").ondblclick = () => $("timer").classList.remove("mini");
+
+  (() => {
+    const t = $("timer"), g = t.querySelector(".grip"); let ox, oy, drag = false;
+    g.addEventListener("pointerdown", e => { drag = true; const r = t.getBoundingClientRect(); ox = e.clientX - r.left; oy = e.clientY - r.top; g.setPointerCapture(e.pointerId); });
+    g.addEventListener("pointermove", e => { if (!drag) return;
+      t.style.right = "auto";
+      t.style.left = clamp(e.clientX - ox, 0, innerWidth - t.offsetWidth) + "px";
+      t.style.top  = clamp(e.clientY - oy, 0, innerHeight - t.offsetHeight) + "px"; });
+    g.addEventListener("pointerup", () => drag = false);
+  })();
+
+  /* ---------------- Break flow ---------------- */
+  const TIPS = ["Stand up and roll your shoulders.", "Look at something far away for 20 seconds.", "Get a glass of water.", "Walk to a window and take five slow breaths.", "Stretch your wrists, neck and back."];
+  function openBreak(){
+    $("timer").classList.add("hidden");
+    $("breakScreen").classList.remove("hidden");
+    $("stretchTip").textContent = TIPS[Math.floor(Math.random()*TIPS.length)];
+    makeBubbles();
+    startPhase("break");
+  }
+  function closeBreak(){
+    stopSounds();
+    $("breakScreen").classList.add("hidden");
+    const next = S.items.find(x => !x.d);
+    $("nextStep").textContent = next ? "Next: " + next.t : (S.items.length ? "Everything's ticked! Review your work." : "");
+    $("backToWork").classList.remove("hidden");
+  }
+  $("endBreakBtn").onclick = () => { clearInterval(tick); S.running = false; chime(); closeBreak(); };
+  $("resumeBtn").onclick = () => {
+    $("backToWork").classList.add("hidden");
+    $("timer").classList.remove("hidden");
+    startPhase("focus");
+  };
+  document.querySelectorAll(".choice").forEach(b => b.onclick = () => {
+    document.querySelectorAll(".choice").forEach(x => x.classList.toggle("active", x === b));
+    document.querySelectorAll(".pane").forEach(p => p.classList.toggle("hidden", p.id !== b.dataset.pane));
+    if (b.dataset.pane === "panePond") sizePond();
+  });
+
+  let pops = 0;
+  function makeBubbles(){
+    const g = $("bubbles"); g.innerHTML = ""; pops = 0;
+    $("popCount").textContent = "Pop them all. Or don't. It doesn't matter.";
+    for (let i = 0; i < 60; i++){
+      const b = document.createElement("button"); b.className = "bub"; b.setAttribute("aria-label","Bubble");
+      b.onpointerdown = () => { if (b.classList.contains("popped")) return;
+        b.classList.add("popped"); popSound(); pops++;
+        $("popCount").textContent = pops === 60 ? "All popped. Here's a fresh sheet..." : pops + " popped";
+        if (pops === 60) setTimeout(makeBubbles, 900); };
+      g.appendChild(b);
+    }
+  }
+
+  const pond = $("pond"), pctx = pond.getContext("2d"); let ripples = [], lastDrop = 0;
+  function sizePond(){ const r = pond.getBoundingClientRect(); pond.width = r.width*devicePixelRatio; pond.height = r.height*devicePixelRatio; }
+  addEventListener("resize", sizePond);
+  function drop(e, force){
+    const now = performance.now(); if (!force && now - lastDrop < 70) return; lastDrop = now;
+    const r = pond.getBoundingClientRect();
+    ripples.push({x:(e.clientX-r.left)*devicePixelRatio, y:(e.clientY-r.top)*devicePixelRatio, r:0, a:1, h:170+Math.random()*50});
+  }
+  pond.addEventListener("pointerdown", e => { drop(e,true); waterSound(); });
+  pond.addEventListener("pointermove", e => { if (e.buttons) drop(e); });
+  (function loop(){
+    if (!$("panePond").classList.contains("hidden") && !$("breakScreen").classList.contains("hidden")){
+      pctx.fillStyle = "rgba(22,57,74,.25)"; pctx.fillRect(0,0,pond.width,pond.height);
+      ripples.forEach(p => { p.r += 1.6*devicePixelRatio; p.a -= .008;
+        for (let k = 0; k < 3; k++){ const rr = p.r - k*14*devicePixelRatio; if (rr <= 0) continue;
+          pctx.beginPath(); pctx.arc(p.x,p.y,rr,0,Math.PI*2);
+          pctx.strokeStyle = "hsla(" + p.h + ",70%,80%," + Math.max(0,p.a-k*.2) + ")"; pctx.lineWidth = 2*devicePixelRatio; pctx.stroke(); } });
+      ripples = ripples.filter(p => p.a > 0);
+    }
+    requestAnimationFrame(loop);
+  })();
+  setInterval(() => { const t = (Date.now()/1000) % 10; $("breathTxt").textContent = t < 5 ? "Breathe in..." : "Breathe out..."; }, 200);
+
+  /* ---------------- Audio (generated in the browser, no files) ---------------- */
+  let ac = null, ambient = null;
+  function unlockAudio(){ try { ac = ac || new (window.AudioContext || window.webkitAudioContext)(); ac.resume(); } catch(e){} }
+  function tone(freq, start, dur, vol, type){
+    if (!ac) return; vol = vol || .18; type = type || "sine";
+    const o = ac.createOscillator(), g = ac.createGain();
+    o.type = type; o.frequency.value = freq; o.connect(g); g.connect(ac.destination);
+    const t = ac.currentTime + start;
+    g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(vol,t+.02); g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+    o.start(t); o.stop(t+dur+.05);
+  }
+  function chime(){ [523.25,659.25,783.99,1046.5].forEach((f,i) => tone(f,i*.18,1.4)); }
+  function ding(){ tone(880,0,.35,.12); tone(1320,.08,.4,.08); }
+  function popSound(){
+    if (!ac) return; const len = ac.sampleRate*.05, buf = ac.createBuffer(1,len,ac.sampleRate), d = buf.getChannelData(0);
+    for (let i = 0; i < len; i++) d[i] = (Math.random()*2-1) * Math.pow(1-i/len, 4);
+    const s = ac.createBufferSource(), f = ac.createBiquadFilter(), g = ac.createGain();
+    f.type = "bandpass"; f.frequency.value = 1200 + Math.random()*1500; g.gain.value = .6;
+    s.buffer = buf; s.connect(f); f.connect(g); g.connect(ac.destination); s.start();
+  }
+  function waterSound(){ if (!ac) return; const o = ac.createOscillator(), g = ac.createGain(), t = ac.currentTime;
+    o.frequency.setValueAtTime(300+Math.random()*200,t); o.frequency.exponentialRampToValueAtTime(900,t+.12);
+    g.gain.setValueAtTime(.12,t); g.gain.exponentialRampToValueAtTime(.0001,t+.18);
+    o.connect(g); g.connect(ac.destination); o.start(t); o.stop(t+.2); }
+  function noiseLoop(kind){
+    unlockAudio(); stopSounds(); if (!ac) return;
+    const len = ac.sampleRate*4, buf = ac.createBuffer(1,len,ac.sampleRate), d = buf.getChannelData(0);
+    let last = 0;
+    for (let i = 0; i < len; i++){ const w = Math.random()*2-1;
+      if (kind === "brown"){ last = (last + .02*w)/1.02; d[i] = last*3.5; } else d[i] = w*.5; }
+    const s = ac.createBufferSource(); s.buffer = buf; s.loop = true;
+    const f = ac.createBiquadFilter(), g = ac.createGain();
+    if (kind === "rain"){ f.type = "lowpass"; f.frequency.value = 2200; g.gain.value = .35; }
+    else { f.type = "lowpass"; f.frequency.value = 600; g.gain.value = .5; }
+    s.connect(f); f.connect(g); g.connect(ac.destination); s.start(); ambient = s;
+  }
+  function stopSounds(){ if (ambient){ try { ambient.stop(); } catch(e){} ambient = null; }
+    $("rainBtn").innerHTML = "&#127783; Rain sounds"; $("noiseBtn").innerHTML = "&#127754; Soft brown noise"; }
+  $("rainBtn").onclick = () => { const on = $("rainBtn").textContent.indexOf("Stop") >= 0; stopSounds(); if (!on){ noiseLoop("rain"); $("rainBtn").textContent = "Stop rain"; } };
+  $("noiseBtn").onclick = () => { const on = $("noiseBtn").textContent.indexOf("Stop") >= 0; stopSounds(); if (!on){ noiseLoop("brown"); $("noiseBtn").textContent = "Stop noise"; } };
+})();
+</script>
+</body>
+</html>
