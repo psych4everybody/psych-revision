@@ -222,7 +222,7 @@
       <button class="iconbtn" id="fsBtn" title="Full screen on or off">&#9974; Full screen</button>
       <button class="iconbtn" id="toggleSide" title="Show or hide the checklist">&#9776; Checklist</button>
       <button class="iconbtn" id="leaveBtn" title="Choose a different topic">Topics</button>
-      <button class="iconbtn exit" id="exitBtn" title="End this session and go back to the revision site">&#10005; Exit</button>
+      <button class="iconbtn exit" id="exitBtn" title="End this session and go back to the revision notes">&#10005; Exit</button>
     </div>
     <div id="frameWrap"></div>
   </div>
@@ -437,7 +437,7 @@
   };
 
   /* ---------------- Exit: cancel the session and return to the revision site ---------------- */
-  const HOME = "https://psych4everybody.github.io/psych-revision/index.html";
+  const HOME = "https://psych4everybody.github.io/ap-psych-notes/";
   function exitRoom(){
     if (!confirm("Exit Focus Room? Your timer will stop. Your checklist ticks are saved.")) return;
     clearInterval(tick); S.running = false;
