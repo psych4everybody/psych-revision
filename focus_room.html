@@ -70,6 +70,8 @@
   .tab{border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px 12px;font-size:14px;font-weight:600}
   .tab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
   .iconbtn{border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px 10px;font-size:13px}
+  .iconbtn.exit{border-color:var(--break);color:var(--break);font-weight:700}
+  .iconbtn.exit:hover{background:var(--break);color:#fff}
   #frameWrap{position:relative;flex:1;background:#fff;display:flex;min-height:0}
   .docpane{flex:1;display:flex;flex-direction:column;min-width:0;min-height:0}
   .docpane iframe{flex:1;width:100%;border:0;min-height:0}
@@ -220,6 +222,7 @@
       <button class="iconbtn" id="fsBtn" title="Full screen on or off">&#9974; Full screen</button>
       <button class="iconbtn" id="toggleSide" title="Show or hide the checklist">&#9776; Checklist</button>
       <button class="iconbtn" id="leaveBtn" title="Choose a different topic">Topics</button>
+      <button class="iconbtn exit" id="exitBtn" title="End this session and go back to the revision site">&#10005; Exit</button>
     </div>
     <div id="frameWrap"></div>
   </div>
@@ -291,6 +294,7 @@
   </div>
   <div style="margin-top:16px;display:flex;gap:10px">
     <button class="btn ghost" id="endBreakBtn">I'm ready, end the break early</button>
+    <button class="btn ghost" id="exitBreakBtn">Exit Focus Room</button>
   </div>
 </section>
 
@@ -301,6 +305,7 @@
     <p class="sub">Take a look at your checklist. What's the <i>next small step</i>?</p>
     <div id="nextStep" style="font-size:18px;font-weight:700;margin:10px 0 4px"></div>
     <button class="btn big" id="resumeBtn">Back to work</button>
+    <div class="hint" style="margin-top:12px"><button class="linkbtn" id="exitBackBtn" type="button">Finished for today? Exit Focus Room</button></div>
   </div>
 </section>
 
@@ -430,6 +435,19 @@
     document.title = "Focus Room | AP Psychology";
     if (picked) choose(picked, false);
   };
+
+  /* ---------------- Exit: cancel the session and return to the revision site ---------------- */
+  const HOME = "https://psych4everybody.github.io/psych-revision/index.html";
+  function exitRoom(){
+    if (!confirm("Exit Focus Room? Your timer will stop. Your checklist ticks are saved.")) return;
+    clearInterval(tick); S.running = false;
+    stopSounds(); save();
+    try { if (document.fullscreenElement) document.exitFullscreen(); } catch(e){}
+    location.href = HOME;
+  }
+  $("exitBtn").onclick = exitRoom;
+  $("exitBreakBtn").onclick = exitRoom;
+  $("exitBackBtn").onclick = exitRoom;
 
   /* ---------------- Fullscreen (optional) ---------------- */
   $("fsBtn").onclick = () => {
