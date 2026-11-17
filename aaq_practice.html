@@ -180,6 +180,10 @@ main{padding:22px 0 60px}
 }
 @media(prefers-reduced-motion:reduce){*{transition:none !important;animation:none !important}}
 </style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Noto+Serif:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="frq-exam.css">
 </head>
 <body>
 
@@ -649,12 +653,13 @@ function beginTest(isResume){
 function buildTestBar(){
   const st = studyById(S.studyId);
   $("testBarHost").innerHTML =
-    '<div class="testbar"><div class="wrap">' +
-      '<div class="ttl">AAQ: ' + esc(st.title) + '</div>' +
-      '<div class="tools"><span class="phase" id="phaseChip">Reading period</span>' +
-      '<span class="timer" id="timer" role="timer" aria-label="Time remaining">00:00</span></div>' +
-    '</div></div>' +
+    '<div class="testbar"><div class="tb-grid">' +
+      '<div class="tb-left"><div class="ttl">AAQ: ' + esc(st.title) + '</div><span class="phase" id="phaseChip">Reading period</span></div>' +
+      '<div class="tb-mid"><span class="timer" id="timer" role="timer" aria-label="Time remaining">00:00</span><button class="tb-hide" id="tbHide" type="button">Hide</button></div>' +
+      '<div class="tb-right"></div>' +
+    '</div></div><div class="bb-dash"></div>' +
     '<div class="notice-bar" id="noticeBar" role="alert"></div>';
+  const hb = $("tbHide"); if(hb) hb.addEventListener("click", function(){ const tm = $("timer"); tm.classList.toggle("hidden-time"); this.textContent = tm.classList.contains("hidden-time") ? "Show" : "Hide"; });
 }
 
 function applyPhaseUI(){
