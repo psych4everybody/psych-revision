@@ -6,7 +6,7 @@
 <title>Unit 0: Scientific Foundations of Psychology | AP Psychology Revision</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Noto+Serif:wght@400;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'Outfit',sans-serif;background:#f0f4fb;color:#1a2744;min-height:100vh;}
@@ -137,18 +137,17 @@ header .subtitle{margin-top:7px;font-size:13px;color:#a8c4e0;}
 .topbar.light .back-btn{color:#1a2744;border-color:#1a2744;background:#f4f6fb;}
 .topbar.light .back-btn:hover{background:#1a2744;color:#fff;}
 </style>
+<link rel="stylesheet" href="exam.css">
 </head>
 <body>
-<nav class="topbar"><a class="back-btn" href="index.html">&larr; All Units</a></nav>
-
-
-<header>
-  <div class="eyebrow">AP Psychology &nbsp;|&nbsp; Unit 0</div>
+<nav class="bb-top"><a class="bb-back" href="index.html">&larr; All Units</a><span class="bb-crumb">AP Psychology &middot; Unit 0: Scientific Foundations of Psychology</span></nav>
+<div class="bb-dash"></div>
+<section class="bb-start">
+  <div class="bb-eyebrow">Unit 0 &middot; 7 topics &middot; 7 activities</div>
   <h1>Scientific Foundations of Psychology</h1>
-  <p class="subtitle">Interactive Revision &nbsp;|&nbsp; 7 Topics &nbsp;|&nbsp; 7 Activity Types</p>
-</header>
-
-<div class="controls-bar no-print">
+  <p class="bb-sub">Pick a topic and an activity. The exam-style activities look and work like the digital AP exam, so test day feels familiar.</p>
+  <div class="bb-panel">
+    <div class="bb-field"><label for="topicSelect">Topic</label>
   <select id="topicSelect">
     <option value="all">All Topics</option>
     <option value="0.1">0.1 - History and Perspectives</option>
@@ -159,18 +158,28 @@ header .subtitle{margin-top:7px;font-size:13px;color:#a8c4e0;}
     <option value="0.6">0.6 - Statistics</option>
     <option value="0.7">0.7 - Ethics</option>
   </select>
+    </div>
+    <div class="bb-field"><label for="modeSelect">Activity</label>
   <select id="modeSelect">
+    <option value="practice" selected>Practice Set MCQs (exam style)</option>
     <option value="flash">Flashcards</option>
-    <option value="mcq">Vocabulary MCQ</option>
-    <option value="tf">True / False</option>
+    <option value="mcq">Vocabulary MCQ (exam style)</option>
+    <option value="tf">True / False (exam style)</option>
     <option value="match">Match'em Up</option>
     <option value="hangman">Hangman</option>
-    <option value="practice">Practice Set MCQs</option>
     <option value="mistakes">Common Mistakes</option>
   </select>
-  <button class="btn-start" id="startBtn">Start</button>
-</div>
-
+    </div>
+    <div class="bb-opts">
+      <div><span class="bb-optlabel">Show answers</span><span class="bb-seg">
+        <input type="radio" name="bbFeedback" id="fbEnd" value="end" checked><label for="fbEnd">After I submit (exam style)</label>
+        <input type="radio" name="bbFeedback" id="fbEach" value="each"><label for="fbEach">After each question</label></span></div>
+      <label class="bb-check"><input type="checkbox" id="bbPace" checked> Time me at exam pace</label>
+    </div>
+    <div class="bb-actions"><button class="btn-start" id="startBtn">Start</button></div>
+  </div>
+  <p class="bb-note">Exam-style activities include Mark for Review, the option eliminator (the crossed-out ABC button), the question menu at the bottom of the screen and a Check Your Work page before you submit.</p>
+</section>
 <div class="main">
   <div id="quizArea">
     <div class="placeholder-text">
@@ -838,5 +847,6 @@ function showVocabScore(){
   setQA(`<div class="score-screen"><div class="big-score">${pct}%</div><div class="score-label">${S.score} correct out of ${S.terms.length}</div><div class="score-message">${msg}</div>${buildReviewBlock()}<br><button class="btn-restart" onclick="${restart}">Try Again</button></div>`);
 }
 </script>
+<script src="exam.js"></script>
 </body>
 </html>

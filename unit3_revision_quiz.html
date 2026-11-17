@@ -3,63 +3,114 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Unit 3: Development & Learning – Interactive Revision Quiz</title>
+<title>Unit 3: Development and Learning | AP Psychology Revision</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Noto+Serif:wght@400;700&display=swap" rel="stylesheet">
 <style>
-  body {margin:0;padding:0;font-family:Arial,Helvetica,sans-serif;background:#ffffff;color:#000000;line-height:1.5;}
-  .container {max-width:960px;margin:0 auto;padding:20px;}
-  h1 {text-align:center;margin-bottom:30px;font-size:28px;}
-  .controls {display:flex;flex-wrap:wrap;gap:15px;justify-content:center;margin-bottom:30px;}
-  select, button {padding:10px 15px;font-size:16px;border:1px solid #000;border-radius:4px;}
-  button {background:#000;color:#fff;cursor:pointer; font-weight: bold; transition: background 0.2s;}
-  button:hover {background:#333;}
-  #quizArea {min-height:400px;padding:20px;border:1px solid #000;border-radius:8px;background:#fff;position:relative;}
-
-  /* Quiz General Styles */
-  .question {font-size:19px;margin-bottom:20px; font-weight: bold;}
-  .options {display:flex;flex-direction:column;gap:12px;}
-  .option {padding:14px;border:1px solid #000;border-radius:6px;cursor:pointer;background:#fafafa;font-size: 16px; transition: background 0.2s;}
-  .option:hover {background:#f0f0f0;}
-  .feedback {margin-top:20px;padding:15px;border-radius:6px;font-weight:bold;text-align:center;}
-  .correct {background:#d4edda !important;color:#155724;border-color:#c3e6cb !important;}
-  .incorrect {background:#f8d7da !important;color:#721c24;border-color:#f5c6cb !important;}
-  .score {font-size:22px;text-align:center;margin:20px 0; font-weight:bold;}
-  .next-btn {display:block; width:200px; margin: 20px auto 0; text-align:center;}
-
-  /* Flashcards */
-  .card {perspective:1000px;margin:30px auto;max-width:700px;}
-  .card-inner {position:relative;width:100%;height:300px;transform-style:preserve-3d;transition:transform 0.7s;cursor:pointer;}
-  .card-front, .card-back {position:absolute;width:100%;height:100%;backface-visibility:hidden;display:flex;align-items:center;justify-content:center;padding:25px;box-sizing:border-box;border:3px solid #000;border-radius:10px;background:#fff;font-size:22px;text-align:center;}
-  .card-back {transform:rotateY(180deg);background:#f9f9f9;font-size:18px;}
-  .flipped .card-inner {transform:rotateY(180deg);}
-  .flashcard-controls {text-align: center; margin-top: 20px;}
-
-  /* Match'em Up */
-  .match-container {display:grid;grid-template-columns:1fr;gap:25px;}
-  @media (min-width:768px) {.match-container {grid-template-columns:1fr 1fr;}}
-  .terms, .defs {display:flex;flex-direction:column;gap:12px;}
-  .term, .def {padding:15px;border:2px solid #000;border-radius:8px;background:#fff;min-height:70px;display:flex;align-items:center;justify-content:center;text-align:center;font-weight:bold;cursor:grab;}
-  .term {background:#f0f0f0;}
-  .term:active {cursor:grabbing;}
-  .term.dragging {opacity:0.4;}
-  .def {border-style:dashed;position:relative; cursor: default; font-size: 14px; font-weight:normal;}
-  .def.drag-over {background:#e6f7ff; border-style: solid;}
-  .matched-term {position:absolute;top:0;left:0;width:100%;height:100%;background:#d4edda;display:flex;align-items:center;justify-content:center;font-weight:bold; border-radius: 6px; z-index: 10; color:#155724;}
-
-  /* Hangman */
-  .hangman-container {display:flex; flex-direction:column; align-items:center; width:100%;}
-  .hangman-hint {font-size: 16px; font-style: italic; background: #f0f8ff; padding: 15px; border-radius: 8px; border: 1px solid #cce5ff; margin-bottom: 20px; width: 100%; text-align: center; box-sizing: border-box;}
-  canvas#hangmanCanvas {border: 2px solid #000; border-radius: 8px; background: #fafafa; margin-bottom: 20px;}
-  .hangman-word {font-size: 28px; letter-spacing: 5px; margin: 20px 0; font-family: monospace; text-align: center; font-weight: bold; text-transform: uppercase; word-wrap: break-word; max-width: 100%;}
-  .keyboard {display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; max-width: 600px; margin: 0 auto;}
-
-  /* Updated Keyboard Styles */
-  .key {padding: 12px 18px; font-size: 18px; cursor: pointer; border: 2px solid #000; background: #000; color: #fff; border-radius: 6px; font-weight: bold; transition: all 0.1s;}
-  .key:hover:not(:disabled) {background: #444;}
-  .key:disabled {cursor: not-allowed; opacity: 0.6; border-color: #555; background:#222;}
-  .key.correct-guess {background: #28a745 !important; border-color: #1e7e34 !important; color: #fff !important;}
-  .key.incorrect-guess {background: #dc3545 !important; border-color: #bd2130 !important; color: #fff !important;}
-
-  .hidden {display:none !important;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Outfit',sans-serif;background:#f0f4fb;color:#1a2744;min-height:100vh;}
+header{background:#1a2744;color:#fff;padding:26px 20px 22px;text-align:center;}
+header .eyebrow{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#7fa8d4;margin-bottom:8px;}
+header h1{font-family:'Playfair Display',serif;font-size:26px;color:#fff;line-height:1.3;}
+header .subtitle{margin-top:7px;font-size:13px;color:#a8c4e0;}
+.controls-bar{background:#fff;border-bottom:2px solid #dde6f4;padding:14px 20px;display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:center;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(26,39,68,.09);}
+.controls-bar select{padding:9px 13px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:500;border:2px solid #c8d8ee;border-radius:8px;background:#f4f6fb;color:#1a2744;cursor:pointer;outline:none;min-width:175px;}
+.controls-bar select:focus{border-color:#2E75B6;}
+.btn-start{padding:9px 26px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;background:#1a2744;color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s;}
+.btn-start:hover{background:#2E75B6;}
+.main{max-width:860px;margin:28px auto;padding:0 14px 60px;}
+#quizArea{background:#fff;border-radius:12px;padding:28px;box-shadow:0 2px 16px rgba(26,39,68,.07);min-height:280px;}
+.placeholder-text{text-align:center;padding:56px 20px;color:#7a90b5;font-size:16px;line-height:1.8;}
+.progress-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;font-size:13px;font-weight:500;color:#4a6080;}
+.progress-bar-track{height:5px;background:#e0e8f4;border-radius:3px;margin-bottom:22px;overflow:hidden;}
+.progress-bar-fill{height:100%;background:#2E75B6;border-radius:3px;transition:width .4s ease;}
+.question-text{font-size:15px;line-height:1.75;margin-bottom:20px;color:#1a2744;}
+.stem-label{display:block;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#7fa8d4;margin-bottom:8px;}
+.skill-badge{display:inline-block;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:3px 10px;border-radius:20px;margin-bottom:13px;}
+.skill-1{background:#e8eef8;color:#3a5a8a;}
+.skill-2{background:#e3f2fd;color:#1565c0;}
+.skill-3{background:#fff3e0;color:#e65100;}
+.skill-4{background:#e8f5e9;color:#2e7d32;}
+.options-list{display:flex;flex-direction:column;gap:9px;}
+.option-btn{display:flex;align-items:flex-start;gap:11px;padding:13px 15px;border:2px solid #d0ddef;border-radius:8px;background:#f8fafd;cursor:pointer;font-family:'Outfit',sans-serif;font-size:14px;line-height:1.5;color:#1a2744;text-align:left;transition:border-color .15s,background .15s;width:100%;}
+.option-btn:hover:not(:disabled){border-color:#2E75B6;background:#eaf3fc;}
+.option-btn .letter{font-weight:700;min-width:20px;color:#2E75B6;flex-shrink:0;}
+.option-btn.correct{border-color:#28a745;background:#d4edda;color:#155724;}
+.option-btn.incorrect{border-color:#dc3545;background:#f8d7da;color:#721c24;}
+.option-btn.revealed{border-color:#28a745;background:#d4edda;color:#155724;}
+.option-btn:disabled{cursor:default;}
+.feedback-box{margin-top:16px;padding:13px 16px;border-radius:8px;font-size:14px;font-weight:600;}
+.feedback-box.correct{background:#d4edda;color:#155724;}
+.feedback-box.incorrect{background:#f8d7da;color:#721c24;}
+.feedback-box.neutral{background:#e8f1fa;color:#1a4a7a;}
+.btn-next{display:inline-block;margin-top:16px;padding:11px 28px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;background:#1a2744;color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s;}
+.btn-next:hover{background:#2E75B6;}
+.flashcard-wrapper{perspective:1200px;max-width:660px;margin:16px auto;height:240px;cursor:pointer;}
+.flashcard-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .55s ease;}
+.flashcard-wrapper.flipped .flashcard-inner{transform:rotateY(180deg);}
+.flashcard-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:26px 30px;text-align:center;}
+.flashcard-front{background:#1a2744;color:#fff;}
+.flashcard-front .face-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#7fa8d4;margin-bottom:12px;}
+.flashcard-front .face-term{font-size:20px;font-weight:700;line-height:1.35;}
+.flashcard-back{background:#eef4fc;border:2px solid #c8d8ee;transform:rotateY(180deg);}
+.flashcard-back .face-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#4a6080;margin-bottom:12px;}
+.flashcard-back .face-def{font-size:14px;line-height:1.65;color:#1a2744;}
+.flashcard-hint{text-align:center;margin-top:10px;font-size:12px;color:#7a90b5;}
+.flashcard-nav{display:flex;gap:10px;justify-content:center;margin-top:18px;}
+.flashcard-nav button{padding:9px 22px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;border:2px solid #1a2744;border-radius:8px;background:#fff;color:#1a2744;cursor:pointer;transition:all .15s;}
+.flashcard-nav button:hover{background:#1a2744;color:#fff;}
+.flashcard-nav button.self-rate-good{border-color:#28a745;color:#1e7b34;}
+.flashcard-nav button.self-rate-good:hover{background:#28a745;color:#fff;}
+.flashcard-nav button.self-rate-review{border-color:#dc3545;color:#a72638;}
+.flashcard-nav button.self-rate-review:hover{background:#dc3545;color:#fff;}
+.match-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+@media(max-width:580px){.match-grid{grid-template-columns:1fr;}}
+.match-col-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#7a90b5;margin-bottom:8px;}
+.match-terms,.match-defs{display:flex;flex-direction:column;gap:8px;}
+.match-term{padding:11px 13px;background:#1a2744;color:#fff;border-radius:7px;font-size:13px;font-weight:600;cursor:grab;user-select:none;transition:opacity .2s;}
+.match-term.dragging{opacity:.35;}
+.match-def{padding:11px 13px;background:#f4f6fb;border:2px dashed #b0c4de;border-radius:7px;font-size:12px;min-height:60px;position:relative;transition:border-color .15s,background .15s;}
+.match-def.drag-over{border-color:#2E75B6;background:#e3f2fd;border-style:solid;}
+.match-def.correct{border-color:#28a745;background:#d4edda;border-style:solid;}
+.match-def.incorrect{border-color:#dc3545;background:#f8d7da;border-style:solid;}
+.match-dropped{display:block;font-weight:700;font-size:12px;color:#1a2744;background:#c8d8ee;border-radius:4px;padding:2px 7px;margin-bottom:4px;}
+.match-check-btn{display:block;margin:18px auto 0;padding:11px 30px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;background:#2E75B6;color:#fff;border:none;border-radius:8px;cursor:pointer;}
+.match-check-btn:hover{background:#1a5a9a;}
+.hangman-container{display:flex;flex-direction:column;align-items:center;}
+.hangman-svg{width:180px;height:200px;}
+.hangman-hint{background:#e8f1fa;border-left:4px solid #2E75B6;padding:11px 15px;border-radius:0 8px 8px 0;font-size:13px;font-style:italic;color:#2a4a70;margin-bottom:18px;max-width:520px;width:100%;}
+.word-display{font-size:1.7rem;letter-spacing:6px;font-family:'Courier New',monospace;font-weight:700;margin:14px 0;word-break:break-all;text-align:center;}
+.keyboard{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;max-width:440px;margin-top:14px;}
+.key{width:35px;height:35px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;font-family:'Outfit',sans-serif;background:#1a2744;color:#fff;border:none;border-radius:5px;cursor:pointer;transition:background .15s;}
+.key:hover:not(:disabled){background:#2E75B6;}
+.key:disabled{opacity:.45;cursor:default;}
+.key.correct-guess{background:#28a745;}
+.key.wrong-guess{background:#dc3545;}
+.score-screen{text-align:center;padding:36px 20px;}
+.score-screen .big-score{font-family:'Playfair Display',serif;font-size:60px;font-weight:700;color:#1a2744;line-height:1;margin-bottom:8px;}
+.score-screen .score-label{font-size:17px;color:#4a6080;margin-bottom:22px;}
+.score-screen .score-message{font-size:20px;font-weight:700;margin-bottom:6px;color:#1a2744;}
+.btn-restart{display:inline-block;margin-top:20px;padding:11px 32px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;background:#1a2744;color:#fff;border:none;border-radius:8px;cursor:pointer;}
+.btn-restart:hover{background:#2E75B6;}
+.btn-print{background:#2E75B6;margin-left:10px;}
+.btn-print:hover{background:#1a5a9a;}
+.mistake-topic-header{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#7a90b5;margin:22px 0 10px;}
+.mistake-topic-header:first-child{margin-top:0;}
+.mistake-item{background:#fff3e0;border-left:4px solid #e65100;padding:12px 15px;border-radius:0 8px 8px 0;font-size:14px;line-height:1.65;margin-bottom:12px;color:#5a3a00;}
+.review-block{text-align:left;background:#f8fafd;border:2px solid #d0ddef;border-radius:10px;padding:16px 18px;margin:22px 0;max-height:320px;overflow-y:auto;}
+.review-header{font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#4a6080;margin-bottom:10px;}
+.review-item{font-size:13px;line-height:1.6;padding:8px 0;border-bottom:1px solid #e0e8f4;}
+.review-item:last-child{border-bottom:none;}
+.review-item strong{color:#1a2744;}
+.review-correct{color:#155724;display:block;margin-top:2px;}
+@media(max-width:480px){
+  header h1{font-size:20px;}
+  #quizArea{padding:16px;}
+  .word-display{font-size:1.2rem;letter-spacing:3px;}
+  .key{width:28px;height:28px;font-size:11px;}
+  .controls-bar select{min-width:140px;font-size:13px;}
+}
 </style>
 <style>
 .topbar{background:#1a2744;padding:10px 16px;text-align:left;}
@@ -69,46 +120,61 @@
 .topbar.light .back-btn{color:#1a2744;border-color:#1a2744;background:#f4f6fb;}
 .topbar.light .back-btn:hover{background:#1a2744;color:#fff;}
 </style>
+<link rel="stylesheet" href="exam.css">
 </head>
 <body>
-<nav class="topbar light"><a class="back-btn" href="index.html">&larr; All Units</a></nav>
-
-<div class="container">
-  <h1>Unit 3: Development & Learning – Interactive Revision Quiz</h1>
-
-  <div class="controls">
-    <select id="subsection">
-      <option value="all">All Terms</option>
-      <option value="3.1">3.1 - Themes & Methods</option>
+<nav class="bb-top"><a class="bb-back" href="index.html">&larr; All Units</a><span class="bb-crumb">AP Psychology &middot; Unit 3: Development and Learning</span></nav>
+<div class="bb-dash"></div>
+<section class="bb-start">
+  <div class="bb-eyebrow">Unit 3 &middot; 8 topics &middot; 5 activities</div>
+  <h1>Development and Learning</h1>
+  <p class="bb-sub">Pick a topic and an activity. The exam-style activities look and work like the digital AP exam, so test day feels familiar.</p>
+  <div class="bb-panel">
+    <div class="bb-field"><label for="topicSelect">Topic</label>
+  <select id="topicSelect">
+      <option value="all">All Topics</option>
+      <option value="3.1">3.1 - Themes and Methods</option>
       <option value="3.2">3.2 - Physical Development</option>
       <option value="3.4">3.4 - Cognitive Development</option>
-      <option value="3.5">3.5 - Communication & Language</option>
+      <option value="3.5">3.5 - Communication and Language</option>
       <option value="3.6">3.6 - Social-Emotional Development</option>
       <option value="3.7">3.7 - Classical Conditioning</option>
       <option value="3.8">3.8 - Operant Conditioning</option>
-      <option value="3.9">3.9 - Social/Cognitive Factors</option>
-    </select>
-
-    <select id="quizType">
-      <option value="mcq">Multiple Choice (MCQ)</option>
-      <option value="tf">True/False</option>
-      <option value="match">Match'em Up (drag-and-drop)</option>
-      <option value="flash">Flashcards (click to flip)</option>
-      <option value="hangman">Hangman</option>
-    </select>
-
-    <button id="startQuiz">Start Quiz</button>
+      <option value="3.9">3.9 - Social and Cognitive Factors</option>
+      </select>
+    </div>
+    <div class="bb-field"><label for="modeSelect">Activity</label>
+  <select id="modeSelect">
+    <option value="flash">Flashcards</option>
+    <option value="mcq">Vocabulary MCQ (exam style)</option>
+    <option value="tf">True / False (exam style)</option>
+    <option value="match">Match'em Up</option>
+    <option value="hangman">Hangman</option>
+          </select>
+    </div>
+    <div class="bb-opts">
+      <div><span class="bb-optlabel">Show answers</span><span class="bb-seg">
+        <input type="radio" name="bbFeedback" id="fbEnd" value="end" checked><label for="fbEnd">After I submit (exam style)</label>
+        <input type="radio" name="bbFeedback" id="fbEach" value="each"><label for="fbEach">After each question</label></span></div>
+      <label class="bb-check"><input type="checkbox" id="bbPace" checked> Time me at exam pace</label>
+    </div>
+    <div class="bb-actions"><button class="btn-start" id="startBtn">Start</button></div>
   </div>
-
+  <p class="bb-note">Exam-style activities include Mark for Review, the option eliminator (the crossed-out ABC button), the question menu at the bottom of the screen and a Check Your Work page before you submit.</p>
+</section>
+<div class="main">
   <div id="quizArea">
-    <div style="text-align:center; padding-top: 50px; color: #666; font-size: 18px;">
-      Select a topic and activity type, then click "Start Quiz".
+    <div class="placeholder-text">
+      Select a topic and activity type, then click <strong>Start</strong>.<br><br>
+      <strong>Flashcards</strong> &nbsp;|&nbsp; <strong>Vocabulary MCQ</strong> &nbsp;|&nbsp; <strong>True/False</strong> &nbsp;|&nbsp; <strong>Match'em Up</strong> &nbsp;|&nbsp; <strong>Hangman</strong>
     </div>
   </div>
 </div>
 
 <script>
-// ====================== COMPLETE TERMS DATABASE ======================
+// ==============================================================
+// TERMS DATABASE
+// ==============================================================
 const termsDB = {
   "3.1": [
     {term:"Developmental psychology",def:"The scientific study of how humans grow, change, and adapt throughout their entire lifespan"},
@@ -238,480 +304,305 @@ const termsDB = {
   ]
 };
 
-// ====================== APP STATE & LOGIC ======================
-const quizArea = document.getElementById('quizArea');
-let currentTermsList = [];
-let currentQuestionIndex = 0;
-let score = 0;
+// ==============================================================
+// COMMON MISTAKES DATABASE
+// ==============================================================
+const mistakesDB = {};
 
-document.getElementById('startQuiz').addEventListener('click', startQuiz);
+// ==============================================================
+// PRACTICE SET DATABASE -- 42 questions across 8 sections
+// ==============================================================
+const practiceDB = {};
 
-function startQuiz() {
-  const subsection = document.getElementById('subsection').value;
-  const quizType = document.getElementById('quizType').value;
+// ==============================================================
+// HELPERS
+// ==============================================================
+function shuffle(arr){const a=arr.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function getTerms(t){return t==="all"?Object.values(termsDB).flat():(termsDB[t]||[]);}
+function getPractice(t){return t==="all"?Object.values(practiceDB).flat():(practiceDB[t]||[]);}
+function skillClass(s){return s.includes("4")?"skill-4":s.includes("3")?"skill-3":s.includes("2")?"skill-2":"skill-1";}
+function pBar(idx,total,score){return `<div class="progress-row"><span>Question ${idx+1} of ${total}</span><span>Score: ${score} / ${idx}</span></div><div class="progress-bar-track"><div class="progress-bar-fill" style="width:${total>0?(idx/total)*100:0}%"></div></div>`;}
 
-  // Get active terms
-  currentTermsList = [];
-  if (subsection === 'all') {
-    for (const key in termsDB) {
-      currentTermsList = currentTermsList.concat(termsDB[key]);
-    }
+// Logs one attempt for the session review panel and the printable answer key.
+function logAttempt(type,stem,studentAnswer,correctAnswer,correct){
+  S.log.push({type:type,stem:stem,studentAnswer:studentAnswer,correctAnswer:correctAnswer,correct:correct});
+}
+// Builds the on-screen "Terms to review" panel plus the Print Summary button, shown on every completion screen.
+function buildReviewBlock(){
+  const missed=S.log.filter(function(r){return !r.correct;});
+  let html="";
+  if(missed.length){
+    html+='<div class="review-block"><div class="review-header">Terms to Review ('+missed.length+')</div>';
+    html+=missed.map(function(r){return '<div class="review-item"><strong>'+r.stem+'</strong><span class="review-correct">Correct answer: '+r.correctAnswer+'</span></div>';}).join("");
+    html+='</div>';
+  }
+  html+='<button class="btn-restart btn-print" onclick="printSummary()">Print Summary</button>';
+  return html;
+}
+// Builds and opens the printable, teacher-checkable answer key in its own tab, so printing
+// does not depend on window.print() working inside whatever frame this page is embedded in.
+function printSummary(){
+  const total=S.log.length;
+  const correctCount=S.log.filter(function(r){return r.correct;}).length;
+  const scoreText=total?(correctCount+" / "+total+" ("+Math.round((correctCount/total)*100)+"%)"):"No graded items this session";
+  let rows=S.log.map(function(r,i){
+    return '<tr><td style="border:1px solid #999;padding:6px;">'+(i+1)+'</td>'+
+      '<td style="border:1px solid #999;padding:6px;">'+String(r.stem).replace(/\n/g," ")+'</td>'+
+      '<td style="border:1px solid #999;padding:6px;">'+r.studentAnswer+'</td>'+
+      '<td style="border:1px solid #999;padding:6px;">'+r.correctAnswer+'</td>'+
+      '<td style="border:1px solid #999;padding:6px;">'+(r.correct?"Correct":"Review")+'</td></tr>';
+  }).join("");
+  if(!rows){rows='<tr><td colspan="5" style="border:1px solid #999;padding:6px;">No graded items in this session.</td></tr>';}
+  let mistakesHTML="";
+  if(S.topic!=="all"&&mistakesDB[S.topic]){
+    mistakesHTML='<h2 style="font-size:15px;margin-top:18px;border-bottom:1px solid #999;">Common Mistakes for This Topic</h2><ul style="font-size:12px;line-height:1.6;">'+
+      mistakesDB[S.topic].map(function(m){return '<li style="margin-bottom:6px;">'+m+'</li>';}).join("")+'</ul>';
+  }
+  const reportBody=
+    '<h1 style="font-size:20px;border-bottom:2px solid #000;padding-bottom:8px;">AP Psychology Unit 3: Development and Learning</h1>'+
+    '<p style="font-size:13px;">Revision Session Summary</p>'+
+    '<table style="width:100%;font-size:13px;margin:14px 0;"><tr><td>Name: ___________________________</td><td>Date: ___________________</td></tr></table>'+
+    '<p style="font-size:13px;">Topic: '+(S.topicLabel||"All Topics")+' &nbsp;|&nbsp; Activity: '+(S.modeLabel||"")+' &nbsp;|&nbsp; Score: '+scoreText+'</p>'+
+    '<h2 style="font-size:15px;margin-top:18px;border-bottom:1px solid #999;">Answer Key and Review</h2>'+
+    '<table style="width:100%;border-collapse:collapse;font-size:12px;margin-top:8px;">'+
+    '<tr style="background:#eee;"><th style="border:1px solid #999;padding:6px;text-align:left;">#</th><th style="border:1px solid #999;padding:6px;text-align:left;">Question / Term</th><th style="border:1px solid #999;padding:6px;text-align:left;">Your Answer</th><th style="border:1px solid #999;padding:6px;text-align:left;">Correct Answer</th><th style="border:1px solid #999;padding:6px;text-align:left;">Result</th></tr>'+
+    rows+'</table>'+mistakesHTML+
+    '<p class="no-print" style="margin-top:22px;font-size:12px;color:#666;">If the print dialog did not open automatically, use your browser\'s print command (Ctrl+P or Cmd+P) on this tab.</p>';
+  const fullDoc='<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Unit 3 Revision Summary</title>'+
+    '<style>body{font-family:Arial,Helvetica,sans-serif;color:#000;padding:20px;max-width:800px;margin:0 auto;}'+
+    '@media print{.no-print{display:none;}}</style></head><body>'+reportBody+'</body></html>';
+  const win=window.open("","_blank");
+  if(!win){
+    alert("Your browser blocked the new tab needed to print. Please allow pop-ups for this page and click Print Summary again.");
+    return;
+  }
+  win.document.open();
+  win.document.write(fullDoc);
+  win.document.close();
+  win.focus();
+  setTimeout(function(){
+    try{win.print();}catch(e){/* user can still print manually from the new tab */}
+  },250);
+}
+
+// ==============================================================
+// STATE
+// ==============================================================
+const S={mode:null,topic:"all",topicLabel:"All Topics",modeLabel:"",terms:[],practice:[],idx:0,score:0,hWord:"",hGuessed:[],hMistakes:0,hAttempted:new Set(),hActive:false,hCurrentTerm:null,_matchSet:[],log:[]};
+
+// ==============================================================
+// START
+// ==============================================================
+document.getElementById("startBtn").addEventListener("click",function(){
+  S.topic=document.getElementById("topicSelect").value;
+  S.mode=document.getElementById("modeSelect").value;
+  const topicSel=document.getElementById("topicSelect");
+  const modeSel=document.getElementById("modeSelect");
+  S.topicLabel=topicSel.options[topicSel.selectedIndex].text;
+  S.modeLabel=modeSel.options[modeSel.selectedIndex].text;
+  S.idx=0;S.score=0;S.hActive=false;S.hAttempted=new Set();S.log=[];
+  if(S.mode==="mistakes"){renderMistakes();return;}
+  if(S.mode==="practice"){
+    S.practice=shuffle(getPractice(S.topic));
+    if(!S.practice.length){setQA('<div class="placeholder-text">No practice questions for this topic yet.</div>');return;}
+    renderPractice();
   } else {
-    currentTermsList = [...(termsDB[subsection] || [])];
-  }
-
-  // Shuffle terms
-  currentTermsList = currentTermsList.sort(() => Math.random() - 0.5);
-  currentQuestionIndex = 0;
-  score = 0;
-
-  if (currentTermsList.length === 0) {
-    quizArea.innerHTML = "<p>No terms found for this section.</p>";
-    return;
-  }
-
-  // Route to the selected quiz mode
-  quizArea.innerHTML = '';
-  switch (quizType) {
-    case 'mcq': renderMCQ(); break;
-    case 'tf': renderTF(); break;
-    case 'flash': renderFlashcards(); break;
-    case 'match': renderMatch(); break;
-    case 'hangman': renderHangman(); break;
-  }
-}
-
-// ====================== UTILITIES ======================
-function getRandomDistractors(correctItem, list, count) {
-  let distractors = list.filter(item => item.term !== correctItem.term);
-  distractors = distractors.sort(() => Math.random() - 0.5).slice(0, count);
-  return distractors;
-}
-
-// ====================== MULTIPLE CHOICE ======================
-function renderMCQ() {
-  if (currentQuestionIndex >= currentTermsList.length) {
-    showFinalScore();
-    return;
-  }
-
-  const currentItem = currentTermsList[currentQuestionIndex];
-  const distractors = getRandomDistractors(currentItem, currentTermsList, 3);
-  let options = [currentItem, ...distractors].sort(() => Math.random() - 0.5);
-
-  let html = `
-    <div class="score">Question: ${currentQuestionIndex + 1} / ${currentTermsList.length} | Score: ${score}</div>
-    <div class="question">Definition: "${currentItem.def}"</div>
-    <div class="options">
-  `;
-
-  options.forEach((opt, index) => {
-    html += `<div class="option" onclick="checkMCQ('${opt.term.replace(/'/g, "\\'")}', this, '${currentItem.term.replace(/'/g, "\\'")}')">${opt.term}</div>`;
-  });
-
-  html += `</div><div id="feedbackBox" class="feedback hidden"></div>`;
-  quizArea.innerHTML = html;
-}
-
-window.checkMCQ = function(selectedTerm, element, correctTerm) {
-  if (document.querySelector('.option.correct')) return; // already answered
-
-  const feedbackBox = document.getElementById('feedbackBox');
-  const allOptions = document.querySelectorAll('.option');
-
-  allOptions.forEach(opt => {
-    if (opt.innerText === correctTerm) opt.classList.add('correct');
-  });
-
-  if (selectedTerm === correctTerm) {
-    element.classList.add('correct');
-    feedbackBox.innerText = "Correct!";
-    feedbackBox.className = "feedback correct";
-    score++;
-  } else {
-    element.classList.add('incorrect');
-    feedbackBox.innerText = `Incorrect! The correct answer is: ${correctTerm}`;
-    feedbackBox.className = "feedback incorrect";
-  }
-
-  currentQuestionIndex++;
-  setTimeout(renderMCQ, 2000);
-};
-
-// ====================== TRUE / FALSE ======================
-function renderTF() {
-  if (currentQuestionIndex >= currentTermsList.length) {
-    showFinalScore();
-    return;
-  }
-
-  const currentItem = currentTermsList[currentQuestionIndex];
-  // 50% chance to show correct definition, 50% wrong
-  const isTrue = Math.random() > 0.5;
-  let displayDef = currentItem.def;
-
-  if (!isTrue && currentTermsList.length > 1) {
-    let wrongItem = currentTermsList[Math.floor(Math.random() * currentTermsList.length)];
-    while (wrongItem.term === currentItem.term) {
-      wrongItem = currentTermsList[Math.floor(Math.random() * currentTermsList.length)];
-    }
-    displayDef = wrongItem.def;
-  }
-
-  let html = `
-    <div class="score">Question: ${currentQuestionIndex + 1} / ${currentTermsList.length} | Score: ${score}</div>
-    <div class="question">Term: <strong>${currentItem.term}</strong></div>
-    <div class="question" style="font-weight:normal; font-style:italic;">Definition: "${displayDef}"</div>
-    <div class="options" style="flex-direction:row; justify-content:center; gap:20px;">
-      <button class="option" style="width:150px;" onclick="checkTF(${isTrue}, true, this)">True</button>
-      <button class="option" style="width:150px;" onclick="checkTF(${isTrue}, false, this)">False</button>
-    </div>
-    <div id="feedbackBox" class="feedback hidden"></div>
-  `;
-  quizArea.innerHTML = html;
-}
-
-window.checkTF = function(correctAnswerIsTrue, userGuessedTrue, element) {
-  if (document.querySelector('.option.correct')) return;
-
-  const feedbackBox = document.getElementById('feedbackBox');
-
-  if (correctAnswerIsTrue === userGuessedTrue) {
-    element.classList.add('correct');
-    feedbackBox.innerText = "Correct!";
-    feedbackBox.className = "feedback correct";
-    score++;
-  } else {
-    element.classList.add('incorrect');
-    feedbackBox.innerText = "Incorrect!";
-    feedbackBox.className = "feedback incorrect";
-  }
-
-  currentQuestionIndex++;
-  setTimeout(renderTF, 1500);
-};
-
-// ====================== FLASHCARDS ======================
-function renderFlashcards() {
-  if (currentQuestionIndex >= currentTermsList.length) {
-    currentQuestionIndex = 0; // loop back
-  }
-
-  const currentItem = currentTermsList[currentQuestionIndex];
-
-  let html = `
-    <div class="score">Card: ${currentQuestionIndex + 1} / ${currentTermsList.length}</div>
-    <div class="card" onclick="this.classList.toggle('flipped')">
-      <div class="card-inner">
-        <div class="card-front">${currentItem.term}</div>
-        <div class="card-back">${currentItem.def}</div>
-      </div>
-    </div>
-    <div class="flashcard-controls">
-      <button onclick="prevCard()">Previous</button>
-      <span style="margin:0 10px;">(Click card to flip)</span>
-      <button onclick="nextCard()">Next</button>
-    </div>
-  `;
-  quizArea.innerHTML = html;
-}
-
-window.nextCard = function() {
-  currentQuestionIndex++;
-  renderFlashcards();
-}
-window.prevCard = function() {
-  currentQuestionIndex = currentQuestionIndex > 0 ? currentQuestionIndex - 1 : currentTermsList.length - 1;
-  renderFlashcards();
-}
-
-// ====================== MATCH'EM UP ======================
-let matchPairs = [];
-let matchedCount = 0;
-
-function renderMatch() {
-  // Take up to 5 items at a time
-  if (currentQuestionIndex >= currentTermsList.length) {
-    showFinalScore();
-    return;
-  }
-
-  const endIndex = Math.min(currentQuestionIndex + 5, currentTermsList.length);
-  matchPairs = currentTermsList.slice(currentQuestionIndex, endIndex);
-  matchedCount = 0;
-
-  let shuffledTerms = [...matchPairs].sort(() => Math.random() - 0.5);
-  let shuffledDefs = [...matchPairs].sort(() => Math.random() - 0.5);
-
-  let html = `
-    <div class="score">Match Set: ${Math.ceil((currentQuestionIndex + 1) / 5)}</div>
-    <p style="text-align:center;">Drag the terms on the left to their correct definitions on the right.</p>
-    <div class="match-container">
-      <div class="terms" id="draggableTerms">
-        ${shuffledTerms.map(t => `<div class="term" draggable="true" ondragstart="drag(event)" id="term_${t.term.replace(/\s+/g, '')}" data-term="${t.term}">${t.term}</div>`).join('')}
-      </div>
-      <div class="defs">
-        ${shuffledDefs.map(d => `<div class="def" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="dragLeave(event)" data-term="${d.term}">${d.def}</div>`).join('')}
-      </div>
-    </div>
-  `;
-  quizArea.innerHTML = html;
-}
-
-window.allowDrop = function(ev) {
-  ev.preventDefault();
-  if(!ev.target.classList.contains('matched-term') && ev.target.classList.contains('def')) {
-    ev.target.classList.add('drag-over');
-  }
-}
-
-window.dragLeave = function(ev) {
-  ev.target.classList.remove('drag-over');
-}
-
-window.drag = function(ev) {
-  ev.dataTransfer.setData("text", ev.target.id);
-  ev.target.classList.add('dragging');
-  setTimeout(() => ev.target.classList.remove('dragging'), 100); // Visual fix
-}
-
-window.drop = function(ev) {
-  ev.preventDefault();
-  let dropTarget = ev.target;
-
-  // Prevent dropping on already matched items
-  if (dropTarget.classList.contains('matched-term')) return;
-  // Ensure we are dropping on the container, not inner text
-  if (!dropTarget.classList.contains('def')) {
-     dropTarget = dropTarget.closest('.def');
-  }
-
-  if (dropTarget) {
-    dropTarget.classList.remove('drag-over');
-    const draggedElementId = ev.dataTransfer.getData("text");
-    const draggedElement = document.getElementById(draggedElementId);
-
-    if (draggedElement.getAttribute('data-term') === dropTarget.getAttribute('data-term')) {
-      // Correct match
-      draggedElement.style.visibility = 'hidden'; // Hide original
-
-      const matchedOverlay = document.createElement('div');
-      matchedOverlay.className = 'matched-term';
-      matchedOverlay.innerText = draggedElement.getAttribute('data-term');
-      dropTarget.appendChild(matchedOverlay);
-
-      matchedCount++;
-      if (matchedCount === matchPairs.length) {
-        currentQuestionIndex += 5;
-        setTimeout(renderMatch, 1500);
-      }
-    } else {
-      // Wrong Match Effect
-      dropTarget.style.borderColor = 'red';
-      dropTarget.style.background = '#f8d7da';
-      setTimeout(() => {
-        dropTarget.style.borderColor = '#000';
-        dropTarget.style.background = '#fff';
-      }, 500);
-    }
-  }
-}
-
-// ====================== HANGMAN FEATURE ======================
-let hangmanWord = "";
-let guessedLetters = new Set();
-let wrongGuesses = 0;
-const MAX_MISTAKES = 6;
-
-function renderHangman() {
-  if (currentQuestionIndex >= currentTermsList.length) {
-    showFinalScore();
-    return;
-  }
-
-  const currentItem = currentTermsList[currentQuestionIndex];
-  hangmanWord = currentItem.term.toUpperCase();
-  guessedLetters.clear();
-  wrongGuesses = 0;
-
-  // Render initial UI
-  const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('');
-
-  let html = `
-    <div class="score">Hangman Word: ${currentQuestionIndex + 1} / ${currentTermsList.length}</div>
-    <div class="hangman-container">
-      <div class="hangman-hint"><strong>Hint:</strong> ${currentItem.def}</div>
-      <canvas id="hangmanCanvas" width="200" height="250"></canvas>
-      <div class="hangman-word" id="hangmanWordDisplay"></div>
-
-      <div id="hangmanMessage" style="font-size:20px; font-weight:bold; margin-bottom:15px; height:30px;"></div>
-
-      <div class="keyboard" id="hangmanKeyboard">
-        ${alphabet.map(letter => `<button class="key" onclick="handleHangmanGuess('${letter}')" id="key-${letter}">${letter}</button>`).join('')}
-      </div>
-
-      <button id="hangmanNextBtn" class="next-btn hidden" onclick="nextHangman()">Next Word</button>
-    </div>
-  `;
-  quizArea.innerHTML = html;
-
-  updateHangmanWordDisplay();
-  drawHangman();
-}
-
-function updateHangmanWordDisplay() {
-  const displayEl = document.getElementById('hangmanWordDisplay');
-  let displayStr = "";
-
-  for (let char of hangmanWord) {
-    // If it's a letter and not guessed, show underscore
-    if (/[A-Z]/.test(char)) {
-      if (guessedLetters.has(char)) {
-        displayStr += char;
-      } else {
-        displayStr += "_";
-      }
-    } else {
-      // Display spaces and punctuation as is (e.g., in "Stability & Change")
-      displayStr += (char === " " ? "&nbsp;&nbsp;" : char);
-    }
-  }
-
-  displayEl.innerHTML = displayStr;
-  return displayStr;
-}
-
-window.handleHangmanGuess = function(letter) {
-  if (guessedLetters.has(letter) || wrongGuesses >= MAX_MISTAKES) return;
-
-  guessedLetters.add(letter);
-  const btn = document.getElementById(`key-${letter}`);
-  if(!btn) return;
-
-  if (hangmanWord.includes(letter)) {
-    btn.classList.add('correct-guess');
-    btn.disabled = true;
-
-    // Check Win
-    const currentDisplay = updateHangmanWordDisplay();
-    if (!currentDisplay.includes("_")) {
-      endHangmanGame(true);
-    }
-  } else {
-    btn.classList.add('incorrect-guess');
-    btn.disabled = true;
-    wrongGuesses++;
-    drawHangman();
-
-    // Check Loss
-    if (wrongGuesses >= MAX_MISTAKES) {
-      endHangmanGame(false);
-    }
-  }
-}
-
-// Global Keyboard Listener for Hangman
-document.addEventListener('keydown', function(event) {
-  const keyboard = document.getElementById('hangmanKeyboard');
-  // Only process if the hangman keyboard is on screen and the game is active
-  if (!keyboard || keyboard.style.pointerEvents === 'none') return;
-
-  const key = event.key.toUpperCase();
-  // Ensure the pressed key is a single alphabetical character
-  if (/^[A-Z]$/.test(key)) {
-    window.handleHangmanGuess(key);
+    S.terms=shuffle(getTerms(S.topic));
+    if(!S.terms.length){setQA('<div class="placeholder-text">No terms found for this selection.</div>');return;}
+    if(S.mode==="flash")renderFlash();
+    else if(S.mode==="mcq")renderMCQ();
+    else if(S.mode==="tf")renderTF();
+    else if(S.mode==="match")renderMatch();
+    else if(S.mode==="hangman"){S.hActive=true;renderHangman();}
   }
 });
+function setQA(html){document.getElementById("quizArea").innerHTML=html;}
 
-function drawHangman() {
-  const canvas = document.getElementById('hangmanCanvas');
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-
-  ctx.lineWidth = 3;
-  ctx.strokeStyle = '#333';
-
-  // Base setup (always drawn)
-  if (wrongGuesses === 0) {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    // Gallows
-    ctx.beginPath();
-    ctx.moveTo(20, 230); ctx.lineTo(180, 230); // base
-    ctx.moveTo(50, 230); ctx.lineTo(50, 20);   // pole
-    ctx.moveTo(50, 20); ctx.lineTo(120, 20);   // top
-    ctx.moveTo(120, 20); ctx.lineTo(120, 50);  // rope
-    ctx.stroke();
-  }
-
-  // Head
-  if (wrongGuesses === 1) {
-    ctx.beginPath(); ctx.arc(120, 70, 20, 0, Math.PI * 2); ctx.stroke();
-  }
-  // Body
-  if (wrongGuesses === 2) {
-    ctx.beginPath(); ctx.moveTo(120, 90); ctx.lineTo(120, 150); ctx.stroke();
-  }
-  // Left Arm
-  if (wrongGuesses === 3) {
-    ctx.beginPath(); ctx.moveTo(120, 100); ctx.lineTo(90, 130); ctx.stroke();
-  }
-  // Right Arm
-  if (wrongGuesses === 4) {
-    ctx.beginPath(); ctx.moveTo(120, 100); ctx.lineTo(150, 130); ctx.stroke();
-  }
-  // Left Leg
-  if (wrongGuesses === 5) {
-    ctx.beginPath(); ctx.moveTo(120, 150); ctx.lineTo(90, 190); ctx.stroke();
-  }
-  // Right Leg
-  if (wrongGuesses === 6) {
-    ctx.beginPath(); ctx.moveTo(120, 150); ctx.lineTo(150, 190); ctx.stroke();
-
-    // Draw dead eyes
-    ctx.beginPath();
-    ctx.moveTo(112, 65); ctx.lineTo(118, 71);
-    ctx.moveTo(118, 65); ctx.lineTo(112, 71);
-    ctx.moveTo(122, 65); ctx.lineTo(128, 71);
-    ctx.moveTo(128, 65); ctx.lineTo(122, 71);
-    ctx.stroke();
-  }
+// ==============================================================
+// COMMON MISTAKES
+// ==============================================================
+function renderMistakes(){
+  let html='<p style="text-align:center;color:#4a6080;font-size:13px;margin-bottom:18px;">Common mix-ups students make on this material. Review these before you test yourself.</p>';
+  const topicsToShow=(S.topic==="all")?Object.keys(mistakesDB):[S.topic];
+  topicsToShow.forEach(function(tKey){
+    if(!mistakesDB[tKey])return;
+    if(S.topic==="all"){html+='<div class="mistake-topic-header">Topic '+tKey+'</div>';}
+    mistakesDB[tKey].forEach(function(m){html+='<div class="mistake-item">'+m+'</div>';});
+  });
+  setQA(html);
 }
 
-function endHangmanGame(isWin) {
-  const msgEl = document.getElementById('hangmanMessage');
-  const keyboard = document.getElementById('hangmanKeyboard');
-  const nextBtn = document.getElementById('hangmanNextBtn');
-
-  keyboard.style.pointerEvents = 'none'; // Disable keyboard
-  keyboard.style.opacity = '0.7';
-
-  if (isWin) {
-    msgEl.innerHTML = "<span style='color:green;'>🎉 You saved them! Correct!</span>";
-    score++;
-  } else {
-    msgEl.innerHTML = `<span style='color:red;'>💀 Game Over! The word was: ${hangmanWord}</span>`;
-    // Reveal word
-    const displayEl = document.getElementById('hangmanWordDisplay');
-    displayEl.innerHTML = hangmanWord.replace(/ /g, "&nbsp;&nbsp;");
-    displayEl.style.color = "red";
-  }
-
-  nextBtn.classList.remove('hidden');
+// ==============================================================
+// FLASHCARDS
+// ==============================================================
+function renderFlash(){
+  if(S.idx>=S.terms.length){setQA(`<div class="score-screen"><div class="big-score">${S.terms.length}</div><div class="score-label">cards reviewed</div><div class="score-message">All done!</div>${buildReviewBlock()}<br><button class="btn-restart" onclick="S.idx=0;S.log=[];renderFlash()">Start Over</button></div>`);return;}
+  const t=S.terms[S.idx];const pct=(S.idx/S.terms.length)*100;
+  setQA(`<div class="progress-row"><span>Card ${S.idx+1} of ${S.terms.length}</span><span style="font-size:12px;color:#7a90b5;">Click to flip</span></div><div class="progress-bar-track"><div class="progress-bar-fill" style="width:${pct}%"></div></div><div class="flashcard-wrapper" onclick="this.classList.toggle('flipped')"><div class="flashcard-inner"><div class="flashcard-face flashcard-front"><div class="face-label">Term</div><div class="face-term">${t.term}</div></div><div class="flashcard-face flashcard-back"><div class="face-label">Definition</div><div class="face-def">${t.def}</div></div></div></div><div class="flashcard-hint">Tap the card to reveal the definition, then rate yourself honestly</div><div class="flashcard-nav"><button class="self-rate-review" onclick="rateFlash(false)">Review again</button><button class="self-rate-good" onclick="rateFlash(true)">Got it</button></div><div class="flashcard-nav" style="margin-top:8px;"><button onclick="S.idx=Math.max(0,S.idx-1);renderFlash()">Previous</button></div>`);
+}
+function rateFlash(gotIt){
+  const t=S.terms[S.idx];
+  logAttempt("Flashcards",t.term,gotIt?"Marked: Got it":"Marked: Review again",t.def,gotIt);
+  S.idx++;
+  renderFlash();
 }
 
-window.nextHangman = function() {
-  currentQuestionIndex++;
-  renderHangman();
+// ==============================================================
+// VOCABULARY MCQ
+// ==============================================================
+function renderMCQ(){
+  if(S.idx>=S.terms.length){showVocabScore();return;}
+  const cur=S.terms[S.idx];
+  const opts=shuffle([cur,...shuffle(S.terms.filter(function(t){return t!==cur;})).slice(0,3)]);
+  const letters=["A","B","C","D"];S._mcqOpts=opts;S._mcqCorrect=cur;S._mcqDef=cur.def;
+  let optsHTML=opts.map(function(o,i){return `<button class="option-btn" data-idx="${i}"><span class="letter">${letters[i]}</span><span>${o.term}</span></button>`;}).join("");
+  setQA(`${pBar(S.idx,S.terms.length,S.score)}<div class="question-text"><span class="stem-label">Definition</span>${cur.def}</div><p style="font-size:12px;color:#4a6080;margin-bottom:10px;font-weight:600;">Which term matches this definition?</p><div class="options-list" id="mcqOpts">${optsHTML}</div><div id="mcqFb"></div>`);
+  document.querySelectorAll("#mcqOpts .option-btn").forEach(function(btn){btn.addEventListener("click",function(){handleMCQ(parseInt(this.dataset.idx));});});
+}
+function handleMCQ(si){
+  if(document.querySelector(".option-btn.correct,.option-btn.incorrect"))return;
+  const opts=S._mcqOpts;const correct=S._mcqCorrect;const ci=opts.indexOf(correct);
+  document.querySelectorAll(".option-btn").forEach(function(b){b.disabled=true;if(parseInt(b.dataset.idx)===ci)b.classList.add("revealed");});
+  const isRight=(si===ci);const btn=document.querySelector('[data-idx="'+si+'"]');
+  if(btn){btn.classList.remove("revealed");btn.classList.add(isRight?"correct":"incorrect");}
+  if(isRight)S.score++;
+  logAttempt("Vocabulary MCQ",S._mcqDef,opts[si].term,correct.term,isRight);
+  S.idx++;
+  document.getElementById("mcqFb").innerHTML=`<div class="feedback-box ${isRight?"correct":"incorrect"}">${isRight?"Correct!":"Not quite. The correct answer is highlighted above."}</div><button class="btn-next" onclick="renderMCQ()">Next</button>`;
 }
 
-// ====================== END OF QUIZ ======================
-function showFinalScore() {
-  quizArea.innerHTML = `
-    <h2 style="text-align:center;">Quiz Complete!</h2>
-    <div class="score">Final Score: ${score} / ${currentTermsList.length}</div>
-    <button class="next-btn" onclick="startQuiz()">Restart Activity</button>
-  `;
+// ==============================================================
+// TRUE / FALSE
+// ==============================================================
+function renderTF(){
+  if(S.idx>=S.terms.length){showVocabScore();return;}
+  const cur=S.terms[S.idx];const isTrue=Math.random()>0.5;let disp=cur.def;
+  if(!isTrue&&S.terms.length>1){let w=S.terms[Math.floor(Math.random()*S.terms.length)];while(w.term===cur.term)w=S.terms[Math.floor(Math.random()*S.terms.length)];disp=w.def;}
+  S._tfIsTrue=isTrue;S._tfTerm=cur.term;S._tfDisp=disp;
+  setQA(`${pBar(S.idx,S.terms.length,S.score)}<div class="question-text">Is this the correct definition of <strong>${cur.term}</strong>?</div><div style="background:#f4f6fb;padding:13px 15px;border-radius:8px;font-style:italic;border-left:4px solid #b0c4de;margin-bottom:18px;font-size:14px;line-height:1.65;">"${disp}"</div><div class="options-list" style="flex-direction:row;gap:14px;"><button class="option-btn" id="tfT" style="justify-content:center;"><span class="letter" style="color:#28a745;">T</span>True</button><button class="option-btn" id="tfF" style="justify-content:center;"><span class="letter" style="color:#dc3545;">F</span>False</button></div><div id="tfFb"></div>`);
+  document.getElementById("tfT").addEventListener("click",function(){handleTF(true);});
+  document.getElementById("tfF").addEventListener("click",function(){handleTF(false);});
+}
+function handleTF(userTrue){
+  if(document.querySelector(".option-btn.correct,.option-btn.incorrect"))return;
+  document.querySelectorAll(".option-btn").forEach(function(b){b.disabled=true;});
+  const right=(S._tfIsTrue===userTrue);const btn=userTrue?document.getElementById("tfT"):document.getElementById("tfF");
+  if(btn)btn.classList.add(right?"correct":"incorrect");
+  if(right)S.score++;
+  logAttempt("True/False",'"'+S._tfDisp+'" - definition of '+S._tfTerm+'?',userTrue?"True":"False",S._tfIsTrue?"True":"False",right);
+  S.idx++;
+  document.getElementById("tfFb").innerHTML=`<div class="feedback-box ${right?"correct":"incorrect"}">${right?"Correct!":"Not quite. The answer was: "+(S._tfIsTrue?"True":"False")}</div><button class="btn-next" onclick="renderTF()">Next</button>`;
+}
+
+// ==============================================================
+// MATCH'EM UP
+// ==============================================================
+function renderMatch(){
+  const chunk=S.terms.slice(0,Math.min(6,S.terms.length));S._matchSet=chunk;
+  const shuffledDefs=shuffle(chunk.map(function(t,i){return {termIdx:i,def:t.def};}));
+  const termsHTML=chunk.map(function(t,i){return `<div class="match-term" draggable="true" data-tidx="${i}">${t.term}</div>`;}).join("");
+  const defsHTML=shuffledDefs.map(function(d){return `<div class="match-def" data-correct="${d.termIdx}" data-dropped="-1"><div class="match-def-text" style="font-size:12px;line-height:1.5;">${d.def}</div></div>`;}).join("");
+  setQA(`<p style="text-align:center;color:#4a6080;font-size:13px;margin-bottom:18px;">Drag each <strong>term</strong> from the left onto its matching <strong>definition</strong> on the right.</p><div class="match-grid"><div><div class="match-col-label">Terms</div><div class="match-terms" id="matchTerms">${termsHTML}</div></div><div><div class="match-col-label">Definitions</div><div class="match-defs" id="matchDefs">${defsHTML}</div></div></div><button class="match-check-btn" onclick="checkMatch()">Check Answers</button><div id="matchFb" style="margin-top:14px;"></div>`);
+  document.querySelectorAll(".match-term").forEach(function(el){
+    el.addEventListener("dragstart",function(e){e.dataTransfer.setData("text",this.dataset.tidx);this.classList.add("dragging");});
+    el.addEventListener("dragend",function(){this.classList.remove("dragging");});
+  });
+  document.querySelectorAll(".match-def").forEach(function(el){
+    el.addEventListener("dragover",function(e){e.preventDefault();this.classList.add("drag-over");});
+    el.addEventListener("dragleave",function(){this.classList.remove("drag-over");});
+    el.addEventListener("drop",function(e){
+      e.preventDefault();this.classList.remove("drag-over");const tidx=e.dataTransfer.getData("text");this.dataset.dropped=tidx;
+      let lbl=this.querySelector(".match-dropped");
+      if(!lbl){lbl=document.createElement("div");lbl.className="match-dropped";this.insertBefore(lbl,this.firstChild);}
+      lbl.textContent=S._matchSet[parseInt(tidx)].term;
+    });
+  });
+}
+function checkMatch(){
+  let correct=0;const defEls=document.querySelectorAll(".match-def");
+  defEls.forEach(function(el){
+    const dropped=parseInt(el.dataset.dropped);const right=parseInt(el.dataset.correct);const isRight=(dropped===right);
+    if(isRight){el.classList.add("correct");correct++;}else{el.classList.add("incorrect");}
+    const defText=el.querySelector(".match-def-text").textContent;
+    const droppedTermText=(dropped>=0&&S._matchSet[dropped])?S._matchSet[dropped].term:"No answer given";
+    const correctTermText=S._matchSet[right].term;
+    logAttempt("Match'em Up",defText,droppedTermText,correctTermText,isRight);
+  });
+  const total=defEls.length;const pct=Math.round((correct/total)*100);
+  document.getElementById("matchFb").innerHTML=`<div class="feedback-box ${correct===total?"correct":correct>total/2?"neutral":"incorrect"}">${correct} / ${total} correct (${pct}%)</div>${buildReviewBlock()}<button class="btn-next" onclick="renderMatch()">Try Another Set</button>`;
+}
+
+// ==============================================================
+// HANGMAN
+// ==============================================================
+function renderHangman(){
+  if(S.idx>=S.terms.length){showVocabScore();return;}
+  const t=S.terms[S.idx];S.hCurrentTerm=t;S.hWord=t.term.toUpperCase();
+  S.hGuessed=S.hWord.split("").map(function(ch){return /[A-Z]/.test(ch)?null:ch;});
+  S.hMistakes=0;S.hAttempted=new Set();
+  const letters="ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+  const keyHTML=letters.map(function(l){return `<button class="key" data-ltr="${l}">${l}</button>`;}).join("");
+  const pct=(S.idx/S.terms.length)*100;
+  setQA(`<div class="progress-row"><span>Word ${S.idx+1} of ${S.terms.length}</span><span>Score: ${S.score}</span></div><div class="progress-bar-track"><div class="progress-bar-fill" style="width:${pct}%"></div></div><div class="hangman-container"><div><svg class="hangman-svg" viewBox="0 0 100 120" stroke="#1a2744" stroke-width="3" fill="none" stroke-linecap="round"><line x1="10" y1="115" x2="90" y2="115"/><line x1="30" y1="115" x2="30" y2="5"/><line x1="30" y1="5" x2="70" y2="5"/><line x1="70" y1="5" x2="70" y2="20"/><circle id="hp1" cx="70" cy="32" r="12" style="display:none"/><line id="hp2" x1="70" y1="44" x2="70" y2="80" style="display:none"/><line id="hp3" x1="70" y1="52" x2="54" y2="68" style="display:none"/><line id="hp4" x1="70" y1="52" x2="86" y2="68" style="display:none"/><line id="hp5" x1="70" y1="80" x2="54" y2="100" style="display:none"/><line id="hp6" x1="70" y1="80" x2="86" y2="100" style="display:none"/></svg></div><div class="hangman-hint"><strong>Hint:</strong> ${t.def}</div><div class="word-display" id="hDisp"></div><div class="keyboard" id="hKeys">${keyHTML}</div><div id="hFb" style="margin-top:16px;min-height:44px;text-align:center;"></div></div>`);
+  updateHDisp();
+  document.querySelectorAll(".key").forEach(function(btn){btn.addEventListener("click",function(){doHGuess(this.dataset.ltr);});});
+}
+function updateHDisp(){const el=document.getElementById("hDisp");if(el)el.textContent=S.hGuessed.map(function(ch){return ch===null?"_":ch;}).join(" ");}
+function updateHParts(){for(let i=1;i<=6;i++){const el=document.getElementById("hp"+i);if(el)el.style.display=i<=S.hMistakes?"block":"none";}}
+function doHGuess(letter){
+  if(!S.hActive||S.hAttempted.has(letter)||S.hMistakes>=6)return;
+  S.hAttempted.add(letter);const btn=document.querySelector('.key[data-ltr="'+letter+'"]');
+  if(S.hWord.includes(letter)){S.hWord.split("").forEach(function(ch,i){if(ch===letter)S.hGuessed[i]=letter;});if(btn){btn.classList.add("correct-guess");btn.disabled=true;}}
+  else{S.hMistakes++;if(btn){btn.classList.add("wrong-guess");btn.disabled=true;}updateHParts();}
+  updateHDisp();checkHEnd();
+}
+function checkHEnd(){
+  const won=!S.hGuessed.includes(null);const lost=S.hMistakes>=6;if(!won&&!lost)return;
+  document.querySelectorAll(".key").forEach(function(k){k.disabled=true;});const fb=document.getElementById("hFb");
+  const t=S.hCurrentTerm;
+  logAttempt("Hangman",t?t.def:"",won?"Solved":"Not solved ("+S.hMistakes+" wrong guesses)",S.hWord,won);
+  if(won){S.score++;if(fb)fb.innerHTML=`<div class="feedback-box correct">Correct! The term is "${S.hWord}".</div><button class="btn-next" onclick="S.idx++;renderHangman()">Next Word</button>`;}
+  else{const d=document.getElementById("hDisp");if(d)d.textContent=S.hWord.split("").join(" ");if(fb)fb.innerHTML=`<div class="feedback-box incorrect">The term was: <strong>${S.hWord}</strong></div><button class="btn-next" onclick="S.idx++;renderHangman()">Next Word</button>`;}
+}
+document.addEventListener("keydown",function(e){
+  if(!S.hActive)return;const k=e.key.toUpperCase();
+  if(/^[A-Z]$/.test(k)){const btn=document.querySelector('.key[data-ltr="'+k+'"]');if(btn&&!btn.disabled)doHGuess(k);}
+});
+
+// ==============================================================
+// PRACTICE SET MCQs
+// ==============================================================
+function renderPractice(){
+  if(S.idx>=S.practice.length){showPracticeScore();return;}
+  const q=S.practice[S.idx];const letters=["A","B","C","D"];
+  const optsHTML=q.opts.map(function(opt,i){return `<button class="option-btn" data-idx="${i}"><span class="letter">${letters[i]}</span><span>${opt}</span></button>`;}).join("");
+  const pct=(S.idx/S.practice.length)*100;const stemHTML=q.q.replace(/\n/g,"<br>");
+  setQA(`<div class="progress-row"><span>Question ${S.idx+1} of ${S.practice.length}</span><span>Score: ${S.score} / ${S.idx}</span></div><div class="progress-bar-track"><div class="progress-bar-fill" style="width:${pct}%"></div></div><span class="skill-badge ${skillClass(q.skill)}">${q.skill}</span><div class="question-text">${stemHTML}</div><div class="options-list" id="pOpts">${optsHTML}</div><div id="pFb"></div>`);
+  S._pq=q;
+  document.querySelectorAll("#pOpts .option-btn").forEach(function(btn){btn.addEventListener("click",function(){handlePractice(parseInt(this.dataset.idx));});});
+}
+function handlePractice(si){
+  if(document.querySelector(".option-btn.correct,.option-btn.incorrect"))return;
+  const q=S._pq;document.querySelectorAll(".option-btn").forEach(function(b){b.disabled=true;if(parseInt(b.dataset.idx)===q.answer)b.classList.add("revealed");});
+  const isRight=(si===q.answer);const btn=document.querySelector('#pOpts [data-idx="'+si+'"]');
+  if(btn){btn.classList.remove("revealed");btn.classList.add(isRight?"correct":"incorrect");}
+  if(isRight)S.score++;
+  logAttempt("Practice Set MCQ",q.q.replace(/\n/g," "),q.opts[si],q.opts[q.answer],isRight);
+  S.idx++;
+  document.getElementById("pFb").innerHTML=`<div class="feedback-box ${isRight?"correct":"incorrect"}">${isRight?"Correct!":"Not quite. The correct answer is highlighted above."}</div><button class="btn-next" onclick="renderPractice()">Next</button>`;
+}
+function showPracticeScore(){
+  const pct=Math.round((S.score/S.practice.length)*100);
+  const msg=pct>=80?"Strong work.":pct>=60?"Getting there. Keep reviewing.":"More revision needed - you have got this.";
+  setQA(`<div class="score-screen"><div class="big-score">${pct}%</div><div class="score-label">${S.score} correct out of ${S.practice.length}</div><div class="score-message">${msg}</div>${buildReviewBlock()}<br><button class="btn-restart" onclick="S.idx=0;S.score=0;S.log=[];S.practice=shuffle(getPractice(S.topic));renderPractice()">Try Again</button></div>`);
+}
+function showVocabScore(){
+  const pct=Math.round((S.score/S.terms.length)*100);
+  const msg=pct>=80?"Strong work.":pct>=60?"Getting there. Keep reviewing.":"More revision needed - you have got this.";
+  const restart=S.mode==="mcq"?"S.idx=0;S.score=0;S.log=[];S.terms=shuffle(getTerms(S.topic));renderMCQ()":S.mode==="tf"?"S.idx=0;S.score=0;S.log=[];S.terms=shuffle(getTerms(S.topic));renderTF()":"S.idx=0;S.score=0;S.log=[];S.hActive=true;S.terms=shuffle(getTerms(S.topic));renderHangman()";
+  setQA(`<div class="score-screen"><div class="big-score">${pct}%</div><div class="score-label">${S.score} correct out of ${S.terms.length}</div><div class="score-message">${msg}</div>${buildReviewBlock()}<br><button class="btn-restart" onclick="${restart}">Try Again</button></div>`);
 }
 </script>
+<script src="exam.js"></script>
 </body>
 </html>
