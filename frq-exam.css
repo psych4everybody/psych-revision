@@ -109,3 +109,7 @@ h1,h2,h3,h4{color:#1e1e1e;}
   .testbar .ttl{font-size:14px;}
   #testActions{padding:10px 12px;}
 }
+.nav a.navlink.nav-return{background:#2f4fbf;border-color:#2f4fbf;color:#fff;}
+.nav a.navlink.nav-return:hover,.nav a.navlink.nav-return:focus-visible{background:#233c94;border-color:#233c94;color:#fff;}
+.nav{flex-wrap:wrap;}
+.nav button,.nav a.navlink{white-space:nowrap;}
