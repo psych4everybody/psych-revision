@@ -1,0 +1,115 @@
+/* =====================================================================
+   Exam-style (Bluebook-like) look for the AAQ and EBQ practice pages.
+   Loaded after each page's own styles. Layout follows the digital AP
+   free-response screen: header with the timer, the source on the left,
+   questions and response boxes on the right, Back/Next-style bottom bar.
+   ===================================================================== */
+:root{--navy:#1e1e1e;--blue:#2f4fbf;--blue-soft:#eef1f8;--orange:#2f4fbf;--orange-text:#8a4b00;--orange-soft:#fff4e5;
+  --ink:#1e1e1e;--muted:#505050;--line:#c4c4c4;--bg:#fff;--green:#1e6e34;--green-soft:#e5f3e9;}
+body{font-family:'Noto Sans',Arial,sans-serif;background:#fff;color:#1e1e1e;}
+h1,h2,h3,h4{color:#1e1e1e;}
+:focus-visible{outline:3px solid #2f4fbf;}
+.bb-dash{height:2px;background:repeating-linear-gradient(90deg,#1e1e1e 0 10px,transparent 10px 16px);}
+
+/* site header */
+.site-head{background:#fff;color:#1e1e1e;background-image:repeating-linear-gradient(90deg,#1e1e1e 0 10px,transparent 10px 16px);background-size:100% 2px;background-repeat:no-repeat;background-position:bottom;}
+.brand .eyebrow{color:#505050;font-weight:600;}
+.brand .name{font-family:'Noto Serif',Georgia,serif;font-size:22px;}
+.nav button,.nav a.navlink{color:#1e1e1e;background:#fff;border:1.5px solid #1e1e1e;border-radius:999px;font-weight:600;}
+.nav button:hover:not(.active),.nav a.navlink:hover,.nav a.navlink:focus-visible{background:#f2f2f2;color:#1e1e1e;}
+.nav button.active{background:#1e1e1e;color:#fff;border-color:#1e1e1e;}
+
+/* cards, buttons, form */
+.card{border:1.5px solid #c4c4c4;border-radius:12px;}
+.card h2,#homeH,#guideH{font-family:'Noto Serif',Georgia,serif;}
+.btn{border-radius:999px;background:#2f4fbf;font-weight:700;padding:11px 26px;}
+.btn:hover:not(:disabled){background:#233c94;}
+.btn.orange{background:#2f4fbf;} .btn.orange:hover:not(:disabled){background:#233c94;}
+.btn.ghost{background:#fff;color:#2f4fbf;border:1.5px solid #2f4fbf;}
+.btn.ghost:hover:not(:disabled){background:#e8edfb;}
+.steps li{background:#f4f4f4;}
+.steps li::before{background:#1e1e1e;}
+.field input{border:1.5px solid #1e1e1e;border-radius:8px;}
+.study-opt{border:1.5px solid #c4c4c4;}
+.study-opt:hover{border-color:#1e1e1e;}
+.study-opt.sel{border:2px solid #2f4fbf;background:#f4f6fd;}
+.study-opt .t{color:#1e1e1e;}
+.study-opt input{accent-color:#2f4fbf;}
+.notice{border-left-color:#8a4b00;}
+.notice.blue{border-left-color:#2f4fbf;background:#f4f6fd;}
+
+/* exam header (timer bar) */
+#testBarHost{background:#fff;}
+.testbar{background:#fff;color:#1e1e1e;box-shadow:none;}
+.tb-grid{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:12px;padding:10px 22px 12px;}
+.tb-left{display:flex;flex-direction:column;gap:4px;align-items:flex-start;min-width:0;}
+.testbar .ttl{font-weight:700;font-size:16px;max-width:52ch;}
+.phase{background:#1e1e1e;color:#fff;font-weight:700;letter-spacing:.06em;}
+.phase.write{background:#2f4fbf;color:#fff;}
+.tb-mid{display:flex;flex-direction:column;align-items:center;gap:3px;}
+.timer{font-family:'Noto Sans',Arial,sans-serif;font-size:21px;font-weight:700;letter-spacing:.04em;min-width:0;text-align:center;font-variant-numeric:tabular-nums;color:#1e1e1e;}
+.timer.warn{color:#b3261e;} .timer.crit{color:#b3261e;}
+.timer.hidden-time:not(.warn):not(.crit){visibility:hidden;}
+.tb-hide{font:600 12px 'Noto Sans',Arial,sans-serif;border:1.2px solid #1e1e1e;border-radius:999px;background:#fff;padding:2px 12px;cursor:pointer;color:#1e1e1e;}
+.notice-bar{background:#fbe9e7;color:#b3261e;}
+
+/* split screen: source left, questions right */
+#screen-test .test-grid{margin-top:0;gap:0;}
+@media(min-width:960px){
+  main:has(#screen-test.active){padding-top:0;}
+  #screen-test .test-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);}
+  #screen-test .study-panel{top:84px;height:calc(100vh - 150px);max-height:none;border-right:8px solid #d6d6d6;}
+  #questionPanel{padding:22px 0 10px 28px;}
+}
+.study-panel{border:0;border-radius:0;padding:22px 28px 20px 4px;font-family:'Noto Serif',Georgia,serif;font-size:16px;line-height:1.7;background:#fff;}
+.study-panel h2{font-family:'Noto Serif',Georgia,serif;font-size:22px;}
+.study-panel h3.sec{font-family:'Noto Sans',Arial,sans-serif;color:#505050;border-bottom:1px solid #c4c4c4;}
+.study-panel h4{font-family:'Noto Sans',Arial,sans-serif;}
+.study-panel .src{font-family:'Noto Sans',Arial,sans-serif;}
+.study-panel img{border-color:#c4c4c4;}
+.srchead{font-family:'Noto Sans',Arial,sans-serif;background:#f2f2f2 !important;border-left:5px solid #1e1e1e !important;color:#1e1e1e !important;}
+.qcard{border:0;border-radius:0;padding:0 0 18px;margin-bottom:18px;background:#fff;border-bottom:1px solid #e0e0e0;}
+.qcard .qh{display:flex;align-items:center;gap:12px;background:#f2f2f2;color:#1e1e1e;margin-bottom:10px;padding:0 10px 0 0;position:relative;}
+.qcard .qh::after{content:"";position:absolute;left:0;right:0;bottom:-4px;height:2px;background:repeating-linear-gradient(90deg,#1e1e1e 0 10px,transparent 10px 16px);}
+.qcard .qh span:first-child{background:#1e1e1e;color:#fff;padding:7px 12px;font-size:15px;}
+.qcard .marks{margin-left:auto;background:#fff;border:1.2px solid #1e1e1e;color:#1e1e1e;}
+.qcard p{font-family:'Noto Serif',Georgia,serif;font-size:16.5px;line-height:1.65;margin-top:14px;}
+.promptcard{border-left:0 !important;background:#fff !important;}
+.qcard textarea{border:1.5px solid #1e1e1e;border-radius:8px;font-family:'Noto Sans',Arial,sans-serif;}
+.qcard textarea:focus{outline:3px solid #e8edfb;border-color:#2f4fbf;}
+.qcard textarea:disabled{background:#f4f4f4;color:#7a7a7a;border-color:#a8a8a8;}
+#testActions{position:sticky;bottom:0;background:#fff;margin:0 !important;padding:12px 22px 14px;z-index:30;
+  background-image:repeating-linear-gradient(90deg,#1e1e1e 0 10px,transparent 10px 16px);background-size:100% 2px;background-repeat:no-repeat;background-position:top;}
+
+/* gate, modal */
+.overlay{background:rgba(20,20,20,.88);}
+.overlay.light{background:rgba(20,20,20,.5);}
+.overlay .box{border:1.5px solid #1e1e1e;}
+.overlay .box h2{font-family:'Noto Serif',Georgia,serif;}
+
+/* self-marking and guide */
+.score-sticky{background:#fff;color:#1e1e1e;background-image:repeating-linear-gradient(90deg,#1e1e1e 0 10px,transparent 10px 16px);background-size:100% 2px;background-repeat:no-repeat;background-position:bottom;}
+.score-big{font-family:'Noto Serif',Georgia,serif;}
+.rcard{border:1.5px solid #c4c4c4;}
+.rcard .rh{background:#f2f2f2;}
+.rcard .rh strong{color:#1e1e1e;}
+.col.mine{background:#fafafa;border-color:#c4c4c4;} .col.mine h4{color:#2f4fbf;}
+.mark-box{background:#fff;} .mark-box input{accent-color:#2f4fbf;}
+.partscore,.integrity b,.extra b{color:#1e1e1e;}
+.integrity div{background:#fafafa;border-color:#c4c4c4;}
+.guide details{border:1.5px solid #c4c4c4;}
+.guide summary{color:#1e1e1e;}
+.guide summary::after{color:#2f4fbf;}
+.guide th{background:#f2f2f2;color:#1e1e1e;}
+.summary-box{background:#fafafa;border-color:#c4c4c4;}
+.score-sticky .small[style]{color:#505050 !important;font-weight:600;}
+@media(max-width:700px){
+  .tb-grid{grid-template-columns:1fr auto;padding:8px 12px 10px;}
+  .tb-right{display:none;}
+  .testbar .ttl{font-size:14px;}
+  #testActions{padding:10px 12px;}
+}
+.nav a.navlink.nav-return{background:#2f4fbf;border-color:#2f4fbf;color:#fff;}
+.nav a.navlink.nav-return:hover,.nav a.navlink.nav-return:focus-visible{background:#233c94;border-color:#233c94;color:#fff;}
+.nav{flex-wrap:wrap;}
+.nav button,.nav a.navlink{white-space:nowrap;}
