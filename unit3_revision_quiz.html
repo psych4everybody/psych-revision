@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 3: Development and Learning | AP Psychology Revision</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Noto+Serif:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Outfit',sans-serif;background:#f0f4fb;color:#1a2744;min-height:100vh;}
+header{background:#1a2744;color:#fff;padding:26px 20px 22px;text-align:center;}
+header .eyebrow{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#7fa8d4;margin-bottom:8px;}
+header h1{font-family:'Playfair Display',serif;font-size:26px;color:#fff;line-height:1.3;}
+header .subtitle{margin-top:7px;font-size:13px;color:#a8c4e0;}
+.controls-bar{background:#fff;border-bottom:2px solid #dde6f4;padding:14px 20px;display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:center;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(26,39,68,.09);}
+.controls-bar select{padding:9px 13px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:500;border:2px solid #c8d8ee;border-radius:8px;background:#f4f6fb;color:#1a2744;cursor:pointer;outline:none;min-width:175px;}
+.controls-bar select:focus{border-color:#2E75B6;}
+.btn-start{padding:9px 26px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;background:#1a2744;color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s;}
+.btn-start:hover{background:#2E75B6;}
+.main{max-width:860px;margin:28px auto;padding:0 14px 60px;}
+#quizArea{background:#fff;border-radius:12px;padding:28px;box-shadow:0 2px 16px rgba(26,39,68,.07);min-height:280px;}
+.placeholder-text{text-align:center;padding:56px 20px;color:#7a90b5;font-size:16px;line-height:1.8;}
+.progress-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;font-size:13px;font-weight:500;color:#4a6080;}
+.progress-bar-track{height:5px;background:#e0e8f4;border-radius:3px;margin-bottom:22px;overflow:hidden;}
+.progress-bar-fill{height:100%;background:#2E75B6;border-radius:3px;transition:width .4s ease;}
+.question-text{font-size:15px;line-height:1.75;margin-bottom:20px;color:#1a2744;}
+.stem-label{display:block;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#7fa8d4;margin-bottom:8px;}
+.skill-badge{display:inline-block;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:3px 10px;border-radius:20px;margin-bottom:13px;}
+.skill-1{background:#e8eef8;color:#3a5a8a;}
+.skill-2{background:#e3f2fd;color:#1565c0;}
+.skill-3{background:#fff3e0;color:#e65100;}
+.skill-4{background:#e8f5e9;color:#2e7d32;}
+.options-list{display:flex;flex-direction:column;gap:9px;}
+.option-btn{display:flex;align-items:flex-start;gap:11px;padding:13px 15px;border:2px solid #d0ddef;border-radius:8px;background:#f8fafd;cursor:pointer;font-family:'Outfit',sans-serif;font-size:14px;line-height:1.5;color:#1a2744;text-align:left;transition:border-color .15s,background .15s;width:100%;}
+.option-btn:hover:not(:disabled){border-color:#2E75B6;background:#eaf3fc;}
+.option-btn .letter{font-weight:700;min-width:20px;color:#2E75B6;flex-shrink:0;}
+.option-btn.correct{border-color:#28a745;background:#d4edda;color:#155724;}
+.option-btn.incorrect{border-color:#dc3545;background:#f8d7da;color:#721c24;}
+.option-btn.revealed{border-color:#28a745;background:#d4edda;color:#155724;}
+.option-btn:disabled{cursor:default;}
+.feedback-box{margin-top:16px;padding:13px 16px;border-radius:8px;font-size:14px;font-weight:600;}
+.feedback-box.correct{background:#d4edda;color:#155724;}
+.feedback-box.incorrect{background:#f8d7da;color:#721c24;}
+.feedback-box.neutral{background:#e8f1fa;color:#1a4a7a;}
+.btn-next{display:inline-block;margin-top:16px;padding:11px 28px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;background:#1a2744;color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s;}
+.btn-next:hover{background:#2E75B6;}
+.flashcard-wrapper{perspective:1200px;max-width:660px;margin:16px auto;height:240px;cursor:pointer;}
+.flashcard-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .55s ease;}
+.flashcard-wrapper.flipped .flashcard-inner{transform:rotateY(180deg);}
+.flashcard-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:26px 30px;text-align:center;}
+.flashcard-front{background:#1a2744;color:#fff;}
+.flashcard-front .face-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#7fa8d4;margin-bottom:12px;}
+.flashcard-front .face-term{font-size:20px;font-weight:700;line-height:1.35;}
+.flashcard-back{background:#eef4fc;border:2px solid #c8d8ee;transform:rotateY(180deg);}
+.flashcard-back .face-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#4a6080;margin-bottom:12px;}
+.flashcard-back .face-def{font-size:14px;line-height:1.65;color:#1a2744;}
+.flashcard-hint{text-align:center;margin-top:10px;font-size:12px;color:#7a90b5;}
+.flashcard-nav{display:flex;gap:10px;justify-content:center;margin-top:18px;}
+.flashcard-nav button{padding:9px 22px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;border:2px solid #1a2744;border-radius:8px;background:#fff;color:#1a2744;cursor:pointer;transition:all .15s;}
+.flashcard-nav button:hover{background:#1a2744;color:#fff;}
+.flashcard-nav button.self-rate-good{border-color:#28a745;color:#1e7b34;}
+.flashcard-nav button.self-rate-good:hover{background:#28a745;color:#fff;}
+.flashcard-nav button.self-rate-review{border-color:#dc3545;color:#a72638;}
+.flashcard-nav button.self-rate-review:hover{background:#dc3545;color:#fff;}
+.match-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+@media(max-width:580px){.match-grid{grid-template-columns:1fr;}}
+.match-col-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#7a90b5;margin-bottom:8px;}
+.match-terms,.match-defs{display:flex;flex-direction:column;gap:8px;}
+.match-term{padding:11px 13px;background:#1a2744;color:#fff;border-radius:7px;font-size:13px;font-weight:600;cursor:grab;user-select:none;transition:opacity .2s;}
+.match-term.dragging{opacity:.35;}
+.match-def{padding:11px 13px;background:#f4f6fb;border:2px dashed #b0c4de;border-radius:7px;font-size:12px;min-height:60px;position:relative;transition:border-color .15s,background .15s;}
+.match-def.drag-over{border-color:#2E75B6;background:#e3f2fd;border-style:solid;}
+.match-def.correct{border-color:#28a745;background:#d4edda;border-style:solid;}
+.match-def.incorrect{border-color:#dc3545;background:#f8d7da;border-style:solid;}
+.match-dropped{display:block;font-weight:700;font-size:12px;color:#1a2744;background:#c8d8ee;border-radius:4px;padding:2px 7px;margin-bottom:4px;}
+.match-check-btn{display:block;margin:18px auto 0;padding:11px 30px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;background:#2E75B6;color:#fff;border:none;border-radius:8px;cursor:pointer;}
+.match-check-btn:hover{background:#1a5a9a;}
+.hangman-container{display:flex;flex-direction:column;align-items:center;}
+.hangman-svg{width:180px;height:200px;}
+.hangman-hint{background:#e8f1fa;border-left:4px solid #2E75B6;padding:11px 15px;border-radius:0 8px 8px 0;font-size:13px;font-style:italic;color:#2a4a70;margin-bottom:18px;max-width:520px;width:100%;}
+.word-display{font-size:1.7rem;letter-spacing:6px;font-family:'Courier New',monospace;font-weight:700;margin:14px 0;word-break:break-all;text-align:center;}
+.keyboard{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;max-width:440px;margin-top:14px;}
+.key{width:35px;height:35px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;font-family:'Outfit',sans-serif;background:#1a2744;color:#fff;border:none;border-radius:5px;cursor:pointer;transition:background .15s;}
+.key:hover:not(:disabled){background:#2E75B6;}
+.key:disabled{opacity:.45;cursor:default;}
+.key.correct-guess{background:#28a745;}
+.key.wrong-guess{background:#dc3545;}
+.score-screen{text-align:center;padding:36px 20px;}
+.score-screen .big-score{font-family:'Playfair Display',serif;font-size:60px;font-weight:700;color:#1a2744;line-height:1;margin-bottom:8px;}
+.score-screen .score-label{font-size:17px;color:#4a6080;margin-bottom:22px;}
+.score-screen .score-message{font-size:20px;font-weight:700;margin-bottom:6px;color:#1a2744;}
+.btn-restart{display:inline-block;margin-top:20px;padding:11px 32px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;background:#1a2744;color:#fff;border:none;border-radius:8px;cursor:pointer;}
+.btn-restart:hover{background:#2E75B6;}
+.btn-print{background:#2E75B6;margin-left:10px;}
+.btn-print:hover{background:#1a5a9a;}
+.mistake-topic-header{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#7a90b5;margin:22px 0 10px;}
+.mistake-topic-header:first-child{margin-top:0;}
+.mistake-item{background:#fff3e0;border-left:4px solid #e65100;padding:12px 15px;border-radius:0 8px 8px 0;font-size:14px;line-height:1.65;margin-bottom:12px;color:#5a3a00;}
+.review-block{text-align:left;background:#f8fafd;border:2px solid #d0ddef;border-radius:10px;padding:16px 18px;margin:22px 0;max-height:320px;overflow-y:auto;}
+.review-header{font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#4a6080;margin-bottom:10px;}
+.review-item{font-size:13px;line-height:1.6;padding:8px 0;border-bottom:1px solid #e0e8f4;}
+.review-item:last-child{border-bottom:none;}
+.review-item strong{color:#1a2744;}
+.review-correct{color:#155724;display:block;margin-top:2px;}
+@media(max-width:480px){
+  header h1{font-size:20px;}
+  #quizArea{padding:16px;}
+  .word-display{font-size:1.2rem;letter-spacing:3px;}
+  .key{width:28px;height:28px;font-size:11px;}
+  .controls-bar select{min-width:140px;font-size:13px;}
+}
+</style>
+<style>
+.topbar{background:#1a2744;padding:10px 16px;text-align:left;}
+.back-btn{display:inline-block;font-family:'Outfit',Arial,sans-serif;font-size:13px;font-weight:600;color:#fff;text-decoration:none;padding:7px 14px;border:1.5px solid #7fa8d4;border-radius:20px;background:rgba(255,255,255,.08);}
+.back-btn:hover{background:#2E75B6;border-color:#2E75B6;}
+.topbar.light{background:#fff;border-bottom:1px solid #ccc;}
+.topbar.light .back-btn{color:#1a2744;border-color:#1a2744;background:#f4f6fb;}
+.topbar.light .back-btn:hover{background:#1a2744;color:#fff;}
+</style>
+<link rel="stylesheet" href="exam.css">
+<link rel="stylesheet" href="dark.css">
+<script src="settings.js" data-dark></script>
+</head>
+<body>
+<nav class="bb-top"><a class="bb-back" href="index.html">&larr; All Units</a><span class="bb-crumb">AP Psychology &middot; Unit 3: Development and Learning</span></nav>
+<div class="bb-dash"></div>
+<section class="bb-start">
+  <div class="bb-eyebrow">Unit 3 &middot; 8 topics &middot; 7 activities</div>
+  <h1>Development and Learning</h1>
+  <p class="bb-sub">Pick a topic and an activity. The exam-style activities look and work like the digital AP exam, so test day feels familiar.</p>
+  <div class="bb-panel">
+    <div class="bb-field"><label for="topicSelect">Topic</label>
+  <select id="topicSelect">
+      <option value="all">All Topics</option>
+      <option value="3.1">3.1 - Themes and Methods</option>
+      <option value="3.2">3.2 - Physical Development</option>
+      <option value="3.4">3.4 - Cognitive Development</option>
+      <option value="3.5">3.5 - Communication and Language</option>
+      <option value="3.6">3.6 - Social-Emotional Development</option>
+      <option value="3.7">3.7 - Classical Conditioning</option>
+      <option value="3.8">3.8 - Operant Conditioning</option>
+      <option value="3.9">3.9 - Social and Cognitive Factors</option>
+      </select>
+    </div>
+    <div class="bb-field"><label for="modeSelect">Activity</label>
+  <select id="modeSelect">
+    <option value="practice" selected>Practice Set MCQs (exam style)</option>
+    <option value="flash">Flashcards</option>
+    <option value="mcq">Vocabulary MCQ (exam style)</option>
+    <option value="tf">True / False (exam style)</option>
+    <option value="match">Match'em Up</option>
+    <option value="hangman">Hangman</option>
+    <option value="mistakes">Common Mistakes</option>
+  </select>
+    </div>
+    <div class="bb-opts">
+      <div><span class="bb-optlabel">Show answers</span><span class="bb-seg">
+        <input type="radio" name="bbFeedback" id="fbEnd" value="end" checked><label for="fbEnd">After I submit (exam style)</label>
+        <input type="radio" name="bbFeedback" id="fbEach" value="each"><label for="fbEach">After each question</label></span></div>
+      <label class="bb-check"><input type="checkbox" id="bbPace" checked> Time me at exam pace</label>
+    </div>
+    <div class="bb-actions"><button class="btn-start" id="startBtn">Start</button></div>
+  </div>
+  <p class="bb-note">Exam-style activities include Mark for Review, the option eliminator (the crossed-out ABC button), the question menu at the bottom of the screen and a Check Your Work page before you submit.</p>
+</section>
+<div class="main">
+  <div id="quizArea">
+    <div class="placeholder-text">
+      Select a topic and activity type, then click <strong>Start</strong>.<br><br>
+      <strong>Flashcards</strong> &nbsp;|&nbsp; <strong>Vocabulary MCQ</strong> &nbsp;|&nbsp; <strong>True/False</strong> &nbsp;|&nbsp; <strong>Match'em Up</strong> &nbsp;|&nbsp; <strong>Hangman</strong> &nbsp;|&nbsp; <strong>Practice Set MCQs</strong> &nbsp;|&nbsp; <strong>Common Mistakes</strong>
+    </div>
+  </div>
+</div>
+
+<script>
+// ==============================================================
+// TERMS DATABASE
+// ==============================================================
+const termsDB = {
+  "3.1": [
+    {term:"Developmental psychology",def:"The scientific study of how humans grow, change, and adapt throughout their entire lifespan"},
+    {term:"Stability & Change",def:"Examines whether traits remain consistent throughout life or change significantly over time."},
+    {term:"Nature vs. Nurture",def:"Debate on how much behavior is influenced by genetics vs environment."},
+    {term:"Continuous Development",def:"Development occurs gradually and cumulatively, without sharp breaks."},
+    {term:"Discontinuous Development",def:"Development occurs in distinct, separate stages with qualitative leaps."},
+    {term:"Cross-sectional research",def:"Data collected from different groups of participants at a single point in time."},
+    {term:"Longitudinal research",def:"The same group of participants are studied repeatedly over a long period of time."}
+  ],
+  "3.2": [
+    {term:"Teratogens",def:"Any substance or agent that can cause harm to a developing fetus during pregnancy"},
+    {term:"Genetic Mutation",def:"A permanent change in the DNA sequence of an organism."},
+    {term:"Prenatal development",def:"Process of a baby's growth within the womb, from conception to birth."},
+    {term:"Infancy",def:"Developmental stage from birth to approximately one year old."},
+    {term:"Childhood",def:"Stage from birth until the onset of adolescence (roughly ages 3-11)."},
+    {term:"Physical Development",def:"Bodily changes and growth throughout a lifespan."},
+    {term:"Fine Motor Coordination",def:"Ability to make precise, small movements using hands and fingers."},
+    {term:"Gross Motor Coordination",def:"Ability to perform large, coordinated movements using major muscle groups."},
+    {term:"Infant reflexes",def:"Automatic, involuntary movements present in babies at birth."},
+    {term:"Rooting Reflex",def:"Infant's response to touch on the cheek, turning their head to locate food."},
+    {term:"Visual cliff apparatus",def:"Experimental setup used to test an infant's depth perception."},
+    {term:"Depth perception",def:"Ability to perceive relative distance of objects in three dimensions."},
+    {term:"Critical period",def:"Specific window where organism is highly sensitive to environmental stimuli."},
+    {term:"Imprinting",def:"Rapid learning where a young animal forms a strong attachment to the first moving object seen."},
+    {term:"Adolescence",def:"Transition period between childhood and adulthood."},
+    {term:"Growth Spurt",def:"Rapid increase in height and weight during adolescence."},
+    {term:"Puberty",def:"Period of physical maturation to sexual maturity."},
+    {term:"Primary Sex Characteristics",def:"Physical traits directly involved in reproduction."},
+    {term:"Secondary Sex Characteristics",def:"Physical features distinguishing sexes not involved in reproduction."},
+    {term:"Menarche",def:"The first menstrual period a female experiences."},
+    {term:"Spermarche",def:"The first time a male experiences ejaculation."},
+    {term:"Menopause",def:"Biological cessation of menstruation and fertility in women."}
+  ],
+  "3.4": [
+    {term:"Jean Piaget",def:"Psychologist known for theory of cognitive development in children."},
+    {term:"Schemas",def:"Mental framework that helps individuals organize and interpret information."},
+    {term:"Assimilation",def:"Incorporating new information into existing mental schemas."},
+    {term:"Accommodation",def:"Modifying existing mental schemas to fit new information."},
+    {term:"Sensorimotor Stage",def:"First stage of cognitive development (birth to 2 years), learning through senses."},
+    {term:"Object Permanence",def:"Understanding that an object continues to exist even when hidden."},
+    {term:"Preoperational Stage",def:"Second stage (ages 2-7), using symbols/language but lacking logic."},
+    {term:"Conservation",def:"Understanding quantity remains the same even if appearance changes."},
+    {term:"Reversibility",def:"Ability to understand actions or processes can be reversed."},
+    {term:"Animism",def:"Belief that inanimate objects have living characteristics."},
+    {term:"Egocentrism",def:"Inability to see a situation from another person's perspective."},
+    {term:"Theory of Mind",def:"Ability to understand others have their own unique thoughts and beliefs."},
+    {term:"Concrete Operational Stage",def:"Third stage (ages 7-11), thinking logically about concrete situations."},
+    {term:"Formal Operational Stage",def:"Final stage (age 11+), ability to think abstractly and hypothetically."},
+    {term:"Lev Vygotsky",def:"Emphasized cognitive development is influenced by social interactions/culture."},
+    {term:"Scaffolding",def:"Providing temporary support to a learner within their zone of proximal development."},
+    {term:"Zone of Proximal Development",def:"Range of tasks a learner can do with guidance but not yet alone."},
+    {term:"Crystallized Intelligence",def:"Ability to apply previously learned knowledge and experience."},
+    {term:"Fluid Intelligence",def:"Ability to reason and solve new problems flexibly."},
+    {term:"Dementia",def:"Significant decline in cognitive functions interfering with daily life."}
+  ],
+  "3.5": [
+    {term:"Language",def:"Complex system of communication following grammar rules."},
+    {term:"Phonemes",def:"The smallest distinctive unit of sound in a spoken language."},
+    {term:"Morphemes",def:"The smallest meaningful unit of language."},
+    {term:"Semantics",def:"The study of meaning in language."},
+    {term:"Grammar",def:"System of rules governing structure of a language."},
+    {term:"Syntax",def:"Rules governing how words are arranged to form sentences."},
+    {term:"Nonverbal gestures",def:"Body movements used to convey meaning without speaking."},
+    {term:"Cooing",def:"Early infancy stage producing soft, vowel-like sounds."},
+    {term:"Babbling",def:"Early childhood stage producing repetitive consonant-vowel combinations."},
+    {term:"One-Word Stage",def:"Phase where infants communicate using single words."},
+    {term:"Telegraphic Speech",def:"Stage using short, two-word phrases omitting grammatical elements."},
+    {term:"Overgeneralization",def:"Applying grammatical rules too broadly (e.g., 'goed')."}
+  ],
+  "3.6": [
+    {term:"Ecological Systems Theory",def:"Bronfenbrenner's framework explaining environmental influences on development."},
+    {term:"Microsystem",def:"Most immediate environment (family, peers)."},
+    {term:"Mesosystem",def:"Connections between immediate environments (e.g., family & school)."},
+    {term:"Exosystem",def:"External environments indirectly influencing development."},
+    {term:"Macrosystem",def:"Broader societal influences (culture, laws)."},
+    {term:"Chronosystem",def:"Dimension of time and transitions throughout a person's life."},
+    {term:"Authoritarian Parenting",def:"Strict rules, high expectations, low responsiveness."},
+    {term:"Authoritative Parenting",def:"Demanding but responsive, clear rules with open communication."},
+    {term:"Permissive Parenting",def:"Lenient, few rules, high freedom."},
+    {term:"Secure Attachment",def:"Child feels comfortable exploring, trusts reliable caregiver."},
+    {term:"Insecure Avoidant Attachment",def:"Child shows little distress upon separation, avoids reunion."},
+    {term:"Insecure Anxious Attachment",def:"Persistent fear of abandonment, clingy behavior."},
+    {term:"Insecure Disorganized Attachment",def:"Inconsistent mix of avoidant and anxious behaviors."},
+    {term:"Temperament",def:"Individual's characteristic level of emotional excitability."},
+    {term:"Separation Anxiety",def:"Distress when separated from primary caregiver."},
+    {term:"Harry Harlow’s research",def:"Monkey experiments proving importance of contact comfort over food."},
+    {term:"Parallel play",def:"Children play alongside each other without direct interaction."},
+    {term:"Pretend play",def:"Symbolic play using objects to represent something else."},
+    {term:"Imaginary audience",def:"Adolescent belief that others are constantly watching them."},
+    {term:"Personal fable",def:"Adolescent belief they are unique, special, and invulnerable."},
+    {term:"Social Clock",def:"Culturally established timeline for life events."},
+    {term:"Emerging Adulthood",def:"Exploration period from late teens to mid-twenties."},
+    {term:"Erik Erikson",def:"Creator of Psychosocial development theory (8 stages)."},
+    {term:"Trust & Mistrust",def:"Erikson Stage 1: Infants learn world reliability."},
+    {term:"Autonomy & Shame",def:"Erikson Stage 2: Toddlers learn independence vs doubt."},
+    {term:"Initiative vs. Guilt",def:"Erikson Stage 3: Preschoolers initiate tasks or feel guilty."},
+    {term:"Industry & Inferiority",def:"Erikson Stage 4: Children strive for competence vs feeling inferior."},
+    {term:"Identity & Role Confusion",def:"Erikson Stage 5: Adolescents establish sense of self."},
+    {term:"Intimacy & Isolation",def:"Erikson Stage 6: Young adults form deep relationships."},
+    {term:"Generativity & Stagnation",def:"Erikson Stage 7: Middle adulthood contribution vs feeling stuck."},
+    {term:"Integrity & Despair",def:"Erikson Stage 8: Older adults reflect with satisfaction or regret."}
+  ],
+  "3.7": [
+    {term:"Behavioral psychology",def:"Perspective focusing solely on observable behaviors shaped by environment."},
+    {term:"Classical Conditioning",def:"Learning where neutral stimulus becomes associated with natural stimulus."},
+    {term:"Association",def:"Mental connection formed between concepts or events."},
+    {term:"Unconditioned Stimulus",def:"Stimulus naturally triggering a reflexive response."},
+    {term:"Unconditioned response",def:"Natural, automatic reaction to a stimulus."},
+    {term:"Conditioned Stimulus",def:"Previously neutral stimulus that now triggers a learned response."},
+    {term:"Conditioned Response",def:"Learned behavior triggered by a conditioned stimulus."},
+    {term:"Neutral Stimulus",def:"Stimulus initially producing no specific response."},
+    {term:"Acquisition",def:"Initial stage of learning when a conditioned response is established."},
+    {term:"Extinction",def:"Gradual weakening and disappearance of a learned behavior when reinforcement stops."}
+  ],
+  "3.8": [
+    {term:"Operant Conditioning",def:"Learning based on consequences (rewards and punishments) of behavior."},
+    {term:"B.F. Skinner",def:"Psychologist most closely associated with Operant Conditioning."},
+    {term:"Positive Reinforcement",def:"Adding a desirable stimulus to increase a behavior."},
+    {term:"Negative Reinforcement",def:"Removing an unpleasant stimulus to increase a behavior."},
+    {term:"Punishment",def:"Adding an unpleasant consequence to decrease a behavior."}
+  ],
+  "3.9": [
+    {term:"Observational Learning",def:"Learning by watching and imitating others."},
+    {term:"Albert Bandura",def:"Psychologist known for the Bobo Doll experiment and social learning theory."},
+    {term:"Mirror Neurons",def:"Brain cells that fire both when acting and when observing the same action."}
+  ]
+};
+
+// ==============================================================
+// COMMON MISTAKES DATABASE
+// ==============================================================
+const mistakesDB = {
+  "3.1": [
+    "Students often think cross-sectional and longitudinal studies differ only in how long they take. Actually, a cross-sectional study compares different people of different ages at one point in time, so cohort effects can distort it, while a longitudinal study follows the same people over time, so attrition can distort it.",
+    "Students often treat continuity versus discontinuity as the same debate as nature versus nurture. Actually, continuity versus discontinuity asks whether development is gradual or happens in distinct stages, while nature versus nurture asks whether genes or experience drive the change.",
+    "Students often assume a strong correlation in a developmental study shows cause and effect. Actually, many variables in children rise together simply because children get older, so age or another third variable may explain the link.",
+    "Students often think developmental psychologists avoid experiments because experiments are too difficult to run. Actually, the main reason is ethics: researchers cannot randomly assign children to potentially harmful conditions, so they rely on correlational and longitudinal designs."
+  ],
+  "3.2": [
+    "Students often believe every child should reach motor milestones at the same age. Actually, the sequence of milestones (such as sitting before standing before walking) is very consistent, but the age at which each appears varies within a normal range.",
+    "Students often think teratogens only cause harm late in pregnancy. Actually, many teratogens do the most damage early, when the baby's organs are first forming, often before a person even knows they are pregnant.",
+    "Students often confuse newborn reflexes with learned responses. Actually, reflexes such as rooting and grasping are present at birth without any learning, while conditioned responses only appear after experience.",
+    "Students often assume physical decline in late adulthood hits every sense and ability equally. Actually, changes such as hearing loss for high-pitched sounds and reduced smell and taste are common, but the pace varies widely, and exercise and an active lifestyle can slow many declines."
+  ],
+  "3.4": [
+    "Students often mix up assimilation and accommodation. Actually, assimilation is fitting new information into an existing schema, while accommodation is changing the schema itself when the new information does not fit.",
+    "Students often treat scaffolding and the zone of proximal development as the same thing. Actually, the zone of proximal development is the range of tasks a learner can do with help but not yet alone, while scaffolding is the support given within that range.",
+    "Students often think a lack of conservation means a child cannot count. Actually, the child may count perfectly well but still judges quantity by how it looks, for example believing that a spread-out row of coins contains more coins.",
+    "Students often say all intelligence declines with age. Actually, fluid intelligence (quick reasoning with new problems) tends to decline from early adulthood, while crystallized intelligence (accumulated knowledge and vocabulary) is usually maintained or grows into late adulthood."
+  ],
+  "3.5": [
+    "Students often think phonemes and morphemes are both units of meaning. Actually, phonemes are the smallest units of sound and carry no meaning on their own, while morphemes are the smallest units that carry meaning, such as the ending -ed.",
+    "Students often see errors like goed or mouses as signs of a language problem. Actually, overgeneralization shows that a child has learned a grammar rule and is applying it too widely, which is a normal step in language development.",
+    "Students often describe a fixed deadline after which a second language can never be learned. Actually, language acquisition has a sensitive period: learning is easiest early in life, especially for pronunciation, but older learners can still become fluent.",
+    "Students often confuse syntax and semantics. Actually, syntax is the set of rules for ordering words into sentences, while semantics is the set of rules for getting meaning from words and sentences."
+  ],
+  "3.6": [
+    "Students often think a securely attached infant is one who does not cry when the caregiver leaves. Actually, secure infants usually do show some distress at separation; what marks them as secure is that they are quickly comforted when the caregiver returns and then go back to exploring.",
+    "Students often mix up authoritarian and authoritative parenting. Actually, authoritarian parents demand obedience with little warmth or explanation, while authoritative parents combine clear rules with warmth and open discussion.",
+    "Students often think Harlow's studies showed that feeding is the basis of attachment. Actually, the infant monkeys preferred the soft cloth mother over the wire mother that provided milk, showing that contact comfort matters more than food.",
+    "Students often place Erikson's stages in the wrong age group. Actually, identity versus role confusion belongs to adolescence, intimacy versus isolation to early adulthood, generativity versus stagnation to middle adulthood, and integrity versus despair to late adulthood."
+  ],
+  "3.7": [
+    "Students often think the unconditioned response and the conditioned response must be different behaviours. Actually, they are usually the same kind of reaction (for example, salivating). What changes is the trigger: the UCS causes the UCR without any learning, while the CS causes the CR only after it has been paired with the UCS.",
+    "Students often think extinction erases the learned association. Actually, extinction only weakens the conditioned response when the CS keeps appearing without the UCS. Spontaneous recovery after a rest period shows the association was suppressed, not deleted.",
+    "Students often mix up stimulus generalization and stimulus discrimination. Actually, generalization is responding to stimuli that are similar to the CS, while discrimination is learning to respond to the CS but not to similar stimuli that were never paired with the UCS.",
+    "Students often call any behaviour followed by a consequence classical conditioning. Actually, classical conditioning involves automatic, involuntary responses to a stimulus that comes before them. If a behaviour changes because of what happens after it, that is operant conditioning."
+  ],
+  "3.8": [
+    "Students often think negative reinforcement is the same as punishment. Actually, all reinforcement increases a behaviour; negative reinforcement does this by removing something unpleasant, while punishment decreases a behaviour.",
+    "Students often label any consequence that takes something away as negative reinforcement. Actually, removing something unpleasant to increase a behaviour is negative reinforcement, while removing something pleasant to decrease a behaviour is negative punishment.",
+    "Students often believe a behaviour reinforced every time is the hardest to stop. Actually, continuous reinforcement leads to fast learning but also fast extinction, while partial schedules, especially variable-ratio, make behaviour more resistant to extinction.",
+    "Students often mix up ratio and interval schedules. Actually, ratio schedules depend on the number of responses (for example, a bonus for every tenth sale), while interval schedules depend on time passing (for example, checking for new likes that arrive at unpredictable times)."
+  ],
+  "3.9": [
+    "Students often think learning has not happened unless it shows right away. Actually, latent learning happens without reinforcement and stays hidden until there is a reason to use it, as when rats suddenly run a maze quickly once food is added.",
+    "Students often mix up insight learning and latent learning. Actually, insight is the sudden realization of how to solve a problem, while latent learning is knowledge gained earlier that only appears later when it becomes useful.",
+    "Students often think observational learning requires the observer to be rewarded or punished. Actually, people can learn simply by watching a model, and seeing someone else receive a consequence (vicarious reinforcement or punishment) can change behaviour without any direct experience.",
+    "Students often assume that watching a behaviour means a person will always copy it. Actually, Bandura showed that attention, memory, ability and motivation all affect whether an observed behaviour is actually performed."
+  ]
+};
+
+// ==============================================================
+// PRACTICE SET DATABASE -- 42 questions across 8 sections
+// ==============================================================
+const practiceDB = {
+  "3.1": [
+    {q:"Researchers in Toronto recruited 400 ten-year-olds in 2010 and have measured their reading habits every two years since. By 2026, only 230 of the original participants remain in the study. The researchers report that, as a group, the remaining participants now read more books per year than the full sample did at the start. Which limitation most seriously threatens this conclusion?",opts:["Cohort effects, because the participants grew up in a different era from today's ten-year-olds","Attrition, because the participants who left the study may differ in important ways, such as reading less, from those who stayed","A lack of random assignment, because longitudinal studies must assign participants to conditions to measure change","Cross-sectional bias, because participants of different ages were compared at a single point in time"],answer:1,skill:"Skill 2"},
+    {q:"Dr. Okafor wants to know whether the ability to multitask changes with age. In a single week, she gives the same multitasking test to a group of 12-year-olds, a group of 30-year-olds and a group of 65-year-olds, then compares the average score of each group. Which research design did Dr. Okafor use, and what is one weakness of it?",opts:["A cross-sectional design, because the age groups grew up in different eras, so differences may reflect cohort effects rather than aging","A longitudinal design, because participants may drop out before the study is complete","A cross-sectional design, because the same participants must be retested many times, which takes years","A longitudinal design, because participants' scores may improve simply from practice with the test"],answer:0,skill:"Skill 2"},
+    {q:"Dr. Haddad argues that children's thinking does not simply improve a little each year. Instead, she claims, all children pass through the same series of qualitatively different stages in the same order, and a child in one stage thinks in a fundamentally different way from a child in the next. Which developmental view is most consistent with Dr. Haddad's position?",opts:["The continuity view, because development follows a fixed, universal order","The stability view, because traits remain the same across the lifespan","The nurture view, because the stages are produced by the child's environment","The discontinuity view, because development occurs in distinct stages rather than gradual steps"],answer:3,skill:"Skill 1"},
+    {q:"A researcher in Seoul measures the vocabulary size and the shoe size of 300 children aged 3 to 10 and finds a strong positive correlation between the two. A news website reports the finding with a headline claiming that growing feet help children learn more words. Which concept best explains why the headline's conclusion is not justified?",opts:["The directionality problem, because learning more words might cause children's feet to grow","Social desirability bias, because parents may exaggerate the size of their children's vocabulary","The third variable problem, because age could cause increases in both shoe size and vocabulary","Falsifiability, because the claim could not be tested with any possible evidence"],answer:2,skill:"Skill 2"},
+    {q:"Dr. Lindqvist recorded the ages of 30 children aged 3 to 9 and the time each child needed to complete the same simple puzzle. Children aged 3 to 4 needed about 90 seconds on average, children aged 5 to 6 needed about 60 seconds, and children aged 7 to 9 needed about 35 seconds. Which statement best describes these results?",opts:["There is a negative correlation between age and completion time, so older children tended to finish faster.","There is a positive correlation between age and completion time, because both variables changed together.","The results show that getting older causes children to solve puzzles faster.","There is no correlation, because completion time decreased instead of increased."],answer:0,skill:"Skill 3"},
+    {q:"Researchers want to know whether high caffeine intake during pregnancy increases the risk of low birth weight. Instead of running an experiment, they collect records of how much caffeine 2,000 pregnant women reported consuming and the birth weights of their babies. Which statement best explains why the researchers chose this design?",opts:["A correlational design allows them to establish that caffeine causes low birth weight.","Randomly assigning pregnant women to consume high levels of caffeine would expose developing babies to possible harm.","Correlational designs give researchers more control over confounding variables than experiments do.","Experiments cannot be conducted with adult participants, so only correlational designs are possible."],answer:1,skill:"Skill 2"}
+  ],
+  "3.2": [
+    {q:"An audiologist measured the softest sound, in decibels (dB), that people in three age groups could detect for a low-pitched tone (500 Hz) and a high-pitched tone (8,000 Hz). For the 500 Hz tone, the average thresholds were 5 dB for people in their 20s, 8 dB for people in their 50s and 12 dB for people in their 80s. For the 8,000 Hz tone, the averages were 6 dB, 25 dB and 60 dB for the same groups. Which conclusion is best supported by these data?",opts:["People in their 80s hear low-pitched tones more poorly than high-pitched tones.","Age has no effect on hearing low-pitched tones, because all of those thresholds were below 15 dB.","Age-related hearing loss is much greater for high-pitched tones than for low-pitched tones.","People in their 20s need louder sounds than people in their 80s to detect high-pitched tones."],answer:2,skill:"Skill 3"},
+    {q:"Ines is worried because her 14-month-old son, Tomás, has not yet taken his first steps, while her neighbour's 10-month-old daughter is already walking. Tomás is healthy, crawls well and pulls himself up to stand while holding onto furniture. Which response would a developmental psychologist most likely give Ines?",opts:["Tomás should be praised for every step he takes, because walking is mainly learned through reinforcement.","Tomás has probably missed a critical period for walking and needs therapy immediately.","Tomás is likely showing a delay in fine motor skills, which are the skills that control walking.","Motor milestones follow a predictable sequence, but the age at which each is reached varies across a normal range."],answer:3,skill:"Skill 1"},
+    {q:"A nurse in Accra is showing new parents how to encourage their newborn to start feeding. She gently strokes the baby's cheek near the mouth, and the baby turns its head toward the touch and opens its mouth. Which statement best describes the response the nurse demonstrated?",opts:["It is the rooting reflex, an unlearned response that helps newborns find a source of food.","It is the grasping reflex, an unlearned response to touch that helps newborns cling to caregivers.","It is a conditioned response, because the baby has learned that a touch on the cheek predicts feeding.","It is evidence of gross motor skill development produced by maturation of the cerebellum."],answer:0,skill:"Skill 1"},
+    {q:"During the first weeks of her pregnancy, before she knew she was pregnant, Mei-Lin regularly took a prescription acne medication. Her doctor warns that this medication can cross the placenta and cause abnormalities in the developing baby's heart and face. In developmental terms, the medication is best described as",opts:["a genetic mutation, because it alters the baby's inherited traits","an agonist, because it mimics a neurotransmitter in the developing brain","a teratogen, because it is an environmental agent that can harm prenatal development","a maturation factor, because its effects follow a fixed biological timetable"],answer:2,skill:"Skill 1"},
+    {q:"Researchers studying depth perception placed crawling infants aged 7 to 10 months on a glass table that appeared to have a sudden drop on one side. Using a random number generator, half of the infants were assigned to have a parent call them from across the apparent drop, and the other half had a parent sit silently at the same spot. The researchers recorded whether each infant crawled over the drop. Which feature of the study allows the researchers to conclude that the parent's calling caused any difference between the groups?",opts:["All the infants were old enough to crawl, so the sample was representative of all infants.","The infants were randomly assigned to conditions, so the groups should be similar except for whether the parent called.","The researchers observed the infants in their natural home environment without interfering.","Crawling over the drop and the parent's calling were shown to be positively correlated."],answer:1,skill:"Skill 2"},
+    {q:"Mr. Ferreira, aged 78, tells his granddaughter that food has tasted bland for the past few years, so he now adds much more salt and spice than he used to. His doctor finds no illness that would explain the change. Which explanation is most consistent with research on physical development in late adulthood?",opts:["Older adults completely lose the ability to detect sweet and salty tastes after age 70.","His taste has habituated because he has eaten the same foods for many years.","His brain has become more plastic with age, making him crave stronger flavours.","Sensitivity to smell and taste commonly declines with age, which makes food seem less flavourful."],answer:3,skill:"Skill 1"}
+  ],
+  "3.4": [
+    {q:"Researchers tested adults aged 20 to 80 on two kinds of tasks. On tasks that required quick reasoning about unfamiliar problems, average scores were highest at age 25 and fell steadily after about age 35. On vocabulary and general-knowledge tasks, average scores rose until about age 60 and stayed close to that level through age 80. Which conclusion is best supported by these findings?",opts:["Both fluid and crystallized intelligence decline steadily across adulthood.","Fluid intelligence increases through late adulthood, while crystallized intelligence declines.","Fluid intelligence peaks in early adulthood and then declines, while crystallized intelligence is maintained or grows into late adulthood.","Older adults score lower on all cognitive tasks because they return to Piaget's concrete operational stage."],answer:2,skill:"Skill 3"},
+    {q:"In a series of looking-time studies, researchers found that infants as young as 4 months old stared much longer at a puppet show in which a toy car appeared to roll straight through a solid block than at one in which the car stopped at the block. The researchers interpret longer looking as a sign of surprise. Which claim do these findings most directly challenge?",opts:["Piaget's claim that infants do not understand that objects keep existing and stay solid when out of view until later in the sensorimotor stage","Vygotsky's claim that children learn best within the zone of proximal development","Ainsworth's claim that secure attachment depends on a caregiver's responsiveness","Erikson's claim that infants must resolve trust versus mistrust in their first year"],answer:0,skill:"Skill 4"},
+    {q:"A team in Melbourne designs a new test of conservation for children aged 6 to 8. They give the test to 500 children and then give the same test to the same children three weeks later. Scores on the two occasions are strongly correlated (r = +0.91). What does this result most directly show about the test?",opts:["It has high validity, because it accurately measures conservation.","It has high test-retest reliability, because it produces consistent scores over time.","It is standardized, because the scores form a normal distribution.","It shows that conservation develops rapidly between the two testing sessions."],answer:1,skill:"Skill 2"},
+    {q:"Four-year-old Kofi tells his father that he has a sister named Abena. When his father then asks whether Abena has a brother, Kofi confidently answers no. Kofi's answer is best explained by which feature of his thinking?",opts:["A lack of object permanence, because Kofi cannot hold Abena in mind when she is not present","A lack of conservation, because Kofi does not realize that the number of children in his family stays the same","Theory of mind, because Kofi correctly reasons about what Abena knows","Egocentrism, because Kofi has difficulty viewing the relationship from Abena's perspective"],answer:3,skill:"Skill 1"},
+    {q:"Five-year-old Yusuf is upset that his older cousin got a bigger slice of cake. To calm him, his aunt cuts Yusuf's slice into six small pieces and spreads them across his plate. Yusuf is delighted and says he now has more cake than his cousin. According to Piaget, Yusuf's reaction shows that he",opts:["has not yet developed conservation, so he judges quantity by appearance","is using assimilation, because he fits the cake pieces into his existing schema for sharing","lacks object permanence, because he cannot keep track of the pieces once they are separated","has developed theory of mind, because he understands what his cousin wants"],answer:0,skill:"Skill 1"},
+    {q:"Nine-year-old Priya cannot yet solve two-step word problems on her own. When her older brother asks her guiding questions and breaks each problem into smaller parts, she can solve them, and over time she needs fewer hints. Which concept best describes the range of tasks Priya can complete with her brother's help but not yet alone?",opts:["Scaffolding, because her brother provides support that is slowly withdrawn","Accommodation, because Priya changes her schema to fit new information","The zone of proximal development, the gap between what a learner can do alone and what they can do with guidance","The concrete operational stage, because Priya can now think logically about concrete problems"],answer:2,skill:"Skill 1"}
+  ],
+  "3.5": [
+    {q:"Karim, aged 42, and his 6-year-old daughter, Lina, move from Cairo to Helsinki, and both begin learning Finnish. After three years, both understand and use Finnish grammar well, but Karim still has a noticeable accent while Lina sounds like a native speaker. Which explanation is most consistent with research on language development?",opts:["Adults learn grammar more slowly than children but eventually develop better pronunciation.","Language has a sensitive period, so producing new phonemes becomes harder the later a language is learned.","Karim is overgeneralizing grammatical rules from Arabic, and this changes his accent.","Lina is using telegraphic speech, which helps young children copy native pronunciation."],answer:1,skill:"Skill 1"},
+    {q:"While telling her teacher about her weekend, three-year-old Sakura says, \"I goed to the beach and I catched two fishes!\" Her parents and older siblings never use the words goed or catched. Which concept best explains Sakura's errors?",opts:["Telegraphic speech, because she leaves out words that are not essential to her meaning","Babbling, because she is still producing sounds that do not yet carry meaning","Imitation, because she is copying words she has heard adults use","Overgeneralization, because she is applying grammatical rules to words that are exceptions to those rules"],answer:3,skill:"Skill 1"},
+    {q:"Researchers tested 6-, 9- and 12-month-old infants from Japanese-speaking homes on whether they could tell apart the English sounds /r/ and /l/. Each infant first heard a repeating /r/ sound, and the researchers recorded whether the infant turned toward a screen when the sound switched to /l/. Which of the following is the best operational definition of the dependent variable?",opts:["Whether each infant turned toward the screen when the sound changed from /r/ to /l/","The age of each infant in months","The language spoken in each infant's home","Each infant's general ability to learn English as they grow older"],answer:0,skill:"Skill 2"},
+    {q:"A language-learning app asks users to arrange words into a sentence. One user submits: Morning hot every my drinks grandmother coffee. Every word is a real English word and is spelled correctly, but native speakers immediately say the sentence is wrong. Which rule of language has the user most clearly broken?",opts:["Phonemes, because some of the sounds are not used in English","Syntax, because the words are not arranged in an acceptable order","Morphemes, because the words have been split into meaningless units","Semantics, because the individual words have no meaning"],answer:1,skill:"Skill 1"},
+    {q:"In a reading lesson in Nairobi, a teacher writes the word unhelpful on the board and asks students to break it into its smallest units of meaning. Which student answer is correct?",opts:["u-n-h-e-l-p-f-u-l, because each letter is a separate phoneme","unhelpful as a single morpheme, because the word has one overall meaning","un, help and ful, because each part is a morpheme that carries meaning","unhelp and ful, because syntax decides where a word can be divided"],answer:2,skill:"Skill 1"},
+    {q:"Researchers tested infants from Portuguese-speaking homes on whether they could tell apart two click sounds used in the Zulu language. About 90% of infants aged 6 to 8 months could tell the sounds apart, compared with about 65% of infants aged 8 to 10 months and about 25% of infants aged 10 to 12 months. Infants from Zulu-speaking homes could tell the sounds apart at all three ages. Which conclusion is best supported by these results?",opts:["By 12 months, all infants lose the ability to tell speech sounds apart.","Infants become better at telling apart unfamiliar speech sounds as they get older.","Babbling replaces speech perception, so infants stop hearing differences between sounds.","Regular exposure to a language appears to maintain the ability to tell its sounds apart, while that ability declines for unfamiliar languages."],answer:3,skill:"Skill 3"}
+  ],
+  "3.6": [
+    {q:"During a Strange Situation session, 14-month-old Elif plays with toys and often looks back at her mother. When her mother leaves, Elif cries and stops playing. When her mother returns, Elif reaches for her, is comforted within a minute and goes back to exploring the toys. Elif's behaviour is most consistent with which attachment pattern?",opts:["Avoidant, because Elif returned to the toys soon after her mother came back","Anxious, because Elif cried and stopped playing when her mother left","Disorganized, because Elif showed both distress and contentment in the same session","Secure, because Elif used her mother as a safe base and was easily comforted on her return"],answer:3,skill:"Skill 1"},
+    {q:"In Harry Harlow's studies, infant monkeys were raised with two artificial mothers: a bare wire mother that held a milk bottle and a soft cloth mother that held no food. The infants spent most of their time clinging to the cloth mother and ran to her when they were frightened. These findings most directly challenged which earlier idea?",opts:["That infants become attached to caregivers mainly because the caregivers satisfy their hunger","That young animals imprint on the first moving object they see during a sensitive period","That securely attached infants explore more freely in unfamiliar settings","That temperament is present from birth and shapes how infants respond to stress"],answer:0,skill:"Skill 4"},
+    {q:"Seventeen-year-old Rafael's parents decide which subjects he will study, which friends he may visit and what time he must be home, and they rarely explain their reasons. When Rafael questions a rule, his father replies, \"Because I said so,\" and breaking a rule leads to strict punishment. Which parenting style do Rafael's parents most clearly show?",opts:["Authoritative, because the parents set clear rules and high expectations","Permissive, because the parents make few demands for mature behaviour","Authoritarian, because the parents demand obedience with little warmth or discussion","Neglectful, because the parents are uninvolved in Rafael's daily life"],answer:2,skill:"Skill 1"},
+    {q:"At 52, Amaka has worked as an engineer for many years. She recently began volunteering to mentor first-year engineering students and says that helping the next generation succeed gives her life a strong sense of purpose. According to Erikson, Amaka is most likely showing a positive resolution of which stage?",opts:["Generativity versus stagnation","Integrity versus despair","Intimacy versus isolation","Industry versus inferiority"],answer:0,skill:"Skill 1"},
+    {q:"Eight parents completed a questionnaire measuring how warm and responsive their parenting is, with possible scores from 1 (low) to 20 (high). Their scores were 14, 9, 17, 11, 6, 15, 12 and 12. Which statement about these scores is correct?",opts:["The range is 17, because that is the highest score in the set.","The range is 11, and the mean, median and mode are all 12.","The median is 11.5, which is lower than the mean.","The mode is 14, because it appears in the middle of the list."],answer:1,skill:"Skill 3"},
+    {q:"A researcher wants to know how often 4- and 5-year-olds share toys without being asked. With permission from a kindergarten in Kuala Lumpur, she places a small camera in the corner of the playroom and later counts every instance of unprompted sharing during free play over two weeks, without speaking to the children or changing their activities. Which research method is she using, and what is its main advantage?",opts:["An experiment, because it allows her to show what causes children to share","A case study, because it provides in-depth information about a single child","A survey, because it gathers self-reported data from many participants quickly","Naturalistic observation, because it records behaviour as it normally occurs"],answer:3,skill:"Skill 2"}
+  ],
+  "3.7": [
+    {q:"At an international school in Singapore, a distinctive three-note chime plays a few seconds before every fire drill. The drill itself always begins with an extremely loud siren that makes students flinch. After several weeks, students tense their shoulders as soon as they hear the chime, even on a day when the siren fails to sound. In this example, the students' tensing at the chime is best described as the",opts:["unconditioned response, because flinching at loud noises does not need to be learned","conditioned response, because the chime now triggers the reaction through its pairing with the siren","conditioned stimulus, because the chime was originally a neutral stimulus","unconditioned stimulus, because the chime reliably predicts the siren"],answer:1,skill:"Skill 1"},
+    {q:"A researcher trained a dog to salivate to a buzzer that was always followed by food. On trials 1 to 10, the buzzer was paired with food, and salivation rose from 0 to 10 drops. On trials 11 to 20, the buzzer was presented alone, and salivation fell to 1 drop. After a 24-hour rest, the first buzzer-alone trial produced 6 drops. Which sequence of concepts do these three phases show?",opts:["Acquisition, generalization, then discrimination","Habituation, extinction, then higher-order conditioning","Acquisition, extinction, then stimulus generalization","Acquisition, extinction, then spontaneous recovery"],answer:3,skill:"Skill 3"},
+    {q:"On a family trip to Lisbon, Leila ate grilled sardines for the first time. About five hours later she became very ill with a stomach virus that her whole family also caught, and the sardines had nothing to do with it. Months later, even the smell of sardines makes her feel queasy, although she knows the virus caused her illness. Which statement best explains why this learning happened after a single experience and despite the long delay?",opts:["Humans are biologically prepared to link tastes and smells with later nausea, so taste aversions form quickly and survive long delays.","Her avoidance of sardines is negatively reinforced, because staying away from them removes the queasy feeling.","Higher-order conditioning paired the restaurant, a conditioned stimulus, with the sardines.","Stimulus generalization led her to respond to the sardines in the same way she responds to the virus."],answer:0,skill:"Skill 1"},
+    {q:"A marketing team tested whether pairing a new brand of water bottle with upbeat music would make teenagers like the brand more. They recruited 80 students from schools in three cities and used a coin flip to place each student in one of two groups. One group watched an advert showing the bottle with upbeat music, and the other watched the same advert with no music. Afterwards, all students rated how much they liked the brand on a scale from 1 to 10. Which feature of this study makes it an experiment?",opts:["The researchers measured the students' ratings on a numerical scale.","The sample included a large number of students from more than one city.","The researchers manipulated whether music was present and randomly assigned students to the groups.","The researchers predicted that the music group would rate the brand more highly."],answer:2,skill:"Skill 2"},
+    {q:"A therapist tested a counterconditioning program for people who fear elevators, in which clients practise slow breathing while gradually riding elevators. On a scale from 1 to 10 (higher means more fear), trained clients gave average ratings of 5 before entering, 3 as the doors closed, 4 while moving, 2 as the doors opened and 1 after leaving. A comparison group without training gave ratings of 6, 9, 9, 7 and 5 at the same five points. Which statement is correct based on these data?",opts:["The mean fear rating for the counterconditioning group was 3.","The median fear rating for the comparison group was 9.","The range of the comparison group's ratings was larger than the range of the counterconditioning group's ratings.","The mode of the counterconditioning group's ratings was 4."],answer:0,skill:"Skill 3"},
+    {q:"At a school in Madrid, a bell has always rung just before short, timed quizzes, and students now feel anxious when they hear the bell on its own. This term, a teacher began flashing the classroom lights just before ringing the bell as part of a daily routine, but the flashing lights have never been paired with an actual quiz. After a few weeks, students feel uneasy whenever the lights flash. Which concept best explains why the flashing lights now trigger this unease?",opts:["Stimulus generalization, because the flashing lights are similar to the bell","Spontaneous recovery, because the anxiety returned after a pause","Higher-order conditioning, because the lights were paired with a stimulus that was already a conditioned stimulus","Counterconditioning, because a new response replaced the original anxiety"],answer:2,skill:"Skill 1"}
+  ],
+  "3.8": [
+    {q:"In a supermarket in Mumbai, four-year-old Arjun screams for a chocolate bar. His mother finally buys it, and Arjun immediately stops screaming. Over the next few weeks, his mother gives in more and more quickly whenever he screams in a shop. From an operant conditioning perspective, which statement best explains the change in the mother's behaviour?",opts:["Her giving in is positively reinforced, because she receives the chocolate bar as a reward.","Her giving in is positively punished, because Arjun's screaming is an unpleasant consequence.","Her giving in is negatively reinforced, because it removes Arjun's unpleasant screaming.","Her giving in is classically conditioned, because the shop has become a conditioned stimulus."],answer:2,skill:"Skill 1"},
+    {q:"Whenever 12-year-old Mateo speaks rudely to his younger sister, his parents take away 30 minutes of his evening gaming time. After two weeks, Mateo speaks rudely to his sister much less often. Which operant conditioning technique did his parents use?",opts:["Negative reinforcement, because something was taken away from Mateo","Negative punishment, because a desirable privilege was removed to decrease the behaviour","Positive punishment, because an unpleasant consequence was added after the behaviour","Extinction, because the rude behaviour was no longer followed by attention"],answer:1,skill:"Skill 1"},
+    {q:"Nour wants her cat to stop meowing at the kitchen door for food, so she decides to feed it only when it is quiet. Over the next month, however, she sometimes ignores the meowing and at other times gives in and feeds the cat when it meows loudly enough. Which prediction about the cat's meowing is most reasonable?",opts:["The meowing will become more persistent, because it is now on a partial reinforcement schedule that resists extinction.","The meowing will quickly extinguish, because it is no longer reinforced every time.","The meowing will stay the same, because the cat is on a continuous reinforcement schedule.","The meowing will decrease, because being ignored acts as positive punishment."],answer:0,skill:"Skill 1"},
+    {q:"Researchers train pigeons to peck a green key for food, while pecks at a blue key produce nothing. They want to test whether pigeons rewarded for every correct peck (continuous reinforcement) learn to tell the keys apart faster than pigeons rewarded for only some correct pecks (partial reinforcement). Which of the following is the best falsifiable hypothesis for this study?",opts:["Pigeons prefer the green key because green is a more pleasant colour for birds.","Pigeons will peck whichever key they feel like pecking on a given day.","Pigeons rewarded only some of the time secretly want to learn less than other pigeons.","Pigeons given continuous reinforcement will reach 90% correct pecks at the green key in fewer sessions than pigeons given partial reinforcement."],answer:3,skill:"Skill 2"},
+    {q:"A teacher asks her class to identify an example of behaviour maintained by a variable-interval schedule of reinforcement. Four students offer the examples below. Which example is correct?",opts:["Selin is paid a bonus for every ten tutoring sessions she completes.","Tariq keeps checking his latest post because new likes arrive at unpredictable times.","Leah, a salesperson, keeps phoning customers because a sale happens after an unpredictable number of calls.","Omar checks the oven exactly 25 minutes after putting bread in, because it always takes 25 minutes to bake."],answer:1,skill:"Skill 1"},
+    {q:"Ms. Achieng randomly placed \"Great effort!\" stickers on half of her students' returned homework. Before the next quiz, she asked all students how many hours they had studied. The sticker group reported 3, 4, 3, 4, 3 and 4 hours. The no-sticker group reported 1, 5, 2, 6, 0 and 4 hours. Which conclusion is best supported by these data?",opts:["The no-sticker group had a higher mean study time than the sticker group.","Both groups had the same median study time.","Study times varied less in the sticker group than in the no-sticker group.","The stickers caused every student in the sticker group to study more than every student in the no-sticker group."],answer:2,skill:"Skill 3"}
+  ],
+  "3.9": [
+    {q:"Researchers let one group of mice explore a maze for ten days with no water at the end. A second group found water at the end of the maze on every trial. On day 11, water was placed at the end of the maze for both groups, and on day 12 the first group ran the maze as quickly as the second group. Which concept best explains the first group's sudden improvement?",opts:["Insight learning, because the mice suddenly understood the solution without any prior experience","Shaping, because the mice were rewarded for successive approximations of the route","Observational learning, because the first group watched the second group run the maze","Latent learning, because the mice had learned the maze earlier but did not show it until there was a reason to"],answer:3,skill:"Skill 1"},
+    {q:"During a chemistry practical, 16-year-old Zainab is about to check her phone under the bench. Just then, she sees her teacher confiscate a classmate's phone for doing the same thing and give him a lunchtime detention. Zainab puts her phone away and keeps it there for the rest of the lesson. Which concept best explains Zainab's behaviour?",opts:["Negative reinforcement, because putting the phone away removed the threat of detention","Vicarious punishment, because she learned from a consequence she saw another person receive","Latent learning, because she had always known the rule but showed it only when it was needed","Classical conditioning, because the teacher became a conditioned stimulus for fear"],answer:1,skill:"Skill 1"},
+    {q:"A researcher randomly assigned 60 children aged 5 to 7 to watch one of two short videos. In one video, an adult hit and kicked an inflatable toy; in the other, the adult played quietly with building blocks. Each child was then left in a playroom containing both toys, and observers who did not know which video the child had seen counted the child's aggressive acts. What is the independent variable in this study?",opts:["The type of video the children watched","The number of aggressive acts each child performed","Whether the observers knew which video each child had seen","The age of the children in the study"],answer:0,skill:"Skill 2"},
+    {q:"Researchers showed a 15-minute video about standing up for classmates to Grade 7 and Grade 10 students. Before the video, Grade 7 students averaged 2 helping behaviours per week and Grade 10 students averaged 3. One month after the video, Grade 7 students averaged 5 helping behaviours per week and Grade 10 students averaged 4. Which conclusion is best supported by these results?",opts:["Only Grade 7 students showed an increase in helping after the video.","Grade 10 students helped more than Grade 7 students at both points in time.","Both grades increased their helping, with a larger increase among Grade 7 students.","The video caused the increase in helping, because helping was measured both before and after it."],answer:2,skill:"Skill 3"},
+    {q:"Before starting university in Vienna, Daniel spends a week walking around the campus with no particular goal. On his first day of classes, a fire drill closes the main path, but he quickly finds another route to his lecture hall through buildings he has walked past only once. Which concept best explains Daniel's ability to find the new route?",opts:["Habituation, because he no longer notices the campus buildings","Shaping, because each walk brought him a little closer to the lecture hall","Observational learning, because he copied the routes other students were taking","A cognitive map, a mental representation of the layout of his environment"],answer:3,skill:"Skill 1"},
+    {q:"Ana spends half an hour stuck on a geometry proof and finally gives up. That evening, while washing dishes and thinking about something else entirely, she suddenly sees how to solve it, and the full solution comes to her at once. Which type of learning does Ana's experience best illustrate?",opts:["Latent learning, because the solution was learned earlier but not displayed","Insight learning, because the solution appeared suddenly rather than through trial and error","Observational learning, because she had seen a teacher solve similar proofs before","Operant conditioning, because solving the problem was reinforced by a feeling of relief"],answer:1,skill:"Skill 1"}
+  ]
+};
+
+// ==============================================================
+// HELPERS
+// ==============================================================
+function shuffle(arr){const a=arr.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function getTerms(t){return t==="all"?Object.values(termsDB).flat():(termsDB[t]||[]);}
+function getPractice(t){return t==="all"?Object.values(practiceDB).flat():(practiceDB[t]||[]);}
+function skillClass(s){return s.includes("4")?"skill-4":s.includes("3")?"skill-3":s.includes("2")?"skill-2":"skill-1";}
+function pBar(idx,total,score){return `<div class="progress-row"><span>Question ${idx+1} of ${total}</span><span>Score: ${score} / ${idx}</span></div><div class="progress-bar-track"><div class="progress-bar-fill" style="width:${total>0?(idx/total)*100:0}%"></div></div>`;}
+
+// Logs one attempt for the session review panel and the printable answer key.
+function logAttempt(type,stem,studentAnswer,correctAnswer,correct){
+  S.log.push({type:type,stem:stem,studentAnswer:studentAnswer,correctAnswer:correctAnswer,correct:correct});
+}
+// Builds the on-screen "Terms to review" panel plus the Print Summary button, shown on every completion screen.
+function buildReviewBlock(){
+  const missed=S.log.filter(function(r){return !r.correct;});
+  let html="";
+  if(missed.length){
+    html+='<div class="review-block"><div class="review-header">Terms to Review ('+missed.length+')</div>';
+    html+=missed.map(function(r){return '<div class="review-item"><strong>'+r.stem+'</strong><span class="review-correct">Correct answer: '+r.correctAnswer+'</span></div>';}).join("");
+    html+='</div>';
+  }
+  html+='<button class="btn-restart btn-print" onclick="printSummary()">Print Summary</button>';
+  return html;
+}
+// Builds and opens the printable, teacher-checkable answer key in its own tab, so printing
+// does not depend on window.print() working inside whatever frame this page is embedded in.
+function printSummary(){
+  const total=S.log.length;
+  const correctCount=S.log.filter(function(r){return r.correct;}).length;
+  const scoreText=total?(correctCount+" / "+total+" ("+Math.round((correctCount/total)*100)+"%)"):"No graded items this session";
+  let rows=S.log.map(function(r,i){
+    return '<tr><td style="border:1px solid #999;padding:6px;">'+(i+1)+'</td>'+
+      '<td style="border:1px solid #999;padding:6px;">'+String(r.stem).replace(/\n/g," ")+'</td>'+
+      '<td style="border:1px solid #999;padding:6px;">'+r.studentAnswer+'</td>'+
+      '<td style="border:1px solid #999;padding:6px;">'+r.correctAnswer+'</td>'+
+      '<td style="border:1px solid #999;padding:6px;">'+(r.correct?"Correct":"Review")+'</td></tr>';
+  }).join("");
+  if(!rows){rows='<tr><td colspan="5" style="border:1px solid #999;padding:6px;">No graded items in this session.</td></tr>';}
+  let mistakesHTML="";
+  if(S.topic!=="all"&&mistakesDB[S.topic]){
+    mistakesHTML='<h2 style="font-size:15px;margin-top:18px;border-bottom:1px solid #999;">Common Mistakes for This Topic</h2><ul style="font-size:12px;line-height:1.6;">'+
+      mistakesDB[S.topic].map(function(m){return '<li style="margin-bottom:6px;">'+m+'</li>';}).join("")+'</ul>';
+  }
+  const reportBody=
+    '<h1 style="font-size:20px;border-bottom:2px solid #000;padding-bottom:8px;">AP Psychology Unit 3: Development and Learning</h1>'+
+    '<p style="font-size:13px;">Revision Session Summary</p>'+
+    '<table style="width:100%;font-size:13px;margin:14px 0;"><tr><td>Name: ___________________________</td><td>Date: ___________________</td></tr></table>'+
+    '<p style="font-size:13px;">Topic: '+(S.topicLabel||"All Topics")+' &nbsp;|&nbsp; Activity: '+(S.modeLabel||"")+' &nbsp;|&nbsp; Score: '+scoreText+'</p>'+
+    '<h2 style="font-size:15px;margin-top:18px;border-bottom:1px solid #999;">Answer Key and Review</h2>'+
+    '<table style="width:100%;border-collapse:collapse;font-size:12px;margin-top:8px;">'+
+    '<tr style="background:#eee;"><th style="border:1px solid #999;padding:6px;text-align:left;">#</th><th style="border:1px solid #999;padding:6px;text-align:left;">Question / Term</th><th style="border:1px solid #999;padding:6px;text-align:left;">Your Answer</th><th style="border:1px solid #999;padding:6px;text-align:left;">Correct Answer</th><th style="border:1px solid #999;padding:6px;text-align:left;">Result</th></tr>'+
+    rows+'</table>'+mistakesHTML+
+    '<p class="no-print" style="margin-top:22px;font-size:12px;color:#666;">If the print dialog did not open automatically, use your browser\'s print command (Ctrl+P or Cmd+P) on this tab.</p>';
+  const fullDoc='<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Unit 3 Revision Summary</title>'+
+    '<style>body{font-family:Arial,Helvetica,sans-serif;color:#000;padding:20px;max-width:800px;margin:0 auto;}'+
+    '@media print{.no-print{display:none;}}</style></head><body>'+reportBody+'</body></html>';
+  const win=window.open("","_blank");
+  if(!win){
+    alert("Your browser blocked the new tab needed to print. Please allow pop-ups for this page and click Print Summary again.");
+    return;
+  }
+  win.document.open();
+  win.document.write(fullDoc);
+  win.document.close();
+  win.focus();
+  setTimeout(function(){
+    try{win.print();}catch(e){/* user can still print manually from the new tab */}
+  },250);
+}
+
+// ==============================================================
+// STATE
+// ==============================================================
+const S={mode:null,topic:"all",topicLabel:"All Topics",modeLabel:"",terms:[],practice:[],idx:0,score:0,hWord:"",hGuessed:[],hMistakes:0,hAttempted:new Set(),hActive:false,hCurrentTerm:null,_matchSet:[],log:[]};
+
+// ==============================================================
+// START
+// ==============================================================
+document.getElementById("startBtn").addEventListener("click",function(){
+  S.topic=document.getElementById("topicSelect").value;
+  S.mode=document.getElementById("modeSelect").value;
+  const topicSel=document.getElementById("topicSelect");
+  const modeSel=document.getElementById("modeSelect");
+  S.topicLabel=topicSel.options[topicSel.selectedIndex].text;
+  S.modeLabel=modeSel.options[modeSel.selectedIndex].text;
+  S.idx=0;S.score=0;S.hActive=false;S.hAttempted=new Set();S.log=[];
+  if(S.mode==="mistakes"){renderMistakes();return;}
+  if(S.mode==="practice"){
+    S.practice=shuffle(getPractice(S.topic));
+    if(!S.practice.length){setQA('<div class="placeholder-text">No practice questions for this topic yet.</div>');return;}
+    renderPractice();
+  } else {
+    S.terms=shuffle(getTerms(S.topic));
+    if(!S.terms.length){setQA('<div class="placeholder-text">No terms found for this selection.</div>');return;}
+    if(S.mode==="flash")renderFlash();
+    else if(S.mode==="mcq")renderMCQ();
+    else if(S.mode==="tf")renderTF();
+    else if(S.mode==="match")renderMatch();
+    else if(S.mode==="hangman"){S.hActive=true;renderHangman();}
+  }
+});
+function setQA(html){document.getElementById("quizArea").innerHTML=html;}
+
+// ==============================================================
+// COMMON MISTAKES
+// ==============================================================
+function renderMistakes(){
+  let html='<p style="text-align:center;color:#4a6080;font-size:13px;margin-bottom:18px;">Common mix-ups students make on this material. Review these before you test yourself.</p>';
+  const topicsToShow=(S.topic==="all")?Object.keys(mistakesDB):[S.topic];
+  topicsToShow.forEach(function(tKey){
+    if(!mistakesDB[tKey])return;
+    if(S.topic==="all"){html+='<div class="mistake-topic-header">Topic '+tKey+'</div>';}
+    mistakesDB[tKey].forEach(function(m){html+='<div class="mistake-item">'+m+'</div>';});
+  });
+  setQA(html);
+}
+
+// ==============================================================
+// FLASHCARDS
+// ==============================================================
+function renderFlash(){
+  if(S.idx>=S.terms.length){setQA(`<div class="score-screen"><div class="big-score">${S.terms.length}</div><div class="score-label">cards reviewed</div><div class="score-message">All done!</div>${buildReviewBlock()}<br><button class="btn-restart" onclick="S.idx=0;S.log=[];renderFlash()">Start Over</button></div>`);return;}
+  const t=S.terms[S.idx];const pct=(S.idx/S.terms.length)*100;
+  setQA(`<div class="progress-row"><span>Card ${S.idx+1} of ${S.terms.length}</span><span style="font-size:12px;color:#7a90b5;">Click to flip</span></div><div class="progress-bar-track"><div class="progress-bar-fill" style="width:${pct}%"></div></div><div class="flashcard-wrapper" onclick="this.classList.toggle('flipped')"><div class="flashcard-inner"><div class="flashcard-face flashcard-front"><div class="face-label">Term</div><div class="face-term">${t.term}</div></div><div class="flashcard-face flashcard-back"><div class="face-label">Definition</div><div class="face-def">${t.def}</div></div></div></div><div class="flashcard-hint">Tap the card to reveal the definition, then rate yourself honestly</div><div class="flashcard-nav"><button class="self-rate-review" onclick="rateFlash(false)">Review again</button><button class="self-rate-good" onclick="rateFlash(true)">Got it</button></div><div class="flashcard-nav" style="margin-top:8px;"><button onclick="S.idx=Math.max(0,S.idx-1);renderFlash()">Previous</button></div>`);
+}
+function rateFlash(gotIt){
+  const t=S.terms[S.idx];
+  logAttempt("Flashcards",t.term,gotIt?"Marked: Got it":"Marked: Review again",t.def,gotIt);
+  S.idx++;
+  renderFlash();
+}
+
+// ==============================================================
+// VOCABULARY MCQ
+// ==============================================================
+function renderMCQ(){
+  if(S.idx>=S.terms.length){showVocabScore();return;}
+  const cur=S.terms[S.idx];
+  const opts=shuffle([cur,...shuffle(S.terms.filter(function(t){return t!==cur;})).slice(0,3)]);
+  const letters=["A","B","C","D"];S._mcqOpts=opts;S._mcqCorrect=cur;S._mcqDef=cur.def;
+  let optsHTML=opts.map(function(o,i){return `<button class="option-btn" data-idx="${i}"><span class="letter">${letters[i]}</span><span>${o.term}</span></button>`;}).join("");
+  setQA(`${pBar(S.idx,S.terms.length,S.score)}<div class="question-text"><span class="stem-label">Definition</span>${cur.def}</div><p style="font-size:12px;color:#4a6080;margin-bottom:10px;font-weight:600;">Which term matches this definition?</p><div class="options-list" id="mcqOpts">${optsHTML}</div><div id="mcqFb"></div>`);
+  document.querySelectorAll("#mcqOpts .option-btn").forEach(function(btn){btn.addEventListener("click",function(){handleMCQ(parseInt(this.dataset.idx));});});
+}
+function handleMCQ(si){
+  if(document.querySelector(".option-btn.correct,.option-btn.incorrect"))return;
+  const opts=S._mcqOpts;const correct=S._mcqCorrect;const ci=opts.indexOf(correct);
+  document.querySelectorAll(".option-btn").forEach(function(b){b.disabled=true;if(parseInt(b.dataset.idx)===ci)b.classList.add("revealed");});
+  const isRight=(si===ci);const btn=document.querySelector('[data-idx="'+si+'"]');
+  if(btn){btn.classList.remove("revealed");btn.classList.add(isRight?"correct":"incorrect");}
+  if(isRight)S.score++;
+  logAttempt("Vocabulary MCQ",S._mcqDef,opts[si].term,correct.term,isRight);
+  S.idx++;
+  document.getElementById("mcqFb").innerHTML=`<div class="feedback-box ${isRight?"correct":"incorrect"}">${isRight?"Correct!":"Not quite. The correct answer is highlighted above."}</div><button class="btn-next" onclick="renderMCQ()">Next</button>`;
+}
+
+// ==============================================================
+// TRUE / FALSE
+// ==============================================================
+function renderTF(){
+  if(S.idx>=S.terms.length){showVocabScore();return;}
+  const cur=S.terms[S.idx];const isTrue=Math.random()>0.5;let disp=cur.def;
+  if(!isTrue&&S.terms.length>1){let w=S.terms[Math.floor(Math.random()*S.terms.length)];while(w.term===cur.term)w=S.terms[Math.floor(Math.random()*S.terms.length)];disp=w.def;}
+  S._tfIsTrue=isTrue;S._tfTerm=cur.term;S._tfDisp=disp;
+  setQA(`${pBar(S.idx,S.terms.length,S.score)}<div class="question-text">Is this the correct definition of <strong>${cur.term}</strong>?</div><div style="background:#f4f6fb;padding:13px 15px;border-radius:8px;font-style:italic;border-left:4px solid #b0c4de;margin-bottom:18px;font-size:14px;line-height:1.65;">"${disp}"</div><div class="options-list" style="flex-direction:row;gap:14px;"><button class="option-btn" id="tfT" style="justify-content:center;"><span class="letter" style="color:#28a745;">T</span>True</button><button class="option-btn" id="tfF" style="justify-content:center;"><span class="letter" style="color:#dc3545;">F</span>False</button></div><div id="tfFb"></div>`);
+  document.getElementById("tfT").addEventListener("click",function(){handleTF(true);});
+  document.getElementById("tfF").addEventListener("click",function(){handleTF(false);});
+}
+function handleTF(userTrue){
+  if(document.querySelector(".option-btn.correct,.option-btn.incorrect"))return;
+  document.querySelectorAll(".option-btn").forEach(function(b){b.disabled=true;});
+  const right=(S._tfIsTrue===userTrue);const btn=userTrue?document.getElementById("tfT"):document.getElementById("tfF");
+  if(btn)btn.classList.add(right?"correct":"incorrect");
+  if(right)S.score++;
+  logAttempt("True/False",'"'+S._tfDisp+'" - definition of '+S._tfTerm+'?',userTrue?"True":"False",S._tfIsTrue?"True":"False",right);
+  S.idx++;
+  document.getElementById("tfFb").innerHTML=`<div class="feedback-box ${right?"correct":"incorrect"}">${right?"Correct!":"Not quite. The answer was: "+(S._tfIsTrue?"True":"False")}</div><button class="btn-next" onclick="renderTF()">Next</button>`;
+}
+
+// ==============================================================
+// MATCH'EM UP
+// ==============================================================
+function renderMatch(){
+  const chunk=S.terms.slice(0,Math.min(6,S.terms.length));S._matchSet=chunk;
+  const shuffledDefs=shuffle(chunk.map(function(t,i){return {termIdx:i,def:t.def};}));
+  const termsHTML=chunk.map(function(t,i){return `<div class="match-term" draggable="true" data-tidx="${i}">${t.term}</div>`;}).join("");
+  const defsHTML=shuffledDefs.map(function(d){return `<div class="match-def" data-correct="${d.termIdx}" data-dropped="-1"><div class="match-def-text" style="font-size:12px;line-height:1.5;">${d.def}</div></div>`;}).join("");
+  setQA(`<p style="text-align:center;color:#4a6080;font-size:13px;margin-bottom:18px;">Drag each <strong>term</strong> from the left onto its matching <strong>definition</strong> on the right.</p><div class="match-grid"><div><div class="match-col-label">Terms</div><div class="match-terms" id="matchTerms">${termsHTML}</div></div><div><div class="match-col-label">Definitions</div><div class="match-defs" id="matchDefs">${defsHTML}</div></div></div><button class="match-check-btn" onclick="checkMatch()">Check Answers</button><div id="matchFb" style="margin-top:14px;"></div>`);
+  document.querySelectorAll(".match-term").forEach(function(el){
+    el.addEventListener("dragstart",function(e){e.dataTransfer.setData("text",this.dataset.tidx);this.classList.add("dragging");});
+    el.addEventListener("dragend",function(){this.classList.remove("dragging");});
+  });
+  document.querySelectorAll(".match-def").forEach(function(el){
+    el.addEventListener("dragover",function(e){e.preventDefault();this.classList.add("drag-over");});
+    el.addEventListener("dragleave",function(){this.classList.remove("drag-over");});
+    el.addEventListener("drop",function(e){
+      e.preventDefault();this.classList.remove("drag-over");const tidx=e.dataTransfer.getData("text");this.dataset.dropped=tidx;
+      let lbl=this.querySelector(".match-dropped");
+      if(!lbl){lbl=document.createElement("div");lbl.className="match-dropped";this.insertBefore(lbl,this.firstChild);}
+      lbl.textContent=S._matchSet[parseInt(tidx)].term;
+    });
+  });
+}
+function checkMatch(){
+  let correct=0;const defEls=document.querySelectorAll(".match-def");
+  defEls.forEach(function(el){
+    const dropped=parseInt(el.dataset.dropped);const right=parseInt(el.dataset.correct);const isRight=(dropped===right);
+    if(isRight){el.classList.add("correct");correct++;}else{el.classList.add("incorrect");}
+    const defText=el.querySelector(".match-def-text").textContent;
+    const droppedTermText=(dropped>=0&&S._matchSet[dropped])?S._matchSet[dropped].term:"No answer given";
+    const correctTermText=S._matchSet[right].term;
+    logAttempt("Match'em Up",defText,droppedTermText,correctTermText,isRight);
+  });
+  const total=defEls.length;const pct=Math.round((correct/total)*100);
+  document.getElementById("matchFb").innerHTML=`<div class="feedback-box ${correct===total?"correct":correct>total/2?"neutral":"incorrect"}">${correct} / ${total} correct (${pct}%)</div>${buildReviewBlock()}<button class="btn-next" onclick="renderMatch()">Try Another Set</button>`;
+}
+
+// ==============================================================
+// HANGMAN
+// ==============================================================
+function renderHangman(){
+  if(S.idx>=S.terms.length){showVocabScore();return;}
+  const t=S.terms[S.idx];S.hCurrentTerm=t;S.hWord=t.term.toUpperCase();
+  S.hGuessed=S.hWord.split("").map(function(ch){return /[A-Z]/.test(ch)?null:ch;});
+  S.hMistakes=0;S.hAttempted=new Set();
+  const letters="ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+  const keyHTML=letters.map(function(l){return `<button class="key" data-ltr="${l}">${l}</button>`;}).join("");
+  const pct=(S.idx/S.terms.length)*100;
+  setQA(`<div class="progress-row"><span>Word ${S.idx+1} of ${S.terms.length}</span><span>Score: ${S.score}</span></div><div class="progress-bar-track"><div class="progress-bar-fill" style="width:${pct}%"></div></div><div class="hangman-container"><div><svg class="hangman-svg" viewBox="0 0 100 120" stroke="#1a2744" stroke-width="3" fill="none" stroke-linecap="round"><line x1="10" y1="115" x2="90" y2="115"/><line x1="30" y1="115" x2="30" y2="5"/><line x1="30" y1="5" x2="70" y2="5"/><line x1="70" y1="5" x2="70" y2="20"/><circle id="hp1" cx="70" cy="32" r="12" style="display:none"/><line id="hp2" x1="70" y1="44" x2="70" y2="80" style="display:none"/><line id="hp3" x1="70" y1="52" x2="54" y2="68" style="display:none"/><line id="hp4" x1="70" y1="52" x2="86" y2="68" style="display:none"/><line id="hp5" x1="70" y1="80" x2="54" y2="100" style="display:none"/><line id="hp6" x1="70" y1="80" x2="86" y2="100" style="display:none"/></svg></div><div class="hangman-hint"><strong>Hint:</strong> ${t.def}</div><div class="word-display" id="hDisp"></div><div class="keyboard" id="hKeys">${keyHTML}</div><div id="hFb" style="margin-top:16px;min-height:44px;text-align:center;"></div></div>`);
+  updateHDisp();
+  document.querySelectorAll(".key").forEach(function(btn){btn.addEventListener("click",function(){doHGuess(this.dataset.ltr);});});
+}
+function updateHDisp(){const el=document.getElementById("hDisp");if(el)el.textContent=S.hGuessed.map(function(ch){return ch===null?"_":ch;}).join(" ");}
+function updateHParts(){for(let i=1;i<=6;i++){const el=document.getElementById("hp"+i);if(el)el.style.display=i<=S.hMistakes?"block":"none";}}
+function doHGuess(letter){
+  if(!S.hActive||S.hAttempted.has(letter)||S.hMistakes>=6)return;
+  S.hAttempted.add(letter);const btn=document.querySelector('.key[data-ltr="'+letter+'"]');
+  if(S.hWord.includes(letter)){S.hWord.split("").forEach(function(ch,i){if(ch===letter)S.hGuessed[i]=letter;});if(btn){btn.classList.add("correct-guess");btn.disabled=true;}}
+  else{S.hMistakes++;if(btn){btn.classList.add("wrong-guess");btn.disabled=true;}updateHParts();}
+  updateHDisp();checkHEnd();
+}
+function checkHEnd(){
+  const won=!S.hGuessed.includes(null);const lost=S.hMistakes>=6;if(!won&&!lost)return;
+  document.querySelectorAll(".key").forEach(function(k){k.disabled=true;});const fb=document.getElementById("hFb");
+  const t=S.hCurrentTerm;
+  logAttempt("Hangman",t?t.def:"",won?"Solved":"Not solved ("+S.hMistakes+" wrong guesses)",S.hWord,won);
+  if(won){S.score++;if(fb)fb.innerHTML=`<div class="feedback-box correct">Correct! The term is "${S.hWord}".</div><button class="btn-next" onclick="S.idx++;renderHangman()">Next Word</button>`;}
+  else{const d=document.getElementById("hDisp");if(d)d.textContent=S.hWord.split("").join(" ");if(fb)fb.innerHTML=`<div class="feedback-box incorrect">The term was: <strong>${S.hWord}</strong></div><button class="btn-next" onclick="S.idx++;renderHangman()">Next Word</button>`;}
+}
+document.addEventListener("keydown",function(e){
+  if(!S.hActive)return;const k=e.key.toUpperCase();
+  if(/^[A-Z]$/.test(k)){const btn=document.querySelector('.key[data-ltr="'+k+'"]');if(btn&&!btn.disabled)doHGuess(k);}
+});
+
+// ==============================================================
+// PRACTICE SET MCQs
+// ==============================================================
+function renderPractice(){
+  if(S.idx>=S.practice.length){showPracticeScore();return;}
+  const q=S.practice[S.idx];const letters=["A","B","C","D"];
+  const optsHTML=q.opts.map(function(opt,i){return `<button class="option-btn" data-idx="${i}"><span class="letter">${letters[i]}</span><span>${opt}</span></button>`;}).join("");
+  const pct=(S.idx/S.practice.length)*100;const stemHTML=q.q.replace(/\n/g,"<br>");
+  setQA(`<div class="progress-row"><span>Question ${S.idx+1} of ${S.practice.length}</span><span>Score: ${S.score} / ${S.idx}</span></div><div class="progress-bar-track"><div class="progress-bar-fill" style="width:${pct}%"></div></div><span class="skill-badge ${skillClass(q.skill)}">${q.skill}</span><div class="question-text">${stemHTML}</div><div class="options-list" id="pOpts">${optsHTML}</div><div id="pFb"></div>`);
+  S._pq=q;
+  document.querySelectorAll("#pOpts .option-btn").forEach(function(btn){btn.addEventListener("click",function(){handlePractice(parseInt(this.dataset.idx));});});
+}
+function handlePractice(si){
+  if(document.querySelector(".option-btn.correct,.option-btn.incorrect"))return;
+  const q=S._pq;document.querySelectorAll(".option-btn").forEach(function(b){b.disabled=true;if(parseInt(b.dataset.idx)===q.answer)b.classList.add("revealed");});
+  const isRight=(si===q.answer);const btn=document.querySelector('#pOpts [data-idx="'+si+'"]');
+  if(btn){btn.classList.remove("revealed");btn.classList.add(isRight?"correct":"incorrect");}
+  if(isRight)S.score++;
+  logAttempt("Practice Set MCQ",q.q.replace(/\n/g," "),q.opts[si],q.opts[q.answer],isRight);
+  S.idx++;
+  document.getElementById("pFb").innerHTML=`<div class="feedback-box ${isRight?"correct":"incorrect"}">${isRight?"Correct!":"Not quite. The correct answer is highlighted above."}</div><button class="btn-next" onclick="renderPractice()">Next</button>`;
+}
+function showPracticeScore(){
+  const pct=Math.round((S.score/S.practice.length)*100);
+  const msg=pct>=80?"Strong work.":pct>=60?"Getting there. Keep reviewing.":"More revision needed - you have got this.";
+  setQA(`<div class="score-screen"><div class="big-score">${pct}%</div><div class="score-label">${S.score} correct out of ${S.practice.length}</div><div class="score-message">${msg}</div>${buildReviewBlock()}<br><button class="btn-restart" onclick="S.idx=0;S.score=0;S.log=[];S.practice=shuffle(getPractice(S.topic));renderPractice()">Try Again</button></div>`);
+}
+function showVocabScore(){
+  const pct=Math.round((S.score/S.terms.length)*100);
+  const msg=pct>=80?"Strong work.":pct>=60?"Getting there. Keep reviewing.":"More revision needed - you have got this.";
+  const restart=S.mode==="mcq"?"S.idx=0;S.score=0;S.log=[];S.terms=shuffle(getTerms(S.topic));renderMCQ()":S.mode==="tf"?"S.idx=0;S.score=0;S.log=[];S.terms=shuffle(getTerms(S.topic));renderTF()":"S.idx=0;S.score=0;S.log=[];S.hActive=true;S.terms=shuffle(getTerms(S.topic));renderHangman()";
+  setQA(`<div class="score-screen"><div class="big-score">${pct}%</div><div class="score-label">${S.score} correct out of ${S.terms.length}</div><div class="score-message">${msg}</div>${buildReviewBlock()}<br><button class="btn-restart" onclick="${restart}">Try Again</button></div>`);
+}
+</script>
+<script src="exam.js"></script>
+<script src="countdown.js" defer></script>
+<script src="sleep-nudge.js" defer></script>
+<script src="search.js" defer></script>
+</body>
+</html>

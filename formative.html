@@ -1,0 +1,1685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>AP Psychology Formative Assessment</title>
+<!--
+  AP Psychology Formative Assessment (Section I: 30 MCQs, Section II: one AAQ or EBQ).
+  Teacher settings are in FORMATIVE_CONFIG below.
+  Questions come from the MCQ Practice Bank (practice-bank.js) and the public AAQ and EBQ practice pages.
+  This file is generated from the source parts in _private/formative-src. Edit those and rebuild, or edit this file directly.
+-->
+<style>
+  :root {
+    --navy: #1F3864; --blue: #2E75B6; --light: #DEEAF1; --orange: #C55A11;
+    --ink: #1a1a1a; --muted: #4a5563; --line: #c9d6e3; --bg: #f4f7fb;
+    --good: #1e7b34; --good-bg: #e3f4e7; --bad: #a3242f; --bad-bg: #fbe7e9; --warn-bg: #fff4ea;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; font-family: Arial, Helvetica, sans-serif; color: var(--ink); background: var(--bg); line-height: 1.5; font-size: 17px; }
+  a { color: var(--blue); }
+  button { font: inherit; }
+  .wrap { max-width: 900px; margin: 0 auto; padding: 18px 16px 56px; }
+  header.top { background: var(--navy); color: #fff; }
+  header.top .wrap { padding-top: 14px; padding-bottom: 14px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  header.top h1 { margin: 0; font-size: 22px; flex: 1 1 auto; }
+  header.top h1 button { all: unset; cursor: pointer; }
+  header.top h1 button:focus-visible { outline: 3px solid #ffb27a; outline-offset: 3px; }
+  .navlinks { display: flex; gap: 8px; flex-wrap: wrap; }
+  .navlinks a, .navlinks button { color: #fff; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.35); border-radius: 6px; padding: 7px 12px; text-decoration: none; font-size: 15px; font-weight: bold; cursor: pointer; }
+  .navlinks a:hover, .navlinks button:hover { background: rgba(255,255,255,.25); }
+  h2 { color: var(--navy); margin: 0 0 6px; font-size: 25px; }
+  h3 { color: var(--navy); margin: 0 0 8px; font-size: 19px; }
+  p.lead { color: var(--muted); margin: 0 0 18px; }
+  .card { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 20px; margin-bottom: 16px; }
+  .card.accent { border-top: 6px solid var(--blue); }
+  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .tile { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 18px; display: flex; flex-direction: column; gap: 8px; }
+  .tile h3 { margin: 0; }
+  .tile p { margin: 0; color: var(--muted); flex: 1; }
+  .tile .tag { align-self: flex-start; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 11px 18px; border-radius: 7px; border: 2px solid var(--navy); background: var(--navy); color: #fff; font-weight: bold; cursor: pointer; text-decoration: none; font-size: 16px; }
+  .btn:hover:not([disabled]) { background: var(--blue); border-color: var(--blue); }
+  .btn.alt { background: #fff; color: var(--navy); }
+  .btn.alt:hover:not([disabled]) { background: var(--light); color: var(--navy); border-color: var(--navy); }
+  .btn.warn { background: #fff; color: var(--bad); border-color: var(--bad); }
+  .btn.warn:hover:not([disabled]) { background: var(--bad-bg); color: var(--bad); border-color: var(--bad); }
+  .btn.small { padding: 6px 11px; font-size: 14px; }
+  .btn[disabled] { opacity: .45; cursor: not-allowed; }
+  .btn:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible { outline: 3px solid var(--orange); outline-offset: 2px; }
+  .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+  .tag { display: inline-block; background: var(--light); color: var(--navy); border-radius: 12px; padding: 2px 10px; font-size: 13px; font-weight: bold; }
+  .tag.soon { background: #ececec; color: #555; }
+  .tag.orange { background: #fde9d9; color: var(--orange); }
+  .notice { background: var(--warn-bg); border-left: 5px solid var(--orange); padding: 12px 14px; border-radius: 6px; margin-bottom: 16px; }
+  .notice.info { background: var(--light); border-left-color: var(--blue); }
+  .muted { color: var(--muted); }
+  .small { font-size: 14px; }
+
+  /* Builder */
+  .step { display: flex; gap: 12px; align-items: baseline; margin-bottom: 10px; }
+  .step .num { flex: 0 0 auto; width: 30px; height: 30px; border-radius: 50%; background: var(--orange); color: #fff; font-weight: bold; text-align: center; line-height: 30px; }
+  details.unit { border: 1px solid var(--line); border-radius: 8px; margin-bottom: 8px; background: #fbfdff; }
+  details.unit summary { list-style: none; cursor: pointer; padding: 10px 12px; display: flex; gap: 10px; align-items: center; }
+  details.unit summary::-webkit-details-marker { display: none; }
+  details.unit summary .chev { margin-left: auto; color: var(--muted); font-size: 14px; }
+  details.unit[open] summary .chev::after { content: "Hide topics"; }
+  details.unit:not([open]) summary .chev::after { content: "Show topics"; }
+  .unit-title { font-weight: bold; color: var(--navy); }
+  .topics { padding: 2px 12px 10px 42px; display: grid; gap: 4px; }
+  label.check { display: flex; gap: 10px; align-items: flex-start; cursor: pointer; padding: 4px 0; }
+  label.check input { width: 20px; height: 20px; margin-top: 2px; flex: 0 0 auto; accent-color: var(--navy); }
+  .count { color: var(--muted); font-size: 14px; white-space: nowrap; }
+  .acc { font-size: 12.5px; font-weight: bold; border-radius: 10px; padding: 1px 8px; white-space: nowrap; }
+  .acc.lo { background: var(--bad-bg); color: var(--bad); }
+  .acc.mid { background: var(--warn-bg); color: var(--orange); }
+  .acc.hi { background: var(--good-bg); color: var(--good); }
+  .acc.na { background: #eef1f4; color: #666; }
+  .seg { display: inline-flex; border: 2px solid var(--navy); border-radius: 8px; overflow: hidden; flex-wrap: wrap; }
+  .seg button { border: 0; border-right: 1px solid var(--line); background: #fff; color: var(--navy); padding: 10px 18px; font-weight: bold; cursor: pointer; min-width: 58px; }
+  .seg button:last-child { border-right: 0; }
+  .seg button[aria-pressed="true"] { background: var(--navy); color: #fff; }
+  .choice { display: grid; gap: 10px; grid-template-columns: 1fr 1fr; }
+  .choice label { border: 2px solid var(--line); border-radius: 8px; padding: 12px 14px; cursor: pointer; display: flex; gap: 10px; align-items: flex-start; background: #fff; }
+  .choice label:has(input:checked) { border-color: var(--navy); background: #f2f6fb; }
+  .choice input { accent-color: var(--navy); width: 18px; height: 18px; margin-top: 3px; flex: 0 0 auto; }
+  .choice b { color: var(--navy); }
+  .summary-bar { position: sticky; bottom: 0; background: #fff; border-top: 3px solid var(--navy); padding: 12px 16px; margin: 0 -16px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; box-shadow: 0 -4px 12px rgba(0,0,0,.06); }
+  .summary-bar .txt { flex: 1 1 260px; }
+
+  /* Quiz */
+  .qhead { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+  .bar { height: 8px; background: #e2e9f0; border-radius: 4px; overflow: hidden; margin-bottom: 16px; }
+  .bar > div { height: 100%; background: var(--blue); transition: width .25s; }
+  .timer { font-weight: bold; font-variant-numeric: tabular-nums; background: var(--light); color: var(--navy); border-radius: 6px; padding: 5px 10px; }
+  .timer.low { background: var(--warn-bg); color: var(--orange); }
+  .timer.crit { background: var(--bad-bg); color: var(--bad); }
+  figure.stim { margin: 0 0 16px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: #fcfdff; font-size: 16px; }
+  figure.stim table { border-collapse: collapse; width: 100%; font-size: 15px; }
+  figure.stim th, figure.stim td { border: 1px solid var(--line); padding: 6px 8px; text-align: left; vertical-align: top; }
+  figure.stim th { background: var(--light); color: var(--navy); }
+  figure.stim .cap { font-size: 14px; color: #333; margin-top: 6px; }
+  .tablewrap { overflow-x: auto; }
+  .stem { font-size: 19px; font-weight: bold; margin: 0 0 16px; }
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  button.opt { display: flex; gap: 12px; align-items: flex-start; text-align: left; width: 100%; padding: 13px 14px; background: #fafcfe; border: 2px solid #9db3c9; border-radius: 9px; cursor: pointer; color: var(--ink); font-size: 17px; }
+  button.opt:hover:not([disabled]) { background: var(--light); border-color: var(--blue); }
+  button.opt .ltr { flex: 0 0 auto; width: 30px; height: 30px; border-radius: 50%; background: var(--navy); color: #fff; font-weight: bold; text-align: center; line-height: 30px; font-size: 15px; }
+  button.opt[aria-pressed="true"] { border-color: var(--navy); background: #e8eff7; box-shadow: inset 0 0 0 1px var(--navy); }
+  button.opt[aria-pressed="true"] .ltr { background: var(--orange); }
+  button.opt.correct { background: var(--good-bg); border-color: var(--good); color: #10451d; }
+  button.opt.correct .ltr { background: var(--good); }
+  button.opt.wrong { background: var(--bad-bg); border-color: var(--bad); color: #5e1219; }
+  button.opt.wrong .ltr { background: var(--bad); }
+  button.opt.dim { opacity: .6; }
+  button.opt[disabled] { cursor: default; }
+  .feedback { margin-top: 16px; padding: 13px 15px; border-radius: 8px; border-left: 6px solid var(--bad); background: var(--bad-bg); }
+  .feedback.good { border-left-color: var(--good); background: var(--good-bg); }
+  .feedback .verdict { font-weight: bold; margin: 0 0 4px; }
+  .feedback p { margin: 0; }
+  .qnav { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
+  .navgrid { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+  .navgrid button { width: 40px; height: 40px; border-radius: 7px; border: 2px solid var(--line); background: #fff; color: var(--navy); font-weight: bold; cursor: pointer; position: relative; font-size: 14px; }
+  .navgrid button.done { background: var(--light); border-color: #9db3c9; }
+  .navgrid button.cur { border-color: var(--navy); box-shadow: inset 0 0 0 1px var(--navy); }
+  .navgrid button.flag::after { content: ""; position: absolute; top: -4px; right: -4px; width: 12px; height: 12px; border-radius: 50%; background: var(--orange); border: 2px solid #fff; }
+  .flagbtn[aria-pressed="true"] { background: #fde9d9; color: var(--orange); border-color: var(--orange); }
+  .keyhint { font-size: 13.5px; color: var(--muted); margin-top: 10px; }
+
+  /* Results and progress */
+  .bigscore { font-size: 46px; font-weight: bold; color: var(--navy); line-height: 1.1; }
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 14px 0; }
+  .stat { background: #f2f6fb; border-radius: 8px; padding: 12px; text-align: center; }
+  .stat b { display: block; font-size: 24px; color: var(--navy); }
+  .stat span { font-size: 13.5px; color: var(--muted); }
+  table.data { width: 100%; border-collapse: collapse; font-size: 15.5px; }
+  table.data th, table.data td { padding: 8px 9px; border-bottom: 1px solid #dde5ee; text-align: left; vertical-align: middle; }
+  table.data th { background: var(--light); color: var(--navy); }
+  .mini { height: 10px; background: #e2e9f0; border-radius: 5px; overflow: hidden; min-width: 80px; }
+  .mini > div { height: 100%; }
+  .review { border: 1px solid var(--line); border-radius: 9px; padding: 14px 16px; margin-bottom: 12px; background: #fff; border-left: 6px solid var(--good); }
+  .review.x { border-left-color: var(--bad); }
+  .review.u { border-left-color: #999; }
+  .review ol { list-style: none; padding: 0; margin: 8px 0; }
+  .review li { padding: 5px 9px; border-radius: 6px; margin: 3px 0; }
+  .review li.k { background: var(--good-bg); font-weight: bold; color: #10451d; }
+  .review li.yx { background: var(--bad-bg); color: #5e1219; }
+  .review .rat { background: #f7f9fb; border-left: 4px solid var(--orange); padding: 8px 11px; font-size: 15.5px; }
+  .filters { display: flex; gap: 8px; flex-wrap: wrap; margin: 10px 0 14px; }
+  .filters button[aria-pressed="true"] { background: var(--navy); color: #fff; }
+
+  /* Modal */
+  .modal-back { position: fixed; inset: 0; background: rgba(15,25,45,.55); display: flex; align-items: center; justify-content: center; padding: 16px; z-index: 50; }
+  .modal { background: #fff; border-radius: 12px; max-width: 480px; width: 100%; padding: 22px; box-shadow: 0 12px 40px rgba(0,0,0,.25); }
+  .modal h3 { margin-top: 0; }
+
+  .help h3 { margin-top: 18px; }
+  .help ul { padding-left: 22px; margin: 6px 0; }
+  .help li { margin: 4px 0; }
+  .dont li::marker { content: "\2716  "; color: var(--bad); }
+  .do li::marker { content: "\2714  "; color: var(--good); }
+
+  /* Grade predictor */
+  .pgrid { display: grid; grid-template-columns: 7fr 5fr; gap: 16px; align-items: start; }
+  .pgrid .sticky { position: sticky; top: 12px; }
+  .numrow { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 10px; }
+  .numrow input[type=number], .setup input { width: 84px; text-align: center; font: inherit; font-weight: bold; font-size: 18px; padding: 7px; border: 1px solid #9db3c9; border-radius: 7px; }
+  .setup { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .setup label { font-size: 14.5px; font-weight: bold; color: var(--muted); }
+  .setup input { width: 100%; margin-top: 4px; }
+  input[type=range] { width: 100%; accent-color: var(--navy); height: 28px; }
+  .ticks { display: flex; justify-content: space-between; font-size: 13px; color: var(--muted); }
+  .apcircle { width: 124px; height: 124px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 56px; font-weight: bold; margin: 0 auto 6px; transition: background .25s, color .25s; }
+  .ap5 { background: #dff3e4; color: #1e7b34; } .ap4 { background: #e3f2ee; color: #1f7a63; } .ap3 { background: #fff4d6; color: #9a6a00; }
+  .ap2 { background: #fde9d9; color: var(--orange); } .ap1 { background: var(--bad-bg); color: var(--bad); }
+  .trio { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 14px 0; }
+  .trio div { background: #f2f6fb; border-radius: 8px; padding: 10px 6px; text-align: center; }
+  .trio b { display: block; font-size: 22px; color: var(--navy); }
+  .trio span { font-size: 12.5px; color: var(--muted); font-weight: bold; text-transform: uppercase; letter-spacing: .03em; }
+  .bandlist div { display: flex; justify-content: space-between; padding: 6px 9px; border-radius: 6px; border: 1px solid transparent; font-size: 15px; }
+  .bandlist div.hl, .daatab div.hl { background: var(--light); border-color: #9db3c9; font-weight: bold; }
+  .daatab { max-height: 240px; overflow-y: auto; border: 1px solid var(--line); border-radius: 7px; font-size: 14.5px; }
+  .daatab div { display: grid; grid-template-columns: 1fr 1fr; padding: 4px 10px; border-bottom: 1px solid #eef2f6; border: 1px solid transparent; }
+  .daatab div span:last-child { text-align: right; }
+  .daatab .head { background: var(--light); color: var(--navy); font-weight: bold; position: sticky; top: 0; }
+  footer { margin-top: 28px; font-size: 13px; color: var(--muted); }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  @media (max-width: 720px) {
+    body { font-size: 16px; }
+    .grid3 { grid-template-columns: 1fr; }
+    .choice { grid-template-columns: 1fr; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .topics { padding-left: 14px; }
+    .stem { font-size: 17.5px; }
+    button.opt { font-size: 16px; }
+    h2 { font-size: 22px; }
+    .bigscore { font-size: 38px; }
+    .hide-sm { display: none; }
+    .pgrid { grid-template-columns: 1fr; }
+    .pgrid .sticky { position: static; }
+  }
+/* =====================================================================
+   Exam-style (Bluebook-like) theme for the AP Psychology revision site
+   Layout and tools modelled on the digital AP testing app: header with
+   timer, question header with Mark for Review and the option
+   eliminator, bottom bar with question menu and Back / Next.
+   No College Board logos or names are used.
+   ===================================================================== */
+:root{
+  --bb-ink:#1e1e1e; --bb-muted:#505050; --bb-line:#c4c4c4; --bb-soft:#f2f2f2;
+  --bb-blue:#2f4fbf; --bb-blue-dark:#233c94; --bb-blue-soft:#e8edfb;
+  --bb-red:#b3261e; --bb-red-soft:#fbe9e7; --bb-green:#1e6e34; --bb-green-soft:#e5f3e9;
+  --bb-mark:#c2331f;
+}
+body{font-family:'Noto Sans',Arial,sans-serif;background:#fff;color:var(--bb-ink);}
+.bb-dash{height:0;border:0;border-top:2px dashed transparent;
+  background:repeating-linear-gradient(90deg,#1e1e1e 0 10px,transparent 10px 16px) top/100% 2px no-repeat;padding-top:2px;}
+
+/* ---------------- start screen ---------------- */
+.bb-top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 22px;background:#fff;}
+.bb-top a.bb-back{font-weight:600;font-size:14px;color:var(--bb-ink);text-decoration:none;border:1.5px solid var(--bb-ink);border-radius:999px;padding:7px 16px;}
+.bb-top a.bb-back:hover{background:var(--bb-ink);color:#fff;}
+.bb-top .bb-crumb{font-weight:600;font-size:14px;color:var(--bb-muted);}
+.bb-start{max-width:760px;margin:36px auto 18px;padding:0 18px;}
+.bb-start .bb-eyebrow{font-size:13px;font-weight:600;letter-spacing:.6px;color:var(--bb-muted);text-transform:uppercase;}
+.bb-start h1{font-family:'Noto Serif',Georgia,serif;font-size:34px;font-weight:700;margin:6px 0 4px;color:var(--bb-ink);}
+.bb-start .bb-sub{font-size:15px;color:var(--bb-muted);margin-bottom:22px;}
+.bb-panel{border:1.5px solid var(--bb-line);border-radius:12px;padding:22px;display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.bb-field label{display:block;font-size:13px;font-weight:600;margin-bottom:6px;color:var(--bb-ink);}
+.bb-field select{width:100%;padding:11px 12px;font:500 15px 'Noto Sans',Arial,sans-serif;border:1.5px solid var(--bb-ink);border-radius:8px;background:#fff;color:var(--bb-ink);}
+.bb-field select:focus{outline:3px solid var(--bb-blue-soft);border-color:var(--bb-blue);}
+.bb-opts{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:18px 28px;align-items:center;border-top:1px solid var(--bb-line);padding-top:16px;}
+.bb-seg{display:inline-flex;border:1.5px solid var(--bb-ink);border-radius:999px;overflow:hidden;}
+.bb-seg input{position:absolute;opacity:0;pointer-events:none;}
+.bb-seg label{padding:8px 14px;font-size:14px;font-weight:600;cursor:pointer;color:var(--bb-ink);}
+.bb-seg input:checked+label{background:var(--bb-ink);color:#fff;}
+.bb-seg input:focus-visible+label{outline:3px solid var(--bb-blue);outline-offset:-3px;}
+.bb-check{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;cursor:pointer;}
+.bb-check input{width:18px;height:18px;accent-color:var(--bb-blue);}
+.bb-optlabel{font-size:13px;font-weight:600;color:var(--bb-muted);margin-right:8px;}
+.bb-actions{grid-column:1/-1;display:flex;justify-content:flex-end;}
+.btn-start,.bb-btn{font:700 15px 'Noto Sans',Arial,sans-serif;background:var(--bb-blue);color:#fff;border:none;border-radius:999px;padding:11px 30px;cursor:pointer;}
+.btn-start:hover,.bb-btn:hover{background:var(--bb-blue-dark);}
+.bb-btn.ghost{background:#fff;color:var(--bb-blue);border:1.5px solid var(--bb-blue);}
+.bb-btn.ghost:hover{background:var(--bb-blue-soft);}
+.bb-note{font-size:13px;color:var(--bb-muted);margin-top:12px;line-height:1.6;}
+@media(max-width:640px){.bb-panel{grid-template-columns:1fr;}.bb-start h1{font-size:27px;}}
+
+/* non-exam activities keep the plain page, restyled to match */
+.main{max-width:860px;margin:10px auto 60px;}
+#quizArea{border:1.5px solid var(--bb-line);border-radius:12px;box-shadow:none;}
+.placeholder-text{color:var(--bb-muted);}
+.progress-bar-fill{background:var(--bb-blue);}
+.option-btn{font-family:'Noto Sans',Arial,sans-serif;border:1.5px solid var(--bb-ink);background:#fff;border-radius:8px;}
+.option-btn:hover:not(:disabled){border-color:var(--bb-blue);background:var(--bb-blue-soft);}
+.option-btn .letter{color:var(--bb-blue);}
+.btn-next,.btn-restart,.match-check-btn{font-family:'Noto Sans',Arial,sans-serif;background:var(--bb-blue);border-radius:999px;}
+.btn-next:hover,.btn-restart:hover,.match-check-btn:hover{background:var(--bb-blue-dark);}
+.flashcard-front{background:var(--bb-ink);}
+.flashcard-back{background:#fff;border:2px solid var(--bb-ink);}
+.flashcard-nav button{font-family:'Noto Sans',Arial,sans-serif;border-radius:999px;}
+.match-term{background:var(--bb-ink);}
+.key{background:var(--bb-ink);font-family:'Noto Sans',Arial,sans-serif;}
+.score-screen .big-score{font-family:'Noto Serif',Georgia,serif;color:var(--bb-ink);}
+.mistake-item{background:#fff7e8;border-left-color:#8a5a00;color:#3d2a00;}
+
+/* ---------------- exam shell ---------------- */
+.bb-shell{position:fixed;inset:0;z-index:1000;background:#fff;display:flex;flex-direction:column;}
+.bb-head{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:10px 22px 12px;}
+.bb-head .bb-sec{font-weight:700;font-size:16px;}
+.bb-dir{background:none;border:none;font:600 14px 'Noto Sans',Arial,sans-serif;color:var(--bb-ink);cursor:pointer;padding:4px 0;margin-top:2px;}
+.bb-dir:hover{text-decoration:underline;}
+.bb-timer{text-align:center;}
+.bb-timer .t{font-weight:700;font-size:19px;letter-spacing:.5px;font-variant-numeric:tabular-nums;}
+.bb-timer .t.hidden-time{visibility:hidden;}
+.bb-timer button{display:block;margin:3px auto 0;font:600 12px 'Noto Sans',Arial,sans-serif;border:1.2px solid var(--bb-ink);border-radius:999px;background:#fff;padding:2px 12px;cursor:pointer;}
+.bb-timer.warn .t{color:var(--bb-red);}
+.bb-tools{justify-self:end;display:flex;gap:6px;}
+.bb-tool{display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;font:600 12px 'Noto Sans',Arial,sans-serif;color:var(--bb-ink);cursor:pointer;padding:4px 10px;border-radius:6px;}
+.bb-tool:hover{background:var(--bb-soft);}
+.bb-tool svg{width:22px;height:22px;}
+.bb-dirpop{position:absolute;top:70px;left:22px;max-width:520px;background:#fff;border:1.5px solid var(--bb-ink);border-radius:10px;padding:18px 20px;box-shadow:0 8px 28px rgba(0,0,0,.18);z-index:5;font-size:14px;line-height:1.65;}
+.bb-dirpop h3{font-size:15px;margin-bottom:6px;}
+.bb-dirpop .bb-btn{margin-top:12px;padding:8px 22px;font-size:14px;}
+.bb-body{flex:1;overflow-y:auto;}
+.bb-q{max-width:760px;margin:26px auto 30px;padding:0 22px;}
+.bb-qbar{display:flex;align-items:center;gap:14px;background:var(--bb-soft);padding:0 0 0 0;margin-bottom:4px;}
+.bb-num{background:var(--bb-ink);color:#fff;font-weight:700;font-size:16px;min-width:34px;height:34px;display:flex;align-items:center;justify-content:center;padding:0 8px;}
+.bb-mark{display:flex;align-items:center;gap:6px;background:none;border:none;font:600 14px 'Noto Sans',Arial,sans-serif;color:var(--bb-ink);cursor:pointer;padding:6px 4px;}
+.bb-mark svg{width:16px;height:20px;}
+.bb-mark.on svg path{fill:var(--bb-mark);stroke:var(--bb-mark);}
+.bb-elimtoggle{margin-left:auto;margin-right:6px;background:#fff;border:1.2px solid var(--bb-ink);border-radius:5px;font:700 12px 'Noto Sans',Arial,sans-serif;padding:3px 7px;cursor:pointer;text-decoration:line-through;color:var(--bb-ink);}
+.bb-elimtoggle.on{background:var(--bb-blue);border-color:var(--bb-blue);color:#fff;}
+.bb-skill{display:inline-block;font-size:12px;font-weight:600;color:var(--bb-muted);margin:10px 0 2px;}
+.bb-stem{font-family:'Noto Serif',Georgia,serif;font-size:17px;line-height:1.7;margin:12px 0 18px;color:var(--bb-ink);}
+.bb-stem .bb-quote{display:block;margin-top:12px;padding:12px 16px;border-left:4px solid var(--bb-line);background:#fafafa;font-style:italic;}
+.bb-stem .bb-label{display:block;font-family:'Noto Sans',Arial,sans-serif;font-size:12px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--bb-muted);margin-bottom:6px;}
+.bb-ask{font-weight:600;font-size:15px;margin:-6px 0 14px;}
+.bb-opts-list{display:flex;flex-direction:column;gap:12px;}
+.bb-row{display:flex;align-items:center;gap:10px;}
+.bb-opt{flex:1;display:flex;align-items:center;gap:14px;text-align:left;background:#fff;border:1.5px solid var(--bb-ink);border-radius:9px;padding:12px 14px;font:400 15px/1.5 'Noto Sans',Arial,sans-serif;color:var(--bb-ink);cursor:pointer;}
+.bb-opt:hover:not(:disabled){box-shadow:0 0 0 1px var(--bb-ink);}
+.bb-opt .bb-letter{flex:0 0 auto;width:28px;height:28px;border:1.5px solid var(--bb-ink);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;}
+.bb-opt.sel{border:3px solid var(--bb-blue);padding:10.5px 12.5px;}
+.bb-opt.sel .bb-letter{background:var(--bb-blue);border-color:var(--bb-blue);color:#fff;}
+.bb-opt.elim{color:#8a8a8a;border-color:#a8a8a8;}
+.bb-opt.elim .bb-text{text-decoration:line-through;}
+.bb-opt.elim .bb-letter{border-color:#a8a8a8;color:#8a8a8a;}
+.bb-strike{flex:0 0 auto;width:30px;height:30px;border-radius:50%;border:1.2px solid var(--bb-ink);background:#fff;font:700 12px 'Noto Sans',Arial,sans-serif;cursor:pointer;position:relative;color:var(--bb-ink);}
+.bb-strike::after{content:"";position:absolute;left:3px;right:3px;top:50%;border-top:1.5px solid var(--bb-ink);}
+.bb-undo{flex:0 0 auto;background:none;border:none;font:700 13px 'Noto Sans',Arial,sans-serif;text-decoration:underline;cursor:pointer;color:var(--bb-ink);min-width:30px;}
+.bb-opt.right{border:3px solid var(--bb-green);background:var(--bb-green-soft);padding:10.5px 12.5px;}
+.bb-opt.right .bb-letter{background:var(--bb-green);border-color:var(--bb-green);color:#fff;}
+.bb-opt.wrong{border:3px solid var(--bb-red);background:var(--bb-red-soft);padding:10.5px 12.5px;}
+.bb-opt.wrong .bb-letter{background:var(--bb-red);border-color:var(--bb-red);color:#fff;}
+.bb-tag{margin-left:auto;font-size:12px;font-weight:700;white-space:nowrap;}
+.bb-opt.right .bb-tag{color:var(--bb-green);}
+.bb-opt.wrong .bb-tag{color:var(--bb-red);}
+.bb-foot{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:12px 22px 14px;position:relative;}
+.bb-foot .bb-who{font-weight:600;font-size:14px;color:var(--bb-muted);}
+.bb-qmenu{background:var(--bb-ink);color:#fff;border:none;border-radius:8px;font:700 14px 'Noto Sans',Arial,sans-serif;padding:9px 16px;cursor:pointer;display:flex;align-items:center;gap:8px;}
+.bb-qmenu svg{width:12px;height:12px;transition:transform .2s;}
+.bb-qmenu[aria-expanded="true"] svg{transform:rotate(180deg);}
+.bb-nav{justify-self:end;display:flex;gap:10px;}
+.bb-nav .bb-btn{padding:10px 28px;}
+.bb-pop{position:absolute;bottom:70px;left:50%;transform:translateX(-50%);width:min(560px,94vw);background:#fff;border:1.5px solid var(--bb-ink);border-radius:12px;padding:18px 20px 16px;box-shadow:0 8px 28px rgba(0,0,0,.2);}
+.bb-pop h3{font-size:16px;text-align:center;margin-bottom:10px;}
+.bb-legend{display:flex;gap:18px;justify-content:center;font-size:13px;font-weight:600;padding:8px 0 12px;border-bottom:1px solid var(--bb-line);margin-bottom:14px;flex-wrap:wrap;}
+.bb-legend span{display:flex;align-items:center;gap:6px;}
+.bb-grid{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;}
+.bb-cell{position:relative;width:38px;height:38px;border:1.5px dashed var(--bb-ink);background:#fff;font:700 14px 'Noto Sans',Arial,sans-serif;color:var(--bb-blue);cursor:pointer;}
+.bb-cell.answered{border:1.5px solid var(--bb-blue);background:var(--bb-blue);color:#fff;}
+.bb-cell.cur::before{content:"";position:absolute;top:-11px;left:50%;transform:translateX(-50%);border:6px solid transparent;border-top-color:var(--bb-ink);}
+.bb-cell .bb-flag{position:absolute;top:-6px;right:-6px;width:12px;height:15px;}
+.bb-cell.got{background:var(--bb-green);border-color:var(--bb-green);color:#fff;}
+.bb-cell.miss{background:var(--bb-red);border-color:var(--bb-red);color:#fff;}
+.bb-pop .bb-gotoreview{display:block;margin:16px auto 0;}
+.bb-review{max-width:760px;margin:34px auto;padding:0 22px;text-align:center;}
+.bb-review h2{font-family:'Noto Serif',Georgia,serif;font-size:28px;margin-bottom:8px;}
+.bb-review p{color:var(--bb-muted);font-size:15px;line-height:1.6;margin-bottom:6px;}
+.bb-review .bb-box{border:1.5px solid var(--bb-line);border-radius:12px;padding:20px;margin-top:20px;}
+.bb-result .bb-big{font-family:'Noto Serif',Georgia,serif;font-size:56px;font-weight:700;line-height:1;}
+.bb-result .review-block{text-align:left;}
+.bb-result .bb-actions2{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:18px;}
+.bb-banner{background:var(--bb-red-soft);color:var(--bb-red);font-weight:700;text-align:center;padding:8px;font-size:14px;}
+@media(max-width:640px){
+  .bb-head{grid-template-columns:1fr auto;padding:8px 12px 10px;}
+  .bb-head .bb-tools{display:none;}
+  .bb-head .bb-timer{justify-self:end;}
+  .bb-foot{grid-template-columns:auto 1fr;gap:8px;padding:10px 12px;}
+  .bb-foot .bb-who{display:none;}
+  .bb-nav .bb-btn{padding:9px 16px;}
+  .bb-stem{font-size:16px;}
+  .bb-q{padding:0 14px;}
+}
+@media (prefers-reduced-motion:reduce){.bb-qmenu svg{transition:none;}}
+.review-block{background:#fafafa;border:1.5px solid var(--bb-line);border-radius:10px;}
+.review-header{color:var(--bb-muted);font-family:'Noto Sans',Arial,sans-serif;}
+.review-item strong{color:var(--bb-ink);}
+.review-correct{color:var(--bb-green);}
+.btn-print{background:#fff !important;color:var(--bb-blue) !important;border:1.5px solid var(--bb-blue) !important;}
+
+/* ---------- MCQ Practice Bank: split screen for questions with a table, graph or passage ---------- */
+.bb-body:has(.bb-split){overflow:hidden;}
+.bb-split{display:grid;grid-template-columns:1fr 8px 1fr;height:100%;}
+.bb-pane{overflow-y:auto;padding:24px 28px 30px;}
+.bb-divider{background:#d6d6d6;position:relative;}
+.bb-divider::after{content:"";position:absolute;top:50%;left:50%;width:4px;height:36px;transform:translate(-50%,-50%);border-left:1.5px solid #7a7a7a;border-right:1.5px solid #7a7a7a;}
+.bb-right .bb-qbar{margin-top:0;}
+figure.stim{margin:0;padding:0;border:0;background:none;font-family:'Noto Serif',Georgia,serif;font-size:16px;line-height:1.65;}
+figure.stim table{border-collapse:collapse;width:100%;font-family:'Noto Sans',Arial,sans-serif;font-size:14.5px;}
+figure.stim th,figure.stim td{border:1px solid #9a9a9a;padding:7px 9px;text-align:left;vertical-align:top;}
+figure.stim th{background:#f2f2f2;color:#1e1e1e;}
+figure.stim .cap{font-family:'Noto Sans',Arial,sans-serif;font-size:13.5px;color:#505050;margin-top:8px;}
+figure.stim svg{max-width:100%;height:auto;}
+.bb-feedback{margin-top:16px;padding:14px 16px;border:1.5px solid #c4c4c4;border-radius:10px;background:#fafafa;font-size:15px;line-height:1.6;}
+.bb-feedback .verdict{font-weight:700;margin:0 0 4px;}
+.bb-feedback.good .verdict{color:#1e6e34;} .bb-feedback.bad .verdict{color:#b3261e;}
+.bb-feedback p{margin:0;}
+.bb-untimed{font-size:13px;font-weight:600;color:#505050;}
+@media(max-width:820px){
+  .bb-body:has(.bb-split){overflow-y:auto;}
+  .bb-split{display:block;height:auto;}
+  .bb-pane{overflow:visible;padding:18px 14px;}
+  .bb-left{border-bottom:2px solid #d6d6d6;}
+  .bb-divider{display:none;}
+}
+
+/* ---------- rest of the Practice Bank in the same exam look ---------- */
+:root{--navy:#1e1e1e;--blue:#2f4fbf;--light:#eef1f8;--orange:#9a4a00;--line:#c4c4c4;--bg:#fff;--muted:#505050;}
+body{font-family:'Noto Sans',Arial,sans-serif;background:#fff;}
+header.top{background:#fff;color:#1e1e1e;border-bottom:0;background-image:repeating-linear-gradient(90deg,#1e1e1e 0 10px,transparent 10px 16px);background-size:100% 2px;background-repeat:no-repeat;background-position:bottom;}
+header.top h1{font-family:'Noto Serif',Georgia,serif;}
+header.top h1 button:focus-visible{outline-color:#2f4fbf;}
+.navlinks a,.navlinks button{color:#1e1e1e;background:#fff;border:1.5px solid #1e1e1e;border-radius:999px;font-weight:600;}
+.navlinks a:hover,.navlinks button:hover{background:#1e1e1e;color:#fff;}
+h2,h3{color:#1e1e1e;} h2{font-family:'Noto Serif',Georgia,serif;}
+.card,.tile{border:1.5px solid #c4c4c4;border-radius:12px;}
+.card.accent{border-top:6px solid #2f4fbf;}
+.btn{border-radius:999px;border-color:#2f4fbf;background:#2f4fbf;font-weight:700;}
+.btn:hover:not([disabled]){background:#233c94;border-color:#233c94;}
+.btn.alt{background:#fff;color:#2f4fbf;border-color:#2f4fbf;}
+.btn.alt:hover:not([disabled]){background:#e8edfb;color:#2f4fbf;border-color:#2f4fbf;}
+.btn:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline-color:#2f4fbf;}
+.tag{background:#eef1f8;color:#1e1e1e;}
+.tag.orange{background:#fff1e0;color:#8a4b00;}
+.step .num{background:#1e1e1e;}
+details.unit{background:#fff;border:1.5px solid #c4c4c4;}
+.unit-title{color:#1e1e1e;}
+label.check input,.choice input,input[type=range]{accent-color:#2f4fbf;}
+.seg{border-color:#1e1e1e;border-radius:999px;}
+.seg button{color:#1e1e1e;}
+.seg button[aria-pressed="true"]{background:#1e1e1e;color:#fff;}
+.choice label{border:1.5px solid #c4c4c4;}
+.choice label:has(input:checked){border:2px solid #2f4fbf;background:#f4f6fd;}
+.choice b{color:#1e1e1e;}
+.summary-bar{border-top:2px solid #1e1e1e;}
+.notice{border-left-color:#9a4a00;}
+.notice.info{background:#f4f6fd;border-left-color:#2f4fbf;}
+.bigscore{font-family:'Noto Serif',Georgia,serif;color:#1e1e1e;}
+.stat,.trio div{background:#f4f4f4;} .stat b,.trio b{color:#1e1e1e;}
+table.data th{background:#f2f2f2;color:#1e1e1e;}
+.review .rat{border-left-color:#2f4fbf;}
+.modal-back{z-index:2000;}
+.modal{border:1.5px solid #1e1e1e;}
+.navlinks a.nav-return{background:#2f4fbf;border-color:#2f4fbf;color:#fff;}
+.navlinks a.nav-return:hover{background:#233c94;border-color:#233c94;color:#fff;}
+
+/* ---------- Formative Assessment page ---------- */
+.hidden { display: none !important; }
+.err { color: #b3261e; font-weight: 700; min-height: 1.3em; margin: 8px 0 0; font-size: 14.5px; }
+.pill { display: inline-flex; align-items: center; gap: 8px; border-radius: 999px; padding: 6px 12px; font-size: 14px; font-weight: 700; }
+.pill .dot { width: 10px; height: 10px; border-radius: 50%; }
+.pill.ok { background: #e5f3e9; color: #1e6e34; } .pill.ok .dot { background: #1e6e34; }
+.pill.no { background: #fff1e0; color: #8a4b00; } .pill.no .dot { background: #c55a11; }
+.pill.wait { background: #eef1f8; color: #1e1e1e; } .pill.wait .dot { background: #8a8a8a; }
+.checklist { list-style: none; padding: 0; margin: 0 0 14px; display: grid; gap: 8px; }
+.checklist li { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.checklist li .lbl { min-width: 210px; font-weight: 700; }
+.fields { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.fields label { display: block; font-size: 14px; font-weight: 700; margin-bottom: 5px; }
+.fields input, .fields select { width: 100%; padding: 10px 12px; font: inherit; font-size: 16px; border: 1.5px solid #1e1e1e; border-radius: 8px; background: #fff; }
+.rules { margin: 0; padding-left: 22px; }
+.rules li { margin: 4px 0; }
+.teacher-link { background: none; border: 0; color: #505050; text-decoration: underline; cursor: pointer; font-size: 14px; padding: 4px 0; }
+.histrow td { font-size: 14.5px; }
+
+/* passage panel in Section II */
+.frq-study h2 { font-family: 'Noto Serif', Georgia, serif; font-size: 22px; margin: 0 0 6px; }
+.frq-study h3.sec { font-family: 'Noto Sans', Arial, sans-serif; font-size: 12.5px; letter-spacing: .12em; text-transform: uppercase; color: #2f4fbf; margin: 1.2em 0 .35em; border-bottom: 1px solid #c4c4c4; padding-bottom: 4px; }
+.frq-study h2.srchead { font-size: 19px; margin-top: 1.4em; padding-top: 10px; border-top: 2px solid #1e1e1e; }
+.frq-study h4 { font-size: 15px; margin: .9em 0 .2em; }
+.frq-study p, .frq-study li { font-family: 'Noto Serif', Georgia, serif; font-size: 16px; line-height: 1.65; }
+.frq-study ul { margin: 0 0 .8em 1.2em; padding: 0; }
+.frq-study img { max-width: 100%; height: auto; border: 1px solid #c4c4c4; border-radius: 6px; display: block; margin: 10px 0; }
+.frq-study .src { font-size: 12.5px; color: #505050; border-top: 1px solid #c4c4c4; padding-top: 8px; margin-top: 14px; }
+.frq-study { user-select: none; -webkit-user-select: none; }
+.fq { border: 1.5px solid #c4c4c4; border-radius: 10px; padding: 14px; margin-bottom: 14px; background: #fff; }
+.fq .fh { display: flex; justify-content: space-between; gap: 8px; font-weight: 700; margin-bottom: 6px; }
+.fq .mk { font-size: 12px; background: #eef1f8; border-radius: 999px; padding: 3px 10px; white-space: nowrap; }
+.fq p { margin: 0 0 8px; font-size: 15.5px; line-height: 1.55; }
+.fq textarea { width: 100%; min-height: 120px; padding: 10px 12px; border: 1.5px solid #1e1e1e; border-radius: 8px; font: 16px/1.55 'Noto Sans', Arial, sans-serif; resize: vertical; }
+.fq.big textarea { min-height: 160px; }
+.fq .wc { font-size: 12px; color: #505050; text-align: right; margin-top: 4px; }
+.fq.prompt { background: #f4f6fd; border-color: #2f4fbf; }
+
+/* lock overlay */
+.lockov { position: fixed; inset: 0; z-index: 3000; background: #1b2033; display: flex; align-items: center; justify-content: center; padding: 20px; }
+.lockov .box { background: #fff; border-radius: 14px; max-width: 480px; width: 100%; padding: 26px; }
+.lockov h2 { font-family: 'Noto Serif', Georgia, serif; margin: 0 0 8px; font-size: 26px; }
+.lockov label { display: block; font-weight: 700; font-size: 14px; margin: 12px 0 4px; }
+.lockov input { width: 100%; padding: 10px 12px; font: inherit; font-size: 17px; border: 1.5px solid #1e1e1e; border-radius: 8px; }
+.lockov .row { margin-top: 16px; }
+.lockov .reason { background: #fbe9e7; color: #8a1c15; border-radius: 8px; padding: 10px 12px; font-weight: 700; }
+
+/* results */
+.sync { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; padding: 12px 14px; border-radius: 10px; border: 1.5px solid #c4c4c4; margin-bottom: 16px; background: #fafafa; }
+.sync.ok { border-color: #1e6e34; background: #e5f3e9; }
+.sync.no { border-color: #c55a11; background: #fff4ea; }
+.rcard { background: #fff; border: 1.5px solid #c4c4c4; border-radius: 12px; margin-bottom: 16px; overflow: hidden; }
+.rcard .rh { background: #f2f2f2; padding: 10px 14px; display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; font-weight: 700; }
+.rcard .rq { padding: 12px 14px 0; font-weight: 700; }
+.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 12px 14px; }
+.col { border-radius: 10px; padding: 12px 14px; font-size: 15px; }
+.col h4 { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; margin: 0 0 6px; }
+.col.mine { background: #f6f8fc; border: 1px solid #c4c4c4; }
+.col.mine h4 { color: #2f4fbf; }
+.col.ideal { background: #e5f3e9; border: 1px solid #bfe3cc; }
+.col.ideal h4 { color: #1e6e34; }
+.col .txt { white-space: pre-wrap; word-wrap: break-word; }
+.col .empty { color: #505050; font-style: italic; }
+.extra { font-size: 13.5px; margin-top: 10px; padding-top: 8px; border-top: 1px dashed #9ccfb0; }
+.mark-box { border-top: 1px solid #c4c4c4; padding: 10px 14px 12px; background: #fafbfe; }
+.mark-box label { display: flex; gap: 10px; align-items: flex-start; padding: 6px 0; cursor: pointer; font-size: 15px; }
+.mark-box input { margin-top: 3px; width: 19px; height: 19px; accent-color: #2f4fbf; flex: none; }
+.frqtotal { position: sticky; top: 0; z-index: 5; background: #1e1e1e; color: #fff; border-radius: 10px; padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
+.frqtotal b { font-size: 22px; }
+.frqtotal .btn { background: #fff; color: #1e1e1e; border-color: #fff; }
+.frqtotal .btn:hover:not([disabled]) { background: #e8edfb; color: #1e1e1e; border-color: #e8edfb; }
+.loglist { font-size: 14px; margin: 8px 0 0; padding-left: 20px; max-height: 260px; overflow: auto; }
+.loglist li { margin: 2px 0; }
+.gradebox { display: grid; grid-template-columns: 160px 1fr; gap: 18px; align-items: center; }
+@media (max-width: 720px) {
+  .fields { grid-template-columns: 1fr; }
+  .cols { grid-template-columns: 1fr; }
+  .gradebox { grid-template-columns: 1fr; }
+}
+
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Noto+Serif:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <h1>AP&reg; Psychology Formative Assessment</h1>
+    <nav class="navlinks" aria-label="Site">
+      <a href="index.html" class="nav-return">&larr; Return to revision site</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap" id="app" tabindex="-1"><p class="muted">Loading...</p></main>
+
+<div class="wrap" style="padding-top:0">
+  <footer>
+    All questions on this site are original and were written for classroom revision. They are not College Board materials.
+    AP is a registered trademark of the College Board, which was not involved in the production of this site and does not endorse it.
+  </footer>
+</div>
+
+<div id="lock" class="lockov hidden" role="dialog" aria-modal="true" aria-labelledby="lockTitle">
+  <div class="box">
+    <h2 id="lockTitle">Test paused</h2>
+    <p class="reason" id="lockMsg"></p>
+    <p class="small">Your answers are saved and the timer is still running. Raise your hand: only your teacher can unlock this screen.</p>
+    <div id="lockStage">
+      <label for="lockPass">Teacher passcode</label>
+      <input id="lockPass" type="password" autocomplete="off">
+      <label for="lockAdd">Add minutes to this section (optional)</label>
+      <input id="lockAdd" type="number" min="0" max="60" value="0" inputmode="numeric">
+      <div class="row"><button class="bb-btn" id="lockBtn">Unlock and return to full screen</button></div>
+      <div class="row"><button class="teacher-link" id="lockEnd">End the test now and show the results</button></div>
+    </div>
+    <div id="fsStage" class="hidden">
+      <div class="row"><button class="bb-btn" id="fsBtn">Return to full screen</button></div>
+      <div class="row"><button class="teacher-link" id="fsSkip">Continue without full screen</button></div>
+    </div>
+    <p class="err" id="lockErr" role="alert"></p>
+  </div>
+</div>
+<div id="live" class="sr" aria-live="polite"></div>
+
+<script>
+window.FORMATIVE_CONFIG = {
+  /* Where the questions come from */
+  bankUrl: "https://psych4everybody.github.io/AP-psych-MCQ-Practice/practice-bank.js",
+  frqPages: { AAQ: "aaq_practice.html", EBQ: "ebq_practice.html" },
+
+  /* Test format and AP pacing */
+  mcqCount: 30,
+  secondsPerMcq: 72,                    /* 30 x 72 seconds = 36 minutes */
+  frqMinutes: { AAQ: 25, EBQ: 45 },
+  minPool: 40,                          /* fewest questions a chosen scope must have */
+
+  /* Class list for the "Class" menu ("Other" is always added) */
+  classes: ["AP Psychology D", "AP Psychology E"],
+
+  /* Teacher passcode, stored as a hash. To change it, ask Claude to rehash a new passcode. */
+  passHash: "25ltpjl37h5",
+
+  /* Google Form pre-filled link. Use these placeholder answers, one per question:
+     Name, Class, Scope, MCQ, FRQ, Grade, MCQSUM, FRQANS, INT, ATTEMPT (BLOCK and LOG also work).
+     Leave empty ("") until the form exists: results are kept on each device and sent later. */
+  resultsFormUrl: "https://docs.google.com/forms/d/e/1FAIpQLSfpyvnJP_fbKPIuF2htzOJCcg6MVoagaYvUdiXRGjjvz0Pl9g/viewform?usp=pp_url&entry.1558036526=Name&entry.144384126=Class&entry.1789948813=Scope&entry.578282277=MCQ&entry.783747875=FRQ&entry.383380723=Grade&entry.480497335=MCQSUM&entry.498448622=FRQANS&entry.327514064=INT&entry.1030251432=ATTEMPT",
+
+  /* Days the formative is open (UAE dates, YYYY-MM-DD). On any other day the page says it is
+     currently unavailable. Tests already in progress and results waiting to send are never blocked.
+     A teacher can still open it on one device with the passcode, for make-ups. */
+  openDates: ["2026-11-24", "2026-11-25"],
+
+  /* Start code: a new 6-digit code every day (UAE time), shown in Teacher tools.
+     Change this word to change every future code at once. */
+  startCodeSecret: "cloud-sand-mist-2026",
+
+  indexUrl: "index.html"
+};
+</script>
+<script>
+/* ===================== Stimulus renderer (tables and charts) ===================== */
+(function (global) {
+  "use strict";
+  var NAVY = "#1F3864", BLUE = "#2E75B6", ORANGE = "#C55A11", PALE = ["#fde9d9", "#DEEAF1", "#ececec", "#e8f3e8"];
+  var SERIES = [NAVY, ORANGE, BLUE, "#6a8f3a"];
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  function nice(max) {
+    if (max <= 0) return 1;
+    var p = Math.pow(10, Math.floor(Math.log10(max))), m = max / p;
+    var step = m <= 1 ? 0.2 : m <= 2 ? 0.5 : m <= 5 ? 1 : 2;
+    return Math.ceil(max / (step * p)) * step * p;
+  }
+  function ticks(lo, hi, n) {
+    var span = hi - lo, raw = span / n, p = Math.pow(10, Math.floor(Math.log10(raw))), m = raw / p;
+    var step = (m <= 1 ? 1 : m <= 2 ? 2 : m <= 5 ? 5 : 10) * p, out = [];
+    for (var v = Math.ceil(lo / step) * step; v <= hi + 1e-9; v += step) out.push(Math.round(v * 1e6) / 1e6);
+    return out;
+  }
+  function frame(W, H, L, T, R, B, xl, yl) {
+    return '<line x1="' + L + '" y1="' + T + '" x2="' + L + '" y2="' + (H - B) + '" stroke="#222" stroke-width="2"/>' +
+      '<line x1="' + L + '" y1="' + (H - B) + '" x2="' + (W - R) + '" y2="' + (H - B) + '" stroke="#222" stroke-width="2"/>' +
+      (xl ? '<text x="' + ((L + W - R) / 2) + '" y="' + (H - 6) + '" text-anchor="middle" font-size="14">' + esc(xl) + '</text>' : "") +
+      (yl ? '<text x="16" y="' + ((T + H - B) / 2) + '" text-anchor="middle" font-size="' + (String(yl).length > 40 ? 11 : 14) + '" transform="rotate(-90 16 ' + ((T + H - B) / 2) + ')">' + esc(yl) + '</text>' : "");
+  }
+  function legend(series) {
+    if (series.length < 2) return "";
+    var s = "", x = 70;
+    series.forEach(function (ser, i) {
+      s += '<rect x="' + x + '" y="8" width="14" height="14" fill="' + SERIES[i % 4] + '"/><text x="' + (x + 20) + '" y="20" font-size="13">' + esc(ser.name) + '</text>';
+      x += 34 + String(ser.name).length * 7.5;
+    });
+    return s;
+  }
+  function svg(W, H, s, inner) {
+    return (s.title ? '<div style="font-weight:bold;margin-bottom:4px;">' + esc(s.title) + '</div>' : "") +
+      '<svg viewBox="0 0 ' + W + ' ' + H + '" width="100%" role="img" aria-label="' + esc(s.title || "Chart") + '" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif" fill="#222">' + inner + '</svg>';
+  }
+  function bar(s) {
+    var W = 640, H = 340, L = 70, T = s.series.length > 1 ? 52 : 34, R = 20, B = 62;
+    var vals = []; s.series.forEach(function (ser) { vals = vals.concat(ser.values); });
+    var hi = s.yMax || nice(Math.max.apply(null, vals) * 1.08), lo = Math.min(0, Math.min.apply(null, vals));
+    var y = function (v) { return T + (H - T - B) * (1 - (v - lo) / (hi - lo)); };
+    var n = s.categories.length, k = s.series.length, gw = (W - L - R) / n, bw = Math.min(60, gw * 0.7 / k), g = "";
+    ticks(lo, hi, 5).forEach(function (t) { g += '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + y(t) + '" y2="' + y(t) + '" stroke="#dde3ea"/><text x="' + (L - 8) + '" y="' + (y(t) + 4) + '" text-anchor="end" font-size="13">' + t + '</text>'; });
+    s.categories.forEach(function (c, i) {
+      var cx = L + gw * i + gw / 2;
+      s.series.forEach(function (ser, j) {
+        var v = ser.values[i], x = cx - (k * bw) / 2 + j * bw;
+        g += '<rect x="' + x + '" y="' + Math.min(y(v), y(0)) + '" width="' + (bw - 3) + '" height="' + Math.abs(y(0) - y(v)) + '" fill="' + SERIES[j % 4] + '"></rect>';
+        g += '<text x="' + (x + (bw - 3) / 2) + '" y="' + (y(v) - 5) + '" text-anchor="middle" font-size="12">' + v + '</text>';
+      });
+      g += '<text x="' + cx + '" y="' + (H - B + 18) + '" text-anchor="middle" font-size="' + (n > 6 ? 11 : 13) + '">' + esc(c) + '</text>';
+    });
+    return svg(W, H, s, g + frame(W, H, L, T, R, B, s.xLabel, s.yLabel) + legend(s.series));
+  }
+  function line(s) {
+    var W = 640, H = 340, L = s.yTickLabels ? 128 : 70, T = s.series.length > 1 ? 52 : 34, R = 20, B = 52;
+    var xs = [], ys = [];
+    s.series.forEach(function (ser) { ser.points.forEach(function (p) { xs.push(p[0]); ys.push(p[1]); }); });
+    (s.hlines || []).forEach(function (h) { ys.push(h.y); });
+    var x0 = Math.min.apply(null, xs), x1 = Math.max.apply(null, xs), y0 = Math.min.apply(null, ys), y1 = Math.max.apply(null, ys);
+    var pad = (y1 - y0) * 0.08 || 1; y0 -= pad; y1 += pad;
+    if (s.yMin !== undefined) y0 = s.yMin; if (s.yMax !== undefined) y1 = s.yMax;
+    var X = function (v) { return L + (W - L - R) * (v - x0) / (x1 - x0 || 1); };
+    var Y = function (v) { return T + (H - T - B) * (1 - (v - y0) / (y1 - y0)); };
+    var g = "", same = (s.bands || []).every(function (x) { return x.label === (s.bands[0] || {}).label; });
+    (s.bands || []).forEach(function (b, i) {
+      g += '<rect x="' + X(b.from) + '" y="' + T + '" width="' + (X(b.to) - X(b.from)) + '" height="' + (H - T - B) + '" fill="' + PALE[(same ? 1 : i) % 4] + '"/>' +
+        '<text x="' + ((X(b.from) + X(b.to)) / 2) + '" y="' + (T - 8) + '" text-anchor="middle" font-size="16" font-weight="bold" fill="' + NAVY + '">' + esc(b.label) + '</text>';
+    });
+    (s.yTicks || ticks(y0, y1, 7)).forEach(function (t) {
+      var lab = s.yTickLabels && s.yTickLabels[t] !== undefined ? s.yTickLabels[t] : t;
+      g += '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + Y(t) + '" y2="' + Y(t) + '" stroke="#dde3ea"/><text x="' + (L - 8) + '" y="' + (Y(t) + 4) + '" text-anchor="end" font-size="13">' + esc(lab) + '</text>';
+    });
+    (s.xTicks || ticks(x0, x1, 6)).forEach(function (t) { g += '<text x="' + X(t) + '" y="' + (H - B + 18) + '" text-anchor="middle" font-size="13">' + t + '</text>'; });
+    (s.hlines || []).forEach(function (h) {
+      g += '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + Y(h.y) + '" y2="' + Y(h.y) + '" stroke="' + ORANGE + '" stroke-width="2" stroke-dasharray="7 5"/>' +
+        '<text x="' + (W - R - 4) + '" y="' + (Y(h.y) - 6) + '" text-anchor="end" font-size="13" font-weight="bold" fill="' + ORANGE + '">' + esc(h.label || "") + '</text>';
+    });
+    s.series.forEach(function (ser, j) {
+      var d = ser.points.map(function (p, i) { return (i ? "L" : "M") + X(p[0]).toFixed(1) + "," + Y(p[1]).toFixed(1); }).join(" ");
+      g += '<path d="' + d + '" fill="none" stroke="' + SERIES[j % 4] + '" stroke-width="3" stroke-linejoin="round"/>';
+      if (ser.points.length <= 14) ser.points.forEach(function (p) { g += '<circle cx="' + X(p[0]) + '" cy="' + Y(p[1]) + '" r="3.5" fill="' + SERIES[j % 4] + '"/>'; });
+    });
+    return svg(W, H, s, g + frame(W, H, L, T, R, B, s.xLabel, s.yLabel) + legend(s.series));
+  }
+  function table(s) {
+    var h = '<div class="tablewrap"><table><thead><tr>' + s.headers.map(function (c) { return "<th>" + esc(c) + "</th>"; }).join("") + "</tr></thead><tbody>";
+    s.rows.forEach(function (r) { h += "<tr>" + r.map(function (c) { return "<td>" + esc(c) + "</td>"; }).join("") + "</tr>"; });
+    return h + "</tbody></table></div>" + (s.caption ? '<div class="cap">' + esc(s.caption) + "</div>" : "");
+  }
+  function passage(s) { return String(s.text).split(/\n+/).map(function (p) { return '<p style="margin:4px 0">' + esc(p) + "</p>"; }).join(""); }
+  global.renderStimulus = function (s) {
+    try {
+      if (!s) return "";
+      if (s.type === "table") return table(s);
+      if (s.type === "bar") return bar(s);
+      if (s.type === "line") return line(s);
+      return passage(s);
+    } catch (e) { return '<p style="color:#a3242f">This chart could not be drawn.</p>'; }
+  };
+})(window);
+</script>
+<script>
+/* ===================== Formative Assessment app ===================== */
+(function () {
+  "use strict";
+  var CONFIG = window.FORMATIVE_CONFIG;
+
+  var UNITS = {
+    "0": "Scientific Foundations of Psychology", "1": "Biological Bases of Behavior", "2": "Cognition",
+    "3": "Development and Learning", "4": "Social Psychology and Personality", "5": "Mental and Physical Health"
+  };
+  var TOPICS = {
+    "0.1": "Introducing Psychology and Its Perspectives", "0.2": "Research Design and Methods", "0.3": "Variables, Sampling and Controls",
+    "0.4": "Ethics in Research", "0.5": "Descriptive Statistics", "0.6": "Inferential Statistics and Interpreting Results",
+    "1.1": "Interaction of Heredity and Environment", "1.2": "Overview of the Nervous System", "1.3": "The Neuron and Neural Firing",
+    "1.4": "The Brain", "1.5": "Sleep", "1.6": "Sensation",
+    "2.1": "Perception", "2.2": "Thinking, Problem-Solving, Judgments, and Decision-Making", "2.3": "Introduction to Memory",
+    "2.4": "Encoding Memories", "2.5": "Storing Memories", "2.6": "Retrieving Memories", "2.7": "Forgetting and Other Memory Challenges",
+    "2.8": "Intelligence and Achievement",
+    "3.1": "Themes and Methods in Developmental Psychology", "3.2": "Physical Development Across the Lifespan",
+    "3.4": "Cognitive Development Across the Lifespan", "3.5": "Communication and Language Development",
+    "3.6": "Social-Emotional Development Across the Lifespan", "3.7": "Classical Conditioning", "3.8": "Operant Conditioning",
+    "3.9": "Social, Cognitive, and Neurological Factors in Learning",
+    "4.1": "Attribution Theory and Person Perception", "4.2": "Attitude Formation and Attitude Change", "4.3": "Psychology of Social Situations",
+    "4.4": "Psychodynamic and Humanistic Theories of Personality", "4.5": "Social-Cognitive and Trait Theories of Personality",
+    "4.6": "Motivation", "4.7": "Emotion",
+    "5.1": "Introduction to Health Psychology", "5.2": "Positive Psychology", "5.3": "Explaining and Classifying Psychological Disorders",
+    "5.4": "Selection of Categories of Psychological Disorders", "5.5": "Treatment of Psychological Disorders"
+  };
+  /* Units for the AAQ studies whose tag does not name a unit or topic. New studies that name "Topic X.Y" or "Unit X" in their tag are matched automatically. */
+  var FRQ_UNIT_HINTS = {
+    "critical-thinking-ai": ["2"], "handwriting-typing": ["2"], "laptop-multitasking": ["2"], "learning-videos": ["2"],
+    "meaningful-processing": ["2"], "stress-performance": ["2", "5"], "phone-nearby": ["2"], "spacing-effect": ["2"], "testing-effect": ["2"]
+  };
+  var LETTERS = ["A", "B", "C", "D", "E", "F"];
+  var LS = {
+    attempt: "apFormative_attempt_v1", outbox: "apFormative_outbox_v1", history: "apFormative_history_v1",
+    seen: "apFormative_seen_v1", profile: "apFormative_profile_v1", picks: "apFormative_picks_v1"
+  };
+  var FIELD_ORDER = ["NAME", "BLOCK", "SCOPE", "MCQ", "FRQ", "GRADE", "MCQSUM", "FRQANS", "LOG", "ATTEMPT"];
+
+  /* ---------- utilities ---------- */
+  var app = document.getElementById("app");
+  function $(s) { return document.querySelector(s); }
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+  function lsGet(k, d) { try { var v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } }
+  function lsSet(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch (e) { return false; } }
+  function lsDel(k) { try { localStorage.removeItem(k); } catch (e) {} }
+  function shuffle(a) { a = a.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+  function cyrb53(str, seed) {
+    seed = seed || 0;
+    var h1 = 0xdeadbeef ^ seed, h2 = 0x41c6ce57 ^ seed;
+    for (var i = 0, ch; i < str.length; i++) { ch = str.charCodeAt(i); h1 = Math.imul(h1 ^ ch, 2654435761); h2 = Math.imul(h2 ^ ch, 1597334677); }
+    h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+    h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+    return 4294967296 * (2097151 & h2) + (h1 >>> 0);
+  }
+  /* Start code: 6 digits, changes every day at midnight UAE time (UTC+4). Shown to the teacher in Teacher tools. */
+  function uaeDate(offsetDays) { return new Date(Date.now() + 4 * 3600000 + (offsetDays || 0) * 86400000).toISOString().slice(0, 10); }
+  function startCodeFor(day) { var n = cyrb53("start|" + CONFIG.startCodeSecret + "|" + day) % 1000000; return ("000000" + n).slice(-6); }
+  function todaysCode() { return startCodeFor(uaeDate(0)); }
+  function checkStartCode(c) { return String(c || "").replace(/\s+/g, "") === todaysCode(); }
+  function checkPass(p) { return cyrb53("apf|" + String(p || "").trim()).toString(36) === CONFIG.passHash; }
+  function clock(ms) {
+    var s = Math.max(0, Math.ceil(ms / 1000)), h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), x = s % 60;
+    return (h ? h + ":" + (m < 10 ? "0" : "") : "") + m + ":" + (x < 10 ? "0" : "") + x;
+  }
+  function when(t) {
+    if (!t) return "";
+    try { var d = new Date(t); return d.toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" }) + " " + d.toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" }); } catch (e) { return String(t); }
+  }
+  function hms(t) { try { return new Date(t).toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit", second: "2-digit" }); } catch (e) { return ""; } }
+  function isOnline() { return navigator.onLine !== false; }
+  function topicName(sec) { return TOPICS[sec] || ("Topic " + sec); }
+  function unitOf(sec) { return String(sec).split(".")[0]; }
+  function secSort(a, b) { var x = a.split("."), y = b.split("."); return (x[0] - y[0]) || (x[1] - y[1]); }
+  function announce(msg) { var el = document.getElementById("live"); el.textContent = ""; setTimeout(function () { el.textContent = msg; }, 30); }
+  function words(t) { var m = String(t || "").trim().match(/\S+/g); return m ? m.length : 0; }
+  function newId() { var r = cyrb53(String(Date.now()) + Math.random()).toString(36).toUpperCase(); return "F-" + r.slice(0, 4) + "-" + r.slice(4, 8); }
+
+  /* ---------- grade conversion (same calculation as the AP Grade Predictor and the gradebook) ---------- */
+  var PRED = (function () {
+    var MCQ_POINTS = 66.6, FRQ_POINTS = 33.4;
+    var DAA = [[99, 100], [96, 99], [93, 98], [91, 97], [88, 96], [85, 95], [82, 94], [80, 93]];
+    for (var j = 79; j >= 56; j--) DAA.push([j, j + 13]);
+    DAA.push([55, 68], [53, 67], [51, 66], [49, 65], [47, 64], [45, 63], [43, 62], [41, 61], [40, 60]);
+    for (j = 39; j >= 1; j--) DAA.push([j, j + 20]);
+    DAA.push([0, 0]);
+    var LETTERS_ = [[97, "A+"], [93, "A"], [90, "A-"], [87, "B+"], [83, "B"], [80, "B-"], [77, "C+"], [73, "C"], [70, "C-"], [67, "D+"], [65, "D"], [60, "D-"], [0, "F"]];
+    function daaFrom(c) { for (var i = 0; i < DAA.length; i++) if (c >= DAA[i][0]) return DAA[i][1]; return 0; }
+    function letterFrom(d) { for (var i = 0; i < LETTERS_.length; i++) if (d >= LETTERS_[i][0]) return LETTERS_[i][1]; return "F"; }
+    function apFrom(l) {
+      if (l === "A+" || l === "A") return 5;
+      if (l === "A-" || l === "B+" || l === "B") return 4;
+      if (l === "B-" || l === "C+" || l === "C") return 3;
+      if (l === "C-" || l === "D+" || l === "D" || l === "D-") return 2;
+      return 1;
+    }
+    function compute(mcq, mcqMax, frq, frqMax) {
+      var raw = (mcq / mcqMax) * MCQ_POINTS + (frq / frqMax) * FRQ_POINTS;
+      var composite = Math.round(raw * 100) / 100;
+      if (mcq === mcqMax && frq === frqMax) composite = 100;
+      var key = Math.min(100, Math.round(raw));
+      var daa = daaFrom(key), letter = letterFrom(daa);
+      return { composite: composite, daa: daa, letter: letter, ap: apFrom(letter) };
+    }
+    return { compute: compute };
+  })();
+  window.FormativeApp_PRED = PRED;
+
+  /* ---------- question banks ---------- */
+  var BANK = null, BANK_ERR = null, BY_SECTION = {}, SECTIONS = [];
+  var FRQ = { AAQ: null, EBQ: null }, FRQ_ERR = { AAQ: null, EBQ: null };
+  function indexBank() {
+    BY_SECTION = {};
+    BANK.forEach(function (q) { if (TOPICS[q.section]) (BY_SECTION[q.section] = BY_SECTION[q.section] || []).push(q); });
+    SECTIONS = Object.keys(BY_SECTION).sort(secSort);
+  }
+  function loadBank() {
+    if (window.AP_BANK && window.AP_BANK.length) { BANK = window.AP_BANK; indexBank(); return Promise.resolve(); }
+    return new Promise(function (res) {
+      var s = document.createElement("script");
+      s.src = CONFIG.bankUrl;
+      s.onload = function () { if (window.AP_BANK && window.AP_BANK.length) { BANK = window.AP_BANK; BANK_ERR = null; indexBank(); } else BANK_ERR = "The question bank was empty."; res(); };
+      s.onerror = function () { BANK_ERR = "The question bank could not be downloaded."; s.remove(); res(); };
+      document.head.appendChild(s);
+    });
+  }
+  function extractStudies(html) {
+    var m = html.indexOf("const STUDIES");
+    if (m < 0) throw new Error("No STUDIES list found");
+    var i = html.indexOf("[", m), depth = 0, inStr = false, escp = false, k;
+    for (k = i; k < html.length; k++) {
+      var c = html[k];
+      if (inStr) { if (escp) escp = false; else if (c === "\\") escp = true; else if (c === '"') inStr = false; continue; }
+      if (c === '"') inStr = true;
+      else if (c === "[") depth++;
+      else if (c === "]") { depth--; if (!depth) break; }
+    }
+    return JSON.parse(html.slice(i, k + 1));
+  }
+  function loadFrq(type) {
+    return fetch(CONFIG.frqPages[type], { cache: "no-cache" }).then(function (r) {
+      if (!r.ok) throw new Error("HTTP " + r.status); return r.text();
+    }).then(function (t) {
+      FRQ[type] = extractStudies(t).filter(function (s) { return s && s.id && s.questions && s.questions.length && s.idealB64 && s.blocks; });
+      FRQ_ERR[type] = FRQ[type].length ? null : "No studies found.";
+    }).catch(function (e) { FRQ_ERR[type] = "The " + type + " studies could not be downloaded."; });
+  }
+  function decodeIdeal(study) {
+    try {
+      var bin = atob(study.idealB64), bytes = new Uint8Array(bin.length);
+      for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+      return JSON.parse(new TextDecoder("utf-8").decode(bytes));
+    } catch (e) { return null; }
+  }
+  function studyUnits(st) {
+    var u = {}, tag = String(st.tag || "") + " " + String(st.title || "");
+    tag.replace(/\b([0-5])\.\d\b/g, function (m, a) { u[a] = 1; return m; });
+    tag.replace(/\bUnits?\s+([0-5])(?:\s+and\s+(?:Unit\s+)?([0-5]))?/gi, function (m, a, b) { u[a] = 1; if (b) u[b] = 1; return m; });
+    var list = Object.keys(u);
+    return list.length ? list : (FRQ_UNIT_HINTS[st.id] || []);
+  }
+
+  /* ---------- state ---------- */
+  var S = lsGet(LS.attempt, null);
+  var profile = lsGet(LS.profile, { name: "", block: "" });
+  var picks = lsGet(LS.picks, { sections: [], frqType: "AAQ" });
+  var preNetOverride = false, preCodeOverride = false, typedCode = "", openOverride = false;
+  function isOpenToday() { return openOverride || (CONFIG.openDates || []).indexOf(uaeDate(0)) > -1; }
+  function renderClosed() {
+    document.body.classList.remove("testing");
+    var ob = lsGet(LS.outbox, []).filter(function (x) { return !x.sentAt; });
+    app.innerHTML = '<div class="card" style="text-align:center;padding:40px 24px;margin-top:20px"><h2 style="margin-top:0">This page is currently unavailable</h2>' +
+      '<p class="lead" style="margin:0 auto;max-width:560px">The formative assessment only opens in class on test days. Your teacher will tell you when the next one is.</p>' +
+      '<p style="margin-top:18px"><a class="btn alt" href="' + esc(CONFIG.indexUrl) + '">Return to the revision site</a></p>' +
+      (ob.length ? '<div class="notice info small" id="obNote" style="text-align:left">' + ob.length + ' earlier result' + (ob.length > 1 ? "s are" : " is") + ' still waiting to be sent to your teacher. ' + (isOnline() ? "Sending now..." : "Connect to Wi-Fi to send.") + '</div>' : '') +
+      '<p class="small" style="margin:18px 0 0"><button class="teacher-link" id="openOverride">Teacher: open on this device</button></p></div>';
+    $("#openOverride").addEventListener("click", function () {
+      passBox("Open the formative on this device?", "Use this for a make-up sitting on a day that is not in the open dates. It stays open until this page is closed or reloaded.", "Open", function () { openOverride = true; renderHome(); loadAll(); });
+    });
+  }
+  var saveT = null, tickH = null, suppressUntil = 0, lastOnline = isOnline(), netWarned = false;
+  function save() { if (S) { if (!lsSet(LS.attempt, S)) announce("Warning: this browser could not save your progress."); } }
+  function saveSoon() { clearTimeout(saveT); saveT = setTimeout(save, 400); }
+  function inTest() { return !!S && (S.phase === "mcq" || S.phase === "frq"); }
+  function logEv(type) { if (S) { S.events.push({ t: Date.now(), type: type }); } }
+  function secState() { return S.phase === "frq" ? S.sec.frq : S.sec.mcq; }
+
+  /* ---------- drawing a test ---------- */
+  function drawMcqs(sections) {
+    var want = CONFIG.mcqCount, seen = {};
+    lsGet(LS.seen, []).forEach(function (id) { seen[id] = 1; });
+    var secSet = {}; sections.forEach(function (s) { secSet[s] = 1; });
+    var pool = BANK.filter(function (q) { return secSet[q.section]; });
+    // group shared-stimulus sets so they stay together
+    var bySet = {}, unitsBySec = {};
+    pool.forEach(function (q) {
+      if (q.set) {
+        if (!bySet[q.set]) { bySet[q.set] = { sec: q.section, qs: [] }; (unitsBySec[q.section] = unitsBySec[q.section] || []).push(bySet[q.set]); }
+        bySet[q.set].qs.push(q);
+      } else (unitsBySec[q.section] = unitsBySec[q.section] || []).push({ sec: q.section, qs: [q] });
+    });
+    Object.keys(unitsBySec).forEach(function (s) {
+      var list = shuffle(unitsBySec[s]);
+      var fresh = list.filter(function (u) { return u.qs.every(function (q) { return !seen[q.id]; }); });
+      var old = list.filter(function (u) { return fresh.indexOf(u) < 0; });
+      unitsBySec[s] = fresh.concat(old);
+    });
+    var order = shuffle(Object.keys(unitsBySec)), chosen = [], count = 0, guard = 0;
+    while (count < want && guard++ < 5000) {
+      var progressed = false;
+      for (var i = 0; i < order.length && count < want; i++) {
+        var list = unitsBySec[order[i]];
+        for (var j = 0; j < list.length; j++) {
+          if (count + list[j].qs.length <= want) { chosen.push(list[j]); count += list[j].qs.length; list.splice(j, 1); progressed = true; break; }
+        }
+      }
+      if (!progressed) break;
+    }
+    var out = [];
+    shuffle(chosen).forEach(function (u) { u.qs.forEach(function (q) { out.push(q); }); });
+    return out;
+  }
+  function chooseStudy(type, sections) {
+    var list = FRQ[type] || [], used = {};
+    lsGet(LS.history, []).forEach(function (h) { if (h.studyId) used[h.studyId] = 1; });
+    var units = {}; sections.forEach(function (s) { units[unitOf(s)] = 1; });
+    var match = list.filter(function (st) { return studyUnits(st).some(function (u) { return units[u]; }); });
+    var pool = match.length ? match : list;
+    var fresh = pool.filter(function (st) { return !used[st.id]; });
+    var from = fresh.length ? fresh : pool;
+    return from[Math.floor(Math.random() * from.length)];
+  }
+  function buildAttempt(name, block, sections, type) {
+    var qs = drawMcqs(sections), st = chooseStudy(type, sections), now = Date.now();
+    return {
+      v: 1, id: newId(), name: name, block: block, scope: sections.slice(), scopeLabel: scopeShort(sections), phase: "ready",
+      qs: qs, items: qs.map(function (q) { return { order: q.fixed_order ? q.options.map(function (o, i) { return i; }) : shuffle(q.options.map(function (o, i) { return i; })), chosen: null, flagged: false }; }),
+      pos: 0, reviewPage: false, elim: {}, elimOn: false, timerHidden: false,
+      frq: { type: type, study: st, answers: {}, matchedScope: studyUnits(st).some(function (u) { return sections.some(function (s) { return unitOf(s) === u; }); }) },
+      sec: {
+        mcq: { limit: CONFIG.mcqCount * CONFIG.secondsPerMcq * 1000, start: null, deadline: null, end: null, extra: 0, reason: "" },
+        frq: { limit: CONFIG.frqMinutes[type] * 60000, start: null, deadline: null, end: null, extra: 0, reason: "" }
+      },
+      createdAt: now, finishedAt: null, locked: false, lockReason: "", lockCount: 0, badPass: 0, pastes: 0,
+      netOverride: false, fsOverride: false, events: [], marks: {}, confirmed: false, confirmedAt: null
+    };
+  }
+
+  /* ---------- full screen ---------- */
+  function fsEl() { return document.fullscreenElement || document.webkitFullscreenElement || null; }
+  function fsSupported() {
+    var d = document.documentElement;
+    return !!((d.requestFullscreen || d.webkitRequestFullscreen) && (document.fullscreenEnabled || document.webkitFullscreenEnabled));
+  }
+  function enterFs() {
+    var d = document.documentElement;
+    try {
+      if (d.requestFullscreen) return Promise.resolve(d.requestFullscreen());
+      if (d.webkitRequestFullscreen) { d.webkitRequestFullscreen(); return new Promise(function (res, rej) { setTimeout(function () { fsEl() ? res() : rej(new Error("no fs")); }, 600); }); }
+    } catch (e) { return Promise.reject(e); }
+    return Promise.reject(new Error("unsupported"));
+  }
+  function exitFs() { try { if (fsEl()) { if (document.exitFullscreen) document.exitFullscreen(); else if (document.webkitExitFullscreen) document.webkitExitFullscreen(); } } catch (e) {} }
+
+  /* ---------- modals ---------- */
+  function modal(html, onReady) {
+    var back = document.createElement("div");
+    back.className = "modal-back";
+    back.innerHTML = '<div class="modal" role="dialog" aria-modal="true">' + html + '</div>';
+    document.body.appendChild(back);
+    function close() { back.remove(); }
+    onReady(back, close);
+    var f = back.querySelector("input,button"); if (f) f.focus();
+    return close;
+  }
+  function confirmBox(title, body, okLabel, onOk, cancelLabel) {
+    modal('<h3>' + esc(title) + '</h3><p>' + body + '</p><div class="row" style="justify-content:flex-end;margin-top:14px"><button class="btn alt" data-x>' + esc(cancelLabel || "Cancel") + '</button><button class="btn" data-ok>' + esc(okLabel) + '</button></div>',
+      function (b, close) {
+        b.querySelector("[data-x]").onclick = close;
+        b.querySelector("[data-ok]").onclick = function () { close(); onOk(); };
+      });
+  }
+  function passBox(title, body, okLabel, onOk) {
+    modal('<h3>' + esc(title) + '</h3><p class="small">' + body + '</p><label class="small" for="pbPass"><b>Teacher passcode</b></label><input id="pbPass" type="password" autocomplete="off" style="width:100%;padding:10px;font:inherit;border:1.5px solid #1e1e1e;border-radius:8px;margin-top:4px"><p class="err" id="pbErr"></p><div class="row" style="justify-content:flex-end"><button class="btn alt" data-x>Cancel</button><button class="btn" data-ok>' + esc(okLabel) + '</button></div>',
+      function (b, close) {
+        var go = function () {
+          if (!checkPass(b.querySelector("#pbPass").value)) { b.querySelector("#pbErr").textContent = "Incorrect passcode."; b.querySelector("#pbPass").value = ""; if (S) { S.badPass++; logEv("Wrong passcode entered"); save(); } return; }
+          close(); onOk();
+        };
+        b.querySelector("[data-x]").onclick = close;
+        b.querySelector("[data-ok]").onclick = go;
+        b.querySelector("#pbPass").addEventListener("keydown", function (e) { if (e.key === "Enter") go(); });
+      });
+  }
+
+  /* ======================================================================
+     HOME
+     ====================================================================== */
+  function renderHome() {
+    if (!isOpenToday()) { renderClosed(); return; }
+    document.body.classList.remove("testing");
+    var hist = lsGet(LS.history, []);
+    var ob = lsGet(LS.outbox, []).filter(function (x) { return !x.sentAt; });
+    var cls = CONFIG.classes.map(function (c) { return '<option' + (profile.block === c ? " selected" : "") + '>' + esc(c) + '</option>'; }).join("");
+    app.innerHTML =
+      '<h2>Formative Assessment</h2>' +
+      '<p class="lead">A full practice test under exam conditions on the topics you choose: Section I has ' + CONFIG.mcqCount + ' multiple-choice questions (' + Math.round(CONFIG.mcqCount * CONFIG.secondsPerMcq / 60) + ' minutes) and Section II has one free-response question. Afterwards you self-mark the FRQ and see your DAA grade.</p>' +
+      '<div class="notice"><b>This formative is taken in class only, with your teacher in the room.</b> To begin you need today\'s start code, which your teacher shows on the board. Once it starts, the test runs with Wi-Fi off and in full screen. Leaving full screen, switching tabs or apps, reloading the page or turning Wi-Fi back on pauses the test, and only your teacher can unlock it.</div>' +
+      '<div class="card"><h3>1. Your details</h3><div class="fields">' +
+        '<div><label for="fName">Full name</label><input id="fName" autocomplete="name" value="' + esc(profile.name) + '" placeholder="First and last name"></div>' +
+        '<div><label for="fBlock">Class</label><select id="fBlock"><option value="">Choose your class</option>' + cls + '<option' + (profile.block === "Other" ? " selected" : "") + '>Other</option></select></div>' +
+      '</div></div>' +
+      '<div class="card"><h3>2. Choose the scope of your test</h3><p class="small muted" style="margin-top:0">Tick whole units or open a unit to pick topics. Questions are drawn at random from the topics you tick, spread evenly across them.</p><div id="scopeBox"><p class="muted">Loading the question bank...</p></div></div>' +
+      '<div class="card"><h3>3. Choose your free-response question</h3><div class="choice">' +
+        '<label><input type="radio" name="frqType" value="AAQ"' + (picks.frqType !== "EBQ" ? " checked" : "") + '><span><b>AAQ</b> (Article Analysis Question)<br><span class="small muted">One research summary, Parts A to F, 7 points. ' + CONFIG.frqMinutes.AAQ + ' minutes.</span></span></label>' +
+        '<label><input type="radio" name="frqType" value="EBQ"' + (picks.frqType === "EBQ" ? " checked" : "") + '><span><b>EBQ</b> (Evidence-Based Question)<br><span class="small muted">Three short sources, Parts A to C, 7 points. ' + CONFIG.frqMinutes.EBQ + ' minutes.</span></span></label>' +
+      '</div><p class="small muted" style="margin:10px 0 0">Where possible the study comes from one of the units you chose. Studies kept back for graded summatives are never used here.</p></div>' +
+      '<div class="card accent"><h3>4. Get ready</h3>' +
+        '<div class="fields" style="grid-template-columns:minmax(0,260px)"><div><label for="fCode">Start code (from the board)</label><input id="fCode" inputmode="numeric" autocomplete="off" maxlength="7" placeholder="6 digits" value="' + esc(typedCode) + '" style="font-size:22px;letter-spacing:.2em"></div></div>' +
+        '<ul class="checklist" style="margin-top:14px">' +
+          '<li><span class="lbl">Questions downloaded</span><span id="ckBank"></span></li>' +
+          '<li><span class="lbl">Wi-Fi and mobile data off</span><span id="ckNet"></span></li>' +
+        '</ul>' +
+        '<ul class="rules small"><li>Plug in or charge your device first. Close other apps.</li><li>When you are ready, turn Wi-Fi off, then press <b>Begin test</b>.</li><li>Your answers are saved on this device as you go. Your results are sent to your teacher automatically the next time this device is online.</li></ul>' +
+        '<div class="row" style="margin-top:14px"><button class="btn" id="beginBtn" disabled>Begin test</button><span id="beginWhy" class="small muted"></span></div>' +
+        '<p class="small" style="margin:12px 0 0"><button class="teacher-link" id="netOverride">Wi-Fi is off but this still says on?</button> &middot; <button class="teacher-link" id="codeOverride">Teacher: start without a code</button> &middot; <button class="teacher-link" id="teacherTools">Teacher tools</button></p>' +
+      '</div>' +
+      (hist.length || ob.length ? '<div class="card"><h3>Your past formatives on this device</h3>' +
+        (ob.length ? '<div class="notice info small" id="obNote">' + ob.length + ' result' + (ob.length > 1 ? "s are" : " is") + ' waiting to be sent to your teacher. ' + (isOnline() ? "Sending now..." : "Connect to Wi-Fi to send.") + '</div>' : '') +
+        (hist.length ? '<div class="tablewrap"><table class="data"><thead><tr><th>Date</th><th>Scope</th><th>MCQ</th><th>FRQ</th><th>DAA</th><th>Sent</th></tr></thead><tbody>' +
+          hist.slice().reverse().slice(0, 8).map(function (h) {
+            return '<tr class="histrow"><td>' + esc(when(h.t)) + '</td><td>' + esc(h.scopeShort) + '</td><td>' + h.mcq + '/' + CONFIG.mcqCount + '</td><td>' + (h.frq == null ? "not marked" : h.frq + '/7 ' + esc(h.frqType)) + '</td><td>' + (h.daa == null ? "-" : h.daa + " (" + esc(h.letter) + ")") + '</td><td>' + (h.sent ? "Yes" : "Not yet") + '</td></tr>';
+          }).join("") + '</tbody></table></div>' : '') + '</div>' : '');
+
+    $("#fName").addEventListener("input", function () { profile.name = this.value; lsSet(LS.profile, profile); updateReady(); });
+    $("#fBlock").addEventListener("change", function () { profile.block = this.value; lsSet(LS.profile, profile); updateReady(); });
+    app.querySelectorAll('input[name="frqType"]').forEach(function (r) { r.addEventListener("change", function () { picks.frqType = r.value; lsSet(LS.picks, picks); updateReady(); }); });
+    $("#beginBtn").addEventListener("click", begin);
+    $("#netOverride").addEventListener("click", function () {
+      passBox("Start with Wi-Fi showing as on?", "Some browsers, especially Safari, keep reporting Wi-Fi as on after it has been switched off. Check that Wi-Fi really is off on this device, then enter the passcode. The Wi-Fi check stays off for this attempt and this is recorded in the integrity log.", "Allow", function () { preNetOverride = true; updateReady(); });
+    });
+    $("#fCode").addEventListener("input", function () { typedCode = this.value; updateReady(); });
+    $("#codeOverride").addEventListener("click", function () {
+      passBox("Start without a start code?", "Use this if a student\'s device will not accept today\'s code (for example, its clock or date is wrong). This is recorded in the integrity log.", "Allow", function () { preCodeOverride = true; updateReady(); });
+    });
+    $("#teacherTools").addEventListener("click", function () { passBox("Teacher tools", "Enter the passcode to see the tools for this device.", "Open", teacherTools); });
+    renderScope();
+    updateReady();
+  }
+  function renderScope() {
+    var box = $("#scopeBox"); if (!box) return;
+    if (!BANK) { box.innerHTML = BANK_ERR ? '<div class="notice"><b>' + esc(BANK_ERR) + '</b> Connect to Wi-Fi and <button class="btn small alt" id="retryBank">try again</button></div>' : '<p class="muted">Loading the question bank...</p>'; var rb = $("#retryBank"); if (rb) rb.onclick = function () { BANK_ERR = null; renderScope(); loadBank().then(function () { renderScope(); updateReady(); }); }; return; }
+    var sel = {}; picks.sections.forEach(function (s) { if (BY_SECTION[s]) sel[s] = 1; });
+    var units = {}; SECTIONS.forEach(function (s) { (units[unitOf(s)] = units[unitOf(s)] || []).push(s); });
+    var html = '<div class="row" style="margin-bottom:10px"><button class="btn small alt" id="selAll">Select all</button><button class="btn small alt" id="selNone">Clear</button></div>';
+    Object.keys(units).sort().forEach(function (u) {
+      var secs = units[u], n = secs.reduce(function (t, x) { return t + BY_SECTION[x].length; }, 0), any = secs.some(function (s) { return sel[s]; });
+      html += '<details class="unit"' + (any ? " open" : "") + '><summary><input type="checkbox" class="unitbox" data-unit="' + u + '" aria-label="All of Unit ' + u + '" style="width:20px;height:20px;accent-color:#2f4fbf"><span class="unit-title">Unit ' + u + ': ' + esc(UNITS[u]) + '</span><span class="count">' + n + ' questions</span><span class="chev"></span></summary><div class="topics">' +
+        secs.map(function (s) { return '<label class="check"><input type="checkbox" class="topicbox" data-sec="' + s + '"' + (sel[s] ? " checked" : "") + '><span>' + s + ' ' + esc(topicName(s)) + ' <span class="count">(' + BY_SECTION[s].length + ')</span></span></label>'; }).join("") + '</div></details>';
+    });
+    html += '<p class="small" id="scopeSum" style="margin:10px 0 0"></p>';
+    box.innerHTML = html;
+    function sync() {
+      box.querySelectorAll(".unitbox").forEach(function (ub) {
+        var bs = box.querySelectorAll('.topicbox[data-sec^="' + ub.getAttribute("data-unit") + '."]'), on = 0;
+        bs.forEach(function (b) { if (b.checked) on++; });
+        ub.checked = on === bs.length; ub.indeterminate = on > 0 && on < bs.length;
+      });
+      picks.sections = Array.prototype.filter.call(box.querySelectorAll(".topicbox"), function (b) { return b.checked; }).map(function (b) { return b.getAttribute("data-sec"); });
+      lsSet(LS.picks, picks); updateReady();
+    }
+    box.querySelectorAll(".topicbox").forEach(function (b) { b.addEventListener("change", sync); });
+    box.querySelectorAll(".unitbox").forEach(function (ub) {
+      ub.addEventListener("click", function (e) { e.stopPropagation(); });
+      ub.addEventListener("change", function () { box.querySelectorAll('.topicbox[data-sec^="' + ub.getAttribute("data-unit") + '."]').forEach(function (b) { b.checked = ub.checked; }); sync(); });
+    });
+    $("#selAll").onclick = function () { box.querySelectorAll(".topicbox").forEach(function (b) { b.checked = true; }); sync(); };
+    $("#selNone").onclick = function () { box.querySelectorAll(".topicbox").forEach(function (b) { b.checked = false; }); sync(); };
+    sync();
+  }
+  function poolSize() { return picks.sections.reduce(function (t, s) { return t + (BY_SECTION[s] ? BY_SECTION[s].length : 0); }, 0); }
+  function readyState() {
+    var type = picks.frqType === "EBQ" ? "EBQ" : "AAQ";
+    var bankOk = !!BANK && !!(FRQ[type] && FRQ[type].length);
+    var netOff = !isOnline() || preNetOverride;
+    var why = "";
+    if (!profile.name || profile.name.trim().length < 3) why = "Type your full name.";
+    else if (!profile.block) why = "Choose your class.";
+    else if (!BANK) why = BANK_ERR ? "The question bank did not download." : "Waiting for the questions to download.";
+    else if (!picks.sections.length) why = "Tick at least one topic.";
+    else if (poolSize() < CONFIG.minPool) why = "Your topics have only " + poolSize() + " questions. Add another topic (at least " + CONFIG.minPool + " questions in total).";
+    else if (!(FRQ[type] && FRQ[type].length)) why = FRQ_ERR[type] || ("Waiting for the " + type + " studies to download.");
+    else if (!preCodeOverride && String(typedCode).replace(/\s+/g, "").length !== 6) why = "Type the 6-digit start code from the board.";
+    else if (!netOff) why = "Now turn off Wi-Fi and mobile data.";
+    return { ok: !why, why: why, bankOk: bankOk, netOff: netOff, type: type };
+  }
+  function updateReady() {
+    var b = $("#beginBtn"); if (!b) return;
+    var r = readyState(), type = r.type;
+    var bankTxt = !BANK || !(FRQ[type] && FRQ[type].length) ? ((BANK_ERR || FRQ_ERR[type]) ? '<span class="pill no"><span class="dot"></span>Download failed. Connect to Wi-Fi and reload.</span>' : '<span class="pill wait"><span class="dot"></span>Downloading...</span>') : '<span class="pill ok"><span class="dot"></span>Ready (' + BANK.length + ' MCQs, ' + FRQ[type].length + ' ' + type + ' studies)</span>';
+    $("#ckBank").innerHTML = bankTxt;
+    $("#ckNet").innerHTML = !isOnline() ? '<span class="pill ok"><span class="dot"></span>Offline</span>' : preNetOverride ? '<span class="pill ok"><span class="dot"></span>Check skipped by teacher</span>' : '<span class="pill no"><span class="dot"></span>Still online</span>';
+    var sum = $("#scopeSum");
+    if (sum) sum.innerHTML = picks.sections.length ? '<b>' + picks.sections.length + ' topic' + (picks.sections.length > 1 ? "s" : "") + '</b> chosen, <b>' + poolSize() + '</b> questions to draw from.' : 'No topics chosen yet.';
+    b.disabled = !r.ok;
+    $("#beginWhy").textContent = r.ok ? "Ready when you are." : r.why;
+  }
+  function teacherTools() {
+    var ob = lsGet(LS.outbox, []), un = ob.filter(function (x) { return !x.sentAt; });
+    modal('<h3>Teacher tools</h3><div style="text-align:center;background:#eef1f8;border-radius:10px;padding:12px;margin-bottom:12px"><div class="small">Today\'s start code (' + esc(uaeDate(0)) + ')</div><div style="font-size:40px;font-weight:700;letter-spacing:.18em">' + todaysCode() + '</div><button class="btn small" data-big>Show it full screen for the board</button></div><p class="small">Unsent results on this device: <b>' + un.length + '</b>. Sent: ' + (ob.length - un.length) + '. Results form connected: <b>' + (formTarget() ? "yes" : "no") + '</b>.</p>' +
+      '<div class="row" style="flex-direction:column;align-items:stretch">' +
+      '<button class="btn alt" data-send>Send unsent results now</button>' +
+      '<button class="btn warn" data-clear>Clear this device (history, unsent results and any saved attempt)</button>' +
+      '<button class="btn" data-x>Close</button></div><p class="small muted" id="ttMsg"></p>',
+      function (b, close) {
+        b.querySelector("[data-x]").onclick = close;
+        b.querySelector("[data-big]").onclick = function () { close(); showBigCode(); };
+        b.querySelector("[data-send]").onclick = function () { b.querySelector("#ttMsg").textContent = isOnline() ? "Sending..." : "This device is offline."; flush().then(function () { var n = lsGet(LS.outbox, []).filter(function (x) { return !x.sentAt; }).length; b.querySelector("#ttMsg").textContent = n ? n + " still unsent." : "All results sent."; }); };
+        b.querySelector("[data-clear]").onclick = function () {
+          if (b.querySelector("[data-clear]").getAttribute("data-armed")) { [LS.attempt, LS.outbox, LS.history, LS.seen].forEach(lsDel); S = null; close(); renderHome(); return; }
+          b.querySelector("[data-clear]").setAttribute("data-armed", "1"); b.querySelector("[data-clear]").textContent = "Click again to confirm. Unsent results will be lost.";
+        };
+      });
+  }
+  function showBigCode() {
+    var ov = document.createElement("div");
+    ov.className = "lockov"; ov.id = "bigCode"; ov.style.background = "#fff"; ov.style.flexDirection = "column"; ov.style.textAlign = "center";
+    ov.innerHTML = '<div style="font-size:clamp(20px,3vw,34px);font-weight:700">AP Psychology Formative: start code</div>' +
+      '<div style="font-size:clamp(90px,18vw,240px);font-weight:700;letter-spacing:.12em;color:#1F3864;line-height:1.1">' + todaysCode() + '</div>' +
+      '<div style="font-size:clamp(16px,2vw,24px)">Valid today only (' + esc(uaeDate(0)) + '). Type it in Step 4, then turn Wi-Fi off and press Begin test.</div>' +
+      '<button class="btn" style="margin-top:28px">Close</button>';
+    document.body.appendChild(ov);
+    ov.querySelector("button").onclick = function () { ov.remove(); };
+  }
+  function begin() {
+    var r = readyState(); if (!r.ok) { updateReady(); return; }
+    if (!preCodeOverride && !checkStartCode(typedCode)) { $("#beginWhy").textContent = "That start code is not right. Check the code on the board (it changes every day)."; $("#fCode").select(); return; }
+    var sections = picks.sections.slice().sort(secSort);
+    S = buildAttempt(profile.name.trim(), profile.block, sections, r.type);
+    if (S.qs.length < CONFIG.mcqCount) { S = null; $("#beginWhy").textContent = "Not enough questions in these topics. Add another topic."; return; }
+    S.netOverride = preNetOverride;
+    logEv("Test created: " + S.qs.length + " MCQs, " + r.type + " \"" + S.frq.study.title + "\"");
+    if (preNetOverride) logEv("Teacher skipped the Wi-Fi check before starting");
+    logEv(preCodeOverride ? "Teacher started the test without a start code" : "Started with today's start code (" + uaeDate(0) + ")");
+    save();
+    if (!fsSupported()) { S.fsOverride = true; logEv("Full screen is not available on this device"); startTest(); return; }
+    suppressUntil = Date.now() + 4000;
+    enterFs().then(startTest).catch(function () {
+      passBox("Full screen did not open", "This browser would not open full screen. Press Begin test again, or enter the teacher passcode to start without full screen (switching tabs or apps still pauses the test).", "Start without full screen", function () {
+        S.fsOverride = true; logEv("Teacher allowed the test without full screen"); startTest();
+      });
+    });
+  }
+  function startTest() {
+    var now = Date.now();
+    S.phase = "mcq"; S.sec.mcq.start = now; S.sec.mcq.deadline = now + S.sec.mcq.limit;
+    logEv("Section I started");
+    suppressUntil = Math.max(suppressUntil, now + 3000); lastOnline = isOnline();
+    var seen = lsGet(LS.seen, []); S.qs.forEach(function (q) { seen.push(q.id); }); lsSet(LS.seen, seen.slice(-3000));
+    save(); renderShell(); startTick();
+  }
+
+  /* ======================================================================
+     TEST SHELL
+     ====================================================================== */
+  var ICON = {
+    bookmark: '<svg viewBox="0 0 16 20" aria-hidden="true"><path d="M2 1.5h12v17l-6-4.5-6 4.5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>',
+    caret: '<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 8l4-4 4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+    flag: '<svg class="bb-flag" viewBox="0 0 12 15" aria-hidden="true"><path d="M1 1h10v13l-5-3.5L1 14z" fill="#c2331f"/></svg>'
+  };
+  var shell = null;
+  function ensureShell() {
+    if (!shell) { shell = document.createElement("div"); shell.id = "bbShell"; shell.className = "bb-shell"; document.body.appendChild(shell); }
+    document.body.classList.add("testing"); document.body.style.overflow = "hidden";
+    return shell;
+  }
+  function removeShell() { if (shell) { shell.remove(); shell = null; } document.body.classList.remove("testing"); document.body.style.overflow = ""; }
+  function headHtml(title) {
+    return '<div class="bb-head"><div><div class="bb-sec">' + esc(title) + '</div><button class="bb-dir" id="bbDirBtn" aria-expanded="false">Directions &#9662;</button></div>' +
+      '<div class="bb-timer" id="bbTimer"><div class="t' + (S.timerHidden ? " hidden-time" : "") + '" id="timer"></div><button id="hideT">' + (S.timerHidden ? "Show" : "Hide") + '</button></div>' +
+      '<div class="bb-tools"><span class="bb-untimed">' + esc(S.name) + '</span></div></div><div class="bb-dash"></div>';
+  }
+  function bbCells(cur) {
+    return S.items.map(function (x, i) {
+      var cls = "bb-cell" + (x.chosen !== null ? " answered" : "") + (cur && i === S.pos ? " cur" : "");
+      return '<button class="' + cls + '" data-jump="' + i + '" aria-label="Question ' + (i + 1) + (x.chosen !== null ? ", answered" : ", not answered") + (x.flagged ? ", marked for review" : "") + '">' + (i + 1) + (x.flagged ? ICON.flag : "") + '</button>';
+    }).join("");
+  }
+  function bbLegend(cur) {
+    return '<div class="bb-legend">' + (cur ? '<span>&#9660; Current</span>' : '') + '<span><i style="display:inline-block;width:14px;height:14px;border:1.5px dashed #1e1e1e"></i> Unanswered</span><span><i style="display:inline-block;width:14px;height:14px;background:#2f4fbf"></i> Answered</span><span>' + ICON.flag.replace('class="bb-flag"', 'style="width:11px;height:14px"') + ' For Review</span></div>';
+  }
+  function mcqQuestionHtml() {
+    var it = S.items[S.pos], q = S.qs[S.pos], el = S.elim[S.pos] || [];
+    var opts = it.order.map(function (orig, i) {
+      var cls = "bb-opt" + (it.chosen === orig ? " sel" : ""), crossed = el.indexOf(orig) > -1;
+      if (crossed) cls += " elim";
+      var side = S.elimOn ? (crossed ? '<button class="bb-undo" data-undo="' + orig + '">Undo</button>' : '<button class="bb-strike" data-strike="' + orig + '" aria-label="Cross out choice ' + LETTERS[i] + '">' + LETTERS[i] + '</button>') : '';
+      return '<div class="bb-row"><button class="' + cls + '" data-orig="' + orig + '" aria-pressed="' + (it.chosen === orig) + '"><span class="bb-letter">' + LETTERS[i] + '</span><span class="bb-text">' + esc(q.options[orig]) + '</span></button>' + side + '</div>';
+    }).join("");
+    var part = '<div class="bb-qbar"><div class="bb-num">' + (S.pos + 1) + '</div>' +
+      '<button class="bb-mark' + (it.flagged ? " on" : "") + '" id="flag" aria-pressed="' + it.flagged + '">' + ICON.bookmark + 'Mark for Review</button>' +
+      '<button class="bb-elimtoggle' + (S.elimOn ? " on" : "") + '" id="bbElim" aria-pressed="' + !!S.elimOn + '" title="Cross out answer choices">ABC</button></div><div class="bb-dash"></div>' +
+      '<div class="bb-stem" id="stem">' + esc(q.stem) + '</div><div class="bb-opts-list" role="group" aria-labelledby="stem">' + opts + '</div>';
+    if (q.stimulus) return '<div class="bb-split"><div class="bb-pane bb-left"><figure class="stim">' + renderStimulus(q.stimulus) + '</figure></div><div class="bb-divider" aria-hidden="true"></div><div class="bb-pane bb-right">' + part + '</div></div>';
+    return '<div class="bb-q">' + part + '</div>';
+  }
+  function mcqReviewHtml() {
+    var un = S.items.filter(function (x) { return x.chosen === null; }).length;
+    return '<div class="bb-review"><h2>Check Your Work</h2><p>Select a question number to go back to it. When you submit Section I, you move on to Section II and <strong>cannot come back</strong> to these questions.</p>' +
+      (un ? '<p><strong>' + un + ' question' + (un > 1 ? "s are" : " is") + ' unanswered.</strong> There is no penalty for guessing.</p>' : '') +
+      '<div class="bb-box">' + bbLegend(false) + '<div class="bb-grid">' + bbCells(false) + '</div></div></div>';
+  }
+  function renderShell() {
+    if (S.phase === "mcq") renderMcq(); else if (S.phase === "frq") renderFrq();
+    tick();
+    if (S.locked) showLock();
+  }
+  function renderMcq() {
+    var sh = ensureShell(), n = S.items.length, nav = "";
+    if (S.reviewPage) nav = '<button class="bb-btn" id="bbBack">Back</button><button class="bb-btn" id="submitI">Submit Section I</button>';
+    else { if (S.pos > 0) nav += '<button class="bb-btn" id="prev">Back</button>'; nav += '<button class="bb-btn" id="next">Next</button>'; }
+    sh.innerHTML = headHtml("Section I: Multiple Choice") +
+      '<div class="bb-body" id="bbBody">' + (S.reviewPage ? mcqReviewHtml() : mcqQuestionHtml()) + '</div><div class="bb-dash"></div>' +
+      '<div class="bb-foot"><div class="bb-who">AP Psychology Formative</div>' +
+      (S.reviewPage ? '<span></span>' : '<button class="bb-qmenu" id="bbMenu" aria-expanded="false">Question ' + (S.pos + 1) + ' of ' + n + ' ' + ICON.caret + '</button>') +
+      '<div class="bb-nav">' + nav + '</div></div>';
+    bindHead("Section I has " + n + " multiple-choice questions and " + Math.round(S.sec.mcq.limit / 60000) + " minutes. Each question has one best answer. Use <strong>Mark for Review</strong> to flag a question and the crossed-out <strong>ABC</strong> button to cross out choices you have ruled out. When you submit Section I, or when time runs out, you move on to Section II and cannot come back.");
+    var e, it = S.items[S.pos];
+    sh.querySelectorAll("button.bb-opt").forEach(function (b) { b.addEventListener("click", function () {
+      var orig = +b.getAttribute("data-orig"), el = S.elim[S.pos] || [];
+      if (el.indexOf(orig) > -1) { el.splice(el.indexOf(orig), 1); S.elim[S.pos] = el; }
+      it.chosen = orig; save(); renderMcq();
+    }); });
+    sh.querySelectorAll("[data-strike]").forEach(function (b) { b.addEventListener("click", function () {
+      var orig = +b.getAttribute("data-strike"), el = S.elim[S.pos] || [];
+      if (el.indexOf(orig) < 0) el.push(orig); S.elim[S.pos] = el; if (it.chosen === orig) it.chosen = null; save(); renderMcq();
+    }); });
+    sh.querySelectorAll("[data-undo]").forEach(function (b) { b.addEventListener("click", function () {
+      var orig = +b.getAttribute("data-undo"), el = S.elim[S.pos] || []; el.splice(el.indexOf(orig), 1); S.elim[S.pos] = el; save(); renderMcq();
+    }); });
+    sh.querySelectorAll("[data-jump]").forEach(function (b) { b.addEventListener("click", function () { S.pos = +b.getAttribute("data-jump"); S.reviewPage = false; save(); renderMcq(); }); });
+    if ((e = $("#bbElim"))) e.onclick = function () { S.elimOn = !S.elimOn; save(); renderMcq(); };
+    if ((e = $("#flag"))) e.onclick = function () { it.flagged = !it.flagged; save(); renderMcq(); };
+    if ((e = $("#prev"))) e.onclick = function () { if (S.pos > 0) { S.pos--; save(); renderMcq(); } };
+    if ((e = $("#next"))) e.onclick = function () { if (S.pos < n - 1) S.pos++; else S.reviewPage = true; save(); renderMcq(); };
+    if ((e = $("#bbBack"))) e.onclick = function () { S.reviewPage = false; save(); renderMcq(); };
+    if ((e = $("#submitI"))) e.onclick = function () {
+      var un = S.items.filter(function (x) { return x.chosen === null; }).length;
+      confirmBox("Submit Section I?", (un ? "<b>" + un + " question" + (un > 1 ? "s are" : " is") + " unanswered.</b> " : "") + "You will move on to Section II and cannot come back to these questions.", "Submit Section I", function () { endMcq("Submitted by student"); }, "Keep checking");
+    };
+    if ((e = $("#bbMenu"))) e.onclick = function () {
+      var ex = $("#bbPop"); if (ex) { ex.remove(); this.setAttribute("aria-expanded", "false"); return; }
+      var p = document.createElement("div"); p.id = "bbPop"; p.className = "bb-pop";
+      p.innerHTML = '<h3>Section I Questions</h3>' + bbLegend(true) + '<div class="bb-grid">' + bbCells(true) + '</div><button class="bb-btn ghost bb-gotoreview" id="goRev">Go to Review Page</button>';
+      sh.querySelector(".bb-foot").appendChild(p); this.setAttribute("aria-expanded", "true");
+      p.querySelectorAll("[data-jump]").forEach(function (b) { b.addEventListener("click", function () { S.pos = +b.getAttribute("data-jump"); save(); renderMcq(); }); });
+      p.querySelector("#goRev").onclick = function () { S.reviewPage = true; save(); renderMcq(); };
+    };
+  }
+  function bindHead(directions) {
+    var e;
+    if ((e = $("#hideT"))) e.onclick = function () { S.timerHidden = !S.timerHidden; save(); this.textContent = S.timerHidden ? "Show" : "Hide"; $("#timer").classList.toggle("hidden-time", S.timerHidden); };
+    if ((e = $("#bbDirBtn"))) e.onclick = function () {
+      var ex = $("#bbDirPop"); if (ex) { ex.remove(); this.setAttribute("aria-expanded", "false"); return; }
+      var p = document.createElement("div"); p.id = "bbDirPop"; p.className = "bb-dirpop";
+      p.innerHTML = '<h3>Directions</h3><p>' + directions + '</p><p style="margin-top:8px">Stay in full screen. Leaving it, switching tabs or apps, reloading or turning Wi-Fi on pauses the test until your teacher unlocks it. The timer keeps running while the test is paused.</p><button class="bb-btn">Close</button>';
+      p.querySelector("button").onclick = function () { p.remove(); $("#bbDirBtn").setAttribute("aria-expanded", "false"); };
+      shell.appendChild(p); this.setAttribute("aria-expanded", "true");
+    };
+  }
+  function renderBlocks(blocks) {
+    var out = "", inList = false;
+    function closeList() { if (inList) { out += "</ul>"; inList = false; } }
+    blocks.forEach(function (b) {
+      if (b.t === "li") { if (!inList) { out += "<ul>"; inList = true; } out += "<li>" + esc(b.text) + "</li>"; return; }
+      closeList();
+      if (b.t === "h2") out += '<h3 class="sec">' + esc(b.text) + "</h3>";
+      else if (b.t === "h3") out += "<h4>" + esc(b.text) + "</h4>";
+      else if (b.t === "p") out += "<p>" + esc(b.text) + "</p>";
+      else if (b.t === "src") out += '<h2 class="srchead">' + esc(b.text) + "</h2>";
+      else if (b.t === "cite") out += '<div class="src">' + esc(b.text) + "</div>";
+      else if (b.t === "img" && /^image\/(png|jpe?g|gif|webp)$/.test(b.mime || "")) out += '<img alt="Figure or table from the research summary" src="data:' + b.mime + ';base64,' + b.b64 + '">';
+    });
+    closeList();
+    return out;
+  }
+  function renderFrq() {
+    var sh = ensureShell(), st = S.frq.study, type = S.frq.type;
+    var qs = st.questions.map(function (q) {
+      var v = S.frq.answers[q.part] || "";
+      return '<div class="fq' + (q.marks > 1 ? " big" : "") + '"><div class="fh"><span>Part ' + esc(q.part) + '</span><span class="mk">' + q.marks + (q.marks > 1 ? " points" : " point") + '</span></div><p>' + esc(q.text) + '</p>' +
+        '<textarea data-part="' + esc(q.part) + '" spellcheck="false" autocorrect="off" autocapitalize="sentences" aria-label="Your answer to Part ' + esc(q.part) + '">' + esc(v) + '</textarea><div class="wc" data-wc="' + esc(q.part) + '">' + words(v) + ' words</div></div>';
+    }).join("");
+    sh.innerHTML = headHtml("Section II: " + (type === "EBQ" ? "Evidence-Based Question" : "Article Analysis Question")) +
+      '<div class="bb-body"><div class="bb-split"><div class="bb-pane bb-left"><div class="frq-study"><h2>' + esc(st.title) + '</h2>' + renderBlocks(st.blocks) + (st.source ? '<div class="src">Source: ' + esc(st.source) + '</div>' : '') + '</div></div>' +
+      '<div class="bb-divider" aria-hidden="true"></div><div class="bb-pane bb-right">' +
+      (st.prompt ? '<div class="fq prompt"><div class="fh"><span>The question</span></div><p><b>' + esc(st.prompt) + '</b></p><p class="small">Choose two of the three sources. Write each part as a short answer in full sentences.</p></div>' : '') +
+      qs + '</div></div></div><div class="bb-dash"></div>' +
+      '<div class="bb-foot"><div class="bb-who">AP Psychology Formative</div><span class="small" id="frqCount"></span><div class="bb-nav"><button class="bb-btn" id="submitII">Submit test</button></div></div>';
+    bindHead(type === "EBQ" ? "Section II is one Evidence-Based Question with " + Math.round(S.sec.frq.limit / 60000) + " minutes. Read the question and the three sources, then answer Parts A to C using two of the sources. Use psychological concepts that are not named in the sources." :
+      "Section II is one Article Analysis Question with " + Math.round(S.sec.frq.limit / 60000) + " minutes. Read the research summary, then answer Parts A to F. Use specific details from the study in every part.");
+    function count() {
+      var done = st.questions.filter(function (q) { return (S.frq.answers[q.part] || "").trim(); }).length;
+      $("#frqCount").textContent = done + " of " + st.questions.length + " parts answered";
+    }
+    sh.querySelectorAll("textarea[data-part]").forEach(function (ta) {
+      ta.addEventListener("input", function () { var p = ta.getAttribute("data-part"); S.frq.answers[p] = ta.value; sh.querySelector('[data-wc="' + p + '"]').textContent = words(ta.value) + " words"; count(); saveSoon(); });
+      ta.addEventListener("paste", function (e) { e.preventDefault(); S.pastes++; logEv("Paste blocked in Part " + ta.getAttribute("data-part")); save(); announce("Pasting is turned off during the test."); });
+      ta.addEventListener("drop", function (e) { e.preventDefault(); });
+    });
+    $("#submitII").onclick = function () {
+      var empty = st.questions.filter(function (q) { return !(S.frq.answers[q.part] || "").trim(); }).length;
+      confirmBox("Submit your test?", (empty ? "<b>" + empty + " part" + (empty > 1 ? "s are" : " is") + " empty.</b> " : "") + "You cannot change your answers after this. Next you will mark your FRQ and see your results.", "Submit test", function () { save(); endFrq("Submitted by student"); }, "Keep writing");
+    };
+    count();
+  }
+
+  /* ---------- timing ---------- */
+  function startTick() { clearInterval(tickH); tickH = setInterval(tick, 500); }
+  function tick() {
+    if (!inTest()) { clearInterval(tickH); return; }
+    var sec = secState(), rem = sec.deadline - Date.now();
+    var t = $("#timer");
+    if (t) { t.textContent = clock(rem); var box = $("#bbTimer"); if (box) box.classList.toggle("warn", rem <= 5 * 60000); }
+    if (rem <= 0) {
+      if (S.phase === "mcq") endMcq("Time ran out");
+      else endFrq("Time ran out");
+    } else if (rem <= 5 * 60000 && !sec.warned) { sec.warned = true; announce("Five minutes left in this section."); save(); }
+  }
+  function endMcq(reason) {
+    var now = Date.now();
+    S.sec.mcq.end = Math.min(now, S.sec.mcq.deadline); S.sec.mcq.reason = reason; logEv("Section I ended: " + reason);
+    S.phase = "frq"; S.sec.frq.start = now; S.sec.frq.deadline = now + S.sec.frq.limit; logEv("Section II started");
+    var p = $("#bbPop"); if (p) p.remove();
+    save(); renderShell(); announce("Section II has started.");
+  }
+  function endFrq(reason) {
+    var now = Date.now();
+    S.sec.frq.end = Math.min(now, S.sec.frq.deadline); S.sec.frq.reason = reason; logEv("Section II ended: " + reason);
+    S.phase = "done"; S.finishedAt = now; S.locked = false;
+    clearInterval(tickH); hideLock(); removeShell(); exitFs();
+    addHistory(); queueRecord("initial");
+    save(); renderResults(); flush();
+  }
+
+  /* ---------- lockdown ---------- */
+  function violation(reason, force) {
+    if (!inTest() || S.locked) return;
+    if (!force && Date.now() < suppressUntil) return;
+    S.locked = true; S.lockReason = reason; S.lockCount++; logEv("Locked: " + reason); save(); showLock();
+  }
+  function showLock() {
+    var ov = $("#lock");
+    $("#lockMsg").textContent = S.lockReason || "The test was paused.";
+    $("#lockPass").value = ""; $("#lockAdd").value = 0; $("#lockErr").textContent = "";
+    $("#fsStage").classList.add("hidden"); $("#lockStage").classList.remove("hidden"); netWarned = false;
+    ov.classList.remove("hidden");
+    if (shell) { shell.style.visibility = "hidden"; shell.inert = true; }
+    setTimeout(function () { try { $("#lockPass").focus(); } catch (e) {} }, 50);
+  }
+  function hideLock() { $("#lock").classList.add("hidden"); if (shell) { shell.style.visibility = "visible"; shell.inert = false; } }
+  function finishUnlock(note) {
+    S.locked = false; S.lockReason = ""; logEv("Unlocked by teacher" + (note ? " (" + note + ")" : ""));
+    netWarned = false; lastOnline = isOnline(); save(); hideLock(); renderShell();
+  }
+  function goFs(onFail) {
+    suppressUntil = Date.now() + 3500;
+    enterFs().then(function () { suppressUntil = Date.now() + 2500; finishUnlock(); }).catch(onFail);
+  }
+  function tryUnlock() {
+    if (!S) return;
+    if (!checkPass($("#lockPass").value)) { S.badPass++; logEv("Wrong passcode entered"); save(); $("#lockErr").textContent = "Incorrect passcode."; $("#lockPass").value = ""; return; }
+    if (!S.netOverride && isOnline()) {
+      if (!netWarned) { netWarned = true; $("#lockErr").textContent = "This browser still shows Wi-Fi as on. Turn Wi-Fi off and wait a few seconds, or enter the passcode again to continue anyway."; $("#lockPass").value = ""; return; }
+      S.netOverride = true; logEv("Teacher unlocked while Wi-Fi still showed as on (Wi-Fi check off for this attempt)");
+    }
+    var add = Math.max(0, Math.min(60, parseInt($("#lockAdd").value, 10) || 0));
+    if (add) { var sec = secState(); sec.deadline += add * 60000; sec.extra += add; logEv("Teacher added " + add + " minute" + (add > 1 ? "s" : "") + " to Section " + (S.phase === "frq" ? "II" : "I")); }
+    $("#lockErr").textContent = ""; save();
+    if (!fsSupported() || S.fsOverride || fsEl()) { finishUnlock(); return; }
+    goFs(function () {
+      $("#lockPass").value = ""; $("#lockStage").classList.add("hidden"); $("#fsStage").classList.remove("hidden");
+      $("#lockMsg").textContent = "Passcode accepted. Click the button to return to the test.";
+    });
+  }
+  function bindLock() {
+    $("#lockBtn").addEventListener("click", tryUnlock);
+    $("#lockPass").addEventListener("keydown", function (e) { if (e.key === "Enter") tryUnlock(); });
+    $("#fsBtn").addEventListener("click", function () { goFs(function () { finishUnlock("full screen could not start"); }); });
+    $("#fsSkip").addEventListener("click", function () { S.fsOverride = true; finishUnlock("continued without full screen"); });
+    $("#lockEnd").addEventListener("click", function () {
+      if (!checkPass($("#lockPass").value)) { if (S) { S.badPass++; logEv("Wrong passcode entered"); save(); } $("#lockErr").textContent = "Enter the teacher passcode first, then press End the test now."; $("#lockPass").value = ""; return; }
+      logEv("Teacher ended the test from the lock screen");
+      if (S.phase === "mcq") { S.sec.mcq.end = Date.now(); S.sec.mcq.reason = "Ended by teacher"; S.phase = "frq"; S.sec.frq.start = Date.now(); S.sec.frq.deadline = Date.now(); }
+      endFrq("Ended by teacher");
+    });
+  }
+  document.addEventListener("visibilitychange", function () { if (document.hidden) violation("Switched tab, app or window"); });
+  window.addEventListener("blur", function () {
+    setTimeout(function () {
+      if (document.hasFocus() || document.querySelector(".modal-back")) return;
+      violation(document.hidden ? "Switched tab, app or window" : "Clicked or switched outside the test window");
+    }, 1000);
+  });
+  ["fullscreenchange", "webkitfullscreenchange"].forEach(function (ev) {
+    document.addEventListener(ev, function () {
+      if (fsEl()) { suppressUntil = Math.max(suppressUntil, Date.now() + 2000); return; }
+      if (inTest() && fsSupported() && !S.fsOverride) violation("Left full screen mode");
+    });
+  });
+  window.addEventListener("online", function () {
+    if (inTest() && !S.netOverride && !lastOnline) violation("Wi-Fi or internet was turned on", true);
+    lastOnline = true;
+    if (!inTest()) { flush(); updateReady(); }
+  });
+  window.addEventListener("offline", function () { lastOnline = false; updateReady(); });
+  document.addEventListener("keydown", function (e) {
+    if (!S || S.phase !== "mcq" || S.locked || S.reviewPage || document.querySelector(".modal-back")) return;
+    var tag = (e.target && e.target.tagName) || "";
+    if (tag === "INPUT" || tag === "TEXTAREA" || e.ctrlKey || e.metaKey || e.altKey) return;
+    var k = e.key.toUpperCase(), i = LETTERS.indexOf(k), it = S.items[S.pos];
+    if (i > -1 && i < it.order.length) { it.chosen = it.order[i]; save(); renderMcq(); }
+    else if (e.key === "ArrowRight" && $("#next")) $("#next").click();
+    else if (e.key === "ArrowLeft" && $("#prev")) $("#prev").click();
+  });
+  document.addEventListener("contextmenu", function (e) { if (inTest()) e.preventDefault(); });
+
+  /* ======================================================================
+     RESULTS
+     ====================================================================== */
+  function mcqTally() {
+    var right = 0, wrong = 0, blank = 0, byTopic = {};
+    S.qs.forEach(function (q, i) {
+      var it = S.items[i], t = byTopic[q.section] = byTopic[q.section] || { n: 0, c: 0 };
+      t.n++;
+      if (it.chosen === null) blank++; else if (it.chosen === q.answer) { right++; t.c++; } else wrong++;
+    });
+    return { right: right, wrong: wrong, blank: blank, byTopic: byTopic };
+  }
+  function frqParts() {
+    var st = S.frq.study, ideal = decodeIdeal(st) || {};
+    return st.questions.map(function (q) {
+      var id = ideal[q.part] || { answer: "", items: [], also: [], slip: [] };
+      var items = (id.items || []).map(function (t, i) { return { text: t, checked: !!S.marks[q.part + "|" + i] }; });
+      var score = Math.min(items.filter(function (x) { return x.checked; }).length, q.marks);
+      return { part: q.part, marks: q.marks, text: q.text, ideal: id, items: items, score: score, answer: (S.frq.answers[q.part] || "").trim() };
+    });
+  }
+  function frqTotal() { return frqParts().reduce(function (t, p) { return t + p.score; }, 0); }
+  function scopeShort(secs) {
+    var units = {}; secs.forEach(function (s) { (units[unitOf(s)] = units[unitOf(s)] || []).push(s); });
+    return Object.keys(units).sort().map(function (u) {
+      var all = SECTIONS.length ? SECTIONS.filter(function (s) { return unitOf(s) === u; }) : [];
+      return all.length && all.length === units[u].length ? "Unit " + u : units[u].join(", ");
+    }).join("; ");
+  }
+  function addHistory() {
+    var h = lsGet(LS.history, []), t = mcqTally();
+    h.push({ id: S.id, t: S.finishedAt, scopeShort: S.scopeLabel || scopeShort(S.scope), mcq: t.right, frq: null, frqType: S.frq.type, studyId: S.frq.study.id, daa: null, letter: null, sent: false });
+    lsSet(LS.history, h.slice(-50));
+  }
+  function updateHistory(patch) {
+    var h = lsGet(LS.history, []);
+    h.forEach(function (x) { if (x.id === S.id) Object.keys(patch).forEach(function (k) { x[k] = patch[k]; }); });
+    lsSet(LS.history, h);
+  }
+  function gradeNow() { return PRED.compute(mcqTally().right, CONFIG.mcqCount, frqTotal(), 7); }
+
+  function renderResults() {
+    removeShell(); hideLock();
+    var t = mcqTally(), parts = frqParts(), st = S.frq.study, g = S.confirmed ? gradeNow() : null;
+    var used1 = (S.sec.mcq.end || S.finishedAt) - S.sec.mcq.start, used2 = S.sec.frq.start ? (S.sec.frq.end || S.finishedAt) - S.sec.frq.start : 0;
+    var html = '<h2>Formative results</h2><p class="lead">' + esc(S.name) + ' &middot; ' + esc(S.block) + ' &middot; ' + esc(when(S.finishedAt)) + '<br>Scope: ' + esc(S.scopeLabel || scopeShort(S.scope)) + '</p>' +
+      '<div class="sync" id="sync"></div>' +
+      '<div class="card accent"><div class="stats">' +
+        '<div class="stat"><b>' + t.right + '/' + CONFIG.mcqCount + '</b><span>MCQ score</span></div>' +
+        '<div class="stat"><b id="sumFrq">' + (S.confirmed ? frqTotal() + '/7' : 'Not marked') + '</b><span>' + esc(S.frq.type) + ' self-mark</span></div>' +
+        '<div class="stat"><b>' + (g ? g.daa : "-") + '</b><span>DAA number</span></div>' +
+        '<div class="stat"><b>' + (g ? esc(g.letter) : "-") + '</b><span>Letter grade</span></div>' +
+      '</div><p class="small muted" style="margin:0">Section I: ' + clock(used1) + ' used of ' + clock(S.sec.mcq.limit + S.sec.mcq.extra * 60000) + ' (' + esc(S.sec.mcq.reason) + '). Section II: ' + clock(used2) + ' used of ' + clock(S.sec.frq.limit + S.sec.frq.extra * 60000) + ' (' + esc(S.sec.frq.reason) + ').</p></div>';
+
+    // Step 1: FRQ self-mark
+    html += '<div class="card"><h3>Step 1: Mark your ' + esc(S.frq.type) + '</h3>' +
+      (S.confirmed ? '<p class="small">You confirmed your FRQ score on ' + esc(when(S.confirmedAt)) + '. It has been added to the results for your teacher.</p>' :
+        '<p class="small">Read the ideal response next to each of your answers, then tick each point you earned. Be honest: your teacher will check your marking against your answers. When you are done, press <b>Confirm my FRQ score</b>.</p>') +
+      '<div class="frqtotal"><span>Self-marked score: <b id="frqTot">' + frqTotal() + ' / 7</b></span>' + (S.confirmed ? '<span class="small">Confirmed</span>' : '<button class="btn small" id="confirmFrq">Confirm my FRQ score</button>') + '</div>' +
+      '<details class="card" style="margin-bottom:14px"><summary style="cursor:pointer;font-weight:700">Show the ' + (st.prompt ? "sources" : "research summary") + ': ' + esc(st.title) + '</summary><div class="frq-study" style="user-select:text;-webkit-user-select:text;margin-top:12px">' + (st.prompt ? '<p><b>' + esc(st.prompt) + '</b></p>' : '') + renderBlocks(st.blocks) + (st.source ? '<div class="src">Source: ' + esc(st.source) + '</div>' : '') + '</div></details>';
+    var idealAll = decodeIdeal(st) || {};
+    parts.forEach(function (p) {
+      var extra = "";
+      if (p.ideal.also && p.ideal.also.length) extra += '<div class="extra"><b>Also worth knowing:</b> ' + p.ideal.also.map(esc).join(" ") + '</div>';
+      if (p.ideal.slip && p.ideal.slip.length) extra += '<div class="extra"><b>Common slip:</b> ' + p.ideal.slip.map(esc).join(" ") + '</div>';
+      if (/-ii$/.test(p.part) && idealAll._eligible) extra += '<div class="extra"><b>Concepts that can earn this point:</b> ' + idealAll._eligible.map(esc).join(", ") + '.' + (idealAll._ineligible ? ' <b>Not allowed (named in the sources):</b> ' + idealAll._ineligible.map(esc).join(", ") + '.' : '') + '</div>';
+      html += '<div class="rcard"><div class="rh"><span>Part ' + esc(p.part) + '</span><span id="ps' + esc(p.part) + '">' + p.score + ' / ' + p.marks + '</span></div><div class="rq">' + esc(p.text) + '</div>' +
+        '<div class="cols"><div class="col mine"><h4>Your response</h4><div class="txt' + (p.answer ? "" : " empty") + '">' + (p.answer ? esc(p.answer) : "No response written.") + '</div></div>' +
+        '<div class="col ideal"><h4>Ideal response</h4><div class="txt">' + esc(p.ideal.answer) + '</div>' + extra + '</div></div>' +
+        '<div class="mark-box"><b>Checklist</b>' + (p.items.length > p.marks ? ' <span class="small muted">(' + p.marks + ' point' + (p.marks > 1 ? "s" : "") + ' at most)</span>' : '') +
+        p.items.map(function (it, i) { return '<label><input type="checkbox" data-k="' + esc(p.part + "|" + i) + '"' + (it.checked ? " checked" : "") + (S.confirmed ? " disabled" : "") + '><span>' + esc(it.text) + '</span></label>'; }).join("") + '</div></div>';
+    });
+    html += '</div>';
+
+    // Step 2: grade
+    html += '<div class="card"><h3>Step 2: Your grade</h3>';
+    if (g) {
+      html += '<div class="gradebox"><div><div class="apcircle ap' + g.ap + '">' + g.ap + '</div><div class="small muted" style="text-align:center">Predicted AP score</div></div><div>' +
+        '<div class="trio"><div><span>Composite</span><b>' + g.composite + '</b></div><div><span>DAA number</span><b>' + g.daa + '</b></div><div><span>Letter grade</span><b>' + esc(g.letter) + '</b></div></div>' +
+        '<p class="small muted" style="margin:0">MCQ ' + t.right + '/' + CONFIG.mcqCount + ' is worth about two thirds of the composite and the FRQ ' + frqTotal() + '/7 about one third, the same calculation as the gradebook and the Grade Predictor. This is a formative: it shows where you are now, not your report grade.</p></div></div>';
+    } else html += '<p class="muted" style="margin:0">Confirm your FRQ score in Step 1 to see your composite, DAA number, letter grade and predicted AP score.</p>';
+    html += '</div>';
+
+    // topic breakdown
+    var topics = Object.keys(t.byTopic).sort(secSort);
+    html += '<div class="card"><h3>Your MCQ score by topic</h3><div class="tablewrap"><table class="data"><thead><tr><th>Topic</th><th>Correct</th><th style="width:30%">Accuracy</th></tr></thead><tbody>' +
+      topics.map(function (s) {
+        var x = t.byTopic[s], pc = Math.round(x.c / x.n * 100), col = pc < 60 ? "#b3261e" : pc < 80 ? "#c55a11" : "#1e6e34";
+        return '<tr><td>' + s + ' ' + esc(topicName(s)) + '</td><td>' + x.c + ' / ' + x.n + '</td><td><div class="mini"><div style="width:' + pc + '%;background:' + col + '"></div></div></td></tr>';
+      }).join("") + '</tbody></table></div><p class="small muted" style="margin:8px 0 0">Correct: ' + t.right + '. Incorrect: ' + t.wrong + '. Unanswered: ' + t.blank + '.</p></div>';
+
+    // MCQ review
+    html += '<div class="card"><h3>Review your multiple-choice answers</h3><div class="filters"><button class="btn small alt" data-f="all" aria-pressed="true">All ' + S.qs.length + '</button><button class="btn small alt" data-f="x" aria-pressed="false">Incorrect or blank (' + (t.wrong + t.blank) + ')</button><button class="btn small alt" data-f="flag" aria-pressed="false">Marked for review</button></div><div id="revList"></div></div>';
+
+    // integrity log
+    html += '<div class="card"><h3>Integrity log</h3><p class="small" style="margin:0">Pauses: <b>' + S.lockCount + '</b> &middot; Wrong passcodes: <b>' + S.badPass + '</b> &middot; Pastes blocked: <b>' + S.pastes + '</b>' + (S.netOverride ? ' &middot; Wi-Fi check skipped by teacher' : '') + (S.fsOverride ? ' &middot; Full screen not used' : '') + '</p>' +
+      '<details><summary class="small" style="cursor:pointer;margin-top:8px">Show every event</summary><ol class="loglist">' + S.events.map(function (e) { return '<li>' + esc(hms(e.t)) + ' ' + esc(e.type) + '</li>'; }).join("") + '</ol></details></div>';
+
+    html += '<div class="row" style="margin-bottom:24px"><button class="btn" id="newF">Start another formative</button><a class="btn alt" href="' + esc(CONFIG.indexUrl) + '">Return to the revision site</a></div>';
+    app.innerHTML = html;
+    window.scrollTo(0, 0);
+
+    app.querySelectorAll(".mark-box input[data-k]").forEach(function (cb) {
+      cb.addEventListener("change", function () {
+        S.marks[cb.getAttribute("data-k")] = cb.checked; save();
+        frqParts().forEach(function (p) { var el = document.getElementById("ps" + p.part); if (el) el.textContent = p.score + " / " + p.marks; });
+        $("#frqTot").textContent = frqTotal() + " / 7";
+      });
+    });
+    var cf = $("#confirmFrq");
+    if (cf) cf.onclick = function () {
+      confirmBox("Confirm your FRQ score?", "Your self-marked score is <b>" + frqTotal() + " / 7</b>. You cannot change it after you confirm, and it will be sent to your teacher with your MCQ results.", "Confirm", function () {
+        S.confirmed = true; S.confirmedAt = Date.now(); logEv("FRQ self-mark confirmed: " + frqTotal() + "/7");
+        var g2 = gradeNow(); updateHistory({ frq: frqTotal(), daa: g2.daa, letter: g2.letter });
+        queueRecord("final"); save(); renderResults(); flush();
+      }, "Keep marking");
+    };
+    var filter = "all";
+    function drawReview() {
+      var list = "";
+      S.qs.forEach(function (q, i) {
+        var it = S.items[i], ok = it.chosen === q.answer, blank = it.chosen === null;
+        if (filter === "x" && ok) return;
+        if (filter === "flag" && !it.flagged) return;
+        list += '<div class="review ' + (ok ? "" : blank ? "u" : "x") + '"><div class="small muted"><b>Question ' + (i + 1) + '</b> &middot; ' + q.section + ' ' + esc(topicName(q.section)) + (it.flagged ? ' &middot; marked for review' : '') + ' &middot; ' + (ok ? '<b style="color:#1e6e34">Correct</b>' : blank ? '<b>Unanswered</b>' : '<b style="color:#b3261e">Incorrect</b>') + '</div>' +
+          (q.stimulus ? '<figure class="stim" style="margin-top:8px">' + renderStimulus(q.stimulus) + '</figure>' : '') +
+          '<p style="margin:8px 0;font-weight:bold">' + esc(q.stem) + '</p><ol>' +
+          it.order.map(function (orig, j) {
+            var cls = orig === q.answer ? "k" : orig === it.chosen ? "yx" : "";
+            return '<li class="' + cls + '">' + LETTERS[j] + '. ' + esc(q.options[orig]) + (orig === q.answer ? " (correct answer)" : orig === it.chosen ? " (your answer)" : "") + '</li>';
+          }).join("") + '</ol>' + (q.rationale ? '<div class="rat">' + esc(q.rationale) + '</div>' : '') + '</div>';
+      });
+      $("#revList").innerHTML = list || '<p class="muted">Nothing to show for this filter.</p>';
+    }
+    app.querySelectorAll("[data-f]").forEach(function (b) { b.onclick = function () { filter = b.getAttribute("data-f"); app.querySelectorAll("[data-f]").forEach(function (x) { x.setAttribute("aria-pressed", x === b); }); drawReview(); }; });
+    drawReview();
+    $("#newF").onclick = function () {
+      confirmBox("Start another formative?", (S.confirmed ? "" : "<b>Your FRQ is not marked yet.</b> Your teacher will only see your MCQ score. ") + "These results stay in your list of past formatives" + (unsentCount() ? " and will still be sent to your teacher when this device is online" : "") + ".", "Start another", function () { lsDel(LS.attempt); S = null; renderHome(); }, "Stay here");
+    };
+    updateSyncUI();
+  }
+
+  /* ======================================================================
+     RESULTS FORM (queued, sent when the device is back online)
+     ====================================================================== */
+  function formTarget() {
+    var u = CONFIG.resultsFormUrl; if (!u) return null;
+    try {
+      var url = new URL(u), map = {};
+      var ALIAS = { CLASS: "BLOCK", INT: "LOG", INTEGRITY: "LOG", "STUDENT NAME": "NAME" };
+      url.searchParams.forEach(function (v, k) { if (/^entry\.\d+$/.test(k)) { var key = String(v).trim().toUpperCase(); map[ALIAS[key] || key] = k; } });
+      if (!Object.keys(map).length) return null;
+      return { action: url.origin + url.pathname.replace(/\/(viewform|formResponse)\/?$/, "/formResponse"), map: map };
+    } catch (e) { return null; }
+  }
+  function buildFields(kind) {
+    var t = mcqTally(), parts = frqParts(), st = S.frq.study, g = gradeNow();
+    var kindTxt = { initial: "Test submitted (FRQ not yet self-marked)", final: "Complete (FRQ self-marked)", update: "FRQ self-mark update (MCQ score was sent earlier)" }[kind];
+    var mcqLines = S.qs.map(function (q, i) {
+      var it = S.items[i], pos = it.chosen === null ? -1 : it.order.indexOf(it.chosen), key = it.order.indexOf(q.answer);
+      return "Q" + (i < 9 ? "0" : "") + (i + 1) + " | " + q.section + " | " + (it.chosen === null ? "Blank" : it.chosen === q.answer ? "Right" : "Wrong") + " (chose " + (pos < 0 ? "-" : LETTERS[pos]) + ", answer " + LETTERS[key] + ") | " + q.id + (it.flagged ? " | flagged" : "");
+    });
+    var topicLine = Object.keys(t.byTopic).sort(secSort).map(function (s) { return s + " " + t.byTopic[s].c + "/" + t.byTopic[s].n; }).join(", ");
+    var frqTxt = S.frq.type + ": " + st.title + " [" + st.id + "]" + (S.frq.matchedScope ? "" : " (no study matched the scope, so a general one was used)") + "\n" +
+      (S.confirmed ? "Self-marked " + frqTotal() + "/7" : "Not yet self-marked") + "\n\n" +
+      parts.map(function (p) {
+        return "Part " + p.part + " (" + p.marks + "): " + (S.confirmed ? p.score + "/" + p.marks : "?/" + p.marks) + "\n" +
+          (S.confirmed ? p.items.map(function (x) { return "  [" + (x.checked ? "x" : " ") + "] " + x.text; }).join("\n") + "\n" : "") +
+          "Answer: " + (p.answer || "(blank)");
+      }).join("\n\n");
+    var logTxt = "Pauses: " + S.lockCount + " | Wrong passcodes: " + S.badPass + " | Pastes blocked: " + S.pastes + " | Wi-Fi check skipped: " + (S.netOverride ? "yes" : "no") + " | Full screen not used: " + (S.fsOverride ? "yes" : "no") + "\n" +
+      S.events.map(function (e) { return hms(e.t) + " " + e.type; }).join("\n");
+    var attTxt = "Attempt " + S.id + " | " + kindTxt + "\nStarted " + when(S.sec.mcq.start) + " | Finished " + when(S.finishedAt) +
+      "\nSection I: " + clock((S.sec.mcq.end || S.finishedAt) - S.sec.mcq.start) + " used of " + clock(S.sec.mcq.limit + S.sec.mcq.extra * 60000) + " (" + S.sec.mcq.reason + ")" +
+      "\nSection II: " + clock(S.sec.frq.start ? (S.sec.frq.end || S.finishedAt) - S.sec.frq.start : 0) + " used of " + clock(S.sec.frq.limit + S.sec.frq.extra * 60000) + " (" + S.sec.frq.reason + ")" +
+      "\nTopics: " + S.scope.join(", ") + "\nDevice: " + navigator.userAgent.slice(0, 160);
+    var f = {
+      NAME: S.name, BLOCK: S.block, SCOPE: (S.scopeLabel || scopeShort(S.scope)) + " (" + S.scope.length + " topics)",
+      MCQ: t.right + "/" + CONFIG.mcqCount,
+      FRQ: S.confirmed ? frqTotal() + "/7 (" + S.frq.type + ")" : "Not yet self-marked (" + S.frq.type + ")",
+      GRADE: S.confirmed ? "Composite " + g.composite + " | DAA " + g.daa + " | " + g.letter + " | AP " + g.ap : "Waiting for FRQ self-mark",
+      MCQSUM: "Right " + t.right + ", Wrong " + t.wrong + ", Blank " + t.blank + "\nBy topic: " + topicLine + "\n\n" + mcqLines.join("\n"),
+      FRQANS: frqTxt, LOG: logTxt, ATTEMPT: attTxt
+    };
+    Object.keys(f).forEach(function (k) { f[k] = String(f[k]).slice(0, 30000); });
+    return f;
+  }
+  function queueRecord(kind) {
+    var ob = lsGet(LS.outbox, []);
+    var pending = null;
+    ob.forEach(function (x) { if (x.attempt === S.id && !x.sentAt) pending = x; });
+    if (kind === "final" && !pending && ob.some(function (x) { return x.attempt === S.id; })) kind = "update";
+    var fields = buildFields(kind);
+    if (pending && kind !== "initial") { pending.fields = fields; pending.kind = kind; pending.updated = Date.now(); }
+    else ob.push({ key: S.id + "-" + kind, attempt: S.id, kind: kind, fields: fields, created: Date.now(), sentAt: null, tries: 0 });
+    lsSet(LS.outbox, ob);
+  }
+  function unsentCount() { return lsGet(LS.outbox, []).filter(function (x) { return !x.sentAt; }).length; }
+  var flushing = null;
+  function flush() {
+    if (flushing) return flushing;
+    if (!isOnline() || inTest()) { updateSyncUI(); return Promise.resolve(); }
+    var tgt = formTarget(); if (!tgt) { updateSyncUI(); return Promise.resolve(); }
+    flushing = (async function () {
+      var ob = lsGet(LS.outbox, []);
+      for (var i = 0; i < ob.length; i++) {
+        var x = ob[i]; if (x.sentAt) continue;
+        var body = new URLSearchParams();
+        FIELD_ORDER.forEach(function (k) { if (tgt.map[k] && x.fields[k] != null) body.append(tgt.map[k], x.fields[k]); });
+        try {
+          await fetch(tgt.action, { method: "POST", mode: "no-cors", body: body });
+          // re-read in case the record was updated while sending
+          var cur = lsGet(LS.outbox, []);
+          cur.forEach(function (y) { if (y.key === x.key && (y.updated || 0) === (x.updated || 0)) y.sentAt = Date.now(); });
+          lsSet(LS.outbox, cur); ob = cur;
+          var h = lsGet(LS.history, []); h.forEach(function (r) { if (r.id === x.attempt) r.sent = true; }); lsSet(LS.history, h);
+        } catch (e) {
+          x.tries = (x.tries || 0) + 1; lsSet(LS.outbox, ob); break;
+        }
+      }
+    })().finally(function () { flushing = null; updateSyncUI(); var n = $("#obNote"); if (n && !unsentCount()) n.textContent = "All your results have been sent to your teacher."; });
+    return flushing;
+  }
+  function updateSyncUI() {
+    var el = $("#sync"); if (!el || !S) return;
+    var mine = lsGet(LS.outbox, []).filter(function (x) { return x.attempt === S.id; });
+    var unsent = mine.filter(function (x) { return !x.sentAt; }), last = null;
+    mine.forEach(function (x) { if (x.sentAt && (!last || x.sentAt > last)) last = x.sentAt; });
+    var tgt = formTarget();
+    if (!unsent.length && mine.length) { el.className = "sync ok"; el.innerHTML = '<span class="pill ok"><span class="dot"></span>Sent</span><span>Your results were sent to your teacher at ' + esc(hms(last)) + '.' + (S.confirmed ? "" : " Mark your FRQ below and they will be updated.") + '</span>'; }
+    else if (!tgt) { el.className = "sync no"; el.innerHTML = '<span class="pill no"><span class="dot"></span>Saved on this device</span><span>Your results are saved here. They will be sent when your teacher switches on the results form and this page is opened online.</span>'; }
+    else if (!isOnline()) { el.className = "sync no"; el.innerHTML = '<span class="pill no"><span class="dot"></span>Waiting for Wi-Fi</span><span>You can turn Wi-Fi back on now. Your results will be sent to your teacher automatically as soon as this device is online.</span>'; }
+    else { el.className = "sync"; el.innerHTML = '<span class="pill wait"><span class="dot"></span>Sending...</span><span>Sending your results to your teacher.</span>'; }
+  }
+  setInterval(function () { if (!inTest() && unsentCount() && isOnline()) flush(); }, 20000);
+
+  /* ======================================================================
+     START UP
+     ====================================================================== */
+  bindLock();
+  if ("serviceWorker" in navigator && window.isSecureContext && location.protocol !== "file:") {
+    try { navigator.serviceWorker.register("sw.js", { scope: "./formative" }).catch(function () {}); } catch (e) {}
+  }
+  function loadAll() {
+    return Promise.all([loadBank(), loadFrq("AAQ"), loadFrq("EBQ")]).then(function () { if (!S || S.phase === "ready") { renderScope(); updateReady(); } });
+  }
+  if (S && S.phase === "ready") { S = null; lsDel(LS.attempt); }
+  if (S && inTest()) {
+    renderShell(); startTick();
+    if (!S.locked) violation("The page was reloaded or reopened", true); else { logEv("Page reloaded or reopened while paused"); save(); showLock(); }
+  } else if (S && S.phase === "done") {
+    renderResults(); flush();
+    loadBank().then(function () { if (S && S.phase === "done" && !inTest()) { /* scope labels use the bank */ } });
+  } else {
+    S = null; renderHome(); if (isOpenToday()) loadAll(); flush();
+  }
+})();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+/* Dark theme for the AP Psych interactive quiz pages (index and unit pages).
+   Only applies when settings.js sets data-theme="dark".
+   The exam-style activities (.bb-shell) always stay in the light Bluebook look, as do the
+   MCQ and FRQ test banks and practice sets, which don't load this file. */
+html[data-theme="dark"]{
+  color-scheme:dark;
+  --bb-ink:#e7e9ec; --bb-muted:#aeb5bf; --bb-line:#465061; --bb-soft:#232831;
+  --bb-blue:#3d63e0; --bb-blue-dark:#5a7dee; --bb-blue-soft:#1f2a47;
+  --bb-red:#ff8f85; --bb-red-soft:#3a2321; --bb-green:#7fd39a; --bb-green-soft:#1d3326;
+  --bb-mark:#ff8b73;
+}
+html[data-theme="dark"] body{background:#15181d;color:var(--bb-ink);}
+
+/* The exam shell keeps every light Bluebook colour */
+html[data-theme="dark"] .bb-shell{
+  color-scheme:light;
+  --bb-ink:#1e1e1e; --bb-muted:#505050; --bb-line:#c4c4c4; --bb-soft:#f2f2f2;
+  --bb-blue:#2f4fbf; --bb-blue-dark:#233c94; --bb-blue-soft:#e8edfb;
+  --bb-red:#b3261e; --bb-red-soft:#fbe9e7; --bb-green:#1e6e34; --bb-green-soft:#e5f3e9;
+  --bb-mark:#c2331f; color:#1e1e1e;
+}
+
+/* Start screen */
+html[data-theme="dark"] .bb-top{background:#15181d;}
+html[data-theme="dark"] .bb-top a.bb-back:hover{color:#15181d;}
+html[data-theme="dark"] .bb-field select{background:#1d2128;}
+html[data-theme="dark"] .bb-seg input:checked+label{color:#15181d;}
+html[data-theme="dark"] .bb-btn.ghost:not(.bb-shell *){background:transparent;color:#9fb6ff;border-color:#6d87e6;}
+html[data-theme="dark"] .bb-panel{background:#1b1f26;}
+
+/* Activity area: flashcards, matching, hangman, vocabulary MCQs, common mistakes */
+html[data-theme="dark"] #quizArea{background:#1b1f26;}
+html[data-theme="dark"] .question-text{color:var(--bb-ink);}
+html[data-theme="dark"] .progress-row{color:var(--bb-muted);}
+html[data-theme="dark"] .progress-bar-track{background:#2c323c;}
+html[data-theme="dark"] .option-btn{background:#20252d;color:var(--bb-ink);border-color:#5b6576;}
+html[data-theme="dark"] .option-btn .letter{color:#9fb6ff;}
+html[data-theme="dark"] .option-btn.correct,html[data-theme="dark"] .option-btn.revealed,
+html[data-theme="dark"] .feedback-box.correct,html[data-theme="dark"] .match-def.correct{background:#1d3326;color:#bfeccc;border-color:#4fae6d;}
+html[data-theme="dark"] .option-btn.incorrect,html[data-theme="dark"] .feedback-box.incorrect,
+html[data-theme="dark"] .match-def.incorrect{background:#3a2321;color:#ffcdc8;border-color:#d0645a;}
+html[data-theme="dark"] .feedback-box.neutral,html[data-theme="dark"] .hangman-hint{background:#1f2a3a;color:#c9d9ef;}
+html[data-theme="dark"] .skill-1{background:#26304a;color:#b9c8ec;}
+html[data-theme="dark"] .skill-2{background:#1d3048;color:#a9cdf5;}
+html[data-theme="dark"] .skill-3{background:#3a2b1b;color:#f3c08c;}
+html[data-theme="dark"] .skill-4{background:#1f3324;color:#a8dcb2;}
+html[data-theme="dark"] .flashcard-front,html[data-theme="dark"] .match-term,html[data-theme="dark"] .key{background:#2d3a52;color:#fff;}
+html[data-theme="dark"] .key:hover:not(:disabled){background:#3d63e0;}
+html[data-theme="dark"] .key.correct-guess{background:#2f7d47;}
+html[data-theme="dark"] .key.wrong-guess{background:#a3443c;}
+html[data-theme="dark"] .flashcard-back{background:#20252d;border-color:#5b6576;}
+html[data-theme="dark"] .flashcard-back .face-def{color:var(--bb-ink);}
+html[data-theme="dark"] .flashcard-back .face-label,html[data-theme="dark"] .flashcard-hint{color:var(--bb-muted);}
+html[data-theme="dark"] .flashcard-nav button{background:#20252d;color:var(--bb-ink);border-color:#8f9aab;}
+html[data-theme="dark"] .flashcard-nav button:hover{background:#e7e9ec;color:#15181d;}
+html[data-theme="dark"] .flashcard-nav button.self-rate-good{color:#8fe0a8;border-color:#4fae6d;}
+html[data-theme="dark"] .flashcard-nav button.self-rate-review{color:#ffaaa2;border-color:#d0645a;}
+html[data-theme="dark"] .match-def{background:#20252d;border-color:#5b6576;color:var(--bb-ink);}
+html[data-theme="dark"] .match-def.drag-over{background:#1f2a47;}
+html[data-theme="dark"] .match-dropped{background:#34405a;color:#fff;}
+html[data-theme="dark"] .mistake-item{background:#30291c;border-left-color:#d19a3c;color:#f1dfbd;}
+html[data-theme="dark"] .review-block{background:#20252d;border-color:#465061;}
+html[data-theme="dark"] .review-item{border-bottom-color:#323946;}
+html[data-theme="dark"] .review-item strong,html[data-theme="dark"] .score-screen .score-message{color:var(--bb-ink);}
+html[data-theme="dark"] .review-correct{color:#8fe0a8;}
+html[data-theme="dark"] .score-screen .score-label{color:var(--bb-muted);}
+
+/* Revision index tiles */
+html[data-theme="dark"] a.unit{background:#1d2229;color:var(--bb-ink);border-color:#465061;}
+html[data-theme="dark"] a.unit .desc{color:var(--bb-muted);}
+html[data-theme="dark"] a.unit.notes{background:#1F3864;}
+
+@media print{html[data-theme="dark"]{color-scheme:light}}
